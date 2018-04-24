@@ -1,6 +1,6 @@
 projectKey=it.polimi.ingsw:LM41
 serverUrl=http://localhost:9000
-serverVersion=6.7.2.37468
+serverVersion=6.7.3.38370
 dashboardUrl=http://localhost:9000/dashboard/index/it.polimi.ingsw:LM41
-ceTaskId=AWKqagVx_oRZFxsRV1Qs
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AWKqagVx_oRZFxsRV1Qs
+ceTaskId=AWL4ESDWT0YMR1Y0h5C4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AWL4ESDWT0YMR1Y0h5C4
