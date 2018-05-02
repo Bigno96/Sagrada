@@ -13,9 +13,12 @@ import java.util.TimerTask;
 
 public class Room {
 
-    private int nPlayer = 0;
-    private int delay; //60 sec
+    public enum status {BOOT, START};
     private int id;
+    private status status;
+    private int nPlayer;
+    private int delay = 60000; //60 sec
+
     private Timer timer = new Timer();
 
     private TimerTask startGame = new TimerTask() {
@@ -25,10 +28,18 @@ public class Room {
         }
     };
 
-    public Room(int id, int delay) {
+    public Room(int id, status status, int nPlayer) {
         this.id = id;
-        this.delay = delay;
+        this.status = status;
+        this.nPlayer = nPlayer;
     }
+
+    /**  public void CheckNPlayer(){
+        if(this.getNPlayer()==2)
+            this.StartTimer();
+        if(this.getNPlayer()==4)
+            GameController.StartGame();
+    }*/
 
     public void StartTimer(){
         timer.schedule(startGame, delay);
@@ -38,23 +49,27 @@ public class Room {
         return id;
     }
 
-    public int getDelay() {
-        return delay;
-    }
-
     public int getNPlayer() {
         return nPlayer;
+    }
+
+    public status getStatus() {
+        return status;
+    }
+
+    public int getDelay(){
+        return delay;
     }
 
     @Override
     public String toString()
     {
-        return getClass().getName() + "@ " + "ID: " + getId() + " Delay: " + getDelay() + " nPlayer: " + getNPlayer();
+        return getClass().getName() + "@ " + "ID: " + getId() + " Status: " + getStatus() + " nPlayer: " + getNPlayer();
     }
 
     public String dump()
     {
-        return "ID: " + getId() + " Delay: " + getDelay() + " nPlayer: " + getNPlayer();
+        return "ID: " + getId() + " Status: " + getStatus() + " nPlayer: " + getNPlayer();
     }
 
 }
