@@ -1,15 +1,8 @@
 package it.polimi.model;
 
-import it.polimi.controller.GameController;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * timer
- * game
- * player
- */
 
 public class Room {
 
@@ -24,7 +17,7 @@ public class Room {
     private TimerTask startGame = new TimerTask() {
         @Override
         public void run() {
-            GameController.StartGame();
+            //GameController.StartGame();
         }
     };
 
