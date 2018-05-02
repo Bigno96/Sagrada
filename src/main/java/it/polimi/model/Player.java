@@ -1,65 +1,58 @@
 package it.polimi.model;
 
-import it.polimi.controller.PlayerController;
-
 public class Player {
 
     private int id;
-    private PrivateObjective PrivObj;
-    private WindowCard WinCard;
+    //private PrivateObjective PrivObj;
+    //private WindowCard WindCard;
     private int FavorPoint;
 
     public Player(int id) {
         this.id = id;
         this.FavorPoint = 0;
-        this.PrivObj = null;
-        this.WinCard = null;
+        //this.PrivObj = null;
+        //this.WinCard = null;
     }
 
-    public getID() {
+    public int getID() {
         return id;
     }
 
-    public setPrivObj(PrivateObjective PrivObj) {
+    /*public void setPrivObj(PrivateObjective PrivObj) {
         this.PrivObj = PrivObj;
-    }
+    }*/
 
-    public getPrivObj() {
+    /*public PrivateObjective getPrivObj() {
         return PrivObj;
-    }
+    }*/
 
-    public setWind(WindowCard WindCard) {
+    /*public void setWind(WindowCard WindCard) {
         this.WindCard = WindCard;
-    }
+    }*/
 
-    public getWind() {
+    /*public WindowCard getWind() {
         return WindCard;
+    }*/
+
+    public void setFavorPoint(int FavorInt){
+        this.FavorPoint = FavorInt;
     }
 
-    public setFavorPoint(int FavorInt){
-        this.FavorPoint = FavorPoint;
+    public int getFavorPoint(){
+        return FavorPoint;
     }
-
-    public getFavorPoint(){
-        return Favorpoint;
-    }
-
-    //Move
-
-    //EndTurn
 
     @Override
     public String toString()
     {
-        return getClass().getName() + "@ " + "ID: " + getID() + " PrivObj: " + getPrivObj() + " WinCard: " + getWind()
-                + "FavorPoint" + get FavorPoint();
+        return getClass().getName() + "@ " + "ID: " + getID() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/
+                + "FavorPoint: " + getFavorPoint();
     }
 
     public String dump()
     {
-
-        return "ID: " + getID() + " PrivObj: " + getPrivObj() + " WinCard: " + getWind() + "FavorPoint"
-                + get FavorPoint();
+        return "ID: " + getID() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/ + "FavorPoint: "
+                + getFavorPoint();
     }
 
 
