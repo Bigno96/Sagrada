@@ -4,7 +4,7 @@ public class Cell {
     private int value = 0;
     public enum color {GIALLO, ROSSO, BLU, VERDE, VIOLA, VUOTO}
     private color color;
-    private Dice dice = new Dice();
+    private Dice dice;
     private boolean isOccuped;
 
     public Cell( int value, color color )
