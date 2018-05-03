@@ -1,28 +1,31 @@
 package it.polimi.model;
 
+import java.util.logging.Logger;
+
 public class Cell {
     private int value = 0;
     public enum color {GIALLO, ROSSO, BLU, VERDE, VIOLA, VUOTO}
     private color color;
     private Dice dice;
-    private boolean isOccuped;
+    private boolean isOccupied;
+    private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
     public Cell( int value, color color )
     {
         this.value = value;
         this.color = color;
-        isOccuped = false;
+        isOccupied = false;
     }
 
     @Override
     public String toString()
     {
-        return getClass().getName() + "@ " + " Col: " + getColor() + " Val: " + getValue();
+        return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public String dump()
+    public void dump()
     {
-        return  "Col: " + getColor() + " Val: " + getValue();
+        logger.info("Col: " + getColor() + " Val: " + getValue());
     }
 
     public void changeColor(color newColor){
@@ -44,13 +47,13 @@ public class Cell {
         return this.value;
     }
 
-    public boolean getIsOccuped() {
-        return this.isOccuped;
+    public boolean getIsOccupied() {
+        return this.isOccupied;
     }
 
     public void setDice(Dice dice) {
         this.dice = dice;
-        isOccuped = true;
+        isOccupied = true;
     }
 
     public Dice getDice() {

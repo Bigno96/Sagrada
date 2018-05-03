@@ -1,58 +1,60 @@
 package it.polimi.model;
 
+import java.util.logging.Logger;
+
 public class Player {
 
     private int id;
-    //private PrivateObjective PrivObj;
-    //private WindowCard WindCard;
-    private int FavorPoint;
+    //private PrivateObjective privObj;
+    //private WindowCard windCard;
+    private int favorPoint;
+    private static final Logger logger = Logger.getLogger(Player.class.getName());
 
     public Player(int id) {
         this.id = id;
-        this.FavorPoint = 0;
-        //this.PrivObj = null;
-        //this.WinCard = null;
+        this.favorPoint = 0;
+        //this.privObj = null;
+        //this.winCard = null;
     }
 
     public int getID() {
         return id;
     }
 
-    /*public void setPrivObj(PrivateObjective PrivObj) {
-        this.PrivObj = PrivObj;
+    /*public void setPrivObj(PrivateObjective privObj) {
+        this.privObj = privObj;
     }*/
 
     /*public PrivateObjective getPrivObj() {
-        return PrivObj;
+        return privObj;
     }*/
 
     /*public void setWind(WindowCard WindCard) {
-        this.WindCard = WindCard;
+        this.windCard = windCard;
     }*/
 
     /*public WindowCard getWind() {
-        return WindCard;
+        return windCard;
     }*/
 
-    public void setFavorPoint(int FavorInt){
-        this.FavorPoint = FavorInt;
+    public void setFavorPoint(int favorInt){
+        this.favorPoint = favorInt;
     }
 
     public int getFavorPoint(){
-        return FavorPoint;
+        return favorPoint;
     }
 
     @Override
     public String toString()
     {
-        return getClass().getName() + "@ " + "ID: " + getID() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/
-                + "FavorPoint: " + getFavorPoint();
+        return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public String dump()
+    public void dump()
     {
-        return "ID: " + getID() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/ + "FavorPoint: "
-                + getFavorPoint();
+        logger.info("ID: " + getID() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/ + "FavorPoint: "
+                + getFavorPoint());
     }
 
 

@@ -20,12 +20,12 @@ public class CellTest extends TestCase{
 
     public void testToString()
     {
-        assertEquals( "it.polimi.model.Dice@ Col: " + Cell.color.VUOTO + " Val: 2", cell1.toString() );
+        assertEquals( "it.polimi.model.Cell@ " + cell1.hashCode(), cell1.toString() );
     }
 
     public void testDump()
     {
-        assertEquals( "Col: " + Cell.color.VERDE + " Val: 0", cell3.dump() );
+        cell3.dump();
     }
 
     public void testChangeColor()
@@ -48,9 +48,9 @@ public class CellTest extends TestCase{
         assertEquals(2, cell1.getValue());
     }
 
-    public void testGetIsOccuped(){
+    public void testGetIsOccupied(){
         cell1.setDice(dice2);
-        assertTrue(cell1.getIsOccuped());
+        assertTrue(cell1.getIsOccupied());
     }
 
     public void testSetDice(){
@@ -59,7 +59,8 @@ public class CellTest extends TestCase{
     }
 
     public void testGetDice(){
-        assertEquals(new Dice(1, Dice.color.GIALLO), cell2.getDice());
+        cell2.setDice(dice);
+        assertEquals(dice, cell2.getDice());
     }
 
 }
