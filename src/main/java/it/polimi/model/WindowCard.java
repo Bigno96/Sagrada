@@ -2,6 +2,7 @@ package it.polimi.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class WindowCard {
 
@@ -9,6 +10,7 @@ public class WindowCard {
     private int id;
     private int numFavPoint;
     private String name;
+    private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
     public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList){
         this.id = id;
@@ -30,16 +32,12 @@ public class WindowCard {
     }
 
     @Override
-    public String toString()
-    {
-        return getClass().getName() + "@ " + "ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint();
+    public String toString() {
+    return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public String dump()
-    {
-        return "ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint();
+    public void dump() {
+        logger.info("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
     }
-
-
 
 }

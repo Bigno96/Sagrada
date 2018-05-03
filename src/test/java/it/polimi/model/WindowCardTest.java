@@ -42,11 +42,11 @@ public class WindowCardTest extends TestCase{
     }
 
     public void testToString() {
-        assertEquals("it.polimi.model.WindowCard@ ID: 1 Name: Try1 NumFavPoints: 3", card1.toString());
+        assertEquals("it.polimi.model.WindowCard@ "+ card1.hashCode(), card1.toString());
     }
 
     public void testDump()
     {
-        assertEquals( "ID: 2 Name: Try2 NumFavPoints: 4", card2.dump() );
+        card2.dump();
     }
 }
