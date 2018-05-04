@@ -9,4 +9,4 @@ Progetto ingegneria del software 2017/2018
 
 ## Status
 
-Fase di inizializzazione
+Creating model classes of pattern MVC

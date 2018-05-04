@@ -17,7 +17,7 @@ public class Player {
         this.windCard = null;
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
@@ -53,7 +53,7 @@ public class Player {
 
     public void dump()
     {
-        logger.info("ID: " + getID() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/ + "FavorPoint: "
+        logger.info("ID: " + getId() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/ + "FavorPoint: "
                 + getFavorPoint());
     }
 
