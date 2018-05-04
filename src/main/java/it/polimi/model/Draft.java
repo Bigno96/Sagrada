@@ -32,12 +32,17 @@ public class Draft {
         }
     }
 
-    public void fillDraft() {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
+    public boolean fillDraft() {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
         for (int i = 0; i < nDice; i++) {
             final Dice d = diceBag.randDice();
-            draft.add(d);
-            diceBag.rmDice(d);
+            if (d == null)
+                return false;
+            if (!draft.add(d))
+                return false;
+            if (!diceBag.rmDice(d))
+                return false;
         }
+        return true;
     }
 
     public void rollDraft() {                   // rollling all dices in the draft
@@ -62,8 +67,24 @@ public class Draft {
         return draft.iterator();
     }
 
-    public boolean rmDice(Dice d) { return draft.remove(d); }
+    public boolean rmDice(Dice d) {
+        if (draft.isEmpty()) {
+            return false;
+        } else {
+            return draft.remove(d);
+        }
+    }
 
-    public boolean addDice(Dice d) { return draft.add(d); }
+    public boolean addDice(Dice d) {
+        for (final Dice itr : draft) {
+            if (itr.equals(d))
+                return false;
+        }
+        return draft.add(d);
+    }
+
+    public void setnDice(int n) { this.nDice = n; }
+
+    public int getnDice() { return this.nDice; }
 
 }

@@ -7,8 +7,8 @@ public class DiceBagTest extends TestCase {
     private DiceBag db1 = DiceBag.getInstance();
     private DiceBag db2 = DiceBag.getInstance();
 
-    public DiceBagTest( String testName ) {
-        super( testName );
+    public DiceBagTest(String testName) {
+        super(testName);
     }
 
     public void testGetInstance() {         // testing uniqueness of singleton DiceBag
@@ -16,19 +16,8 @@ public class DiceBagTest extends TestCase {
     }
 
     public void testFindDice() {            // testing finding a Dice based on his id
-        Dice found = db1.findDice(10);
-        assertEquals(10, found.getID());
-    }
-
-    public void testDiceRemaining() {       // test about removing and adding Dices, checking also Dices remaining in the bag
-        Dice d = db1.findDice(14);
-        assertEquals(90, db1.diceRemaining());
-        assertTrue(db1.rmDice(d));
-        assertEquals(89, db1.diceRemaining());
-        assertSame(null, db1.findDice(d.getID()));
-        assertTrue(db1.addDice(d));
-        assertEquals(90, db1.diceRemaining());
-        assertSame(d, db1.findDice(d.getID()));
+        assertEquals(10, db1.findDice(10).getID());
+        assertSame(null, db1.findDice(100));
     }
 
     public void testRandDice() {            // testing the extraction of a random Dice, without removing it from Bag
@@ -40,11 +29,26 @@ public class DiceBagTest extends TestCase {
         assertEquals(length, db1.diceRemaining());
     }
 
-    public void testToString() {
-        assertEquals("it.polimi.model.DiceBag@ " + db1.hashCode(), db1.toString());
+    public void testDiceAdding() {          // testing addDice
+        Dice d = db1.findDice(14);
+        assertTrue(db1.rmDice(d));
+        assertFalse(db1.rmDice(d));
+        assertTrue(db1.addDice(d));
+        assertFalse(db1.addDice(d));
     }
 
-    public void testDump() {
-        db1.dump();
+    public void testDiceRemoving() {       // test removeDice
+        assertEquals(90, db1.diceRemaining());
+        Dice d = db1.findDice(14);
+
+        for (int i = 0; i < 90; i++) {
+            Dice itr = db1.findDice(i);
+            assertTrue(db1.rmDice(itr));
+
+        }
+        assertEquals(0, db1.diceRemaining());
+        assertFalse(db1.rmDice(d));
+        assertSame(null, db1.randDice());
     }
+
 }

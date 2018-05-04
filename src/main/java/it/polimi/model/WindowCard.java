@@ -6,11 +6,11 @@ import java.util.logging.Logger;
 
 public class WindowCard {
 
-    private static List<Cell> cellList = new ArrayList<Cell>(20);
-    private int id;
+    private List<Cell> cellList = new ArrayList<Cell>();
+    private int id;                 // id it's the same for 2 window card that represents front and behind of a real Window Card
     private int numFavPoint;
     private String name;
-    private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
+    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
     public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList){
         this.id = id;

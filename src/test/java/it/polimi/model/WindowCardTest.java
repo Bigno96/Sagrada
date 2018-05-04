@@ -11,7 +11,7 @@ public class WindowCardTest extends TestCase{
     private List<Cell> myList() {
         List<Cell> cellList = new ArrayList<Cell>();
         for (int i=0; i<20; i++)
-            cellList.add(new Cell(0, Cell.color.VUOTO));
+            cellList.add(new Cell(0, Cell.color.NULL));
         return cellList;
     }
 
@@ -19,9 +19,9 @@ public class WindowCardTest extends TestCase{
         super(testName);
     }
 
-    WindowCard card1 = new WindowCard(1, "Try1", 3, myList());
-    WindowCard card2 = new WindowCard(2, "Try2", 4, myList());
-    WindowCard card3 = new WindowCard(3, "Try3", 5, myList());
+    private WindowCard card1 = new WindowCard(1, "Try1", 3, myList());
+    private WindowCard card2 = new WindowCard(2, "Try2", 4, myList());
+    private WindowCard card3 = new WindowCard(3, "Try3", 5, myList());
 
     public void testGetId(){
         assertEquals(1, card1.getId());

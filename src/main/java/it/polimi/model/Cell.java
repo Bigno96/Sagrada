@@ -3,8 +3,8 @@ package it.polimi.model;
 import java.util.logging.Logger;
 
 public class Cell {
-    private int value = 0;
-    public enum color {GIALLO, ROSSO, BLU, VERDE, VIOLA, VUOTO}
+    private int value;
+    public enum color {YELLOW, RED, BLU, GREEN, VIOLET, NULL}
     private color color;
     private Dice dice;
     private boolean isOccupied;

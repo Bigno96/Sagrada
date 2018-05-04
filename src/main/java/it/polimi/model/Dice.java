@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 public class Dice {
 
     private int value;
-    public enum color {GIALLO, ROSSO, BLU, VERDE, VIOLA}
+    public enum color {YELLOW, RED, BLU, GREEN, VIOLET}
     private color color;
     private int id;     // id between 0 and 89
     private static final Logger logger = Logger.getLogger(DiceBag.class.getName());

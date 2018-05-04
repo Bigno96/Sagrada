@@ -16,13 +16,13 @@ public class DraftTest extends TestCase {
 
     public void testFillDraft() {           // testing fillDraft with size of diceBag before and after and with size of draft
         assertEquals(90, db.diceRemaining());
-        draft.fillDraft();
+        assertTrue(draft.fillDraft());
         assertEquals(90-nDice, db.diceRemaining());
         assertEquals(nDice, draft.diceRemaining());
     }
 
     public void testRollDraft() {           // testing rolling dices of draft
-        draft.fillDraft();
+        assertTrue(draft.fillDraft());
         draft.rollDraft();
         for (Iterator<Dice> itr = draft.itrDraft(); itr.hasNext();) {
             Dice d = itr.next();
@@ -30,25 +30,22 @@ public class DraftTest extends TestCase {
         }
     }
 
-    public void testModifyingDraft() {          // testing add e and removing Dice from draft
-        draft.fillDraft();
-        Iterator<Dice> itr = draft.itrDraft();
-        Dice d = itr.next();
+    public void testModifyingDraft() {          // testing adding and removing
         int length = draft.diceRemaining();
-        assertTrue(draft.rmDice(d));
-        assertEquals(length-1, draft.diceRemaining());
-        assertSame(null, draft.findDice(d.getID()));
+        Dice d = new Dice(91, Dice.color.GREEN);
+
         assertTrue(draft.addDice(d));
-        assertEquals(length, draft.diceRemaining());
+        assertFalse(draft.addDice(d));
+        assertEquals(length+1, draft.diceRemaining());
         assertSame(d, draft.findDice(d.getID()));
+        assertTrue(draft.rmDice(d));
+        assertFalse(draft.rmDice(d));
     }
 
-    public void testToString() {
-        assertEquals("it.polimi.model.Draft@ " + draft.hashCode(), draft.toString());
+    public void testSetnDice() {
+        assertSame(9, draft.getnDice());
+        draft.setnDice(7);
+        assertSame(7, draft.getnDice());
     }
 
-    public void testDump() {
-        draft.fillDraft();
-        draft.dump();
-    }
 }
