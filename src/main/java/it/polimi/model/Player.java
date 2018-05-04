@@ -6,7 +6,7 @@ public class Player {
 
     private int id;
     //private PrivateObjective privObj;
-    //private WindowCard windCard;
+    private WindowCard windCard;
     private int favorPoint;
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
@@ -14,7 +14,7 @@ public class Player {
         this.id = id;
         this.favorPoint = 0;
         //this.privObj = null;
-        //this.winCard = null;
+        this.windCard = null;
     }
 
     public int getID() {
@@ -29,13 +29,13 @@ public class Player {
         return privObj;
     }*/
 
-    /*public void setWind(WindowCard WindCard) {
+    public void setWind(WindowCard windCard) {
         this.windCard = windCard;
-    }*/
+    }
 
-    /*public WindowCard getWind() {
+    public WindowCard getWind() {
         return windCard;
-    }*/
+    }
 
     public void setFavorPoint(int favorInt){
         this.favorPoint = favorInt;

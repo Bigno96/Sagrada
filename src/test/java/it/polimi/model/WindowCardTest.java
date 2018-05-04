@@ -11,7 +11,7 @@ public class WindowCardTest extends TestCase{
     private List<Cell> myList() {
         List<Cell> cellList = new ArrayList<Cell>();
         for (int i=0; i<20; i++)
-            cellList.add(new Cell(0, Cell.color.NULL));
+            cellList.add(new Cell(0, Cell.colors.NULL));
         return cellList;
     }
 

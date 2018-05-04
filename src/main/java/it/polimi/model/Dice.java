@@ -6,12 +6,12 @@ import java.util.logging.Logger;
 public class Dice {
 
     private int value;
-    public enum color {YELLOW, RED, BLU, GREEN, VIOLET}
-    private color color;
+    public enum colors {YELLOW, RED, BLUE, GREEN, VIOLET}
+    private colors color;
     private int id;     // id between 0 and 89
     private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
-    public Dice( int id, color color ) {
+    public Dice( int id, colors color ) {
         this.id = id;
         this.color = color;
         this.value = 0;
@@ -32,7 +32,7 @@ public class Dice {
         return this.id;
     }
 
-    public color getColor()
+    public colors getColor()
     {
         return this.color;
     }

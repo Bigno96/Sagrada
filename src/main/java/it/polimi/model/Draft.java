@@ -1,5 +1,7 @@
 package it.polimi.model;
 
+import exception.EmptyException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,11 +34,11 @@ public class Draft {
         }
     }
 
-    public boolean fillDraft() {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
+    public boolean fillDraft() throws EmptyException {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
         for (int i = 0; i < nDice; i++) {
             final Dice d = diceBag.randDice();
             if (d == null)
-                return false;
+                throw new EmptyException("No Dice in Draft");
             if (!draft.add(d))
                 return false;
             if (!diceBag.rmDice(d))

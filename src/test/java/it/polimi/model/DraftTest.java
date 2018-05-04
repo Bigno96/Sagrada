@@ -1,14 +1,17 @@
 package it.polimi.model;
 
+import exception.EmptyException;
 import junit.framework.TestCase;
 
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 public class DraftTest extends TestCase {
 
     private DiceBag db = DiceBag.getInstance();
     private int nDice = 9;
     private Draft draft = new Draft(db, nDice);
+    private static final Logger logger = Logger.getLogger(DraftTest.class.getName());
 
     public DraftTest(String testName) {
         super(testName);
@@ -16,13 +19,21 @@ public class DraftTest extends TestCase {
 
     public void testFillDraft() {           // testing fillDraft with size of diceBag before and after and with size of draft
         assertEquals(90, db.diceRemaining());
-        assertTrue(draft.fillDraft());
+        try {
+            assertTrue(draft.fillDraft());
+        } catch (EmptyException e) {
+            logger.info(e.getMessage());
+        }
         assertEquals(90-nDice, db.diceRemaining());
         assertEquals(nDice, draft.diceRemaining());
     }
 
     public void testRollDraft() {           // testing rolling dices of draft
-        assertTrue(draft.fillDraft());
+        try {
+            assertTrue(draft.fillDraft());
+        } catch (EmptyException e) {
+            logger.info(e.getMessage());
+        }
         draft.rollDraft();
         for (Iterator<Dice> itr = draft.itrDraft(); itr.hasNext();) {
             Dice d = itr.next();
@@ -32,7 +43,7 @@ public class DraftTest extends TestCase {
 
     public void testModifyingDraft() {          // testing adding and removing
         int length = draft.diceRemaining();
-        Dice d = new Dice(91, Dice.color.GREEN);
+        Dice d = new Dice(91, Dice.colors.GREEN);
 
         assertTrue(draft.addDice(d));
         assertFalse(draft.addDice(d));

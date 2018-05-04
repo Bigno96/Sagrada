@@ -4,11 +4,11 @@ import junit.framework.TestCase;
 
 public class DiceTest extends TestCase {
 
-    private Dice dice1G = new Dice(1, Dice.color.YELLOW);
-    private Dice dice2B = new Dice(2, Dice.color.BLU);
-    private Dice dice3Ve = new Dice(3, Dice.color.GREEN);
-    private Dice dice4Vi = new Dice(4, Dice.color.VIOLET);
-    private Dice dice5R = new Dice(5, Dice.color.RED);
+    private Dice dice1G = new Dice(1, Dice.colors.YELLOW);
+    private Dice dice2B = new Dice(2, Dice.colors.BLUE);
+    private Dice dice3Ve = new Dice(3, Dice.colors.GREEN);
+    private Dice dice4Vi = new Dice(4, Dice.colors.VIOLET);
+    private Dice dice5R = new Dice(5, Dice.colors.RED);
 
     public DiceTest(String testName) {
         super(testName);
@@ -19,11 +19,11 @@ public class DiceTest extends TestCase {
     }
 
     public void testGetColor() {                // testing all 5 colors
-        assertEquals(Dice.color.YELLOW, dice1G.getColor());
-        assertEquals(Dice.color.BLU, dice2B.getColor());
-        assertEquals(Dice.color.GREEN, dice3Ve.getColor());
-        assertEquals(Dice.color.VIOLET, dice4Vi.getColor());
-        assertEquals(Dice.color.RED, dice5R.getColor());
+        assertEquals(Dice.colors.YELLOW, dice1G.getColor());
+        assertEquals(Dice.colors.BLUE, dice2B.getColor());
+        assertEquals(Dice.colors.GREEN, dice3Ve.getColor());
+        assertEquals(Dice.colors.VIOLET, dice4Vi.getColor());
+        assertEquals(Dice.colors.RED, dice5R.getColor());
     }
 
     public void testRollDice() {            // roll Dice must produce value x | 0 < x < 7

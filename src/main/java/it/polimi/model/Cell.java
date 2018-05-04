@@ -4,13 +4,13 @@ import java.util.logging.Logger;
 
 public class Cell {
     private int value;
-    public enum color {YELLOW, RED, BLU, GREEN, VIOLET, NULL}
-    private color color;
+    public enum colors {YELLOW, RED, BLUE, GREEN, VIOLET, NULL}
+    private colors color;
     private Dice dice;
     private boolean isOccupied;
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
-    public Cell( int value, color color )
+    public Cell( int value, colors color )
     {
         this.value = value;
         this.color = color;
@@ -18,21 +18,19 @@ public class Cell {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public void dump()
-    {
+    public void dump() {
         logger.info("Col: " + getColor() + " Val: " + getValue());
     }
 
-    public void changeColor(color newColor){
+    public void changeColor(colors newColor) {
         this.color = newColor;
     }
 
-    public color getColor()
+    public colors getColor()
     {
         return this.color;
     }

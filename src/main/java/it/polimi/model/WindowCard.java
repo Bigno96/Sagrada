@@ -38,6 +38,8 @@ public class WindowCard {
 
     public void dump() {
         logger.info("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
+        for (Cell c : cellList)
+            c.dump();
     }
 
 }
