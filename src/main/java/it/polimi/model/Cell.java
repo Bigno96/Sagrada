@@ -1,5 +1,8 @@
 package it.polimi.model;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class Cell {
@@ -8,13 +11,17 @@ public class Cell {
     private colors color;
     private Dice dice;
     private boolean isOccupied;
+    private int pos;            // position from 0 to 19
+    private Set<Integer> borderPos = new HashSet<Integer>(Arrays.asList(0,1,2,3,4,5,9,10,14,15,16,17,18,19));
+
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
-    public Cell( int value, colors color )
+    public Cell( int value, colors color, int pos )
     {
         this.value = value;
         this.color = color;
         isOccupied = false;
+        this.pos = pos;
     }
 
     @Override
@@ -45,7 +52,7 @@ public class Cell {
         return this.value;
     }
 
-    public boolean getIsOccupied() {
+    public boolean isOccupied() {
         return this.isOccupied;
     }
 
@@ -56,6 +63,14 @@ public class Cell {
 
     public Dice getDice() {
         return dice;
+    }
+
+    public int getPos() {
+        return this.pos;
+    }
+
+    public boolean isBorder() {
+        return borderPos.contains(pos);
     }
 
 }

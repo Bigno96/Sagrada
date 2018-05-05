@@ -75,18 +75,20 @@ public class WindowFactory {
         JSONArray cellArr = (JSONArray) obj.get("Cell");            // json array to extract Cells from WindowInfo
         List<Cell> cells = new ArrayList<Cell>();
 
+        int i = 0;
         for (Object o : cellArr) {
-            cells.add(makeCell((JSONObject) o));
+            cells.add(makeCell((JSONObject) o, i));
+            i++;
         }
 
         return new WindowCard(id, name, numFavPoint, cells);
     }
 
-    private Cell makeCell (JSONObject obj) {                        // create a Cell from the object
+    private Cell makeCell (JSONObject obj, int pos) {                        // create a Cell from the object
         int value = Integer.parseInt(obj.get("value").toString());
         Cell.colors color = parseColor(obj.get("color").toString());
 
-        return new Cell(value, color);
+        return new Cell(value, color, pos);
     }
 
     private Cell.colors parseColor(String string) {
