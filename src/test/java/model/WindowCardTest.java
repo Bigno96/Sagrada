@@ -1,4 +1,4 @@
-package it.polimi.model;
+package model;
 
 
 import junit.framework.TestCase;
@@ -40,16 +40,7 @@ public class WindowCardTest extends TestCase{
         assertEquals(4, card2.getNumFavPoint());
         assertEquals(5, card3.getNumFavPoint());
     }
-
-    public void testToString() {
-        assertEquals("it.polimi.model.WindowCard@ "+ card1.hashCode(), card1.toString());
-    }
-
-    public void testDump()
-    {
-        card2.dump();
-    }
-
+    
     public void testCheckFirstDice() throws EmptyException, WrongPositionException {
         card1.cellList.get(0).setDice(new Dice(0, Dice.colors.GREEN));
         assertTrue(card1.checkFirstDice());

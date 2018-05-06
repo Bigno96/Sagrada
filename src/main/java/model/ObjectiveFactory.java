@@ -1,4 +1,4 @@
-package it.polimi.model;
+package model;
 
 import exception.IDNotFoundException;
 import org.json.simple.JSONArray;

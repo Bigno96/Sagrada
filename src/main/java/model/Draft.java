@@ -1,4 +1,4 @@
-package it.polimi.model;
+package model;
 
 import exception.EmptyException;
 
