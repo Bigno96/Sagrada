@@ -56,9 +56,25 @@ public class Cell {
         return this.isOccupied;
     }
 
+    public void setIsOccuped(boolean isOccuped){
+        this.isOccupied = isOccuped;
+    }
+
     public void setDice(Dice dice) {
         this.dice = dice;
         isOccupied = true;
+    }
+
+    public boolean checkColor(){
+        if(this.getColor().equals(dice.getColor())  || this.getColor() == colors.NULL)
+            return true;
+        else return false;
+    }
+
+    public boolean checkValue(){
+        if(this.getValue() == dice.getValue()  || this.getValue() == 0)
+            return true;
+        else return false;
     }
 
     public Dice getDice() {
