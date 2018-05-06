@@ -15,10 +15,13 @@
     <orderEntry type="library" name="Maven: org.apiguardian:apiguardian-api:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.2.0" level="project" />
-    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
   </component>
   <component name="sonarModuleSettings">
+    <option name="alternativeWorkingDirPath" value="" />
     <option name="localAnalysisScripName" value="&lt;PROJECT&gt;" />
     <option name="serverName" value="&lt;PROJECT&gt;" />
+    <option name="useAlternativeWorkingDir" value="false" />
+    <option name="workingDirSelection" value="&lt;MODULE&gt;" />
   </component>
 </module>
