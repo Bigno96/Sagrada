@@ -1,0 +1,27 @@
+[
+  {
+    "ID": 1,
+    "descr": "Shades of Yellow",
+    "effect": "YELLOW"
+  },
+  {
+    "ID": 2,
+    "descr": "Shades of Red",
+    "effect": "RED"
+  },
+  {
+    "ID": 3,
+    "descr": "Shades of Blue",
+    "effect": "BLUE"
+  },
+  {
+    "ID": 4,
+    "descr": "Shades of Green",
+    "effect": "GREEN"
+  },
+  {
+    "ID": 5,
+    "descr": "Shades of Purple",
+    "effect": "VIOLET"
+  }
+]

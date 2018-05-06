@@ -1,0 +1,62 @@
+[
+  {
+    "ID": 1,
+    "descr": "Row Color Variety",
+    "point": 6,
+    "effect": "color"
+  },
+  {
+    "ID": 2,
+    "descr": "Column Color Variety",
+    "point": 5,
+    "effect": "color"
+  },
+  {
+    "ID": 3,
+    "descr": "Row Shade Variety",
+    "point": 5,
+    "effect": "color"
+  },
+  {
+    "ID": 4,
+    "descr": "Column Shade Variety",
+    "point": 4,
+    "effect": "color"
+  },
+  {
+    "ID": 5,
+    "descr": "Light Shade",
+    "point": 2,
+    "effect": "color"
+  },
+  {
+    "ID": 6,
+    "descr": "Medium Shade",
+    "point": 2,
+    "effect": "color"
+  },
+  {
+    "ID": 7,
+    "descr": "Dark Shade",
+    "point": 2,
+    "effect": "color"
+  },
+  {
+    "ID": 8,
+    "descr": "Shade Variety",
+    "point": 5,
+    "effect": "color"
+  },
+  {
+    "ID": 9,
+    "descr": "Colored Diagonal",
+    "point": 0,
+    "effect": "color"
+  },
+  {
+    "ID": 10,
+    "descr": "Color Variety",
+    "point": 4,
+    "effect": "color"
+  }
+]

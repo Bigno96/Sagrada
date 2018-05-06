@@ -30,7 +30,7 @@ public class WindowFactory {
     public List<WindowCard> getWindow(int id1, int id2) {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<WindowCard>();
         try {
-            JSONArray winArray = (JSONArray) parser.parse(new FileReader("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/it/polimi/model/WindowInfo.json"));        // parsing file
+            JSONArray winArray = (JSONArray) parser.parse(new FileReader("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/WindowInfo.json"));        // parsing file
 
             winCard1 = scanArray(winArray, null, id1);
             ret.add(makeCard(winCard1));
