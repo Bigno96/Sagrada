@@ -1,19 +1,16 @@
 package model;
 
 import exception.IDNotFoundException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.*;
 import java.util.logging.Logger;
 
 public class ObjectiveFactory {
 
-    private JSONParser parser = new JSONParser();
     private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
     private ObjectiveStrategy objStrat;
 
@@ -21,51 +18,46 @@ public class ObjectiveFactory {
         this.objStrat = objStrat;
     }
 
-    public ObjectiveCard getPrivCard(int id) {
-        String descr = null;
+    public ObjectiveCard getPrivCard(int id) throws FileNotFoundException, IDNotFoundException {
+        String descr;
+        JsonReader reader = null;
         try {
-            JSONArray objArray = (JSONArray) parser.parse(new FileReader("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/PrivateCard.json"));
+            InputStream file = new FileInputStream("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/PrivateCard.json");
+            reader = Json.createReader(file);
 
+            JsonArray objArray = (JsonArray) reader.read();
             descr = findDescr(id, objArray);
 
-        } catch (FileNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (IOException e) {
-            logger.info(e.getMessage());
-        } catch (ParseException e) {
-            logger.info(e.getMessage());
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
+        } finally {
+            if (reader != null)
+                reader.close();
         }
 
         return new PrivateObjective(id, descr, objStrat);
     }
 
-    public ObjectiveCard getPublCard(int id) {
-        int point = 0;
-        String descr = null;
+    public ObjectiveCard getPublCard(int id) throws FileNotFoundException, IDNotFoundException {
+        int point;
+        String descr;
+        JsonReader reader = null;
         try {
-            JSONArray objArray = (JSONArray) parser.parse(new FileReader("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/PublicCard.json"));
+            InputStream file = new FileInputStream("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/PublicCard.json");
+            reader = Json.createReader(file);
+            JsonArray objArray = (JsonArray) reader.read();
 
             point = findPoint(id, objArray);
             descr = findDescr(id, objArray);
-
-        } catch (FileNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (IOException e) {
-            logger.info(e.getMessage());
-        } catch (ParseException e) {
-            logger.info(e.getMessage());
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
+        } finally {
+            if (reader != null)
+                reader.close();
         }
 
         return new PublicObjective(id, descr, point, objStrat);
     }
 
-    public int findPoint(int id, JSONArray objArr) throws IDNotFoundException {
+    private int findPoint(int id, JsonArray objArr) throws IDNotFoundException {
         for (Object o : objArr) {
-            JSONObject obj = (JSONObject) o;
+            JsonObject obj = (JsonObject) o;
             if (Integer.parseInt(obj.get("ID").toString()) == id) {
                 return Integer.parseInt(obj.get("point").toString());
             }
@@ -73,11 +65,11 @@ public class ObjectiveFactory {
         throw new IDNotFoundException("Could't find matching Objective Card");
     }
 
-    public String findDescr(int id, JSONArray objArr) throws IDNotFoundException {
+    private String findDescr(int id, JsonArray objArr) throws IDNotFoundException {
         for (Object o : objArr) {
-            JSONObject obj = (JSONObject) o;
+            JsonObject obj = (JsonObject) o;
             if (Integer.parseInt(obj.get("ID").toString()) == id) {
-                return obj.get("descr").toString();
+                return obj.getString("descr");
             }
         }
         throw new IDNotFoundException("Could't find matching Objective Card");

@@ -1,14 +1,18 @@
 package model;
 
+import exception.IDNotFoundException;
 import junit.framework.TestCase;
 
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PlayerTest extends TestCase {
 
     private Player player1 = new Player(1);
     private Player player2 = new Player(2);
     private WindowFactory winFact = new WindowFactory();
+    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
     public PlayerTest(String testName){
         super(testName);
@@ -31,11 +35,17 @@ public class PlayerTest extends TestCase {
     public void testWindCard() {
         int x = 2;
         int y = 4;
-        List<WindowCard> winCardList = winFact.getWindow(x,y);
-        WindowCard windCard =  winCardList.get(0);
-        assertSame(null, player1.getWind());
-        player1.setWind(windCard);
-        assertSame(windCard, player1.getWind());
+        try {
+            List<WindowCard> winCardList = winFact.getWindow(x, y);
+            WindowCard windCard = winCardList.get(0);
+            assertSame(null, player1.getWind());
+            player1.setWind(windCard);
+            assertSame(windCard, player1.getWind());
+        } catch (FileNotFoundException e) {
+            logger.info(e.getMessage());
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        }
     }
 
 }

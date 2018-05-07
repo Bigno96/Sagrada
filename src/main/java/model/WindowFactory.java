@@ -1,24 +1,23 @@
 package model;
 
 import exception.IDNotFoundException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class WindowFactory {
 
-    private JSONParser parser = new JSONParser();
     private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
-    private JSONObject winCard1;
-    private JSONObject winCard2;
+    private JsonObject winCard1;
+    private JsonObject winCard2;
 
     public WindowFactory() {
         winCard1 = null;
@@ -27,66 +26,65 @@ public class WindowFactory {
 
     //@requires id1 != id2
     //@ensures return.size() == 4
-    public List<WindowCard> getWindow(int id1, int id2) {       // returns 2 couples of Window card (front and back) based on 2 int
+    public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException{       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<WindowCard>();
+        JsonReader reader = null;
         try {
-            JSONArray winArray = (JSONArray) parser.parse(new FileReader("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/WindowInfo.json"));        // parsing file
+            InputStream file = new FileInputStream("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/WindowInfo.json");
+            reader = Json.createReader(file);
+
+            JsonArray winArray = (JsonArray) reader.read();        // parsing file
 
             winCard1 = scanArray(winArray, null, id1);
             ret.add(makeCard(winCard1));
-            winCard2 = scanArray(winArray, winCard1.get("name").toString(), id1);
+            winCard2 = scanArray(winArray, winCard1.getString("name"), id1);
             ret.add(makeCard(winCard2));
             winCard1 = scanArray(winArray, null, id2);
             ret.add(makeCard(winCard1));
-            winCard2 = scanArray(winArray, winCard2.get("name").toString(), id2);
+            winCard2 = scanArray(winArray, winCard2.getString("name"), id2);
             ret.add(makeCard(winCard2));
 
-        } catch (FileNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (IOException e) {
-            logger.info(e.getMessage());
-        } catch (ParseException e) {
-            logger.info(e.getMessage());
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
+        } finally {
+            if (reader != null)
+                reader.close();
         }
 
         return ret;
     }
 
     //scan a JsonArray searching for matching id
-    private JSONObject scanArray (JSONArray winArray, String name, int id) throws IDNotFoundException {     // since two card (front and back) has the same Id, name (which is unique) is needed
+    private JsonObject scanArray (JsonArray winArray, String name, int id) throws IDNotFoundException {     // since two card (front and back) has the same Id, name (which is unique) is needed
         for (Object o : winArray) {
-            JSONObject obj = (JSONObject) o;
-            if (Integer.parseInt(obj.get("ID").toString()) == id && !obj.get("name").toString().equals(name)) {     // if it's not the card with the same name and has correct Id
+            JsonObject obj = (JsonObject) o;
+            if (Integer.parseInt(obj.get("ID").toString()) == id && !obj.getString("name").equals(name)) {     // if it's not the card with the same name and has correct Id
                 return obj;
             }
         }
         throw new IDNotFoundException("Could't find matching Window Card");
     }
 
-    private WindowCard makeCard (JSONObject obj) {                  // create an object Window Card from the object coming from WindowInfo
+    private WindowCard makeCard (JsonObject obj) {                  // create an object Window Card from the object coming from WindowInfo
         //setting up parameter to pass to the Constructor of WindowCard
         int id = Integer.parseInt(obj.get("ID").toString());
         int numFavPoint = Integer.parseInt(obj.get("FP").toString());
 
-        String name = obj.get("name").toString();
+        String name = obj.getString("name");
 
-        JSONArray cellArr = (JSONArray) obj.get("Cell");            // json array to extract Cells from WindowInfo
+        JsonArray cellArr = (JsonArray) obj.get("Cell");            // json array to extract Cells from WindowInfo
         List<Cell> cells = new ArrayList<Cell>();
 
         int i = 0;
         for (Object o : cellArr) {
-            cells.add(makeCell((JSONObject) o, i));
+            cells.add(makeCell((JsonObject) o, i));
             i++;
         }
 
         return new WindowCard(id, name, numFavPoint, cells);
     }
 
-    private Cell makeCell (JSONObject obj, int pos) {                        // create a Cell from the object
+    private Cell makeCell (JsonObject obj, int pos) {                        // create a Cell from the object
         int value = Integer.parseInt(obj.get("value").toString());
-        Cell.colors color = parseColor(obj.get("color").toString());
+        Cell.colors color = parseColor(obj.getString("color"));
 
         return new Cell(value, color, pos);
     }
