@@ -10,7 +10,7 @@ public class ObjectiveFactoryTest  extends TestCase {
 
     private ObjectiveStrategy objStrat = new ObjectiveStrategy();
     private ObjectiveFactory objFact = new ObjectiveFactory(objStrat);
-    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
+    private static final Logger logger = Logger.getLogger(ObjectiveFactoryTest.class.getName());
 
     public ObjectiveFactoryTest(String testName) {
         super(testName);
@@ -33,6 +33,36 @@ public class ObjectiveFactoryTest  extends TestCase {
         } catch (FileNotFoundException e) {
             logger.info(e.getMessage());
         }
-
     }
+
+    public void testNegativePriv() {
+        try {
+            ObjectiveCard privObj = objFact.getPrivCard(19);
+
+            assertSame(19, privObj.getId());
+            assertEquals("Shades of Yellow", privObj.getDescr());
+            
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        } catch (FileNotFoundException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+    public void testNegativePubl() {
+        try {
+            ObjectiveCard publObj = objFact.getPublCard(31);
+
+            assertSame(31, publObj.getId());
+            assertEquals("Row Shade Variety", publObj.getDescr());
+            assertSame(0, publObj.getPoint());
+
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        } catch (FileNotFoundException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+
 }

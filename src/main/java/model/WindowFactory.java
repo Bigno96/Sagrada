@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class WindowFactory {
 
-    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
+    private static final Logger logger = Logger.getLogger(WindowFactory.class.getName());
     private JsonObject winCard1;
     private JsonObject winCard2;
 
@@ -103,4 +103,5 @@ public class WindowFactory {
 
         return Cell.colors.NULL;
     }
+
 }
