@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class ObjectiveFactory {
 
-    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
+    private static final Logger logger = Logger.getLogger(ObjectiveFactory.class.getName());
     private ObjectiveStrategy objStrat;
 
     public ObjectiveFactory(ObjectiveStrategy objStrat) {
@@ -74,5 +74,7 @@ public class ObjectiveFactory {
         }
         throw new IDNotFoundException("Could't find matching Objective Card");
     }
+
+
 
 }
