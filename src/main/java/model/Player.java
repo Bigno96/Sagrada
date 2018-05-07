@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 public class Player {
 
     private int id;
+    private boolean firstTurn;
+    private boolean secondTurn;
     //private PrivateObjective privObj;
     private WindowCard windCard;
     private int favorPoint;
@@ -13,12 +15,40 @@ public class Player {
     public Player(int id) {
         this.id = id;
         this.favorPoint = 0;
+        this.firstTurn = true;
+        this.secondTurn = true;
         //this.privObj = null;
         this.windCard = null;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void endFirstTurn() {
+
+        this.firstTurn = false;
+    }
+
+    public boolean isFirstTurn() {
+        return firstTurn;
+    }
+
+    public void resetFirstTurn() {
+        firstTurn = true;
+    }
+
+    public void endSecondTurn() {
+
+        this.secondTurn = false;
+    }
+
+    public boolean isSecondTurn() {
+        return secondTurn;
+    }
+
+    public void resetSecondTurn() {
+        secondTurn=true;
     }
 
     /*public void setPrivObj(PrivateObjective privObj) {

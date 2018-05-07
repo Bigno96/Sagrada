@@ -18,10 +18,21 @@ public class PlayerTest extends TestCase {
         super(testName);
     }
 
-    public void testGetId(){
-        assertEquals(1, player1.getId());
-        assertEquals(2, player2.getId());
+
+    public void testIsFirstTurn(){
+        assertTrue(player1.isFirstTurn());
     }
+
+    public void testEndFirstTurn(){
+        player1.endFirstTurn();
+        assertTrue(player1.isFirstTurn());
+    }
+
+    public void testResetFirstTurn(){
+        player1.resetFirstTurn();
+        assertTrue(player1.isFirstTurn());
+    }
+
 
     public void testSetFavor1(){
         assertEquals(0, player1.getFavorPoint());
@@ -30,6 +41,11 @@ public class PlayerTest extends TestCase {
     public void testSetFavor2(){
         player1.setFavorPoint(1);
         assertEquals(1, player1.getFavorPoint());
+    }
+
+    public void testGetId(){
+        assertEquals(1, player1.getId());
+        assertEquals(2, player2.getId());
     }
 
     public void testWindCard() {
