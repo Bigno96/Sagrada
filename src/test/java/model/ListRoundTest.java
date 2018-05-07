@@ -2,26 +2,23 @@ package model;
 
 import junit.framework.TestCase;
 
-public class RoundTrackTest extends TestCase {
+public class ListRoundTest extends TestCase {
 
-    public RoundTrackTest( String testName ) {
-        super( testName );
-    }
-
-    public void testFindDice(){
+    public void testListRound(){
         Dice dice1G = new Dice(1, Dice.colors.YELLOW);
         Dice dice2B = new Dice(2, Dice.colors.BLUE);
         ListRound listRound = new ListRound();
         DiceBag db = DiceBag.getInstance();
         int nDice = 9;
+
         Draft draft = new Draft(db, nDice);
         assertTrue(draft.addDice(dice1G));
         assertFalse(draft.addDice(dice1G));
         listRound.addDice();
         assertTrue(draft.addDice(dice1G));
-        RoundTrack roundTrack = new RoundTrack();
+        assertEquals(listRound.getDice(0), dice1G);
+        assertTrue(listRound.rmDice(dice1G));
+        assertFalse(listRound.rmDice(dice1G));
 
-        assertTrue(roundTrack.findDice(dice1G));
-        assertFalse(roundTrack.findDice(dice2B));
     }
 }

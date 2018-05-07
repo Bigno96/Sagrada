@@ -11,7 +11,7 @@ public class ListRound {
     private int nTurn;
     private Draft draft;
     private Dice dice;
-    private static final Logger logger = Logger.getLogger(Player.class.getName());
+    private static final Logger logger = Logger.getLogger(ListRound.class.getName());
 
     @Override
     public String toString() {
@@ -51,4 +51,8 @@ public class ListRound {
         }
     }
 
+   public Dice getDice(int i){
+        dice = listRound.get(i);
+        return dice;
+    }
 }
