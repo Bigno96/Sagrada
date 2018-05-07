@@ -1,5 +1,7 @@
 package model;
 
+import exception.IDNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,26 +9,20 @@ import java.util.logging.Logger;
 
 public class DiceBag {
 
-    private static DiceBag diceBag = null;
     private List<Dice> dices;
     private static final Logger logger = Logger.getLogger(Dice.class.getName());
 
-    public static DiceBag getInstance() {       // Singleton instance creator
-        if (diceBag == null) {
-            diceBag = new DiceBag();
-        }
-        return diceBag;
-    }
-
-    private DiceBag() {     // dice enumerated from 0 to 89
-        dices = new ArrayList<Dice>();
+    public DiceBag() throws IDNotFoundException {     // dice enumerated from 0 to 89
+        dices = new ArrayList<>();
         int n = 0;
-        for (final Dice.colors c : Dice.colors.values()) {    // loop on Dice's enum color
-            for (int i = n * 18; i < (n + 1) * 18; i++) {       // 18 dices assigned per color
-                Dice dice = new Dice(i, c);
-                dices.add(dice);
+        for (final Colors c : Colors.values()) {    // loop on Dice's enum color
+            if (c != Colors.NULL) {
+                for (int i = n * 18; i < (n + 1) * 18; i++) {       // 18 dices assigned per color
+                    Dice dice = new Dice(i, c);
+                    dices.add(dice);
+                }
+                n++;
             }
-            n++;
         }
     }
 

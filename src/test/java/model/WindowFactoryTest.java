@@ -1,6 +1,8 @@
 package model;
 
 import exception.IDNotFoundException;
+import exception.PositionException;
+import exception.ValueException;
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
@@ -19,7 +21,7 @@ public class WindowFactoryTest extends TestCase {
         super(testName);
     }
 
-    public void testPositiveGetWindow() {
+    public void testPositiveGetWindow() throws ValueException, PositionException {
         x = 10;
         y = 3;
 
@@ -36,7 +38,7 @@ public class WindowFactoryTest extends TestCase {
         }
     }
 
-    public void testNegativeGetWindow() {
+    public void testNegativeGetWindow() throws ValueException, PositionException {
         x = 100;
         y= 7;
 

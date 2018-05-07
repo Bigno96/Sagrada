@@ -1,6 +1,8 @@
 package model;
 
 import exception.IDNotFoundException;
+import exception.PositionException;
+import exception.ValueException;
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
@@ -9,8 +11,18 @@ import java.util.logging.Logger;
 
 public class PlayerTest extends TestCase {
 
-    private Player player1 = new Player(1);
-    private Player player2 = new Player(2);
+    private Board board;
+
+    {
+        try {
+            board = new Board(4);
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+    private Player player1 = new Player(1, board);
+    private Player player2 = new Player(2, board);
     private WindowFactory winFact = new WindowFactory();
     private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
@@ -48,7 +60,7 @@ public class PlayerTest extends TestCase {
         assertEquals(2, player2.getId());
     }
 
-    public void testWindCard() {
+    public void testWindCard() throws ValueException, PositionException {
         int x = 2;
         int y = 4;
         try {

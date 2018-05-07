@@ -1,6 +1,8 @@
 package model;
 
 import exception.IDNotFoundException;
+import exception.PositionException;
+import exception.ValueException;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -26,11 +28,12 @@ public class WindowFactory {
 
     //@requires id1 != id2
     //@ensures return.size() == 4
-    public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException{       // returns 2 couples of Window card (front and back) based on 2 int
+    public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<WindowCard>();
         JsonReader reader = null;
         try {
-            InputStream file = new FileInputStream("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/WindowInfo.json");
+            String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowInfo.json";
+            InputStream file = new FileInputStream(infoPath);
             reader = Json.createReader(file);
 
             JsonArray winArray = (JsonArray) reader.read();        // parsing file
@@ -63,7 +66,7 @@ public class WindowFactory {
         throw new IDNotFoundException("Could't find matching Window Card");
     }
 
-    private WindowCard makeCard (JsonObject obj) {                  // create an object Window Card from the object coming from WindowInfo
+    private WindowCard makeCard (JsonObject obj) throws ValueException, PositionException {                  // create an object Window Card from the object coming from WindowInfo
         //setting up parameter to pass to the Constructor of WindowCard
         int id = Integer.parseInt(obj.get("ID").toString());
         int numFavPoint = Integer.parseInt(obj.get("FP").toString());
@@ -71,7 +74,7 @@ public class WindowFactory {
         String name = obj.getString("name");
 
         JsonArray cellArr = (JsonArray) obj.get("Cell");            // json array to extract Cells from WindowInfo
-        List<Cell> cells = new ArrayList<Cell>();
+        List<Cell> cells = new ArrayList<>();
 
         int i = 0;
         for (Object o : cellArr) {
@@ -82,26 +85,26 @@ public class WindowFactory {
         return new WindowCard(id, name, numFavPoint, cells);
     }
 
-    private Cell makeCell (JsonObject obj, int pos) {                        // create a Cell from the object
+    private Cell makeCell (JsonObject obj, int pos) throws ValueException, PositionException {                        // create a Cell from the object
         int value = Integer.parseInt(obj.get("value").toString());
-        Cell.colors color = parseColor(obj.getString("color"));
+        Colors color = parseColor(obj.getString("color"));
 
         return new Cell(value, color, pos);
     }
 
-    private Cell.colors parseColor(String string) {
+    private Colors parseColor(String string) {
         if (string.equals("YELLOW"))
-            return Cell.colors.YELLOW;
+            return Colors.YELLOW;
         else if (string.equals("RED"))
-            return Cell.colors.RED;
+            return Colors.RED;
         else if (string.equals("BLUE"))
-            return Cell.colors.BLUE;
+            return Colors.BLUE;
         else if (string.equals("GREEN"))
-            return Cell.colors.GREEN;
+            return Colors.GREEN;
         else if (string.equals("VIOLET"))
-            return Cell.colors.VIOLET;
+            return Colors.VIOLET;
 
-        return Cell.colors.NULL;
+        return Colors.NULL;
     }
 
 }

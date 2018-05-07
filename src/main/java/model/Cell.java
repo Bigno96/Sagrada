@@ -1,5 +1,10 @@
 package model;
 
+import exception.IDNotFoundException;
+import exception.NotEmptyException;
+import exception.PositionException;
+import exception.ValueException;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,20 +12,22 @@ import java.util.logging.Logger;
 
 public class Cell {
     private int value;
-    public enum colors {YELLOW, RED, BLUE, GREEN, VIOLET, NULL}
-    private colors color;
+    private Colors color;
     private Dice dice;
     private boolean isOccupied;
     private int pos;            // position from 0 to 19
-    private Set<Integer> borderPos = new HashSet<Integer>(Arrays.asList(0,1,2,3,4,5,9,10,14,15,16,17,18,19));
+    private Set<Integer> borderPos = new HashSet<>(Arrays.asList(0,1,2,3,4,5,9,10,14,15,16,17,18,19));
 
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
-    public Cell( int value, colors color, int pos )
-    {
+    public Cell(int value, Colors color, int pos) throws ValueException, PositionException {
+        if (value < 0 || value > 6)
+            throw new ValueException("Illegal Value");
         this.value = value;
         this.color = color;
         isOccupied = false;
+        if (pos < 0 || pos > 19)
+            throw new PositionException("Illegal Position");
         this.pos = pos;
     }
 
@@ -33,17 +40,17 @@ public class Cell {
         logger.info("Col: " + getColor() + " Val: " + getValue());
     }
 
-    public void changeColor(colors newColor) {
+    public void changeColor(Colors newColor) {
         this.color = newColor;
     }
 
-    public colors getColor()
-    {
+    public Colors getColor() {
         return this.color;
     }
 
-    public void changeValue( int newValue )
-    {
+    public void changeValue( int newValue ) throws ValueException {
+        if (newValue < 0 || newValue > 6)
+            throw new ValueException("Illegal Value");
         this.value = newValue;
     }
 
@@ -56,29 +63,32 @@ public class Cell {
         return this.isOccupied;
     }
 
-    public void setIsOccuped(boolean isOccuped){
-        this.isOccupied = isOccuped;
+    public void freeCell() {
+        if (isOccupied) {
+            this.dice = null;
+            isOccupied = false;
+        }
     }
 
-    public void setDice(Dice dice) {
+    public void setDice(Dice dice) throws NotEmptyException {
+        if (isOccupied)
+            throw new NotEmptyException("Cell not empty");
         this.dice = dice;
         isOccupied = true;
     }
 
     public boolean checkColor(){
-        if(this.getColor().equals(dice.getColor())  || this.getColor() == colors.NULL)
-            return true;
-        else return false;
+        return this.color.equals(dice.getColor()) || this.getColor() == Colors.NULL;
     }
 
     public boolean checkValue(){
-        if(this.getValue() == dice.getValue()  || this.getValue() == 0)
-            return true;
-        else return false;
+        return this.getValue() == dice.getValue()  || this.getValue() == 0;
     }
 
-    public Dice getDice() {
-        return dice;
+    public Dice getDice() throws IDNotFoundException {
+        if (dice == null)
+            return null;
+        return dice.copyDice();
     }
 
     public int getPos() {

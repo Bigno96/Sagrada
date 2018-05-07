@@ -1,21 +1,20 @@
 package model;
 
 
+import exception.*;
 import junit.framework.TestCase;
 import java.util.*;
-import exception.WrongPositionException;
-import exception.EmptyException;
 
 public class WindowCardTest extends TestCase{
 
-    private List<Cell> myCellList() {
+    private List<Cell> myCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<Cell>();
         for (int i=0; i<20; i++)
-            cellList.add(new Cell(0, Cell.colors.NULL, i));
+            cellList.add(new Cell(0, Colors.NULL, i));
         return cellList;
     }
 
-    public WindowCardTest(String testName){
+    public WindowCardTest(String testName) throws ValueException, PositionException {
         super(testName);
     }
 
@@ -41,24 +40,24 @@ public class WindowCardTest extends TestCase{
         assertEquals(5, card3.getNumFavPoint());
     }
     
-    public void testCheckFirstDice() throws EmptyException, WrongPositionException {
-        card1.cellList.get(0).setDice(new Dice(0, Dice.colors.GREEN));
+    public void testCheckFirstDice() throws EmptyException, WrongPositionException, IDNotFoundException, NotEmptyException {
+        card1.cellList.get(0).setDice(new Dice(0, Colors.GREEN));
         assertTrue(card1.checkFirstDice());
     }
 
-    public void testCheckOneDice() throws EmptyException {
-        card1.cellList.get(0).setDice(new Dice(0, Dice.colors.GREEN));
+    public void testCheckOneDice() throws EmptyException, IDNotFoundException, NotEmptyException {
+        card1.cellList.get(0).setDice(new Dice(0, Colors.GREEN));
         assertTrue(card1.checkOneDice());
     }
 
-    public void testCheckPlaceCond() throws WrongPositionException, EmptyException {
-        card1.cellList.get(0).setDice(new Dice(0, Dice.colors.GREEN));
+    public void testCheckPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, ValueException, NotEmptyException {
+        card1.cellList.get(0).setDice(new Dice(0, Colors.GREEN));
         card1.cellList.get(0).getDice().changeValue(1);
-        card1.cellList.get(1).setDice(new Dice(1, Dice.colors.RED));
+        card1.cellList.get(1).setDice(new Dice(1, Colors.RED));
         card1.cellList.get(1).getDice().changeValue(2);
-        card1.cellList.get(6).setDice(new Dice(2, Dice.colors.GREEN));
+        card1.cellList.get(6).setDice(new Dice(2, Colors.GREEN));
         card1.cellList.get(6).getDice().changeValue(3);
-        card2.cellList.get(0).setDice(new Dice(4, Dice.colors.GREEN));
+        card2.cellList.get(0).setDice(new Dice(4, Colors.GREEN));
         assertTrue(card1.checkPlaceCond());
         assertTrue(card2.checkPlaceCond());
     }

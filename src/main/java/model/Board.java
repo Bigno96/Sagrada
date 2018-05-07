@@ -1,12 +1,14 @@
 package model;
 
+import exception.IDNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Board {
 
-    private List<PublicObjective> publObj;
+    private List<ObjectiveCard> publObj;
     private ObjectiveStrategy objectiveStrategy;
     private ObjectiveFactory objectiveFactory;
     //private List<ToolCard> toolCard;
@@ -18,13 +20,13 @@ public class Board {
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
-    public Board(int nPlayer) {
+    public Board(int nPlayer) throws IDNotFoundException {
         objectiveStrategy = new ObjectiveStrategy();
         objectiveFactory = new ObjectiveFactory(objectiveStrategy);
-        publObj = new ArrayList<>();
+        publObj = new ArrayList<ObjectiveCard>();
         this.nPlayer = nPlayer;
         //toolCard = new ArrayList<ToolCard>;
-        diceBag = DiceBag.getInstance();
+        diceBag = new DiceBag();
         draft = new Draft(diceBag, (nPlayer*2)+1);
         roundTrack = new RoundTrack();
         windowFactory = new WindowFactory();
@@ -36,7 +38,7 @@ public class Board {
         this.publObj.add(obj3);
     }
 
-    public List<PublicObjective> getPublObj() {
+    public List<ObjectiveCard> getPublObj() {
         return publObj;
     }
 

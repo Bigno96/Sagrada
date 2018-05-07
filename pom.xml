@@ -5,7 +5,19 @@
   <groupId>it.polimi.ingsw</groupId>
   <artifactId>LM41</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <packaging>jar</packaging>
 
   <name>LM41</name>
   <url>http://maven.apache.org</url>
@@ -16,22 +28,22 @@
     <sonar.host.url> http://localhost:9000/ </sonar.host.url>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-      <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-api</artifactId>
-          <version>RELEASE</version>
-      </dependency>
-     <dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.2.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
           <groupId>org.glassfish</groupId>
           <artifactId>javax.json</artifactId>
           <version>1.1.2</version>
-     </dependency>
+        </dependency>
   </dependencies>
 </project>

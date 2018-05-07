@@ -1,6 +1,7 @@
 package model;
 
 import exception.EmptyException;
+import exception.IDNotFoundException;
 import junit.framework.TestCase;
 
 import java.util.Iterator;
@@ -8,7 +9,16 @@ import java.util.logging.Logger;
 
 public class DraftTest extends TestCase {
 
-    private DiceBag db = DiceBag.getInstance();
+    private DiceBag db;
+
+    {
+        try {
+            db = new DiceBag();
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
     private int nDice = 9;
     private Draft draft = new Draft(db, nDice);
     private static final Logger logger = Logger.getLogger(DraftTest.class.getName());
@@ -43,14 +53,19 @@ public class DraftTest extends TestCase {
 
     public void testModifyingDraft() {          // testing adding and removing
         int length = draft.diceRemaining();
-        Dice d = new Dice(91, Dice.colors.GREEN);
+        Dice d = null;
+        try {
+            d = new Dice(91, Colors.GREEN);
+            assertTrue(draft.addDice(d));
+            assertFalse(draft.addDice(d));
+            assertEquals(length+1, draft.diceRemaining());
+            assertSame(d, draft.findDice(d.getID()));
+            assertTrue(draft.rmDice(d));
+            assertFalse(draft.rmDice(d));
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        }
 
-        assertTrue(draft.addDice(d));
-        assertFalse(draft.addDice(d));
-        assertEquals(length+1, draft.diceRemaining());
-        assertSame(d, draft.findDice(d.getID()));
-        assertTrue(draft.rmDice(d));
-        assertFalse(draft.rmDice(d));
     }
 
     public void testSetnDice() {

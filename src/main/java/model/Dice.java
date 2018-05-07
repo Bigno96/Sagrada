@@ -1,17 +1,21 @@
 package model;
 
+import exception.IDNotFoundException;
+import exception.ValueException;
+
 import java.util.Random;
 import java.util.logging.Logger;
 
 public class Dice {
 
     private int value;
-    public enum colors {YELLOW, RED, BLUE, GREEN, VIOLET}
-    private colors color;
+    private Colors color;
     private int id;     // id between 0 and 89
     private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
-    public Dice( int id, colors color ) {
+    public Dice(int id, Colors color) throws IDNotFoundException {
+        if (id > 89 || id < 0)
+            throw new IDNotFoundException("ID not allowed");
         this.id = id;
         this.color = color;
         this.value = 0;
@@ -22,18 +26,15 @@ public class Dice {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public void dump()
-    {
+    public void dump() {
         logger.info("ID: " + getID() + " Col: " + getColor() + " Val: " + getValue());
     }
 
-    public int getID()
-    {
+    public int getID() {
         return this.id;
     }
 
-    public colors getColor()
-    {
+    public Colors getColor() {
         return this.color;
     }
 
@@ -42,14 +43,22 @@ public class Dice {
         value = rand.nextInt(6 ) + 1;
     }
 
-    public void changeValue( int newValue )
-    {
+    public void changeValue(int newValue) throws ValueException {
+        if (newValue < 0 || newValue > 6)
+            throw new ValueException("Illegal Value");
         this.value = newValue;
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return this.value;
+    }
+
+    public Dice copyDice() throws IDNotFoundException {
+        return new Dice(this.id, this.color);
+    }
+
+    public boolean isEqual(Dice d) {
+        return d.getID() == this.id && d.getValue() == this.value && d.getColor() == this.color;
     }
 
 }

@@ -22,7 +22,8 @@ public class ObjectiveFactory {
         String descr;
         JsonReader reader = null;
         try {
-            InputStream file = new FileInputStream("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/PrivateCard.json");
+            String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
+            InputStream file = new FileInputStream(infoPath);
             reader = Json.createReader(file);
 
             JsonArray objArray = (JsonArray) reader.read();
@@ -41,7 +42,8 @@ public class ObjectiveFactory {
         String descr;
         JsonReader reader = null;
         try {
-            InputStream file = new FileInputStream("/home/bigno/Uni/ProgettoSoftware/Git/src/main/java/infoFile/PublicCard.json");
+            String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PublicCard.json";
+            InputStream file = new FileInputStream(infoPath);
             reader = Json.createReader(file);
             JsonArray objArray = (JsonArray) reader.read();
 
