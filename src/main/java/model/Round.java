@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class Round {
 
     private List<Player> roundList;
-    private static final Logger logger = Logger.getLogger(Draft.class.getName());
+    private static final Logger logger = Logger.getLogger(Player.class.getName());
 
     public Round(){
         roundList = new ArrayList<Player>();

@@ -7,22 +7,32 @@ public class Player {
     private int id;
     private boolean firstTurn;
     private boolean secondTurn;
-    //private PrivateObjective privObj;
+    private PrivateObjective privObj;
+    private Board board;
     private WindowCard windCard;
     private int favorPoint;
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
-    public Player(int id) {
+    public Player(int id, Board board) {
         this.id = id;
         this.favorPoint = 0;
         this.firstTurn = true;
         this.secondTurn = true;
-        //this.privObj = null;
+        this.privObj = null;
         this.windCard = null;
+        this.board = board;
+    }
+
+    public void addWindowCard(WindowCard wind){
+        this.windCard= wind;
     }
 
     public int getId() {
         return id;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public void endFirstTurn() {

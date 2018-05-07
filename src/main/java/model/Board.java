@@ -1,43 +1,70 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Board {
 
-    //    private List<PublicObjective> publObj;
-//    private List<ToolCard> toolCard;
+    private List<PublicObjective> publObj;
+    private ObjectiveStrategy objectiveStrategy;
+    private ObjectiveFactory objectiveFactory;
+    //private List<ToolCard> toolCard;
     private DiceBag diceBag;
+    private Draft draft;
     private RoundTrack roundTrack;
+    private WindowFactory windowFactory;
+    private int nPlayer;
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
-
-    public Board() {
-        //publObj = new ArrayList PublicObjective;
+    public Board(int nPlayer) {
+        objectiveStrategy = new ObjectiveStrategy();
+        objectiveFactory = new ObjectiveFactory(objectiveStrategy);
+        publObj = new ArrayList<>();
+        this.nPlayer = nPlayer;
         //toolCard = new ArrayList<ToolCard>;
-        //diceBag = new DiceBag();
+        diceBag = DiceBag.getInstance();
+        draft = new Draft(diceBag, (nPlayer*2)+1);
         roundTrack = new RoundTrack();
+        windowFactory = new WindowFactory();
+     }
+
+    public void setPublObj(PublicObjective obj1, PublicObjective obj2, PublicObjective obj3) {
+        this.publObj.add(obj1);
+        this.publObj.add(obj2);
+        this.publObj.add(obj3);
     }
 
-    //givePublicObj
-
-    /*public void setPublicObj(PublicObjective publObj) {
-        this.publObj = publObj;
-    }*/
-
-    /*public PublicObjective getPublObj() {
+    public List<PublicObjective> getPublObj() {
         return publObj;
-    }*/
+    }
 
-     /*public void setToolCard(ToolCard toolCard, ToolCard toolCard, ToolCard toolCard) {
-        this.toolCard = toolCard(0);
-        this.toolCard = toolCard(1);
-        this.toolCard = toolCard(2);
-    }*/
+    public ObjectiveStrategy getObjectiveStrategy() {
+        return objectiveStrategy;
+    }
 
-    /*public PublicObjective getToolCard(int n) {
-        return toolCard(n);
-    }*/
+    public ObjectiveFactory getObjectiveFactory() {
+        return objectiveFactory;
+    }
 
-    //getDiceBag?
+    public DiceBag getDiceBag() {
+        return diceBag;
+    }
+
+    public Draft getDraft() {
+        return draft;
+    }
+
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
+    }
+
+    public WindowFactory getWindowFactory() {
+        return windowFactory;
+    }
+
+    public int getnPlayer() {
+        return nPlayer;
+    }
 }
