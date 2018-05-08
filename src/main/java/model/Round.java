@@ -1,5 +1,7 @@
 package model;
 
+import exception.EmptyException;
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -10,7 +12,7 @@ public class Round {
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
     public Round(){
-        roundList = new ArrayList<Player>();
+        roundList = new ArrayList<>();
     }
 
 
@@ -28,51 +30,48 @@ public class Round {
         }
     }
 
-    public boolean addPlayer(Player p){
-        return roundList.add(p);
+    public void addPlayer(Player p){
+        roundList.add(p);
     }
 
-    public boolean rmPlayer(Player p) {
+    public void rmPlayer(Player p) throws EmptyException {
         if (roundList.isEmpty()) {
-            return false;
+            throw new EmptyException("Round List is empty");
         } else {
             roundList.remove(p);
-            return true;
+
         }
     }
 
-    public Player nextTurn(){
-
-        for(Player itr: roundList){
-            if(itr.isFirstTurn()){
+    public Player nextPlayer(){
+        for (Player itr: roundList) {
+            if(itr.isFirstTurn()) {
                 itr.endFirstTurn();
                 return itr;
             }
         }
-        if(roundList.get(roundList.size()-1).isSecondTurn()){
-            roundList.get(roundList.size()-1).endSecondTurn();
-            return roundList.get(roundList.size()-1);
-        }else {
-            for (ListIterator<Player> itr = roundList.listIterator(roundList.size()); itr.hasPrevious(); itr.previous()) {
-                if (itr.previous().isSecondTurn()) {
-                    itr.previous().endSecondTurn();
-                    return itr.previous();
-                }
+
+        for (ListIterator<Player> itr = roundList.listIterator(roundList.size()); itr.hasPrevious();) {
+            Player p = itr.previous();
+            if (p.isSecondTurn()) {
+                p.endSecondTurn();
+                return p;
             }
         }
 
         return null;
     }
 
-    public void nextRound() throws NullPointerException{
-        Player firstIsLast = null;
-        firstIsLast = roundList.get(0);
-        roundList.add(firstIsLast);
-        Player first = roundList.get(0);
-        rmPlayer(first);
+    public void nextRound() {
+        List<Player> tmp = new ArrayList<>();
+        for(ListIterator<Player> itr = roundList.listIterator(1); itr.hasNext();) {
+            tmp.add(itr.next());
+        }
+        tmp.add(roundList.get(0));
 
-        Player p = null;
-        for(Player itr: roundList){
+        roundList = tmp;
+
+        for(Player p: roundList){
             try {
                 p.resetFirstTurn();
             }catch (NullPointerException e){

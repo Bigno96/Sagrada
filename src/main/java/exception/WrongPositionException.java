@@ -1,6 +1,7 @@
 package exception;
 
 public class WrongPositionException extends Exception{
+
     public WrongPositionException(){
         super();
     }

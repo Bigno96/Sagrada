@@ -1,13 +1,20 @@
 package model;
 
+import exception.EmptyException;
+import exception.IDNotFoundException;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class RoundTrack {
 
-    private List<ListRound> roundTrack = new ArrayList<ListRound>();
+    private List<ListRound> roundTrack = new ArrayList<>();
+    private Draft draft;
     private static final Logger logger = Logger.getLogger(RoundTrack.class.getName());
+
+
 
     @Override
     public String toString() {
@@ -23,7 +30,8 @@ public class RoundTrack {
         }
     }
 
-    public RoundTrack(){
+    public RoundTrack(Draft draft){
+        this.draft = draft;
         for (int i=0; i<10; i++){
             roundTrack.add(new ListRound());
         }
@@ -31,13 +39,19 @@ public class RoundTrack {
 
     public boolean findDice(Dice d){
         for(int i=0; i<10; i++) {
-            for (Dice itr : roundTrack.get(i).getListRound()) {
-                if (itr.equals(d)) {
+            for (Iterator<Dice> itr = roundTrack.get(i).itrListRound(); itr.hasNext();) {
+                if (itr.next().equals(d)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    public void moveDraft(int turn) {
+        List<Dice> copy = draft.copyDraft();
+        draft.freeDraft();
+        roundTrack.get(turn).addDice(copy);
     }
 
     //searchDice: metodo che dato valore e colore dado cerca, in tutte le listRound di roundTrack, e restituisce il dado

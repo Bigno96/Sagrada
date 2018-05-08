@@ -28,9 +28,7 @@ public class ObjectiveFactoryTest  extends TestCase {
             assertEquals("Row Shade Variety", publObj.getDescr());
             assertSame(5, publObj.getPoint());
 
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (FileNotFoundException e) {
+        } catch (IDNotFoundException | FileNotFoundException e) {
             logger.info(e.getMessage());
         }
     }
@@ -42,9 +40,7 @@ public class ObjectiveFactoryTest  extends TestCase {
             assertSame(19, privObj.getId());
             assertEquals("Shades of Yellow", privObj.getDescr());
             
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (FileNotFoundException e) {
+        } catch (IDNotFoundException | FileNotFoundException e) {
             logger.info(e.getMessage());
         }
     }
@@ -57,9 +53,7 @@ public class ObjectiveFactoryTest  extends TestCase {
             assertEquals("Row Shade Variety", publObj.getDescr());
             assertSame(0, publObj.getPoint());
 
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (FileNotFoundException e) {
+        } catch (IDNotFoundException | FileNotFoundException e) {
             logger.info(e.getMessage());
         }
     }

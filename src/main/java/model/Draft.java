@@ -1,6 +1,8 @@
 package model;
 
 import exception.EmptyException;
+import exception.IDNotFoundException;
+import exception.SameDiceException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,7 +17,7 @@ public class Draft {
     private static final Logger logger = Logger.getLogger(Draft.class.getName());
 
     public Draft(DiceBag diceBag, int nDice) {
-        draft = new ArrayList<Dice>();
+        draft = new ArrayList<>();
         this.diceBag = diceBag;
         this.nDice = nDice;
     }
@@ -55,11 +57,11 @@ public class Draft {
 
     public int diceRemaining() { return this.draft.size(); }
 
-    public Dice findDice(int id) {         // find and return Dice with passed id
-        for (final Dice d : draft)
+    public Dice findDice(int id) throws IDNotFoundException {         // find and return Dice with passed id
+        for (Dice d : draft)
         {
             if (d.getID() == id) {
-                return d;
+                return d.copyDice();
             }
         }
         return null;
@@ -69,20 +71,34 @@ public class Draft {
         return draft.iterator();
     }
 
-    public boolean rmDice(Dice d) {
-        if (draft.isEmpty()) {
-            return false;
-        } else {
-            return draft.remove(d);
-        }
+    public List<Dice> copyDraft() {
+        return new ArrayList<>(draft);
     }
 
-    public boolean addDice(Dice d) {
-        for (final Dice itr : draft) {
-            if (itr.equals(d))
-                return false;
+    public void freeDraft() {
+        draft.clear();
+    }
+
+    public void rmDice(Dice d) throws IDNotFoundException, EmptyException {
+        if (draft.isEmpty()) {
+            throw new EmptyException("Draft is empty");
+        } else {
+            for (Dice itr : draft) {
+                if (d.getID() == itr.getID()) {
+                    draft.remove(itr);
+                }
+            }
+
         }
-        return draft.add(d);
+        throw new IDNotFoundException("Id not found");
+    }
+
+    public void addDice(Dice d) throws SameDiceException {
+        for (Dice itr : draft) {
+            if (itr.getID() == d.getID())
+                throw new SameDiceException("Dice is already in Draft");
+        }
+        draft.add(d);
     }
 
     public void setnDice(int n) { this.nDice = n; }

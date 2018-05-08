@@ -37,7 +37,7 @@ public class PlayerTest extends TestCase {
 
     public void testEndFirstTurn(){
         player1.endFirstTurn();
-        assertTrue(player1.isFirstTurn());
+        assertFalse(player1.isFirstTurn());
     }
 
     public void testResetFirstTurn(){

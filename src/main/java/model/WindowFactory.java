@@ -29,7 +29,7 @@ public class WindowFactory {
     //@requires id1 != id2
     //@ensures return.size() == 4
     public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
-        List<WindowCard> ret = new ArrayList<WindowCard>();
+        List<WindowCard> ret = new ArrayList<>();
         JsonReader reader = null;
         try {
             String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowInfo.json";

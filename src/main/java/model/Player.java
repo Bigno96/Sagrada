@@ -23,6 +23,16 @@ public class Player {
         this.board = board;
     }
 
+    public Player(Player p) {
+        this.id = p.getId();
+        this.favorPoint = p.getFavorPoint();
+        this.firstTurn = true;
+        this.secondTurn = true;
+        this.privObj = null;
+        this.windCard = null;
+        this.board = p.getBoard();
+    }
+
     public void addWindowCard(WindowCard wind){
         this.windCard= wind;
     }
@@ -49,7 +59,6 @@ public class Player {
     }
 
     public void endSecondTurn() {
-
         this.secondTurn = false;
     }
 
@@ -83,6 +92,10 @@ public class Player {
 
     public int getFavorPoint(){
         return favorPoint;
+    }
+
+    public Player getCopy() {
+        return new Player(this);
     }
 
     @Override

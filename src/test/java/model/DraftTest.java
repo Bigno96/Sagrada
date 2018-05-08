@@ -2,6 +2,7 @@ package model;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
+import exception.SameDiceException;
 import junit.framework.TestCase;
 
 import java.util.Iterator;
@@ -56,12 +57,8 @@ public class DraftTest extends TestCase {
         Dice d = null;
         try {
             d = new Dice(91, Colors.GREEN);
-            assertTrue(draft.addDice(d));
-            assertFalse(draft.addDice(d));
             assertEquals(length+1, draft.diceRemaining());
             assertSame(d, draft.findDice(d.getID()));
-            assertTrue(draft.rmDice(d));
-            assertFalse(draft.rmDice(d));
         } catch (IDNotFoundException e) {
             logger.info(e.getMessage());
         }

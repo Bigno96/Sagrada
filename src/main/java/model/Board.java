@@ -23,12 +23,12 @@ public class Board {
     public Board(int nPlayer) throws IDNotFoundException {
         objectiveStrategy = new ObjectiveStrategy();
         objectiveFactory = new ObjectiveFactory(objectiveStrategy);
-        publObj = new ArrayList<ObjectiveCard>();
+        publObj = new ArrayList<>();
         this.nPlayer = nPlayer;
         //toolCard = new ArrayList<ToolCard>;
         diceBag = new DiceBag();
         draft = new Draft(diceBag, (nPlayer*2)+1);
-        roundTrack = new RoundTrack();
+        roundTrack = new RoundTrack(draft);
         windowFactory = new WindowFactory();
      }
 

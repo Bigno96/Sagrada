@@ -8,9 +8,6 @@ import java.util.logging.Logger;
 public class ListRound {
 
     private List<Dice> listRound;
-    private int nTurn;
-    private Draft draft;
-    private Dice dice;
     private static final Logger logger = Logger.getLogger(ListRound.class.getName());
 
     @Override
@@ -27,20 +24,24 @@ public class ListRound {
         }
     }
 
-    public ListRound(){
-        listRound = new ArrayList<Dice>();
+    public ListRound() {
+        listRound = new ArrayList<>();
     }
 
-    public void addDice(){
-        for(Iterator<Dice> itr = draft.itrDraft(); itr.hasNext(); itr.next()){
-            dice = draft.findDice(itr.next().getID());
-            listRound.add(dice);
-            draft.rmDice(dice);
-        }
+    public void addDice(Dice d){
+        listRound.add(d);
     }
 
-    public List<Dice> getListRound(){
-        return this.listRound;
+    public void addDice(List<Dice> d){
+        listRound.addAll(d);
+    }
+
+    public List<Dice> copyListRound() {
+        return new ArrayList<>(listRound);
+    }
+
+    public Iterator<Dice> itrListRound() {
+        return listRound.iterator();
     }
 
     public boolean rmDice(Dice d) {
@@ -52,7 +53,6 @@ public class ListRound {
     }
 
    public Dice getDice(int i){
-        dice = listRound.get(i);
-        return dice;
+        return listRound.get(i);
     }
 }
