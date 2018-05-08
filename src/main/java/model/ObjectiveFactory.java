@@ -1,11 +1,10 @@
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import exception.IDNotFoundException;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import java.io.*;
 import java.util.logging.Logger;
 
@@ -20,19 +19,12 @@ public class ObjectiveFactory {
 
     public ObjectiveCard getPrivCard(int id) throws FileNotFoundException, IDNotFoundException {
         String descr;
-        JsonReader reader = null;
-        try {
-            String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
-            InputStream file = new FileInputStream(infoPath);
-            reader = Json.createReader(file);
+        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
+        JsonParser parser = new JsonParser();
 
-            JsonArray objArray = (JsonArray) reader.read();
-            descr = findDescr(id, objArray);
+        JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
 
-        } finally {
-            if (reader != null)
-                reader.close();
-        }
+        descr = findDescr(id, objArray);
 
         return new PrivateObjective(id, descr, objStrat);
     }
@@ -40,19 +32,13 @@ public class ObjectiveFactory {
     public ObjectiveCard getPublCard(int id) throws FileNotFoundException, IDNotFoundException {
         int point;
         String descr;
-        JsonReader reader = null;
-        try {
-            String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PublicCard.json";
-            InputStream file = new FileInputStream(infoPath);
-            reader = Json.createReader(file);
-            JsonArray objArray = (JsonArray) reader.read();
+        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PublicCard.json";
+        JsonParser parser = new JsonParser();
 
-            point = findPoint(id, objArray);
-            descr = findDescr(id, objArray);
-        } finally {
-            if (reader != null)
-                reader.close();
-        }
+        JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
+
+        point = findPoint(id, objArray);
+        descr = findDescr(id, objArray);
 
         return new PublicObjective(id, descr, point, objStrat);
     }
@@ -71,7 +57,7 @@ public class ObjectiveFactory {
         for (Object o : objArr) {
             JsonObject obj = (JsonObject) o;
             if (Integer.parseInt(obj.get("ID").toString()) == id) {
-                return obj.getString("descr");
+                return obj.get("descr").getAsString();
             }
         }
         throw new IDNotFoundException("Could't find matching Objective Card");

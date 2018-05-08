@@ -36,15 +36,14 @@ public class Draft {
         }
     }
 
-    public boolean fillDraft() throws EmptyException {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
+    public boolean fillDraft() throws EmptyException, IDNotFoundException {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
         for (int i = 0; i < nDice; i++) {
             final Dice d = diceBag.randDice();
             if (d == null)
-                throw new EmptyException("No Dice in Draft");
-            if (!draft.add(d))
-                return false;
+                throw new EmptyException("No Dice in Bag");
+            draft.add(d);
             if (!diceBag.rmDice(d))
-                return false;
+                throw new IDNotFoundException("No dice with that id");
         }
         return true;
     }
@@ -83,9 +82,10 @@ public class Draft {
         if (draft.isEmpty()) {
             throw new EmptyException("Draft is empty");
         } else {
-            for (Dice itr : draft) {
-                if (d.getID() == itr.getID()) {
-                    draft.remove(itr);
+            for (Dice dice : draft) {
+                if (d.getID() == dice.getID()) {
+                    draft.remove(dice);
+                    return;
                 }
             }
 

@@ -1,9 +1,13 @@
 package model;
 
+import exception.EmptyException;
 import exception.IDNotFoundException;
+import exception.SameDiceException;
 import junit.framework.TestCase;
 
 import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DiceBagTest extends TestCase {
 
@@ -12,6 +16,12 @@ public class DiceBagTest extends TestCase {
 
     public DiceBagTest(String testName) {
         super(testName);
+    }
+
+    public void testDiceBagEmpty() {
+        DiceBag db = new DiceBag(true);
+
+        assertNull(db.findDice(id));
     }
 
     public void testFindDice() throws IDNotFoundException {            // testing finding a Dice based on his id
@@ -30,11 +40,11 @@ public class DiceBagTest extends TestCase {
 
         d.rollDice();
 
-        assertNotSame(d, db1.randDice());
+        assertNotSame(d.getID(), db1.randDice().getID());
         assertEquals(90, db1.diceRemaining());
     }
 
-    public void testDiceRemaining() throws IDNotFoundException {
+    public void testDiceRemaining() throws IDNotFoundException, EmptyException {
         DiceBag db1 = new DiceBag();
         int length = db1.diceRemaining();
 
@@ -45,29 +55,37 @@ public class DiceBagTest extends TestCase {
         }
     }
 
-    public void testDiceAdding() throws IDNotFoundException {          // testing addDice
+    public void testDiceAdding() throws IDNotFoundException, EmptyException, SameDiceException {          // testing addDice
         DiceBag db1 = new DiceBag();
         Dice d = db1.findDice(random.nextInt(90));
 
-        assertTrue(db1.rmDice(d));
-        assertFalse(db1.rmDice(d));
-        assertTrue(db1.addDice(d));
-        assertFalse(db1.addDice(d));
+        db1.rmDice(d);
+
+        assertNull(db1.findDice(d.getID()));
+        assertThrows(IDNotFoundException.class, () -> db1.rmDice(d));
+
+        db1.addDice(d);
+
+        assertSame(d.getID(), db1.findDice(d.getID()).getID());
+        assertThrows(SameDiceException.class, () -> db1.addDice(d));
     }
 
-    public void testDiceRemoving() throws IDNotFoundException {       // test removeDice
+    public void testDiceRemoving() throws IDNotFoundException, EmptyException {       // test removeDice
         DiceBag db1 = new DiceBag();
+
         assertEquals(90, db1.diceRemaining());
+
         Dice d = db1.findDice(random.nextInt(90));
 
         for (int i = 0; i < 90; i++) {
             Dice itr = db1.findDice(i);
+            db1.rmDice(itr);
 
-            assertTrue(db1.rmDice(itr));
-
+            assertNull(db1.findDice(itr.getID()));
         }
+
         assertEquals(0, db1.diceRemaining());
-        assertFalse(db1.rmDice(d));
+        assertThrows(EmptyException.class, () -> db1.rmDice(d));
         assertNull(db1.randDice());
     }
 

@@ -1,6 +1,8 @@
 package model;
 
+import exception.EmptyException;
 import exception.IDNotFoundException;
+import exception.SameDiceException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,11 @@ public class DiceBag {
         }
     }
 
+    public DiceBag(boolean empty) {
+        if (empty)
+            dices = new ArrayList<>();
+    }
+
     @Override
     public String toString() {
         return getClass().getName() + "@ " + this.hashCode();
@@ -47,7 +54,7 @@ public class DiceBag {
         return null;
     }
 
-    public Dice randDice() {                // return random dice between the ones in the bag that doesn't have a value
+    public Dice randDice() throws IDNotFoundException {                // return random dice between the ones in the bag that doesn't have a value
         if (dices.isEmpty())            // if bag is empty, return null
             return null;
         Dice d;
@@ -56,23 +63,29 @@ public class DiceBag {
             d = findDice(rand.nextInt(dices.size()));
         } while (d == null || d.getValue() != 0);
 
-        return d;
+        return d.copyDice();
     }
 
     public int diceRemaining() { return this.dices.size(); }
 
-    public boolean rmDice(Dice d) {         // remove Dice d if the bag is not empty
+    public boolean rmDice(Dice d) throws EmptyException, IDNotFoundException {         // remove Dice d if the bag is not empty
         if (dices.isEmpty()) {
-            return false;
+            throw new EmptyException("Draft is empty");
         } else {
-            return dices.remove(d);
+            for (Dice itr : dices) {
+                if (d.getID() == itr.getID()) {
+                    return dices.remove(itr);
+                }
+            }
+
         }
+        throw new IDNotFoundException("Id not found");
     }
 
-    public boolean addDice(Dice d) {        // add Dice d if d it's not already in the bag
-        for (final Dice itr : dices) {
-            if (itr.equals(d))
-                return false;
+    public boolean addDice(Dice d) throws SameDiceException {        // add Dice d if d it's not already in the bag
+        for (Dice itr : dices) {
+            if (itr.getID() == d.getID())
+                throw new SameDiceException("Dice is already in Draft");
         }
         return dices.add(d);
     }
