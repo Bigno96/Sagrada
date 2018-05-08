@@ -3,7 +3,11 @@ package model;
 import exception.IDNotFoundException;
 import junit.framework.TestCase;
 
-public class ListRoundTest extends TestCase {
+public class ListDiceRoundTest extends TestCase {
+
+    public ListDiceRoundTest(String testName) {
+        super(testName);
+    }
 
     public void testListRound() throws IDNotFoundException {
         Dice dice1G = new Dice(1, Colors.YELLOW);
@@ -11,7 +15,7 @@ public class ListRoundTest extends TestCase {
         DiceBag db = new DiceBag();
         int nDice = 9;
         Draft draft = new Draft(db, nDice);
-        ListRound listRound = new ListRound();
+        ListDiceRound listDiceRound = new ListDiceRound();
 
 
     }

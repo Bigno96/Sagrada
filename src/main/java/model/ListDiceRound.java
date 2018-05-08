@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ListRound {
+public class ListDiceRound {
 
-    private List<Dice> listRound;
-    private static final Logger logger = Logger.getLogger(ListRound.class.getName());
+    private List<Dice> listDiceRound;
+    private static final Logger logger = Logger.getLogger(ListDiceRound.class.getName());
 
     @Override
     public String toString() {
@@ -18,41 +18,41 @@ public class ListRound {
     public void dump()
     {
         logger.info("contains following dices: ");
-        for (Dice d :listRound )
+        for (Dice d : listDiceRound)
         {
             d.dump();
         }
     }
 
-    public ListRound() {
-        listRound = new ArrayList<>();
+    public ListDiceRound() {
+        listDiceRound = new ArrayList<>();
     }
 
     public void addDice(Dice d){
-        listRound.add(d);
+        listDiceRound.add(d);
     }
 
     public void addDice(List<Dice> d){
-        listRound.addAll(d);
+        listDiceRound.addAll(d);
     }
 
     public List<Dice> copyListRound() {
-        return new ArrayList<>(listRound);
+        return new ArrayList<>(listDiceRound);
     }
 
     public Iterator<Dice> itrListRound() {
-        return listRound.iterator();
+        return listDiceRound.iterator();
     }
 
     public boolean rmDice(Dice d) {
-        if (listRound.isEmpty()) {
+        if (listDiceRound.isEmpty()) {
             return false;
         } else {
-            return listRound.remove(d);
+            return listDiceRound.remove(d);
         }
     }
 
    public Dice getDice(int i){
-        return listRound.get(i);
+        return listDiceRound.get(i);
     }
 }

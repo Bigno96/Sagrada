@@ -1,8 +1,5 @@
 package model;
 
-import exception.EmptyException;
-import exception.IDNotFoundException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +7,7 @@ import java.util.logging.Logger;
 
 public class RoundTrack {
 
-    private List<ListRound> roundTrack = new ArrayList<>();
+    private List<ListDiceRound> roundTrack = new ArrayList<>();
     private Draft draft;
     private static final Logger logger = Logger.getLogger(RoundTrack.class.getName());
 
@@ -24,7 +21,7 @@ public class RoundTrack {
     public void dump()
     {
         logger.info("contains following : ");
-        for (ListRound r :roundTrack )
+        for (ListDiceRound r :roundTrack )
         {
             r.dump();
         }
@@ -33,7 +30,7 @@ public class RoundTrack {
     public RoundTrack(Draft draft){
         this.draft = draft;
         for (int i=0; i<10; i++){
-            roundTrack.add(new ListRound());
+            roundTrack.add(new ListDiceRound());
         }
     }
 

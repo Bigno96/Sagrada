@@ -1,62 +1,52 @@
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import exception.IDNotFoundException;
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Random;
 import java.util.logging.Logger;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ObjectiveFactoryTest  extends TestCase {
 
     private ObjectiveStrategy objStrat = new ObjectiveStrategy();
     private ObjectiveFactory objFact = new ObjectiveFactory(objStrat);
+    private static final Random random = new Random();
     private static final Logger logger = Logger.getLogger(ObjectiveFactoryTest.class.getName());
 
     public ObjectiveFactoryTest(String testName) {
         super(testName);
     }
 
-    public void testGetObjCard() {
-        try {
-            ObjectiveCard privObj = objFact.getPrivCard(1);
-            ObjectiveCard publObj = objFact.getPublCard(3);
+    public void testGetPrivCard() throws FileNotFoundException, IDNotFoundException {
+        int idPriv = random.nextInt(5)+1;
+        ObjectiveCard privObj = objFact.getPrivCard(idPriv);
 
-            assertSame(1, privObj.getId());
-            assertEquals("Shades of Yellow", privObj.getDescr());
-
-            assertSame(3, publObj.getId());
-            assertEquals("Row Shade Variety", publObj.getDescr());
-            assertSame(5, publObj.getPoint());
-
-        } catch (IDNotFoundException | FileNotFoundException e) {
-            logger.info(e.getMessage());
-        }
+        assertSame(idPriv, privObj.getId());
     }
 
-    public void testNegativePriv() {
-        try {
-            ObjectiveCard privObj = objFact.getPrivCard(19);
+    public void testGetPublCard() throws FileNotFoundException, IDNotFoundException {
+        int idPubl = random.nextInt(10)+1;
+        ObjectiveCard publObj = objFact.getPublCard(idPubl);
 
-            assertSame(19, privObj.getId());
-            assertEquals("Shades of Yellow", privObj.getDescr());
-            
-        } catch (IDNotFoundException | FileNotFoundException e) {
-            logger.info(e.getMessage());
-        }
+        assertSame(idPubl, publObj.getId());
     }
 
-    public void testNegativePubl() {
-        try {
-            ObjectiveCard publObj = objFact.getPublCard(31);
+    public void testExceptionPriv() {
+        int idPriv = random.nextInt(1)+6;
 
-            assertSame(31, publObj.getId());
-            assertEquals("Row Shade Variety", publObj.getDescr());
-            assertSame(0, publObj.getPoint());
-
-        } catch (IDNotFoundException | FileNotFoundException e) {
-            logger.info(e.getMessage());
-        }
+        assertThrows(IDNotFoundException.class, () -> objFact.getPrivCard(idPriv));
     }
 
+    public void testExceptionPubl() {
+        int idPubl = random.nextInt(1)+11;
+
+        assertThrows(IDNotFoundException.class, () -> objFact.getPrivCard(idPubl));
+    }
 
 }
