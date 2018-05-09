@@ -7,73 +7,78 @@ import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Random;
 
 public class PlayerTest extends TestCase {
 
-    private Board board;
-
-    {
-        try {
-            board = new Board(4);
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
-        }
-    }
-
-    private Player player1 = new Player(1, board);
-    private Player player2 = new Player(2, board);
+    private static final Random random = new Random();
+    private int nPlayer = random.nextInt(3)+2;
+    private int id = random.nextInt(100);
+    private Board board = new Board(nPlayer);
     private WindowFactory winFact = new WindowFactory();
-    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
+    private ObjectiveStrategy objStrat = new ObjectiveStrategy();
+    private ObjectiveFactory objFact = new ObjectiveFactory(objStrat);
 
-    public PlayerTest(String testName){
+    public PlayerTest(String testName) throws IDNotFoundException {
         super(testName);
     }
 
+    public void testWindowCard() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+        Player p = new Player(id, board);
+        int pick = random.nextInt(4);
+        int idCard1 = random.nextInt(12)+1;
+        int idCard2;
 
-    public void testIsFirstTurn(){
-        assertTrue(player1.isFirstTurn());
+        if (idCard1+1 > 12)
+            idCard2 = 1;
+        else
+            idCard2 = idCard1 +1;
+
+        List<WindowCard> windows = winFact.getWindow(idCard1, idCard2);
+        WindowCard winCard = windows.get(pick);
+
+        p.setWindowCard(winCard);
+        assertSame(winCard, p.getWindowCard());
     }
 
-    public void testEndFirstTurn(){
-        player1.endFirstTurn();
-        assertFalse(player1.isFirstTurn());
+    public void testGetID() {
+        Player p = new Player(id, board);
+
+        assertSame(id, p.getId());
     }
 
-    public void testResetFirstTurn(){
-        player1.resetFirstTurn();
-        assertTrue(player1.isFirstTurn());
+    public void testGetBoard() {
+        Player p = new Player(id, board);
+
+        assertSame(board, p.getBoard());
     }
 
+    public void testTurn() {
+        Player p = new Player(id, board);
 
-    public void testSetFavor1(){
-        assertEquals(0, player1.getFavorPoint());
+        assertTrue(p.isTurn());
+        p.endTurn();
+        assertFalse(p.isTurn());
+        p.resetTurn();
+        assertTrue(p.isTurn());
     }
 
-    public void testSetFavor2(){
-        player1.setFavorPoint(1);
-        assertEquals(1, player1.getFavorPoint());
+    public void testPrivObj() throws FileNotFoundException, IDNotFoundException {
+        Player p = new Player(id, board);
+        int n = random.nextInt(5)+1;
+
+        ObjectiveCard obj = objFact.getPrivCard(n);
+
+        p.setPrivObj(obj);
+        assertSame(obj, p.getPrivObj());
     }
 
-    public void testGetId(){
-        assertEquals(1, player1.getId());
-        assertEquals(2, player2.getId());
-    }
+    public void testFavorPoint() {
+        Player p = new Player(id, board);
+        int fp = random.nextInt(7);
 
-    public void testWindCard() throws ValueException, PositionException {
-        int x = 2;
-        int y = 4;
-        try {
-            List<WindowCard> winCardList = winFact.getWindow(x, y);
-            WindowCard windCard = winCardList.get(0);
-            assertSame(null, player1.getWind());
-            player1.setWind(windCard);
-            assertSame(windCard, player1.getWind());
-        } catch (FileNotFoundException e) {
-            logger.info(e.getMessage());
-        } catch (IDNotFoundException e) {
-            logger.info(e.getMessage());
-        }
+        p.setFavorPoint(fp);
+        assertSame(fp, p.getFavorPoint());
     }
 
 }

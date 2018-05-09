@@ -1,5 +1,6 @@
 package model;
 
+import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
 
@@ -50,4 +51,15 @@ public class RoundTrack {
         trackList.get(round).addDice(copy);
     }
 
+    public boolean addDice(Dice d, int round) throws SameDiceException {
+        if (round < 0 || round > 9)
+            throw new IndexOutOfBoundsException("Round doesn't exists");
+        return trackList.get(round).addDice(d);
+    }
+
+    public boolean rmDice(Dice d, int round) throws EmptyException, IDNotFoundException {
+        if (round < 0 || round > 9)
+            throw new IndexOutOfBoundsException("Round doesn't exists");
+        return trackList.get(round).rmDice(d);
+    }
 }

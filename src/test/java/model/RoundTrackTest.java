@@ -5,7 +5,6 @@ import exception.IDNotFoundException;
 import exception.SameDiceException;
 import junit.framework.TestCase;
 
-import java.net.IDN;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,7 +23,7 @@ public class RoundTrackTest extends TestCase {
         super( testName );
     }
 
-    public void testFindDice() throws EmptyException, IDNotFoundException, SameDiceException {
+    public void testFindDice() throws IDNotFoundException, SameDiceException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
         draft.addDice(d);
@@ -49,9 +48,60 @@ public class RoundTrackTest extends TestCase {
         Dice dDiff = new Dice(idDiff, col);
 
         assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(d.getID()));
-        
+
         roundTrack.moveDraft(round);
 
         assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(dDiff.getID()));
+    }
+
+    public void testAddDice() throws IDNotFoundException, SameDiceException {
+        RoundTrack roundTrack = new RoundTrack(draft);
+        Dice d = new Dice(id, col);
+        int roundNeg = random.nextInt() - (random.nextInt()+1);
+        int roundOver = random.nextInt() + 10;
+        int roundDiff;
+
+        if (round+1 > 9)
+            roundDiff = 0;
+        else
+            roundDiff = round+1;
+
+        assertTrue(roundTrack.addDice(d, round));
+        assertSame(id, roundTrack.findDice(id).getID());
+        assertTrue(roundTrack.addDice(d, roundDiff));
+        assertSame(id, roundTrack.findDice(id).getID());
+        assertThrows(SameDiceException.class, () -> roundTrack.addDice(d, round));
+        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.addDice(d, roundNeg));
+        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.addDice(d, roundOver));
+    }
+
+    public void testRmDice() throws IDNotFoundException, SameDiceException, EmptyException {
+        RoundTrack roundTrack = new RoundTrack(draft);
+        Dice d = new Dice(id, col);
+        int roundNeg = random.nextInt() - (random.nextInt()+1);
+        int roundOver = random.nextInt() + 10;
+        int roundDiff, idDiff;
+
+        if (round+1 > 9)
+            roundDiff = 0;
+        else
+            roundDiff = round+1;
+
+        if (id+1 > 90)
+            idDiff = 0;
+        else
+            idDiff = id+1;
+
+        Dice dDiff = new Dice(idDiff, col);
+
+        roundTrack.addDice(d, round);
+        roundTrack.addDice(dDiff, round);
+
+        assertThrows(EmptyException.class, () -> roundTrack.rmDice(d, roundDiff));
+        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.rmDice(d, roundNeg));
+        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.rmDice(d, roundOver));
+        assertTrue(roundTrack.rmDice(d, round));
+        assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(id));
+        assertThrows(IDNotFoundException.class, () -> roundTrack.rmDice(d, round));
     }
  }

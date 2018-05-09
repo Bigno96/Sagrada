@@ -1,56 +1,84 @@
-## TestPassed
+# TestPassed
 
-- # Cell : testIsOccupied : if cell is occupied is impossible to insert a Dice else return null
-           testChangeColor : change cell color
-           testChangeValue : change cell value
-           testGetPos : return position of the cell
-           testIsBorder : return true if position of cell is on the boarder
-           testValueException : impossible value of cell
-           testPositionException : incorrect position of cell
-           testNotEmptyException : when adding dice in not empty cell
+## Cell :
+* **testChangeDiceValue** : changing value of dice in the cell
+* **testIsOccupied** : testing if cell is already occupied is impossible to insert a Dice
+* **testGetPos** : testing the position inside WindowCard of cell
+* **testIsBorder** : testing return true if position of cell is on the border
+* **testCheck** : testing control over value and color restrictions
+* **testValueException** : testing reaction to impossible value of cell
+* **testPositionException** : testing incorrect position of cell
+* **testNotEmptyException** : testing reaction to an addition of dice in an occupied cell
 
-- # DiceBag :   testFindDice : test if the dice is in the bag
-                testRandDice : testing the extraction of a random Dice, without removing it from Bag
-                testDiceRemaining : test the number of remaining dice in the bag after a rollDice call
-                testDiceAdding : testing add dice
-                testDiceRemoving : testing remove dice
+## DiceBag :
+* **testDiceBagEmpty**: testing if cannot find a dice in an empty bag
+* **testFindDice**: testing if can find a dice in the bag
+* **testRandDice**: testing the extraction of a random Dice, without removing it from Bag
+* **testDiceRemaining**: testing the number of remaining dices in the bag after a rollDice call
+* **testDiceAdding**: testing add dice
+** testDiceRemoving**: testing remove dice
 
-- # Dice : testGetter : test getId getColor of dice
-           testIDNotFoundException : incorrect Id
-           testRollDice : test value of dice must between 0 - 7
-           testChangeValue :  test the correct change of the value of the dice
-           testValueException : test the insertion of the value of the dice
-           testCopyDice : test if the copy of the dice is correct
+##Dice :
+* **testGetter**: testing getId, getColor
+* **testIDNotFoundException**: incorrect Id passed when creating Dice
+* **testRollDice**: testing value of dice must be 1 from 6
+* **testChangeValue**: testing change of the value of a dice
+* **testValueException**: testing the changing to an incorrect value
+* **testCopyDice**: testing if copy of the dice is correct
 
-- # Draft : testFillDraft : testing fillDraft with size of diceBag before and after and with size of draft
-            testRollDraft : testing rolling dices of draft
-            testModifyingDraft : testing adding and removing
-            testSetnDice : test if SetnDice is correct
+## Draft :
+* **testFillDraft**: testing fillDraft of random dice from DiceBag
+* **testEmptyException**: testing reaction of fillDraft when DiceBag is empty
+* **testRollDraft**: testing rolling dices of draft
+* **testModifyingDraft**: testing adding and removing
+* **testSetnDice**: testing setter of nDice of draft
 
-- # ListRound : testListRound : test the correct fill of ListRound with dice of draft in this turn
+## ListDiceRound :
+* **testAddDice**: testing adding Dice to a round of RoundTrack
+* **testRemoveDice**: testing removing Dice from a round of RoundTrack
+* **testEmptyException**: testing reaction when removing from an empty ListDiceRound
+* **testIDNotFoundException**: testing reaction when asking for a Dice not in ListDiceRound
+* **testGetDice**: testing if a Dice can be found
+* **testContains**: testing the presence of a Dice
 
-- # ObjetiveCard :  testId : test getId
-                    testPoint : test getPoint
-                    testDescr : test getDescr
-                    testFP : test getFP
+## ObjectiveCard :
+* **testId**: testing getId
+* **testPoint**: testing getPoint
+* **testDescr**: testing getting Description
+* **testFP**: testing getting and setting favor point
 
-- # ObjectiveFactoryCard :  testGetObjCard : test getObjCard both privateCard publicCard
-                            testNegativePriv : test incorrect attributes of privateCard
-                            testNegativePubl : test incorrect attributes of publicCard
+## ObjectiveFactory:
+* **testGetPrivCard**: testing getting a private Objective with a specific id
+* **testGetPublCard**: testing getting a public Objective with a specific id
+* **testExceptionPriv**: testing reaction when getting a private Objective with an incorrect id
+* **testExceptionPubl**: testing reaction when getting a public Objective with an incorrect id
 
-- # Player : testIsFirstTurn : return true if is the first turn of player in this round
-             testEndFirstTurn : set firstTurn to false
-             testResetFirstTurn : reset firstTurn to true
-             testGetId : return id of player
-             testWindCard : test of windowCard on player
+## Player:
+* **testWindowCard**: testing setter and getter of WindowCard of the player
+* **testGetId**: testing getter id of player
+* **testGetBoard**: testing getter of the game board where player plays
+* **testTurn**: testing if is player turn, passing turn and reading up for another turn
+* **testPrivObj**: testing setter and getter of Private Objective of the player
+* **testFavorPoint**: testing setter and getter of favor point of the player
 
-- # Round : testNextTurn : the correct order of the players in the turn
-            testNextRound : test the new order of player after endRound
+## Round :
+* **testAddPlayer**: testing adding player
+* **testSamePlayerException**: testing reaction when adding the same player more than once
+* **testPlayerNotFoundException**: testing reaction when trying to find a player that doesn't exists
+* **testRmPlayer**: testing removing player
+* **testNextPlayer**: testing the correct order of the players in a round
+* **testNextRound**: testing the new order of player in a new round
 
-- # RoundTrack : testFindDice : the correct search of the dice in the roundTrack
+## RoundTrack :
+* **testFindDice**: testing the correct search of a dice in round Track
+* **testIDNotFoundException**: testing reaction when trying to find a dice not in round Track
+* **testAddDice**: testing about adding dices and reaction to illegal adding attempts
+* **testRmDice**: testing about removing dices and reaction to illegal removing attempts
 
-- # WindowCard : testGetter : test getId, getName, getNumFavPoint and getCell
-                 testIdNotFoundException : test incorrect Id
+## WindowCard :
+* **testGetter**: testing getId, getName, getNumFavPoint and getCell
+* **testIdNotFoundException**: testing reaction to an incorrect Id
 
-- # WindowFactory : testPositiveGetWindow : test correct factory WindowCard
-                    testNegativeGetWindow : test incorrect factory WindowCard
+## WindowFactory :
+* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
+* **testException**: testing reaction to incorrect research

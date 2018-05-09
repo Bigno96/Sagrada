@@ -5,9 +5,8 @@ import java.util.logging.Logger;
 public class Player {
 
     private int id;
-    private boolean firstTurn;
-    private boolean secondTurn;
-    private PrivateObjective privObj;
+    private boolean turn;
+    private ObjectiveCard privObj;
     private Board board;
     private WindowCard windCard;
     private int favorPoint;
@@ -16,25 +15,18 @@ public class Player {
     public Player(int id, Board board) {
         this.id = id;
         this.favorPoint = 0;
-        this.firstTurn = true;
-        this.secondTurn = true;
+        this.turn = true;
         this.privObj = null;
         this.windCard = null;
         this.board = board;
     }
 
-    public Player(Player p) {
-        this.id = p.getId();
-        this.favorPoint = p.getFavorPoint();
-        this.firstTurn = true;
-        this.secondTurn = true;
-        this.privObj = null;
-        this.windCard = null;
-        this.board = p.getBoard();
+    public void setWindowCard(WindowCard windCard){
+        this.windCard = windCard;
     }
 
-    public void addWindowCard(WindowCard wind){
-        this.windCard= wind;
+    public WindowCard getWindowCard() {
+        return windCard;
     }
 
     public int getId() {
@@ -45,57 +37,32 @@ public class Player {
         return board;
     }
 
-    public void endFirstTurn() {
-
-        this.firstTurn = false;
+    public boolean isTurn() {
+        return this.turn;
     }
 
-    public boolean isFirstTurn() {
-        return firstTurn;
+    public void resetTurn() {
+        this.turn = true;
     }
 
-    public void resetFirstTurn() {
-        firstTurn = true;
+    public void endTurn() {
+        this.turn = false;
     }
 
-    public void endSecondTurn() {
-        this.secondTurn = false;
-    }
-
-    public boolean isSecondTurn() {
-        return secondTurn;
-    }
-
-    public void resetSecondTurn() {
-        secondTurn=true;
-    }
-
-    /*public void setPrivObj(PrivateObjective privObj) {
+    public void setPrivObj(ObjectiveCard privObj) {
         this.privObj = privObj;
-    }*/
+    }
 
-    /*public PrivateObjective getPrivObj() {
+    public ObjectiveCard getPrivObj() {
         return privObj;
-    }*/
-
-    public void setWind(WindowCard windCard) {
-        this.windCard = windCard;
     }
 
-    public WindowCard getWind() {
-        return windCard;
-    }
-
-    public void setFavorPoint(int favorInt){
-        this.favorPoint = favorInt;
+    public void setFavorPoint(int favorPoint){
+        this.favorPoint = favorPoint;
     }
 
     public int getFavorPoint(){
         return favorPoint;
-    }
-
-    public Player getCopy() {
-        return new Player(this);
     }
 
     @Override
