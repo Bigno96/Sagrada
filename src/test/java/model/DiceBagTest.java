@@ -26,7 +26,7 @@ public class DiceBagTest extends TestCase {
 
     public void testFindDice() throws IDNotFoundException {            // testing finding a Dice based on his id
         DiceBag db1 = new DiceBag();
-        int idOver = random.nextInt(1)+90;
+        int idOver = random.nextInt()+90;
 
         assertEquals(id, db1.findDice(id).getID());
         assertNull(db1.findDice(idOver));
@@ -46,7 +46,6 @@ public class DiceBagTest extends TestCase {
 
     public void testDiceRemaining() throws IDNotFoundException, EmptyException {
         DiceBag db1 = new DiceBag();
-        int length = db1.diceRemaining();
 
         for (int i=0; i<90; i++) {
             db1.rmDice(db1.findDice(i));

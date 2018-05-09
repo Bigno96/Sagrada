@@ -26,7 +26,7 @@ public class DiceTest extends TestCase {
 
     public void testIDNotFoundException() {
         final int randNeg = random.nextInt(1) - (random.nextInt() +1);
-        final int randPos = random.nextInt(1) + 90;
+        final int randPos = random.nextInt() + 90;
 
         assertThrows(IDNotFoundException.class, () -> new Dice(randNeg, Colors.random()));
         assertThrows(IDNotFoundException.class, () -> new Dice(randPos, Colors.random()));

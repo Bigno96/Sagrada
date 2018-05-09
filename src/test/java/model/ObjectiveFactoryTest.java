@@ -1,14 +1,10 @@
 package model;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
 import exception.IDNotFoundException;
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -17,7 +13,6 @@ public class ObjectiveFactoryTest  extends TestCase {
     private ObjectiveStrategy objStrat = new ObjectiveStrategy();
     private ObjectiveFactory objFact = new ObjectiveFactory(objStrat);
     private static final Random random = new Random();
-    private static final Logger logger = Logger.getLogger(ObjectiveFactoryTest.class.getName());
 
     public ObjectiveFactoryTest(String testName) {
         super(testName);
@@ -38,15 +33,15 @@ public class ObjectiveFactoryTest  extends TestCase {
     }
 
     public void testExceptionPriv() {
-        int idPriv = random.nextInt(1)+6;
+        int idPriv = random.nextInt()+6;
 
         assertThrows(IDNotFoundException.class, () -> objFact.getPrivCard(idPriv));
     }
 
     public void testExceptionPubl() {
-        int idPubl = random.nextInt(1)+11;
+        int idPubl = random.nextInt()+11;
 
-        assertThrows(IDNotFoundException.class, () -> objFact.getPrivCard(idPubl));
+        assertThrows(IDNotFoundException.class, () -> objFact.getPublCard(idPubl));
     }
 
 }

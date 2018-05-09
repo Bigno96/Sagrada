@@ -6,11 +6,9 @@ import com.google.gson.JsonParser;
 import exception.IDNotFoundException;
 
 import java.io.*;
-import java.util.logging.Logger;
 
 public class ObjectiveFactory {
 
-    private static final Logger logger = Logger.getLogger(ObjectiveFactory.class.getName());
     private ObjectiveStrategy objStrat;
 
     public ObjectiveFactory(ObjectiveStrategy objStrat) {

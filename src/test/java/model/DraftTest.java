@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 
 import java.util.Iterator;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,7 +14,6 @@ public class DraftTest extends TestCase {
 
     private static final Random random = new Random();
     private int nDice = random.nextInt(9)+1;
-    private static final Logger logger = Logger.getLogger(DraftTest.class.getName());
     private int id = random.nextInt(90);
     private Colors col = Colors.random();
 

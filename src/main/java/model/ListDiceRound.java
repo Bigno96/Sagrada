@@ -25,17 +25,15 @@ public class ListDiceRound {
 
     public void dump() {
         logger.info("contains following dices: ");
-        for (Dice d : listDice)
-        {
+        for (Dice d : listDice) {
             d.dump();
         }
     }
 
     public boolean addDice(Dice d) throws SameDiceException {
-        for (Dice itr : listDice) {
+        for (Dice itr : listDice)
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already on Round Track");
-        }
         return listDice.add(d);
     }
 
@@ -49,24 +47,26 @@ public class ListDiceRound {
         if (listDice.isEmpty()) {
             throw new EmptyException(this.toString() + "is empty");
         } else {
-            for (Dice itr : listDice) {
+            for (Dice itr : listDice)
                 if (d.getID() == itr.getID()) {
                     return listDice.remove(itr);
                 }
-            }
         }
         throw new IDNotFoundException("Id not found");
     }
 
-    public List<Dice> copyListRound() {
-        return new ArrayList<>(listDice);
-    }
-
-    public Iterator<Dice> itrListRound() {
+    public Iterator<Dice> itr() {
         return listDice.iterator();
     }
 
-    public Dice getDice(int i){
-        return listDice.get(i);
+    public Dice getDice(int id) throws IDNotFoundException {
+        for (Dice dice : listDice)
+            if (dice.getID() == id)
+                return dice.copyDice();
+        throw new IDNotFoundException("Id not found");
+    }
+
+    public boolean contains(Dice d) {
+        return listDice.contains(d);
     }
 }
