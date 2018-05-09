@@ -38,6 +38,7 @@ public class PrivateObjective implements ObjectiveCard {
         return fp;
     }
 
+    /**not to be used*/
     public int getPoint() {
         return 0;
     }

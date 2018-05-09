@@ -38,7 +38,7 @@ public class DiceBagTest extends TestCase {
 
         assertEquals(0, db1.randDice().getValue());
 
-        d.rollDice();
+        db1.findDice(d.getID()).rollDice();
 
         assertNotSame(d.getID(), db1.randDice().getID());
         assertEquals(90, db1.diceRemaining());

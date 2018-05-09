@@ -24,8 +24,8 @@ public class WindowFactory {
         winCard2 = null;
     }
 
-    //@requires id1 != id2
-    //@ensures return.size() == 4
+    /**requires id1 != id2
+    ensures return.size() == 4*/
     public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<>();
         JsonParser parser = new JsonParser();
@@ -77,24 +77,9 @@ public class WindowFactory {
 
     private Cell makeCell (JsonObject obj, int pos) throws ValueException, PositionException {                        // create a Cell from the object
         int value = Integer.parseInt(obj.get("value").toString());
-        Colors color = parseColor(obj.get("color").toString());
+        Colors color = Colors.parseColor(obj.get("color").toString());
 
         return new Cell(value, color, pos);
-    }
-
-    private Colors parseColor(String string) {
-        if (string.equals("YELLOW"))
-            return Colors.YELLOW;
-        else if (string.equals("RED"))
-            return Colors.RED;
-        else if (string.equals("BLUE"))
-            return Colors.BLUE;
-        else if (string.equals("GREEN"))
-            return Colors.GREEN;
-        else if (string.equals("VIOLET"))
-            return Colors.VIOLET;
-
-        return Colors.NULL;
     }
 
 }

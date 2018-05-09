@@ -63,6 +63,7 @@ public class DiceTest extends TestCase {
         Dice d = new Dice(id, col);
 
         assertTrue(d.copyDice().isEqual(d));
+        assertNotSame(d, d.copyDice());
     }
 
 }

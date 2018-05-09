@@ -16,8 +16,8 @@ public class DraftTest extends TestCase {
     private static final Random random = new Random();
     private int nDice = random.nextInt(9)+1;
     private static final Logger logger = Logger.getLogger(DraftTest.class.getName());
-    int id = random.nextInt(90);
-    Colors col = Colors.random();
+    private int id = random.nextInt(90);
+    private Colors col = Colors.random();
 
     public DraftTest(String testName) {
         super(testName);
@@ -68,12 +68,12 @@ public class DraftTest extends TestCase {
         int length = draft.diceRemaining();
         Dice d = new Dice(id, col);
 
-        draft.addDice(d);
+        assertTrue(draft.addDice(d));
 
         assertEquals(length+1, draft.diceRemaining());
         assertSame(d.getID(), draft.findDice(d.getID()).getID());
 
-        draft.rmDice(d);
+        assertTrue(draft.rmDice(d));
 
         assertNull(draft.findDice(d.getID()));
     }

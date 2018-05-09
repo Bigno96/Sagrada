@@ -40,18 +40,12 @@ public class Cell {
         logger.info("Col: " + getColor() + " Val: " + getValue());
     }
 
-    public void changeColor(Colors newColor) {
-        this.color = newColor;
-    }
-
     public Colors getColor() {
         return this.color;
     }
 
-    public void changeValue( int newValue ) throws ValueException {
-        if (newValue < 0 || newValue > 6)
-            throw new ValueException("Illegal Value");
-        this.value = newValue;
+    public void changeDiceValue(int newValue) throws ValueException {
+        this.dice.changeValue(newValue);
     }
 
     public int getValue()
@@ -78,11 +72,11 @@ public class Cell {
     }
 
     public boolean checkColor(){
-        return this.color.equals(dice.getColor()) || this.getColor() == Colors.NULL;
+        return this.color.equals(dice.getColor());
     }
 
     public boolean checkValue(){
-        return this.getValue() == dice.getValue()  || this.getValue() == 0;
+        return this.getValue() == dice.getValue();
     }
 
     public Dice getDice() throws IDNotFoundException {

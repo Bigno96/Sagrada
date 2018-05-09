@@ -77,7 +77,6 @@ public class DiceBag {
                     return dices.remove(itr);
                 }
             }
-
         }
         throw new IDNotFoundException("Id not found");
     }

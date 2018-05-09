@@ -78,14 +78,13 @@ public class Draft {
         draft.clear();
     }
 
-    public void rmDice(Dice d) throws IDNotFoundException, EmptyException {
+    public boolean rmDice(Dice d) throws IDNotFoundException, EmptyException {
         if (draft.isEmpty()) {
             throw new EmptyException("Draft is empty");
         } else {
             for (Dice dice : draft) {
                 if (d.getID() == dice.getID()) {
-                    draft.remove(dice);
-                    return;
+                    return draft.remove(dice);
                 }
             }
 
@@ -93,12 +92,12 @@ public class Draft {
         throw new IDNotFoundException("Id not found");
     }
 
-    public void addDice(Dice d) throws SameDiceException {
+    public boolean addDice(Dice d) throws SameDiceException {
         for (Dice itr : draft) {
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already in Draft");
         }
-        draft.add(d);
+        return draft.add(d);
     }
 
     public void setnDice(int n) { this.nDice = n; }

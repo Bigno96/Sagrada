@@ -22,20 +22,13 @@ public class CellTest extends TestCase{
         super (testName);
     }
 
-    public void testChangeColor() throws PositionException, ValueException {
-        Cell c = new Cell(value, col, pos);
-        Colors rand = Colors.random();
-        c.changeColor(rand);
-
-        assertEquals(rand, c.getColor());
-    }
-
-    public void testChangeValue() throws PositionException, ValueException {
+    public void testChangeDiceValue() throws PositionException, ValueException, IDNotFoundException, NotEmptyException {
         Cell c = new Cell(value, col, pos);
         int rand = random.nextInt(7);
-        c.changeValue(rand);
+        c.setDice(new Dice(id, col));
+        c.changeDiceValue(rand);
 
-        assertEquals(rand, c.getValue());
+        assertEquals(rand, c.getDice().getValue());
     }
 
     public void testIsOccupied() throws IDNotFoundException, PositionException, NotEmptyException, ValueException {
@@ -81,15 +74,43 @@ public class CellTest extends TestCase{
         assertTrue(cR2.isBorder());
     }
 
-    public void testValueException() throws PositionException, ValueException {
+    public void testCheck() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+        Cell c = new Cell(value, col, pos);
+        int wrongVal;
+        Colors wrongCol;
+
+        do {
+            wrongVal = random.nextInt(6)+1;
+        } while (wrongVal == value);
+
+        do {
+            wrongCol = Colors.random();
+        } while (wrongCol.equals(col));
+
+        c.setDice(new Dice(id, col));
+        assertTrue(c.checkColor());
+
+        c.changeDiceValue(value);
+        assertTrue(c.checkValue());
+
+        c.changeDiceValue(wrongVal);
+        assertFalse(c.checkValue());
+
+        c.freeCell();
+        c.setDice(new Dice(id, wrongCol));
+        assertFalse(c.checkColor());
+    }
+
+    public void testValueException() throws PositionException, ValueException, IDNotFoundException, NotEmptyException {
         final int valueNeg = random.nextInt(7) - (random.nextInt()+7);
         final int valuePos = random.nextInt() + 7;
         Cell c = new Cell(value, col, pos);
+        c.setDice(new Dice(id, col));
 
         assertThrows(ValueException.class, () -> new Cell(valueNeg, col, pos));
         assertThrows(ValueException.class, () -> new Cell(valuePos, col, pos));
-        assertThrows(ValueException.class, () -> c.changeValue(valueNeg));
-        assertThrows(ValueException.class, () -> c.changeValue(valuePos));
+        assertThrows(ValueException.class, () -> c.changeDiceValue(valueNeg));
+        assertThrows(ValueException.class, () -> c.changeDiceValue(valuePos));
     }
 
     public void testPositionException() {

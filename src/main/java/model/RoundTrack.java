@@ -1,5 +1,7 @@
 package model;
 
+import exception.SameDiceException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +47,7 @@ public class RoundTrack {
         return false;
     }
 
-    public void moveDraft(int turn) {
+    public void moveDraft(int turn) throws SameDiceException {
         List<Dice> copy = draft.copyDraft();
         draft.freeDraft();
         roundTrack.get(turn).addDice(copy);

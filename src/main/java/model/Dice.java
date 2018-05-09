@@ -21,6 +21,14 @@ public class Dice {
         this.value = 0;
     }
 
+    public Dice(int id, Colors color, int value) throws IDNotFoundException {
+        if (id > 89 || id < 0)
+            throw new IDNotFoundException("ID not allowed");
+        this.id = id;
+        this.color = color;
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return getClass().getName() + "@ " + this.hashCode();
@@ -54,7 +62,7 @@ public class Dice {
     }
 
     public Dice copyDice() throws IDNotFoundException {
-        return new Dice(this.id, this.color);
+        return new Dice(this.id, this.color, this.value);
     }
 
     public boolean isEqual(Dice d) {
