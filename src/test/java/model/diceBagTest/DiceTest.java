@@ -1,8 +1,10 @@
-package model;
+package model.diceBagTest;
 
 import exception.IDNotFoundException;
 import exception.ValueException;
 import junit.framework.TestCase;
+import model.Colors;
+import model.diceBag.Dice;
 
 import java.util.Random;
 

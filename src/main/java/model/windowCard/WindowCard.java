@@ -1,4 +1,4 @@
-package model;
+package model.windowCard;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -47,14 +47,22 @@ public class WindowCard {
 
     public void dump() {
         logger.info("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
-        Iterator<Cell> itr = window.getIterator();
+        Iterator<Cell> itr = window.itrOrizz();
         while (itr.hasNext())
             itr.next().dump();
     }
 
+    public Iterator<Cell> getOrizzItr() {
+        return window.itrOrizz();
+    }
+
+    public Iterator<Cell> getVertItr() {
+        return window.itrVert();
+    }
+
     public boolean checkFirstDice() throws WrongPositionException, EmptyException {
         Boolean first = true;
-        Iterator<Cell> itr = window.getIterator();
+        Iterator<Cell> itr = window.itrOrizz();
 
         while (itr.hasNext()) {
             if (itr.next().isOccupied() && first) {
@@ -78,7 +86,7 @@ public class WindowCard {
 
     public boolean checkOneDice() throws EmptyException, WrongPositionException {
         Boolean first = true;
-        Iterator<Cell> itr = window.getIterator();
+        Iterator<Cell> itr = window.itrOrizz();
 
         while (itr.hasNext()) {
             if (itr.next().isOccupied() && first) {
@@ -126,7 +134,7 @@ public class WindowCard {
     }
 
     public boolean checkPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, PositionException {
-        Iterator<Cell> itr = window.getIterator();
+        Iterator<Cell> itr = window.itrOrizz();
         if(!checkOneDice()) {
             while (itr.hasNext()) {
                 if (itr.next().isOccupied()) {

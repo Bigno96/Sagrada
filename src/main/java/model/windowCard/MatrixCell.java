@@ -1,4 +1,4 @@
-package model;
+package model.windowCard;
 
 import exception.IDNotFoundException;
 import exception.PositionException;
@@ -67,15 +67,24 @@ public class MatrixCell {
         return false;
     }
 
-    public Iterator<Cell> getIterator(){
+    public Iterator<Cell> itrOrizz(){
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<rows; i++) {
             for (int j = 0; j < cols; j++) {
                 cellList.add(matrix[i][j]);
             }
         }
-        Iterator<Cell> itr = cellList.iterator();
-        return itr;
+        return cellList.iterator();
+    }
+
+    public Iterator<Cell> itrVert(){
+        List<Cell> cellList = new ArrayList<>();
+        for (int j=0; j<cols; j++) {
+            for (int i = 0; i < rows; i++) {
+                cellList.add(matrix[i][j]);
+            }
+        }
+        return cellList.iterator();
     }
 
     public List<Cell> retOrtogonal (int row, int col) throws PositionException {

@@ -1,4 +1,4 @@
-package model;
+package model.windowCard;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -6,16 +6,15 @@ import com.google.gson.JsonParser;
 import exception.IDNotFoundException;
 import exception.PositionException;
 import exception.ValueException;
+import model.Colors;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class WindowFactory {
 
-    private static final Logger logger = Logger.getLogger(WindowFactory.class.getName());
     private JsonObject winCard1;
     private JsonObject winCard2;
 
@@ -29,7 +28,7 @@ public class WindowFactory {
     public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<>();
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowInfo.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowCard.json";
 
         JsonArray winArray = (JsonArray) parser.parse(new FileReader(infoPath));
 
@@ -66,20 +65,24 @@ public class WindowFactory {
         JsonArray cellArr = (JsonArray) obj.get("Cell");            // json array to extract Cells from WindowInfo
         List<Cell> cells = new ArrayList<>();
 
-        int i = 0;
+        int row = 0, col = 0;
         for (Object o : cellArr) {
-            cells.add(makeCell((JsonObject) o, i));
-            i++;
+            if (col > 4) {
+                col = 0;
+                row++;
+            }
+            cells.add(makeCell((JsonObject) o, row, col));
+            col++;
         }
 
         return new WindowCard(id, name, numFavPoint, cells);
     }
 
-    private Cell makeCell (JsonObject obj, int pos) throws ValueException, PositionException {                        // create a Cell from the object
+    private Cell makeCell (JsonObject obj, int row, int col) throws ValueException, PositionException {                        // create a Cell from the object
         int value = Integer.parseInt(obj.get("value").toString());
         Colors color = Colors.parseColor(obj.get("color").toString());
 
-        return new Cell(value, color, pos);
+        return new Cell(value, color, row, col);
     }
 
 }

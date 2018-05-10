@@ -1,9 +1,14 @@
-package model;
+package model.roundTrackTest;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
 import junit.framework.TestCase;
+import model.Colors;
+import model.diceBag.Dice;
+import model.diceBag.DiceBag;
+import model.diceBag.Draft;
+import model.roundTrack.RoundTrack;
 
 import java.util.Random;
 

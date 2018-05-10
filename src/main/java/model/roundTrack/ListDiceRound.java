@@ -1,8 +1,9 @@
-package model;
+package model.roundTrack;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
+import model.diceBag.Dice;
 
 import java.util.ArrayList;
 import java.util.Iterator;

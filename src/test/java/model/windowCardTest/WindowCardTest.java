@@ -1,6 +1,5 @@
-package model;
+package model.windowCardTest;
 
-import exception.*;
 import junit.framework.TestCase;
 
 import java.util.*;
@@ -9,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WindowCardTest extends TestCase{
 
-    /*
+
     private static final Random random = new Random();
     private int id = random.nextInt(20);
     private int fp = random.nextInt(4)+3;
@@ -19,14 +18,14 @@ public class WindowCardTest extends TestCase{
         super(testName);
     }
 
-    private List<Cell> myCellList() throws ValueException, PositionException {
+    /*private List<Cell> myCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<20; i++)
             cellList.add(new Cell(random.nextInt(7), Colors.random(), i));
         return cellList;
-    }
+    }*/
 
-    public void testGetter() throws ValueException, PositionException, IDNotFoundException {
+    /*public void testGetter() throws ValueException, PositionException, IDNotFoundException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
 
@@ -35,7 +34,7 @@ public class WindowCardTest extends TestCase{
         assertEquals(fp, card.getNumFavPoint());
         assertSame(list.get(id), card.getCell(id));
     }
-
+    /*
     public void testIdNotFoundException() throws ValueException, PositionException {
         int idNeg = random.nextInt(1) - (random.nextInt()+1);
         int idPos = random.nextInt(1)+20;

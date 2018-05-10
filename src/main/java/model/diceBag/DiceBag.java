@@ -1,8 +1,9 @@
-package model;
+package model.diceBag;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
+import model.Colors;
 
 import java.util.ArrayList;
 import java.util.List;

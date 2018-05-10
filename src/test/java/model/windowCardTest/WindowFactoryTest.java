@@ -1,9 +1,11 @@
-package model;
+package model.windowCardTest;
 
 import exception.IDNotFoundException;
 import exception.PositionException;
 import exception.ValueException;
 import junit.framework.TestCase;
+import model.windowCard.WindowCard;
+import model.windowCard.WindowFactory;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

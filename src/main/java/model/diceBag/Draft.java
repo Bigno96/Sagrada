@@ -1,4 +1,4 @@
-package model;
+package model.diceBag;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;

@@ -1,5 +1,8 @@
 package model;
 
+import model.objectiveCard.ObjectiveCard;
+import model.windowCard.WindowCard;
+
 import java.util.logging.Logger;
 
 public class Player {

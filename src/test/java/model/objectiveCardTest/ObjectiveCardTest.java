@@ -1,6 +1,10 @@
-package model;
+package model.objectiveCardTest;
 
 import junit.framework.TestCase;
+import model.objectiveCard.ObjectiveCard;
+import model.objectiveCard.ObjectiveStrategy;
+import model.objectiveCard.PrivateObjective;
+import model.objectiveCard.PublicObjective;
 
 public class ObjectiveCardTest extends TestCase {
 

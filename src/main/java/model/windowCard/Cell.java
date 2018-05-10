@@ -1,13 +1,12 @@
-package model;
+package model.windowCard;
 
 import exception.IDNotFoundException;
 import exception.NotEmptyException;
 import exception.PositionException;
 import exception.ValueException;
+import model.Colors;
+import model.diceBag.Dice;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public class Cell {

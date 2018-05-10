@@ -1,10 +1,7 @@
-package model;
+package model.windowCardTest;
 
-import exception.IDNotFoundException;
-import exception.NotEmptyException;
-import exception.PositionException;
-import exception.ValueException;
 import junit.framework.TestCase;
+import model.Colors;
 
 import java.util.Random;
 
@@ -12,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CellTest extends TestCase{
 
-    /*private static final Random random = new Random();
+    private static final Random random = new Random();
     private int id = random.nextInt(90);
     private int pos = random.nextInt(20);
     private int value = random.nextInt(6)+1;
@@ -21,7 +18,7 @@ public class CellTest extends TestCase{
     public CellTest(String testName) {
         super (testName);
     }
-
+    /*
     public void testGetter() throws PositionException, ValueException {
         Cell c = new Cell(value, col, pos);
 

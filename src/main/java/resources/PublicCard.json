@@ -3,60 +3,90 @@
     "ID": 1,
     "descr": "Row Color Variety",
     "point": 6,
-    "effect": "color"
+    "type": "color",
+    "scope": "diff",
+    "grad": "null",
+    "dir": "row"
   },
   {
     "ID": 2,
     "descr": "Column Color Variety",
     "point": 5,
-    "effect": "color"
+    "type": "color",
+    "scope": "diff",
+    "grad": "null",
+    "dir": "col"
   },
   {
     "ID": 3,
     "descr": "Row Shade Variety",
     "point": 5,
-    "effect": "color"
+    "type": "shade",
+    "scope": "diff",
+    "grad": "null",
+    "dir": "row"
   },
   {
     "ID": 4,
     "descr": "Column Shade Variety",
     "point": 4,
-    "effect": "color"
+    "type": "shade",
+    "scope": "diff",
+    "grad": "null",
+    "dir": "col"
   },
   {
     "ID": 5,
     "descr": "Light Shade",
     "point": 2,
-    "effect": "color"
+    "type": "shade",
+    "scope": "grad",
+    "grad": "light",
+    "dir": "null"
   },
   {
     "ID": 6,
     "descr": "Medium Shade",
     "point": 2,
-    "effect": "color"
+    "type": "shade",
+    "scope": "grad",
+    "grad": "medium",
+    "dir": "null"
   },
   {
     "ID": 7,
     "descr": "Dark Shade",
     "point": 2,
-    "effect": "color"
+    "type": "shade",
+    "scope": "grad",
+    "grad": "dark",
+    "dir": "null"
   },
   {
     "ID": 8,
     "descr": "Shade Variety",
     "point": 5,
-    "effect": "color"
+    "type": "shade",
+    "scope": "var",
+    "grad": "null",
+    "dir": "null"
   },
   {
     "ID": 9,
     "descr": "Colored Diagonal",
     "point": 0,
-    "effect": "color"
+    "type": "color",
+    "scope": "diag",
+    "grad": "null",
+    "dir": "null"
   },
   {
     "ID": 10,
     "descr": "Color Variety",
     "point": 4,
-    "effect": "color"
+    "type": "color",
+    "scope": "var",
+    "grad": "null",
+    "dir": "null"
   }
 ]

@@ -1,7 +1,8 @@
-package model;
+package model.diceBag;
 
 import exception.IDNotFoundException;
 import exception.ValueException;
+import model.Colors;
 
 import java.util.Random;
 import java.util.logging.Logger;
