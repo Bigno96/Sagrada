@@ -10,7 +10,7 @@ import exception.EmptyException;
 
 public class WindowCard {
 
-    private MatrixCell window = null;
+    private MatrixCell window;
     private int id;                 // id it's the same for 2 window card that represents front and behind of a real Window Card
     private int numFavPoint;
     private String name;
@@ -27,6 +27,13 @@ public class WindowCard {
         this.window.loadMatrixCell(cellList);
     }
 
+    public WindowCard (int id, String name, int numFavPoint, MatrixCell matrix){
+        this.id = id;
+        this.name = name;
+        this.numFavPoint = numFavPoint;
+        window = new MatrixCell(matrix);
+    }
+
     public int getId() {
         return id;
     }
@@ -39,6 +46,9 @@ public class WindowCard {
         return numFavPoint;
     }
 
+    public MatrixCell getWindow() {
+        return window;
+    }
 
     @Override
     public String toString() {
@@ -106,7 +116,7 @@ public class WindowCard {
         return true;
     }
 
-    public boolean checkOrtPos(Cell c) throws IDNotFoundException, PositionException {
+    public boolean checkOrtPos(Cell c) throws PositionException, IDNotFoundException {
 
         List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
 

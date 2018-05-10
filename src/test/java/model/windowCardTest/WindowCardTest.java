@@ -1,6 +1,12 @@
 package model.windowCardTest;
 
+import exception.*;
 import junit.framework.TestCase;
+import model.Colors;
+import model.diceBag.Dice;
+import model.windowCard.Cell;
+import model.windowCard.MatrixCell;
+import model.windowCard.WindowCard;
 
 import java.util.*;
 
@@ -12,57 +18,57 @@ public class WindowCardTest extends TestCase{
     private static final Random random = new Random();
     private int id = random.nextInt(20);
     private int fp = random.nextInt(4)+3;
-    private Set<Integer> borderPos = new HashSet<>(Arrays.asList(0,1,2,3,4,5,9,10,14,15,16,17,18,19));
+    private MatrixCell matrix = new MatrixCell(4,5);
+
 
     public WindowCardTest(String testName) {
         super(testName);
     }
 
-    /*private List<Cell> myCellList() throws ValueException, PositionException {
+    private List<Cell> myCellList() throws ValueException {
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<20; i++)
-            cellList.add(new Cell(random.nextInt(7), Colors.random(), i));
+            cellList.add(new Cell(random.nextInt(7), Colors.random()));
         return cellList;
-    }*/
+    }
 
-    /*public void testGetter() throws ValueException, PositionException, IDNotFoundException {
+    public void testGetter() throws ValueException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
+        matrix = card.getWindow();
 
         assertEquals(id, card.getId());
         assertEquals("Test", card.getName());
         assertEquals(fp, card.getNumFavPoint());
-        assertSame(list.get(id), card.getCell(id));
+        assertEquals(matrix, card.getWindow());
     }
-    /*
-    public void testIdNotFoundException() throws ValueException, PositionException {
-        int idNeg = random.nextInt(1) - (random.nextInt()+1);
-        int idPos = random.nextInt(1)+20;
+
+    public void testArrayIndexOutOfBoundsException() throws ValueException {
+        int rowNeg = random.nextInt(1) - (random.nextInt()+1);
+        int rowPos = random.nextInt(1)+4;
+        int colNeg = random.nextInt(1) - (random.nextInt()+1);
+        int colPos = random.nextInt(1)+5;
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
 
-        assertThrows(IDNotFoundException.class, () -> card.getCell(idPos));
-        assertThrows(IDNotFoundException.class, () -> card.getCell(idNeg));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> card.getWindow().getCell(rowNeg, colNeg));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> card.getWindow().getCell(rowPos, colPos));
     }
 
-    /*public void testIsBorder() throws PositionException, ValueException {
-        int randTop = random.nextInt(5);
-        int randBot = random.nextInt(5)+15;
+    /*public void testCheckFirstDice() throws EmptyException, WrongPositionException, ValueException, IDNotFoundException, NotEmptyException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        int pos = 3;
 
-        Cell cTop = new Cell(value, col, randTop);
-        Cell cBot = new Cell(value, col, randBot);
-        Cell cL1 = new Cell(value, col, 5);
-        Cell cL2 = new Cell(value, col, 10);
-        Cell cR1 = new Cell(value, col, 9);
-        Cell cR2 = new Cell(value, col, 14);
+        Colors color = list.get(pos).getColor();
+        int value = list.get(pos).getValue();
 
-        assertTrue(cTop.isBorder());
-        assertTrue(cBot.isBorder());
-        assertTrue(cL1.isBorder());
-        assertTrue(cL2.isBorder());
-        assertTrue(cR1.isBorder());
-        assertTrue(cR2.isBorder());
-    }*/
+        card.getWindow().getCell(0,3).setDice(new Dice(id, color));
+
+        card.getWindow().getCell(1,4).setDice(new Dice(id, color));
+
+        assertTrue(card.checkFirstDice());
+    }
     
     /*public void testCheckOneDice() throws EmptyException, WrongPositionException, IDNotFoundException, NotEmptyException, ValueException, PositionException {
         List<Cell> list = myCellList();
@@ -80,23 +86,7 @@ public class WindowCardTest extends TestCase{
         assertTrue(card.checkOneDice());
     }*/
 
-    /*public void testCheckFirstDice() throws EmptyException, IDNotFoundException, NotEmptyException, WrongPositionException, ValueException, PositionException {
-        List<Cell> list = myCellList();
-        WindowCard card = new WindowCard(id, "Test", fp, list);
-        int pos = 3;
 
-        Colors color = list.get(pos).getColor();
-        int value = list.get(pos).getValue();
-
-        card.getCell(pos).setDice(new Dice(id, color));
-
-        Dice d = card.getCell(pos).getDice();
-        d.changeValue(value);
-        card.getCell(pos).freeCell();
-        card.getCell(pos).setDice(d);
-
-        assertTrue(card.checkFirstDice());
-    }*/
 
     /*public void testWrongPositionException() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         List<Cell> list = myCellList();

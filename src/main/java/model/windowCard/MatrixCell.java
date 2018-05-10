@@ -1,6 +1,5 @@
 package model.windowCard;
 
-import exception.IDNotFoundException;
 import exception.PositionException;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.logging.Logger;
 
 public class MatrixCell {
 
-    private Cell[][] matrix = null;
+    private Cell[][] matrix;
     private int rows;
     private int cols;
 
@@ -22,8 +21,8 @@ public class MatrixCell {
         this.cols = cols;
     }
 
-    public MatrixCell(Cell[][] matrix) {
-        this.matrix = matrix.clone();
+    public MatrixCell(MatrixCell matrixCell) {
+        this.matrix = matrixCell.getMatrix();
         rows = this.matrix.length;
         cols = this.matrix[0].length;
     }
@@ -46,10 +45,14 @@ public class MatrixCell {
         return rows;
     }
 
-    public Cell getCell(int row, int col) throws IDNotFoundException {
+    public Cell[][] getMatrix() {
+        return matrix;
+    }
+
+    public Cell getCell(int row, int col) throws ArrayIndexOutOfBoundsException {
         if (matrix[row][col]!=null)
             return matrix[row][col];
-        throw new IDNotFoundException("Id was not found");
+        throw new ArrayIndexOutOfBoundsException("Wrong Coordinates");
     }
 
     @Override
