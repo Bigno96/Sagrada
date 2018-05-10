@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CellTest extends TestCase{
 
-    private static final Random random = new Random();
+    /*private static final Random random = new Random();
     private int id = random.nextInt(90);
     private int pos = random.nextInt(20);
     private int value = random.nextInt(6)+1;
@@ -20,6 +20,14 @@ public class CellTest extends TestCase{
 
     public CellTest(String testName) {
         super (testName);
+    }
+
+    public void testGetter() throws PositionException, ValueException {
+        Cell c = new Cell(value, col, pos);
+
+        assertSame(value, c.getValue());
+        assertSame(col, c.getColor());
+        assertSame(pos, c.getPos());
     }
 
     public void testChangeDiceValue() throws PositionException, ValueException, IDNotFoundException, NotEmptyException {
@@ -47,31 +55,6 @@ public class CellTest extends TestCase{
 
         assertFalse(c.isOccupied());
         assertNull(c.getDice());
-    }
-
-    public void testGetPos() throws PositionException, ValueException {
-        Cell c = new Cell(value, col, pos);
-
-        assertSame(pos, c.getPos());
-    }
-
-    public void testIsBorder() throws PositionException, ValueException {
-        int randTop = random.nextInt(5);
-        int randBot = random.nextInt(5)+15;
-
-        Cell cTop = new Cell(value, col, randTop);
-        Cell cBot = new Cell(value, col, randBot);
-        Cell cL1 = new Cell(value, col, 5);
-        Cell cL2 = new Cell(value, col, 10);
-        Cell cR1 = new Cell(value, col, 9);
-        Cell cR2 = new Cell(value, col, 14);
-
-        assertTrue(cTop.isBorder());
-        assertTrue(cBot.isBorder());
-        assertTrue(cL1.isBorder());
-        assertTrue(cL2.isBorder());
-        assertTrue(cR1.isBorder());
-        assertTrue(cR2.isBorder());
     }
 
     public void testCheck() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
@@ -128,5 +111,17 @@ public class CellTest extends TestCase{
         c.setDice(d);
         assertThrows(NotEmptyException.class, () -> c.setDice(d));
     }
+
+    public void testFreeCell() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+        Cell c = new Cell(value, col, pos);
+        Dice d = new Dice(id, col);
+
+        c.setDice(d);
+        assertTrue(c.isOccupied());
+        c.freeCell();
+        assertFalse(c.isOccupied());
+    }
+
+    */
 
 }

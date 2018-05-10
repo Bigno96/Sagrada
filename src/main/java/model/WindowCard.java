@@ -4,22 +4,27 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import exception.IDNotFoundException;
+import exception.PositionException;
 import exception.WrongPositionException;
 import exception.EmptyException;
 
 public class WindowCard {
 
-    private List<Cell> cellList = new ArrayList<>();
+    private MatrixCell window = null;
     private int id;                 // id it's the same for 2 window card that represents front and behind of a real Window Card
     private int numFavPoint;
     private String name;
+    private static int rows = 4;
+    private static int cols = 5;
+
     private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
     public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList){
         this.id = id;
         this.name = name;
         this.numFavPoint = numFavPoint;
-        this.cellList.addAll(cellList);
+        window = new MatrixCell(rows, cols);
+        this.window.loadMatrixCell(cellList);
     }
 
     public int getId() {
@@ -34,13 +39,6 @@ public class WindowCard {
         return numFavPoint;
     }
 
-    public Cell getCell(int pos) throws IDNotFoundException {
-        for (Cell c : cellList) {
-            if (c.getPos() == pos)
-                return c;
-        }
-        throw new IDNotFoundException("Id was not found");
-    }
 
     @Override
     public String toString() {
@@ -49,24 +47,26 @@ public class WindowCard {
 
     public void dump() {
         logger.info("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
-        for (Cell c : cellList)
-            c.dump();
+        Iterator<Cell> itr = window.getIterator();
+        while (itr.hasNext())
+            itr.next().dump();
     }
 
-    /*public boolean checkFirstDice() throws WrongPositionException, EmptyException {
+    public boolean checkFirstDice() throws WrongPositionException, EmptyException {
         Boolean first = true;
+        Iterator<Cell> itr = window.getIterator();
 
-        for (Cell c : cellList) {
-            if (c.isOccupied() && first) {
+        while (itr.hasNext()) {
+            if (itr.next().isOccupied() && first) {
                 first = false;
-                if (!c.isBorder())
+                if (!window.isBorder(itr.next()))
                     throw new WrongPositionException ("First Dice not correctly positioned");
-                if (!c.checkColor())
-                    throw new WrongPositionException("Color not correct on cell: " + c.toString());
-                if (!c.checkValue())
-                    throw new WrongPositionException("Value not correct on cell: " + c.toString());
+                if (!itr.next().checkColor())
+                    throw new WrongPositionException("Color not correct on cell: " + itr.next().toString());
+                if (!itr.next().checkValue())
+                    throw new WrongPositionException("Value not correct on cell: " + itr.next().toString());
             }
-            else if (c.isOccupied() && !first)
+            else if (itr.next().isOccupied() && !first)
                 throw new WrongPositionException( "More than one dice positioned");
         }
 
@@ -78,16 +78,17 @@ public class WindowCard {
 
     public boolean checkOneDice() throws EmptyException, WrongPositionException {
         Boolean first = true;
+        Iterator<Cell> itr = window.getIterator();
 
-        for (Cell c : cellList) {
-            if (c.isOccupied() && first) {
+        while (itr.hasNext()) {
+            if (itr.next().isOccupied() && first) {
                 first = false;
-                if (!c.checkColor())
-                    throw new WrongPositionException("Color not correct on cell: " + c.toString());
-                if (!c.checkValue())
-                    throw new WrongPositionException("Value not correct on cell: " + c.toString());
+                if (!itr.next().checkColor())
+                    throw new WrongPositionException("Color not correct on cell: " + itr.next().toString());
+                if (!itr.next().checkValue())
+                    throw new WrongPositionException("Value not correct on cell: " + itr.next().toString());
             }
-            else if (c.isOccupied() && !first)
+            else if (itr.next().isOccupied() && !first)
                 return false;
         }
 
@@ -97,81 +98,52 @@ public class WindowCard {
         return true;
     }
 
-    */
+    public boolean checkOrtPos(Cell c) throws IDNotFoundException, PositionException {
 
-    /*public boolean checkOrtogonalPos(Cell c) throws IDNotFoundException {
+        List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
 
-        Set<Integer> neighbors = new HashSet<>();
-        int pos = c.getPos();
-
-        if (pos == 0){
-            neighbors.add(1);
-            neighbors.add(5);
-        }
-        else if(pos == 4){
-            neighbors.add(3);
-            neighbors.add(9);
-        }
-        else if(pos == 15){
-            neighbors.add(10);
-            neighbors.add(16);
-        }
-        else if(pos == 19){
-            neighbors.add(14);
-            neighbors.add(18);
-        }
-        else if (pos > 0 && pos < 4) {
-            neighbors.add(pos-1);
-            neighbors.add(pos+1);
-            neighbors.add(pos+5);
-        }
-        else if (pos == 5 || pos == 10) {
-            neighbors.add(pos-5);
-            neighbors.add(pos+1);
-            neighbors.add(pos+5);
-        }
-        else if (pos == 9 || pos == 14) {
-            neighbors.add(pos-5);
-            neighbors.add(pos-1);
-            neighbors.add(pos+5);
-        }
-        else if (pos > 15 && pos < 19) {
-            neighbors.add(pos-5);
-            neighbors.add(pos-1);
-            neighbors.add(pos+1);
-        }
-        else{
-            neighbors.add(pos-5);
-            neighbors.add(pos-1);
-            neighbors.add(pos+1);
-            neighbors.add(pos+5);
-        }
-
-        for (int i : neighbors) {
-            if (cellList.get(i).getDice() != null) {
-                if (cellList.get(pos).getDice().getValue() == cellList.get(i).getDice().getValue() || cellList.get(pos).getDice().getColor().equals(cellList.get(i).getDice().getColor()))
+        for (Cell cell : cellList) {
+            if (cell.getDice() != null) {
+                if (c.getDice().getValue() == cell.getDice().getValue() || c.getDice().getColor().equals(cell.getDice().getColor()))
                     return false;
             }
         }
 
         return true;
-    }*/
+    }
 
-    /*public boolean checkPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException {
+    public boolean checkNeighbors(Cell c) throws PositionException {
+
+        List<Cell> cellList = window.retNeighbors(c.getRow(), c.getCol());
+
+        for (Cell cell : cellList) {
+            if (cell.isOccupied()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, PositionException {
+        Iterator<Cell> itr = window.getIterator();
         if(!checkOneDice()) {
-            for (Cell c : cellList) {
-                if (c.isOccupied()) {
-                    if (!c.checkColor())
-                        throw new WrongPositionException("Color not correct on cell: " + c.toString());
-                    else if (!c.checkValue())
-                        throw new WrongPositionException("Value not correct on cell: " + c.toString());
-                    else if (!checkOrtogonalPos(c)) {
-                        throw new WrongPositionException("Position not correct on cell " + c.toString());
-                    }
+            while (itr.hasNext()) {
+                if (itr.next().isOccupied()) {
+                    if (!itr.next().checkColor())
+                        throw new WrongPositionException("Color not correct on cell: " + itr.next().toString());
+                    else if (!itr.next().checkValue())
+                        throw new WrongPositionException("Value not correct on cell: " + itr.next().toString());
+                    else if (!checkOrtPos(itr.next()))
+                        throw new WrongPositionException("Position not correct on cell " + itr.next().toString());
+                    else if (!checkNeighbors(itr.next()))
+                        throw new WrongPositionException("Position not correct on cell (no dice around) " + itr.next().toString());
                 }
             }
         }
         return true;
-    }*/
+    }
+
+
 
 }

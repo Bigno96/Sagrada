@@ -15,20 +15,21 @@ public class Cell {
     private Colors color;
     private Dice dice;
     private boolean isOccupied;
-    private int pos;            // position from 0 to 19
-    private Set<Integer> borderPos = new HashSet<>(Arrays.asList(0,1,2,3,4,5,9,10,14,15,16,17,18,19));
+    private int row;            // position from 0 to 3
+    private int col;            // position from 0 to 4
 
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
-    public Cell(int value, Colors color, int pos) throws ValueException, PositionException {
+    public Cell(int value, Colors color, int row, int col) throws ValueException, PositionException {
         if (value < 0 || value > 6)
             throw new ValueException("Illegal Value");
         this.value = value;
         this.color = color;
         isOccupied = false;
-        if (pos < 0 || pos > 19)
+        if (row < 0 || row > 3 || col < 0 || col > 4)
             throw new PositionException("Illegal Position");
-        this.pos = pos;
+        this.row = row;
+        this.col = col;
     }
 
     @Override
@@ -85,12 +86,12 @@ public class Cell {
         return dice.copyDice();
     }
 
-    public int getPos() {
-        return this.pos;
+    public int getRow() {
+        return row;
     }
 
-    public boolean isBorder() {
-        return borderPos.contains(pos);
+    public int getCol() {
+        return col;
     }
 
 }

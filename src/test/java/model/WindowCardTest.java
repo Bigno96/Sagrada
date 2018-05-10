@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WindowCardTest extends TestCase{
 
+    /*
     private static final Random random = new Random();
     private int id = random.nextInt(20);
     private int fp = random.nextInt(4)+3;
@@ -44,6 +45,25 @@ public class WindowCardTest extends TestCase{
         assertThrows(IDNotFoundException.class, () -> card.getCell(idPos));
         assertThrows(IDNotFoundException.class, () -> card.getCell(idNeg));
     }
+
+    /*public void testIsBorder() throws PositionException, ValueException {
+        int randTop = random.nextInt(5);
+        int randBot = random.nextInt(5)+15;
+
+        Cell cTop = new Cell(value, col, randTop);
+        Cell cBot = new Cell(value, col, randBot);
+        Cell cL1 = new Cell(value, col, 5);
+        Cell cL2 = new Cell(value, col, 10);
+        Cell cR1 = new Cell(value, col, 9);
+        Cell cR2 = new Cell(value, col, 14);
+
+        assertTrue(cTop.isBorder());
+        assertTrue(cBot.isBorder());
+        assertTrue(cL1.isBorder());
+        assertTrue(cL2.isBorder());
+        assertTrue(cR1.isBorder());
+        assertTrue(cR2.isBorder());
+    }*/
     
     /*public void testCheckOneDice() throws EmptyException, WrongPositionException, IDNotFoundException, NotEmptyException, ValueException, PositionException {
         List<Cell> list = myCellList();
@@ -59,9 +79,9 @@ public class WindowCardTest extends TestCase{
         card.getCell(id).setDice(d);
 
         assertTrue(card.checkOneDice());
-    }
+    }*/
 
-    public void testCheckFirstDice() throws EmptyException, IDNotFoundException, NotEmptyException, WrongPositionException, ValueException, PositionException {
+    /*public void testCheckFirstDice() throws EmptyException, IDNotFoundException, NotEmptyException, WrongPositionException, ValueException, PositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
         int pos = 3;
@@ -77,9 +97,9 @@ public class WindowCardTest extends TestCase{
         card.getCell(pos).setDice(d);
 
         assertTrue(card.checkFirstDice());
-    }
+    }*/
 
-    public void testWrongPositionException() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+    /*public void testWrongPositionException() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
         int pos = 4;
@@ -117,15 +137,15 @@ public class WindowCardTest extends TestCase{
         card.getCell(wrongPos).setDice(new Dice(id, color));
 
         assertThrows(WrongPositionException.class, card::checkFirstDice);
-    }
+    }*/
 
-    public void testEmptyException() throws ValueException, PositionException {
+    /*public void testEmptyException() throws ValueException, PositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
 
         assertThrows(EmptyException.class, card::checkOneDice);
         assertThrows(EmptyException.class, card::checkFirstDice);
-    }
+    }*/
 
     /*public void testCheckPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, ValueException, NotEmptyException, PositionException {
         List<Cell> list = new ArrayList<>();
@@ -179,4 +199,5 @@ public class WindowCardTest extends TestCase{
 
         assertFalse(card.checkPlaceCond());
     }*/
+
 }
