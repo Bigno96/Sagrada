@@ -4,11 +4,11 @@ import exception.IDNotFoundException;
 import exception.PositionException;
 import exception.ValueException;
 import junit.framework.TestCase;
-import model.objectiveCard.ObjectiveCard;
-import model.objectiveCard.ObjectiveFactory;
-import model.objectiveCard.ObjectiveStrategy;
-import model.windowCard.WindowCard;
-import model.windowCard.WindowFactory;
+import model.objectivecard.ObjectiveCard;
+import model.objectivecard.ObjectiveFactory;
+import model.objectivecard.ObjectiveStrategy;
+import model.windowcard.WindowCard;
+import model.windowcard.WindowFactory;
 
 import java.io.FileNotFoundException;
 import java.util.List;

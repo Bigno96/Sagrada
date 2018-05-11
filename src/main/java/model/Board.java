@@ -1,14 +1,14 @@
 package model;
 
 import exception.IDNotFoundException;
-import model.diceBag.DiceBag;
-import model.diceBag.Draft;
-import model.objectiveCard.ObjectiveCard;
-import model.objectiveCard.ObjectiveFactory;
-import model.objectiveCard.ObjectiveStrategy;
-import model.objectiveCard.PublicObjective;
-import model.roundTrack.RoundTrack;
-import model.windowCard.WindowFactory;
+import model.dicebag.DiceBag;
+import model.dicebag.Draft;
+import model.objectivecard.ObjectiveCard;
+import model.objectivecard.ObjectiveFactory;
+import model.objectivecard.ObjectiveStrategy;
+import model.objectivecard.PublicObjective;
+import model.roundtrack.RoundTrack;
+import model.windowcard.WindowFactory;
 
 import java.util.ArrayList;
 import java.util.List;

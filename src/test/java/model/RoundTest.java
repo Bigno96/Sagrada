@@ -74,7 +74,7 @@ public class RoundTest extends TestCase {
     }
 
 
-    public void testNextRound() throws EmptyException, SamePlayerException {
+    public void testNextRound() throws SamePlayerException {
         Round round = new Round();
         Player player1 = new Player(id, board);
         Player player2 = new Player(id+1, board);

@@ -1,7 +1,7 @@
 package model;
 
-import model.objectiveCard.ObjectiveCard;
-import model.windowCard.WindowCard;
+import model.objectivecard.ObjectiveCard;
+import model.windowcard.WindowCard;
 
 import java.util.logging.Logger;
 
