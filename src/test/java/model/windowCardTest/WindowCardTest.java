@@ -7,6 +7,7 @@ import model.diceBag.Dice;
 import model.windowCard.Cell;
 import model.windowCard.MatrixCell;
 import model.windowCard.WindowCard;
+import sun.invoke.empty.Empty;
 
 import java.util.*;
 
@@ -25,14 +26,15 @@ public class WindowCardTest extends TestCase{
         super(testName);
     }
 
-    private List<Cell> myCellList() throws ValueException {
+    private List<Cell> myCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<>();
-        for (int i=0; i<20; i++)
-            cellList.add(new Cell(random.nextInt(7), Colors.random()));
+        for (int i=0; i<4; i++)
+            for (int j=0; j<5; j++)
+                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
         return cellList;
     }
 
-    public void testGetter() throws ValueException {
+    public void testGetter() throws ValueException, PositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
         matrix = card.getWindow();
@@ -43,150 +45,148 @@ public class WindowCardTest extends TestCase{
         assertEquals(matrix, card.getWindow());
     }
 
-    public void testArrayIndexOutOfBoundsException() throws ValueException {
-        int rowNeg = random.nextInt(1) - (random.nextInt()+1);
-        int rowPos = random.nextInt(1)+4;
-        int colNeg = random.nextInt(1) - (random.nextInt()+1);
-        int colPos = random.nextInt(1)+5;
+    public void testCheckFirstDice() throws EmptyException, WrongPositionException, ValueException, IDNotFoundException, NotEmptyException, PositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
+        int row, col;
+        Colors color;
+        int value;
 
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> card.getWindow().getCell(rowNeg, colNeg));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> card.getWindow().getCell(rowPos, colPos));
+        row = 0;
+        col = random.nextInt(5);
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertTrue(card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
+
+        row = 3;
+        col = random.nextInt(5);
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertTrue(card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
+
+        col = 0;
+        row = random.nextInt(4);
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertTrue(card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
+
+        col = 3;
+        row = random.nextInt(4);
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertTrue(card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
     }
 
-    /*public void testCheckFirstDice() throws EmptyException, WrongPositionException, ValueException, IDNotFoundException, NotEmptyException {
+    public void testCheckFirstDiceException () throws ValueException, IDNotFoundException, PositionException, NotEmptyException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
-        int pos = 3;
+        int row, col;
+        Colors color;
+        int value;
 
-        Colors color = list.get(pos).getColor();
-        int value = list.get(pos).getValue();
+        assertThrows(EmptyException.class, () -> card.checkFirstDice());
 
-        card.getWindow().getCell(0,3).setDice(new Dice(id, color));
+        row = random.nextInt(2)+1;
+        col = random.nextInt(3)+1;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, () -> card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
 
-        card.getWindow().getCell(1,4).setDice(new Dice(id, color));
+        row = 0;
+        col = random.nextInt(5);
+        do {
+            color = Colors.random();
+        } while (color.equals(card.getWindow().getCell(row,col).getColor()));
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, () -> card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
 
-        assertTrue(card.checkFirstDice());
+        row = 0;
+        col = random.nextInt(5);
+        color = card.getWindow().getCell(row,col).getColor();
+        do {
+            value = random.nextInt(6)+1;
+        } while (value == card.getWindow().getCell(row,col).getValue());
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, () -> card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
+
+        row = 0;
+        col = random.nextInt(5);
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+
+        row = random.nextInt(2)+1;
+        col = random.nextInt(3)+1;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, () -> card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
+
     }
     
-    /*public void testCheckOneDice() throws EmptyException, WrongPositionException, IDNotFoundException, NotEmptyException, ValueException, PositionException {
+    public void testCheckOneDice() throws EmptyException, WrongPositionException, IDNotFoundException, NotEmptyException, ValueException, PositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
-        Colors color = list.get(id).getColor();
-        int value = list.get(id).getValue();
+        int row, col;
+        Colors color;
+        int value;
 
-        card.getCell(id).setDice(new Dice(id, color));
-
-        Dice d = card.getCell(id).getDice();
-        d.changeValue(value);
-        card.getCell(id).freeCell();
-        card.getCell(id).setDice(d);
-
+        row = random.nextInt(4);
+        col = random.nextInt(5);
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
         assertTrue(card.checkOneDice());
-    }*/
+        card.getWindow().getCell(row,col).freeCell();
+    }
 
-
-
-    /*public void testWrongPositionException() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+    public void testCheckOneDiceException () throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
-        int pos = 4;
-        Colors color = list.get(pos).getColor();
-        int value = list.get(pos).getValue();
-        Colors wrongCol;
-        int wrongVal;
-        int wrongPos = 12;
+        int row, col;
+        Colors color;
+        int value;
 
+        assertThrows(EmptyException.class, () -> card.checkFirstDice());
+
+        row = random.nextInt(4);
+        col = random.nextInt(5);
         do {
-            wrongCol = Colors.random();
-        } while (wrongCol.equals(color));
+            color = Colors.random();
+        } while (color.equals(card.getWindow().getCell(row,col).getColor()));
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, () -> card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
 
+        row = random.nextInt(4);
+        col = random.nextInt(5);
+        color = card.getWindow().getCell(row,col).getColor();
         do {
-            wrongVal = random.nextInt(7);
-        } while (wrongVal == value);
+            value = random.nextInt(6)+1;
+        } while (value == card.getWindow().getCell(row,col).getValue());
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, () -> card.checkFirstDice());
+        card.getWindow().getCell(row,col).freeCell();
+    }
 
-        card.getCell(pos).setDice(new Dice(id, wrongCol));
 
-        assertThrows(WrongPositionException.class, card::checkOneDice);
-        assertThrows(WrongPositionException.class, card::checkFirstDice);
+    public void testCheckPlaceCond() {
 
-        card.getCell(pos).freeCell();
-        card.getCell(pos).setDice(new Dice(id, color));
-        Dice d = card.getCell(pos).getDice();
-        d.changeValue(wrongVal);
-        card.getCell(pos).freeCell();
-        card.getCell(pos).setDice(d);
-
-        assertThrows(WrongPositionException.class, card::checkOneDice);
-        assertThrows(WrongPositionException.class, card::checkFirstDice);
-
-        card.getCell(pos).freeCell();
-        color = list.get(wrongPos).getColor();
-        card.getCell(wrongPos).setDice(new Dice(id, color));
-
-        assertThrows(WrongPositionException.class, card::checkFirstDice);
-    }*/
-
-    /*public void testEmptyException() throws ValueException, PositionException {
-        List<Cell> list = myCellList();
-        WindowCard card = new WindowCard(id, "Test", fp, list);
-
-        assertThrows(EmptyException.class, card::checkOneDice);
-        assertThrows(EmptyException.class, card::checkFirstDice);
-    }*/
-
-    /*public void testCheckPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, ValueException, NotEmptyException, PositionException {
-        List<Cell> list = new ArrayList<>();
-        list.add(new Cell(0, Colors.GREEN, 0));
-        list.add(new Cell(0, Colors.BLUE, 1));
-        for (int i=2; i<5; i++)
-            list.add(new Cell(0, Colors.NULL, i));
-        list.add(new Cell(1, Colors.NULL, 5));
-        for (int i=6; i<20; i++)
-            list.add(new Cell(0, Colors.NULL, i));
-
-        WindowCard card = new WindowCard(id, "Test", fp, list);
-        Dice d;
-
-        card.getCell(1).setDice(new Dice(8, Colors.BLUE));
-
-        d = card.getCell(1).getDice();
-        d.changeValue(6);
-        card.getCell(1).freeCell();
-        card.getCell(1).setDice(d);
-
-        assertTrue(card.checkPlaceCond());
-
-        card.getCell(0).setDice(new Dice(0, Colors.GREEN));
-
-        d = card.getCell(0).getDice();
-        d.changeValue(3);
-        card.getCell(0).freeCell();
-        card.getCell(0).setDice(d);
-
-        assertTrue(card.checkPlaceCond());
-
-        card.getCell(5).setDice(new Dice(3, Colors.NULL));
-
-        d = card.getCell(5).getDice();
-        d.changeValue(1);
-        card.getCell(5).freeCell();
-        card.getCell(5).setDice(d);
-
-        assertTrue(card.checkPlaceCond());
-
-        d = card.getCell(0).getDice();
-        d.changeValue(1);
-        card.getCell(0).freeCell();
-        card.getCell(0).setDice(d);
-
-        assertFalse(card.checkPlaceCond());
-
-        card.getCell(5).freeCell();
-        card.getCell(5).setDice(new Dice(2, Colors.GREEN));
-
-        assertFalse(card.checkPlaceCond());
-    }*/
+    }
 
 }

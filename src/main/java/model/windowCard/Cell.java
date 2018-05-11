@@ -31,21 +31,13 @@ public class Cell {
         this.col = col;
     }
 
-    public Cell(int value, Colors color) throws ValueException {
-        if (value < 0 || value > 6)
-            throw new ValueException("Illegal Value");
-        this.value = value;
-        this.color = color;
-        isOccupied = false;
-    }
-
     @Override
     public String toString() {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
     public void dump() {
-        logger.info("Col: " + getColor() + " Val: " + getValue());
+        logger.info("Color: " + getColor() + " Val: " + getValue() + " Row: " + getRow() + " Col: " + getCol());
     }
 
     public Colors getColor() {
