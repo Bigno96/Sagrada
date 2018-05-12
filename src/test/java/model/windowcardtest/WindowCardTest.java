@@ -205,6 +205,51 @@ public class WindowCardTest extends TestCase{
         assertTrue(card.checkPlaceCond());
     }
 
+    public void testCheckPlaceCondException() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        int row, col;
+        Colors color;
+        int value;
 
+        row = 0;
+        col = 0;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        row = 1;
+        col = 1;
+        do {
+            color = Colors.random();
+        } while (color.equals(card.getWindow().getCell(row,col).getColor()));
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, card::checkPlaceCond);
+        card.getWindow().getCell(row,col).freeCell();
+
+        color = card.getWindow().getCell(row,col).getColor();
+        do {
+            value = random.nextInt(6)+1;
+        } while (value == card.getWindow().getCell(row,col).getValue());
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, card::checkPlaceCond);
+        card.getWindow().getCell(row,col).freeCell();
+
+        row=1;
+        col=0;
+        color = card.getWindow().getCell(0,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, card::checkPlaceCond);
+        card.getWindow().getCell(row,col).freeCell();
+
+
+        row = random.nextInt(2)+1;
+        col = random.nextInt(2)+2;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        assertThrows(WrongPositionException.class, card::checkPlaceCond);
+    }
 
 }
