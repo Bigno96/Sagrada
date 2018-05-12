@@ -124,11 +124,12 @@ public class WindowCard {
     public boolean checkOrtPos(Cell c) throws PositionException, IDNotFoundException {
 
         List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
-
-        for (Cell cell : cellList) {
+        try {
+            for (Cell cell : cellList) {
                 if (cell.getDice() != null && c.getDice().getValue() == cell.getDice().getValue() || c.getDice().getColor().equals(cell.getDice().getColor()))
                     return false;
-        }
+            }
+        }catch (NullPointerException e){}
 
         return true;
     }
@@ -137,11 +138,13 @@ public class WindowCard {
 
         List<Cell> cellList = window.retNeighbors(c.getRow(), c.getCol());
 
-        for (Cell cell : cellList) {
-            if (cell.isOccupied()) {
-                return true;
+        try {
+            for (Cell cell : cellList) {
+                if (cell.isOccupied()) {
+                    return true;
+                }
             }
-        }
+        }catch (NullPointerException e){}
 
         return false;
     }

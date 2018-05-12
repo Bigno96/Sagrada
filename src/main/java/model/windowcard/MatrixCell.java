@@ -95,18 +95,25 @@ public class MatrixCell {
             throw new PositionException(illegalMsg);
 
         List<Cell> ort = new ArrayList<>();
+        try {
+            if (matrix[row - 1][col] != null)
+                ort.add(matrix[row - 1][col]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
-        if(matrix[row-1][col]!=null)
-            ort.add(matrix[row-1][col]);
+        try {
+            if (matrix[row][col-1] != null)
+                ort.add(matrix[row][col-1]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
-        if(matrix[row][col-1]!=null)
-            ort.add(matrix[row][col-1]);
+        try{
+            if (matrix[row][col+1] != null)
+                ort.add(matrix[row][col+1]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
-        if(matrix[row][col+1]!=null)
-            ort.add(matrix[row][col+1]);
-
-        if(matrix[row+1][col]!=null)
-            ort.add(matrix[row+1][col]);
+        try{
+            if (matrix[row + 1][col] != null)
+                ort.add(matrix[row + 1][col]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
         return ort;
 
@@ -119,18 +126,25 @@ public class MatrixCell {
 
         List<Cell> diag = new ArrayList<>();
 
+        try {
+            if (matrix[row - 1][col - 1] != null)
+                diag.add(matrix[row - 1][col - 1]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
-        if(matrix[row-1][col-1]!=null)
-            diag.add(matrix[row-1][col-1]);
+        try {
+            if (matrix[row - 1][col + 1] != null)
+                diag.add(matrix[row - 1][col + 1]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
-        if(matrix[row-1][col+1]!=null)
-            diag.add(matrix[row-1][col+1]);
+        try {
+            if (matrix[row + 1][col - 1] != null)
+                diag.add(matrix[row + 1][col - 1]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
-        if(matrix[row+1][col-1]!=null)
-            diag.add(matrix[row+1][col-1]);
-
-        if(matrix[row+1][col+1]!=null)
-            diag.add(matrix[row+1][col+1]);
+        try {
+            if (matrix[row + 1][col + 1] != null)
+                diag.add(matrix[row + 1][col + 1]);
+        }catch (ArrayIndexOutOfBoundsException e){}
 
         return diag;
 

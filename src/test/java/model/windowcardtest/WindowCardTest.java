@@ -75,7 +75,7 @@ public class WindowCardTest extends TestCase{
         assertTrue(card.checkFirstDice());
         card.getWindow().getCell(row,col).freeCell();
 
-        col = 3;
+        col = 4;
         row = random.nextInt(4);
         color = card.getWindow().getCell(row,col).getColor();
         value = card.getWindow().getCell(row,col).getValue();
@@ -184,8 +184,27 @@ public class WindowCardTest extends TestCase{
     }
 
 
-    public void testCheckPlaceCond() {
+    public void testCheckPlaceCond() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, EmptyException, WrongPositionException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        int row, col;
+        Colors color;
+        int value;
 
+        row = 0;
+        col = 0;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+        row = 1;
+        col = 1;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+
+        assertTrue(card.checkPlaceCond());
     }
+
+
 
 }
