@@ -1,4 +1,4 @@
-package model.roundtracktest;
+package model.roundtrack;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
@@ -6,7 +6,6 @@ import exception.SameDiceException;
 import junit.framework.TestCase;
 import model.Colors;
 import model.dicebag.Dice;
-import model.roundtrack.ListDiceRound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ public class ListDiceRoundTest extends TestCase {
 
         Dice d = new Dice(n, col);
 
+        assertNotSame(dices.toString(), list.toString());
         assertTrue(list.addDice(d));
         assertThrows(SameDiceException.class, () -> list.addDice(d));
         assertTrue(list.addDice(dices));

@@ -1,4 +1,4 @@
-package model.roundtracktest;
+package model.roundtrack;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
@@ -8,7 +8,6 @@ import model.Colors;
 import model.dicebag.Dice;
 import model.dicebag.DiceBag;
 import model.dicebag.Draft;
-import model.roundtrack.RoundTrack;
 
 import java.util.Random;
 
@@ -35,6 +34,7 @@ public class RoundTrackTest extends TestCase {
 
         roundTrack.moveDraft(round);
 
+        assertNotSame(draft.toString(), roundTrack.toString());
         assertSame(d.getID(), roundTrack.findDice(id).getID());
         assertSame(d.getColor(), roundTrack.findDice(id).getColor());
         assertNotSame(d, roundTrack.findDice(id));

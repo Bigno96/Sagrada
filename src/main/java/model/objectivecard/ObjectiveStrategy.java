@@ -36,7 +36,7 @@ public class ObjectiveStrategy {
     }
 
     private int parsePriv(int id) throws FileNotFoundException, IDNotFoundException {
-        Colors col = null;
+        Colors col = Colors.NULL;
         JsonParser parser = new JsonParser();
         String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
 
@@ -45,11 +45,11 @@ public class ObjectiveStrategy {
         for (Object o : objArray) {
             JsonObject obj = (JsonObject) o;
             if (Integer.parseInt(obj.get("ID").toString()) == id) {
-                col = Colors.parseColor(obj.get("effect").toString());
+                col = Colors.parseColor(obj.get("effect").getAsString());
             }
         }
 
-        if (col == null)
+        if (col.equals(Colors.NULL))
             throw new IDNotFoundException("Objective Card id not found");
 
         return calculator.calcPointPriv(col, winCard);
@@ -68,14 +68,12 @@ public class ObjectiveStrategy {
         for (Object o : objArray) {
             JsonObject obj = (JsonObject) o;
             if (Integer.parseInt(obj.get("ID").toString()) == id) {
-                type = obj.get("type").toString();
-                scope = obj.get("scope").toString();
-                grad = obj.get("grad").toString();
-                dir = obj.get("dir").toString();
+                type = obj.get("type").getAsString();
+                scope = obj.get("scope").getAsString();
+                grad = obj.get("grad").getAsString();
+                dir = obj.get("dir").getAsString();
             }
         }
-        if (type.equals("null"))
-            throw new IDNotFoundException("Objective Card id not found");
 
         if (type.equals("color"))
             return parseCol(scope, dir);
@@ -91,10 +89,8 @@ public class ObjectiveStrategy {
                 return calculator.calcDifferentRowColor(winCard, objective);
         if (scope.equals("var"))
             return calculator.calcVarietyColor(winCard, objective);
-        if (scope.equals("diag"))
-            return calculator.calcDiagonalColor(winCard, objective);
-
-        return 0;
+        else // scope.equals("diag")
+            return calculator.calcDiagonalColor(winCard);
     }
 
     private int parseShade(String scope, String grad, String dir) throws IDNotFoundException {
@@ -105,16 +101,14 @@ public class ObjectiveStrategy {
                 return calculator.calcDifferentRowShade(winCard, objective);
         if (scope.equals("var"))
             return calculator.calcVarietyShade(winCard, objective);
-        if (scope.equals("grad")) {
+        else { //scope.equals("grad")
             if (grad.equals("light"))
                 return calculator.calcGradationShade(1 ,2, winCard, objective);
             if (grad.equals("medium"))
                 return calculator.calcGradationShade(3 ,4, winCard, objective);
-            if (grad.equals("dark"))
+            else //grad.equals("dark")
                 return calculator.calcGradationShade(5 ,6, winCard, objective);
         }
-
-        return 0;
     }
 
 

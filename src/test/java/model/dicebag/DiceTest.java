@@ -1,10 +1,9 @@
-package model.dicebagtest;
+package model.dicebag;
 
 import exception.IDNotFoundException;
 import exception.ValueException;
 import junit.framework.TestCase;
 import model.Colors;
-import model.dicebag.Dice;
 
 import java.util.Random;
 
@@ -21,9 +20,13 @@ public class DiceTest extends TestCase {
     }
 
     public void testGetter() throws IDNotFoundException{
-        assertEquals(id, new Dice(id, col).getID());
-        assertEquals(col, new Dice(id, col).getColor());
-
+        Dice d = new Dice(id, col);
+        Dice d1 = new Dice(id, col);
+        assertEquals(id, d.getID());
+        assertEquals(col, d.getColor());
+        assertEquals(id, d1.getID());
+        assertEquals(col, d1.getColor());
+        assertNotSame(d.toString(), d1.toString());
     }
 
     public void testIDNotFoundException() {

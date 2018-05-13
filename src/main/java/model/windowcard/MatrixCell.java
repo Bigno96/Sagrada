@@ -22,12 +22,6 @@ public class MatrixCell {
         this.cols = cols;
     }
 
-    public MatrixCell(MatrixCell matrixCell) {
-        this.matrix = matrixCell.getMatrix();
-        rows = this.matrix.length;
-        cols = this.matrix[0].length;
-    }
-
     public void loadMatrixCell(List<Cell> cellList){
         int pos = 0;
         for (int i=0; i<rows; i++){
@@ -79,79 +73,52 @@ public class MatrixCell {
         return cellList.iterator();
     }
 
-    public Iterator<Cell> itrVert(){
-        List<Cell> cellList = new ArrayList<>();
-        for (int j=0; j<cols; j++) {
-            for (int i = 0; i < rows; i++) {
-                cellList.add(matrix[i][j]);
-            }
-        }
-        return cellList.iterator();
-    }
-
     public List<Cell> retOrtogonal (int row, int col) throws PositionException {
-
         if (row < 0 || row > 3 || col < 0 || col > 4)
             throw new PositionException(illegalMsg);
 
         List<Cell> ort = new ArrayList<>();
-        try {
-            if (matrix[row - 1][col] != null)
-                ort.add(matrix[row - 1][col]);
-        }catch (ArrayIndexOutOfBoundsException e){}
 
-        try {
-            if (matrix[row][col-1] != null)
-                ort.add(matrix[row][col-1]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (row-1 >= 0)
+            ort.add(matrix[row-1][col]);
 
-        try{
-            if (matrix[row][col+1] != null)
-                ort.add(matrix[row][col+1]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (col-1 >= 0)
+            ort.add(matrix[row][col-1]);
 
-        try{
-            if (matrix[row + 1][col] != null)
-                ort.add(matrix[row + 1][col]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (col+1 <= 4)
+            ort.add(matrix[row][col+1]);
+
+        if (row+1 <= 3)
+            ort.add(matrix[row + 1][col]);
 
         return ort;
 
         }
 
     public List<Cell> retDiagonal (int row, int col) throws PositionException {
-
         if (row < 0 || row > 3 || col < 0 || col > 4)
             throw new PositionException(illegalMsg);
 
         List<Cell> diag = new ArrayList<>();
 
-        try {
-            if (matrix[row - 1][col - 1] != null)
-                diag.add(matrix[row - 1][col - 1]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (row-1 >= 0 && col-1 >= 0)
+            diag.add(matrix[row - 1][col - 1]);
 
-        try {
-            if (matrix[row - 1][col + 1] != null)
-                diag.add(matrix[row - 1][col + 1]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (row-1 >= 0 && col+1 <= 4)
+            diag.add(matrix[row - 1][col + 1]);
 
-        try {
-            if (matrix[row + 1][col - 1] != null)
-                diag.add(matrix[row + 1][col - 1]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (row+1 <= 3 && col-1 >= 0)
+            diag.add(matrix[row + 1][col - 1]);
 
-        try {
-            if (matrix[row + 1][col + 1] != null)
-                diag.add(matrix[row + 1][col + 1]);
-        }catch (ArrayIndexOutOfBoundsException e){}
+        if (row+1 <= 3 && col+1 <= 4)
+            diag.add(matrix[row + 1][col + 1]);
+
 
         return diag;
 
     }
 
     public List<Cell> retNeighbors (int row, int col) throws PositionException {
-
         if (row < 0 || row > 3 || col < 0 || col > 4)
             throw new PositionException(illegalMsg);
 

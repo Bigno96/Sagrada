@@ -1,15 +1,5 @@
 # TestPassed
 
-## Cell 
-* **testChangeDiceValue** : changing value of dice in the cell
-* **testIsOccupied** : testing if cell is already occupied is impossible to insert a Dice
-* **testGetPos** : testing the position inside WindowCard of cell
-* **testIsBorder** : testing return true if position of cell is on the border
-* **testCheck** : testing control over value and color restrictions
-* **testValueException** : testing reaction to impossible value of cell
-* **testPositionException** : testing incorrect position of cell
-* **testNotEmptyException** : testing reaction to an addition of dice in an occupied cell
-
 ## DiceBag 
 * **testDiceBagEmpty**: testing if cannot find a dice in an empty bag
 * **testFindDice**: testing if can find a dice in the bag
@@ -33,7 +23,37 @@
 * **testModifyingDraft**: testing adding and removing
 * **testSetnDice**: testing setter of nDice of draft
 
-## ListDiceRound 
+## ObjectiveCard 
+* **testId**: testing getId
+* **testPoint**: testing getPoint
+* **testDescr**: testing getting Description
+* **testFP**: testing getting and setting favor point
+* **testCalcPointPrivate**: testing calculating point of private objective over a window card
+* **testCalcPointPublic**: testing calculating point of public objective over a window card
+
+## ObjectiveFactory
+* **testGetPrivCard**: testing getting a private Objective with a specific id
+* **testGetPublCard**: testing getting a public Objective with a specific id
+* **testExceptionPriv**: testing reaction when getting a private Objective with an incorrect id
+* **testExceptionPubl**: testing reaction when getting a public Objective with an incorrect id
+
+##ObjectiveStrategy
+* **testPrivateObjectiveCard**: testing the call to Objective Strategy to calc point from private objective
+* **testPublicObjectiveCard**: testing the call to Objective Strategy to calc point from public objective
+* **testException**: testing bad id or bad objective
+
+##PointCalculator
+* **testCalcPointPriv**: testing calculating private objective point
+* **testCalcDifferentColumnColor**: testing calculating point from different colors columns
+* **testCalcDifferentRowColor**: testing calculating point from different colors rows
+* **testCalcVarietyColor**: testing calculating point from different sets of colors
+* **testCalcDiagonalColor**: testing calculating point from diagonal adjacent colors
+* **testCalcDifferentColumnShade**: testing calculating point from different shade columns
+* **testCalcDifferentRowShade**: testing calculating point from different shade rows
+* **testCalcVarietyShade**: testing calculating point from different sets of shades
+* **testCalcGradationShade**: testing calculating point from couples of shades
+
+## ListDiceRound
 * **testAddDice**: testing adding Dice to a round of RoundTrack
 * **testRemoveDice**: testing removing Dice from a round of RoundTrack
 * **testEmptyException**: testing reaction when removing from an empty ListDiceRound
@@ -41,17 +61,41 @@
 * **testGetDice**: testing if a Dice can be found
 * **testContains**: testing the presence of a Dice
 
-## ObjectiveCard 
-* **testId**: testing getId
-* **testPoint**: testing getPoint
-* **testDescr**: testing getting Description
-* **testFP**: testing getting and setting favor point
+## RoundTrack 
+* **testFindDice**: testing the correct search of a dice in round Track
+* **testIDNotFoundException**: testing reaction when trying to find a dice not in round Track
+* **testAddDice**: testing about adding dices and reaction to illegal adding attempts
+* **testRmDice**: testing about removing dices and reaction to illegal removing attempts
 
-## ObjectiveFactory
-* **testGetPrivCard**: testing getting a private Objective with a specific id
-* **testGetPublCard**: testing getting a public Objective with a specific id
-* **testExceptionPriv**: testing reaction when getting a private Objective with an incorrect id
-* **testExceptionPubl**: testing reaction when getting a public Objective with an incorrect id
+## Cell
+* **testGetter**: testing getValue, getColor, getCol, getRow
+* **testChangeDiceValue**: changing value of dice in the cell
+* **testIsOccupied**: testing if cell is already occupied is impossible to insert a Dice
+* **testCheck**: testing control over value and color restrictions
+* **testValueException**: testing reaction to impossible value of cell
+* **testPositionException**: testing incorrect position of cell
+* **testNotEmptyException**: testing reaction to an addition of dice in an occupied cell
+* **testFreeCell**: testing freeing a cell of its Dice
+
+## MatrixCell
+* **testGetter**: testing getRows, getCols, getMatrix, getCell
+* **testLoadMatrixCell**: testing setting correctly matrix inside of window card
+* **testIsBorder**: testing finding cells on border
+
+## WindowCard
+* **testGetter**: testing getId, getName, getNumFavPoint and getWindow
+* **testCheckFirstDice**: testing if first Dice is correctly positioned
+* **testCheckFirstDiceException**: testing cases as first dice placement of no dices positioned, more than one dice positioned,
+                                   not in border and color and/or value restriction not respected
+* **testCheckOneDice**: testing if only one dice is positioned
+* **testCheckOneDiceException**: testing cases no dice are positioned and color and/or value restriction not respected
+* **testCheckPlaceCond**: testing if all dices are correctly positioned
+* **testCheckPlaceCondException**: testing all bad cases of placement
+* **testIdNotFoundException**: testing reaction to an incorrect Id
+
+## WindowFactory 
+* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
+* **testException**: testing reaction to incorrect research
 
 ## Player
 * **testWindowCard**: testing setter and getter of WindowCard of the player
@@ -61,24 +105,10 @@
 * **testPrivObj**: testing setter and getter of Private Objective of the player
 * **testFavorPoint**: testing setter and getter of favor point of the player
 
-## Round 
+## Round
 * **testAddPlayer**: testing adding player
 * **testSamePlayerException**: testing reaction when adding the same player more than once
 * **testPlayerNotFoundException**: testing reaction when trying to find a player that doesn't exists
 * **testRmPlayer**: testing removing player
 * **testNextPlayer**: testing the correct order of the players in a round
 * **testNextRound**: testing the new order of player in a new round
-
-## RoundTrack 
-* **testFindDice**: testing the correct search of a dice in round Track
-* **testIDNotFoundException**: testing reaction when trying to find a dice not in round Track
-* **testAddDice**: testing about adding dices and reaction to illegal adding attempts
-* **testRmDice**: testing about removing dices and reaction to illegal removing attempts
-
-## WindowCard 
-* **testGetter**: testing getId, getName, getNumFavPoint and getCell
-* **testIdNotFoundException**: testing reaction to an incorrect Id
-
-## WindowFactory 
-* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
-* **testException**: testing reaction to incorrect research

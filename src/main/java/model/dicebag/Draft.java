@@ -27,8 +27,7 @@ public class Draft {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public void dump()
-    {
+    public void dump() {
         logger.info("contains following dices: ");
         for (Dice d : draftList)
         {

@@ -1,13 +1,10 @@
-package model.dicebagtest;
+package model.dicebag;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
 import junit.framework.TestCase;
 import model.Colors;
-import model.dicebag.Dice;
-import model.dicebag.DiceBag;
-import model.dicebag.Draft;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -29,6 +26,7 @@ public class DraftTest extends TestCase {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
 
+        assertNotSame(db.toString(), draft.toString());
         assertEquals(90, db.diceRemaining());
 
         assertTrue(draft.fillDraft());

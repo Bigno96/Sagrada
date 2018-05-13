@@ -1,10 +1,7 @@
-package model.objectivecardtest;
+package model.objectivecard;
 
 import exception.IDNotFoundException;
 import junit.framework.TestCase;
-import model.objectivecard.ObjectiveCard;
-import model.objectivecard.ObjectiveFactory;
-import model.objectivecard.ObjectiveStrategy;
 
 import java.io.FileNotFoundException;
 import java.util.Random;

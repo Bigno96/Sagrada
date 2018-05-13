@@ -1,4 +1,4 @@
-package model.windowcardtest;
+package model.windowcard;
 
 import exception.IDNotFoundException;
 import exception.NotEmptyException;
@@ -7,7 +7,6 @@ import exception.ValueException;
 import junit.framework.TestCase;
 import model.Colors;
 import model.dicebag.Dice;
-import model.windowcard.Cell;
 
 import java.util.Random;
 

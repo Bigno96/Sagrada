@@ -1,11 +1,9 @@
-package model.windowcardtest;
+package model.windowcard;
 
 import exception.PositionException;
 import exception.ValueException;
 import junit.framework.TestCase;
 import model.Colors;
-import model.windowcard.Cell;
-import model.windowcard.WindowCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,8 @@ public class MatrixCellTest extends TestCase {
 
     private List<Cell> myCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<>();
-        for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++)
+        for (int i=0; i<rows; i++)
+            for (int j=0; j<cols; j++)
                 cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
         return cellList;
     }
@@ -43,6 +41,7 @@ public class MatrixCellTest extends TestCase {
         row = random.nextInt(4);
         col = random.nextInt(5);
         Cell c = card.getWindow().getCell(row, col);
+
         assertSame(rows, card.getWindow().getRows());
         assertSame(cols, card.getWindow().getCols());
         assertSame(matrix, card.getWindow().getMatrix());
@@ -53,7 +52,9 @@ public class MatrixCellTest extends TestCase {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
         matrix = card.getWindow().getMatrix();
-        assertTrue(matrix!=null);
+
+        assertNotNull(matrix);
+        assertNotSame(card.getWindow().toString(), list.toString());
     }
 
 
@@ -79,6 +80,7 @@ public class MatrixCellTest extends TestCase {
         row = 3;
         col = 2;
         Cell cR2 = new Cell(value, color, row, col);
+
         assertTrue(card.getWindow().isBorder(cTop));
         assertTrue(card.getWindow().isBorder(cBot));
         assertTrue(card.getWindow().isBorder(cL1));

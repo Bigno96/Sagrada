@@ -1,11 +1,9 @@
-package model.dicebagtest;
+package model.dicebag;
 
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
 import junit.framework.TestCase;
-import model.dicebag.DiceBag;
-import model.dicebag.Dice;
 
 import java.util.Random;
 
@@ -20,10 +18,12 @@ public class DiceBagTest extends TestCase {
         super(testName);
     }
 
-    public void testDiceBagEmpty() {
+    public void testDiceBagEmpty() throws IDNotFoundException {
         DiceBag db = new DiceBag(true);
+        DiceBag db1 = new DiceBag();
 
         assertNull(db.findDice(id));
+        assertNotSame(db.toString(), db1.toString());
     }
 
     public void testFindDice() throws IDNotFoundException {            // testing finding a Dice based on his id

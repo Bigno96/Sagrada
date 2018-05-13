@@ -14,26 +14,19 @@ public class WindowCard {
     private int id;                 // id it's the same for 2 window card that represents front and behind of a real Window Card
     private int numFavPoint;
     private String name;
-    private static int rows = 4;
-    private static int cols = 5;
     private static String colorMsg = "Color not correct on cell: ";
     private static String valueMsg = "Value not correct on cell: ";
 
     private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
     public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList){
+        final int rows = 4;
+        final int cols = 5;
         this.id = id;
         this.name = name;
         this.numFavPoint = numFavPoint;
         window = new MatrixCell(rows, cols);
         this.window.loadMatrixCell(cellList);
-    }
-
-    public WindowCard (int id, String name, int numFavPoint, MatrixCell matrix){
-        this.id = id;
-        this.name = name;
-        this.numFavPoint = numFavPoint;
-        window = new MatrixCell(matrix);
     }
 
     public int getId() {
@@ -68,10 +61,6 @@ public class WindowCard {
         return window.itrOrizz();
     }
 
-    public Iterator<Cell> getVertItr() {
-        return window.itrVert();
-    }
-
     public boolean checkFirstDice() throws WrongPositionException, EmptyException {
         Boolean first = true;
 
@@ -100,9 +89,8 @@ public class WindowCard {
 
     public boolean checkOneDice() throws EmptyException, WrongPositionException {
         Boolean first = true;
-        Iterator<Cell> itr = window.itrOrizz();
 
-        while (itr.hasNext()) {
+        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
             Cell c = itr.next();
             if (c.isOccupied() && first) {
                 first = false;
@@ -122,37 +110,32 @@ public class WindowCard {
     }
 
     public boolean checkOrtPos(Cell c) throws PositionException, IDNotFoundException {
-
         List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
-        try {
-            for (Cell cell : cellList) {
-                if (cell.getDice() != null && c.getDice().getValue() == cell.getDice().getValue() || c.getDice().getColor().equals(cell.getDice().getColor()))
-                    return false;
-            }
-        }catch (NullPointerException e){}
+
+        for (Cell cell : cellList) {
+            if (cell.getDice() != null)
+                if (c.getDice().getValue() == cell.getDice().getValue() || c.getDice().getColor().equals(cell.getDice().getColor()))
+                return false;
+        }
 
         return true;
     }
 
     public boolean checkNeighbors(Cell c) throws PositionException {
-
         List<Cell> cellList = window.retNeighbors(c.getRow(), c.getCol());
 
-        try {
-            for (Cell cell : cellList) {
-                if (cell.isOccupied()) {
-                    return true;
-                }
+        for (Cell cell : cellList) {
+            if (cell.isOccupied()) {
+                return true;
             }
-        }catch (NullPointerException e){}
+        }
 
         return false;
     }
 
     public boolean checkPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, PositionException {
-        Iterator<Cell> itr = window.itrOrizz();
         if(!checkOneDice()) {
-            while (itr.hasNext()) {
+            for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
                 Cell c = itr.next();
                 if (c.isOccupied()) {
                     if (!c.checkColor())
@@ -168,7 +151,5 @@ public class WindowCard {
         }
         return true;
     }
-
-
 
 }
