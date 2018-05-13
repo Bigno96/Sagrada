@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class MatrixCellTest extends TestCase {
 
     private static final Random random = new Random();
@@ -87,6 +89,58 @@ public class MatrixCellTest extends TestCase {
         assertTrue(card.getWindow().isBorder(cL2));
         assertTrue(card.getWindow().isBorder(cR1));
         assertTrue(card.getWindow().isBorder(cR2));
+    }
+
+    public void testPositionException() throws ValueException, PositionException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        MatrixCell window = card.getWindow();
+
+        row = random.nextInt(6)+4;
+        col = random.nextInt(5);
+
+        assertThrows(PositionException.class, () -> window.retDiagonal(row, col));
+        assertThrows(PositionException.class, () -> window.retOrtogonal(row, col));
+        assertThrows(PositionException.class, () -> window.retNeighbors(row, col));
+    }
+
+    public void testRetOrtogonal() throws ValueException, PositionException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        List<Cell> ort;
+
+        row = random.nextInt(4);
+        col = random.nextInt(5);
+
+        ort = card.getWindow().retOrtogonal(row, col);
+
+        assertEquals(ort, card.getWindow().retOrtogonal(row, col));
+    }
+
+    public void testRetDiagonal() throws ValueException, PositionException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        List<Cell> ort;
+
+        row = random.nextInt(4);
+        col = random.nextInt(5);
+
+        ort = card.getWindow().retDiagonal(row, col);
+
+        assertEquals(ort, card.getWindow().retDiagonal(row, col));
+    }
+
+    public void testRetNeighbors() throws ValueException, PositionException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        List<Cell> ort;
+
+        row = random.nextInt(4);
+        col = random.nextInt(5);
+
+        ort = card.getWindow().retNeighbors(row, col);
+
+        assertEquals(ort, card.getWindow().retNeighbors(row, col));
     }
 
 }
