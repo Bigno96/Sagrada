@@ -27,7 +27,6 @@
 * **testId**: testing getId
 * **testPoint**: testing getPoint
 * **testDescr**: testing getting Description
-* **testFP**: testing getting and setting favor point
 * **testCalcPointPrivate**: testing calculating point of private objective over a window card
 * **testCalcPointPublic**: testing calculating point of public objective over a window card
 

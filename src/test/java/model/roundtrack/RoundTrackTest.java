@@ -92,7 +92,7 @@ public class RoundTrackTest extends TestCase {
         else
             roundDiff = round+1;
 
-        if (id+1 > 90)
+        if (id+1 > 89)
             idDiff = 0;
         else
             idDiff = id+1;

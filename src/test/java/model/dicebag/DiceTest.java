@@ -30,11 +30,14 @@ public class DiceTest extends TestCase {
     }
 
     public void testIDNotFoundException() {
-        final int randNeg = random.nextInt(1) - (random.nextInt() +1);
-        final int randPos = random.nextInt() + 90;
+        int randNeg = random.nextInt(1) - (random.nextInt() +1);
+        int randPos = random.nextInt() + 90;
+        int value = random.nextInt(6)+1;
 
         assertThrows(IDNotFoundException.class, () -> new Dice(randNeg, Colors.random()));
         assertThrows(IDNotFoundException.class, () -> new Dice(randPos, Colors.random()));
+        assertThrows(IDNotFoundException.class, () -> new Dice(randNeg, Colors.random(), value));
+        assertThrows(IDNotFoundException.class, () -> new Dice(randPos, Colors.random(), value));
     }
 
     public void testRollDice() throws IDNotFoundException {            // roll Dice must produce value x | 0 < x < 7

@@ -3,6 +3,7 @@ package model.dicebag;
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
+import exception.ValueException;
 import junit.framework.TestCase;
 
 import java.util.Random;
@@ -56,7 +57,7 @@ public class DiceBagTest extends TestCase {
         }
     }
 
-    public void testDiceAdding() throws IDNotFoundException, EmptyException, SameDiceException {          // testing addDice
+    public void testDiceAdding() throws IDNotFoundException, EmptyException, SameDiceException, ValueException {          // testing addDice
         DiceBag db1 = new DiceBag();
         Dice d = db1.findDice(random.nextInt(90));
 

@@ -3,6 +3,7 @@ package model.dicebag;
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
+import exception.ValueException;
 import model.Colors;
 
 import java.util.ArrayList;
@@ -79,11 +80,11 @@ public class DiceBag {
         throw new IDNotFoundException("Id not found");
     }
 
-    public boolean addDice(Dice d) throws SameDiceException {        // add Dice d if d it's not already in the bag
+    public boolean addDice(Dice d) throws SameDiceException, ValueException {        // add Dice d if d it's not already in the bag
         for (Dice itr : dices)
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already in Draft");
-
+        d.changeValue(0);
         return dices.add(d);
     }
 

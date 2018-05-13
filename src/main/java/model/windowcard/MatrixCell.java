@@ -45,9 +45,10 @@ public class MatrixCell {
     }
 
     public Cell getCell(int row, int col) {
-        if (matrix[row][col]!=null)
+        if (matrix[row][col] != null)
             return matrix[row][col];
-        throw new ArrayIndexOutOfBoundsException("Wrong Coordinates");
+
+        return null;
     }
 
     @Override

@@ -3,6 +3,7 @@ package model.dicebag;
 import exception.EmptyException;
 import exception.IDNotFoundException;
 import exception.SameDiceException;
+import exception.ValueException;
 import junit.framework.TestCase;
 import model.Colors;
 
@@ -39,7 +40,7 @@ public class DraftTest extends TestCase {
         }
     }
 
-    public void testEmptyException() throws IDNotFoundException, SameDiceException {
+    public void testEmptyException() throws IDNotFoundException, SameDiceException, ValueException {
         DiceBag db = new DiceBag(true);
         Draft draft = new Draft(db, nDice);
         Dice d = new Dice(id, col);

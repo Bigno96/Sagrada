@@ -14,21 +14,18 @@ public class ObjectiveCard {
     private int id;
     private String descr;
     private int point;
-    private int fp;
     private ObjectiveStrategy objStrat;
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
     public ObjectiveCard(int id, String descr, ObjectiveStrategy objStrat) {
         this.id = id;
         this.descr = descr;
-        this.fp = 0;
         this.objStrat = objStrat;
     }
 
     public ObjectiveCard(int id, String descr, int point, ObjectiveStrategy objStrat) {
         this.id = id;
         this.descr = descr;
-        this.fp = 0;
         this.point = point;
         this.objStrat = objStrat;
     }
@@ -39,14 +36,6 @@ public class ObjectiveCard {
 
     public String getDescr() {
         return descr;
-    }
-
-    public int getFP() {
-        return fp;
-    }
-
-    public void setFP(int fp) {
-        this.fp = fp;
     }
 
     public int calcPoint(WindowCard winCard) throws ValueException, FileNotFoundException, IDNotFoundException, PositionException {

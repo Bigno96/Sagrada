@@ -174,7 +174,7 @@ public class WindowCardTest extends TestCase{
         Colors color;
         int value;
 
-        assertThrows(EmptyException.class, card::checkFirstDice);
+        assertThrows(EmptyException.class, card::checkOneDice);
 
         row = random.nextInt(4);
         col = random.nextInt(5);
@@ -184,7 +184,7 @@ public class WindowCardTest extends TestCase{
         value = card.getWindow().getCell(row,col).getValue();
         card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
 
-        assertThrows(WrongPositionException.class, card::checkFirstDice);
+        assertThrows(WrongPositionException.class, card::checkOneDice);
 
         card.getWindow().getCell(row,col).freeCell();
 
@@ -196,7 +196,7 @@ public class WindowCardTest extends TestCase{
         } while (value == card.getWindow().getCell(row,col).getValue());
         card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
 
-        assertThrows(WrongPositionException.class, card::checkFirstDice);
+        assertThrows(WrongPositionException.class, card::checkOneDice);
 
         card.getWindow().getCell(row,col).freeCell();
     }

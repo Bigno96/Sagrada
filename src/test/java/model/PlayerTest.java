@@ -44,6 +44,8 @@ public class PlayerTest extends TestCase {
 
         p.setWindowCard(winCard);
         assertSame(winCard, p.getWindowCard());
+
+        assertNotSame(winCard.toString(), p.toString());
     }
 
     public void testGetID() {
@@ -61,11 +63,37 @@ public class PlayerTest extends TestCase {
     public void testTurn() {
         Player p = new Player(id, board);
 
-        assertTrue(p.isTurn());
-        p.endTurn();
-        assertFalse(p.isTurn());
-        p.resetTurn();
-        assertTrue(p.isTurn());
+        assertTrue(p.isFirstTurn());
+        p.endFirstTurn();
+        assertFalse(p.isFirstTurn());
+        p.resetFirstTurn();
+        assertTrue(p.isFirstTurn());
+
+        assertTrue(p.isSecondTurn());
+        p.endSecondTurn();
+        assertFalse(p.isSecondTurn());
+        p.resetSecondTurn();
+        assertTrue(p.isSecondTurn());
+    }
+
+    public void testPlayDice() {
+        Player p = new Player(id, board);
+
+        assertFalse(p.isPlayedDice());
+        p.playDice();
+        assertTrue(p.isPlayedDice());
+        p.resetPlayedDice();
+        assertFalse(p.isPlayedDice());
+    }
+
+    public void testUseTool() {
+        Player p = new Player(id, board);
+
+        assertFalse(p.isUsedTool());
+        p.useTool();
+        assertTrue(p.isUsedTool());
+        p.resetUsedTool();
+        assertFalse(p.isUsedTool());
     }
 
     public void testPrivObj() throws FileNotFoundException, IDNotFoundException {

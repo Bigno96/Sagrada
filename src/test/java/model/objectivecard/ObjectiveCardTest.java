@@ -78,15 +78,6 @@ public class ObjectiveCardTest extends TestCase {
         assertSame("test2", publObj.getDescr());
     }
 
-    public void testFP() {
-        assertSame(0, privObj.getFP());
-        assertSame(0, publObj.getFP());
-        privObj.setFP(1);
-        publObj.setFP(3);
-        assertSame(1, privObj.getFP());
-        assertSame(3, publObj.getFP());
-    }
-
     public void testCalcPointPrivate() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         ObjectiveCard obj1 = new PrivateObjective(1, "Shades of Yellow", objStrat);
         ObjectiveCard obj2 = new PrivateObjective(2, "Shades of Red", objStrat);

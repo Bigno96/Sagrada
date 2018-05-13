@@ -52,6 +52,7 @@ public class RoundTest extends TestCase {
         Player pDiff = new Player(id+1, board);
 
         assertThrows(EmptyException.class, () -> round.rmPlayer(p));
+        assertThrows(EmptyException.class, () -> round.findPlayer(p));
         assertTrue(round.addPlayer(p));
         assertTrue(round.rmPlayer(p));
         assertTrue(round.addPlayer(pDiff));
@@ -95,5 +96,7 @@ public class RoundTest extends TestCase {
         assertSame(player1, round.nextPlayer());
         assertSame(player2, round.nextPlayer());
         assertNull(round.nextPlayer());
+
+        assertNotSame(round.toString(), player1.toString());
     }
 }

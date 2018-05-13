@@ -25,6 +25,7 @@ public class ObjectiveStrategy {
     public int calcPoint(ObjectiveCard obj, WindowCard winCard) throws ValueException, FileNotFoundException, IDNotFoundException, PositionException {
         this.winCard = winCard;
         this.objective = obj;
+
         if (obj instanceof PrivateObjective)
             return parsePriv(obj.getId());
         else if (obj instanceof PublicObjective)

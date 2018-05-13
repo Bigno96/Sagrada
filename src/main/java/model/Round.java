@@ -58,21 +58,23 @@ public class Round {
     public Player nextPlayer() {
         if (firstTurn) {
             for (Player p : playerList) {
-                if (p.isTurn()) {
-                    p.endTurn();
+                if (p.isFirstTurn()) {
+                    p.endFirstTurn();
                     return p;
                 }
             }
-            for (Player p : playerList)
-                p.resetTurn();
+            for (Player p : playerList) {
+                p.resetPlayedDice();
+                p.resetUsedTool();
+            }
 
             firstTurn = false;
         }
 
         for (ListIterator<Player> itr = playerList.listIterator(playerList.size()); itr.hasPrevious(); ) {
             Player p = itr.previous();
-            if (p.isTurn()) {
-                p.endTurn();
+            if (p.isSecondTurn()) {
+                p.endSecondTurn();
                 return p;
             }
         }
@@ -89,8 +91,12 @@ public class Round {
 
         playerList = tmp;
 
-        for(Player p: playerList)
-            p.resetTurn();
+        for(Player p: playerList) {
+            p.resetFirstTurn();
+            p.resetSecondTurn();
+            p.resetPlayedDice();
+            p.resetUsedTool();
+        }
 
         firstTurn = true;
     }
