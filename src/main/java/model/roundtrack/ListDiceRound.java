@@ -26,33 +26,34 @@ public class ListDiceRound {
 
     public void dump() {
         logger.info("contains following dices: ");
-        for (Dice d : listDice) {
+        for (Dice d : listDice)
             d.dump();
-        }
     }
 
     public boolean addDice(Dice d) throws SameDiceException {
         for (Dice itr : listDice)
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already on Round Track");
+
         return listDice.add(d);
     }
 
     public boolean addDice(List<Dice> d) throws SameDiceException {
         if (listDice.containsAll(d))
             throw new SameDiceException("Dices are already on Round Track");
+
         return listDice.addAll(d);
     }
 
     public boolean rmDice(Dice d) throws EmptyException, IDNotFoundException {
-        if (listDice.isEmpty()) {
+        if (listDice.isEmpty())
             throw new EmptyException(this.toString() + "is empty");
-        } else {
+        else {
             for (Dice itr : listDice)
-                if (d.getID() == itr.getID()) {
+                if (d.getID() == itr.getID())
                     return listDice.remove(itr);
-                }
         }
+
         throw new IDNotFoundException("Id not found");
     }
 
@@ -64,6 +65,7 @@ public class ListDiceRound {
         for (Dice dice : listDice)
             if (dice.getID() == id)
                 return dice.copyDice();
+
         throw new IDNotFoundException("Id not found");
     }
 

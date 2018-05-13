@@ -48,10 +48,10 @@ public class WindowFactory {
     private JsonObject scanArray (JsonArray winArray, String name, int id) throws IDNotFoundException {     // since two card (front and back) has the same Id, name (which is unique) is needed
         for (Object o : winArray) {
             JsonObject obj = (JsonObject) o;
-            if (Integer.parseInt(obj.get("ID").toString()) == id && !obj.get("name").toString().equals(name)) {     // if it's not the card with the same name and has correct Id
+            if (Integer.parseInt(obj.get("ID").toString()) == id && !obj.get("name").toString().equals(name))      // if it's not the card with the same name and has correct Id
                 return obj;
-            }
         }
+
         throw new IDNotFoundException("Could't find matching Window Card");
     }
 

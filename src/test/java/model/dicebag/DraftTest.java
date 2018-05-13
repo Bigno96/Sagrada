@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DraftTest extends TestCase {
 
     private static final Random random = new Random();
-    private int nDice = random.nextInt(9)+1;
+    private int nDice = random.nextInt(9)+2;
     private int id = random.nextInt(90);
     private Colors col = Colors.random();
 
@@ -39,13 +39,17 @@ public class DraftTest extends TestCase {
         }
     }
 
-    public void testEmptyException() throws IDNotFoundException {
+    public void testEmptyException() throws IDNotFoundException, SameDiceException {
         DiceBag db = new DiceBag(true);
         Draft draft = new Draft(db, nDice);
         Dice d = new Dice(id, col);
 
         assertThrows(EmptyException.class, draft::fillDraft);
         assertThrows(EmptyException.class, () -> draft.rmDice(d));
+        assertNull(draft.findDice(id));
+
+        db.addDice(d);
+        assertThrows(EmptyException.class, draft::fillDraft);
     }
 
     public void testRollDraft() throws IDNotFoundException, EmptyException {           // testing rolling dices of draft
@@ -66,9 +70,18 @@ public class DraftTest extends TestCase {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
         int length = draft.diceRemaining();
+        int wrongId;
         Dice d = new Dice(id, col);
 
+        do {
+            wrongId = random.nextInt(90);
+        } while (id == wrongId);
+
+        Dice dWrong = new Dice(wrongId, col);
+
         assertTrue(draft.addDice(d));
+        assertThrows(SameDiceException.class, () -> draft.addDice(d));
+        assertThrows(IDNotFoundException.class, () -> draft.rmDice(dWrong));
 
         assertEquals(length+1, draft.diceRemaining());
         assertSame(d.getID(), draft.findDice(d.getID()).getID());

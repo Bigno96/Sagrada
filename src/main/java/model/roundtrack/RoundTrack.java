@@ -19,9 +19,8 @@ public class RoundTrack {
 
     public RoundTrack(Draft draft){
         this.draft = draft;
-        for (int i=0; i<10; i++) {
+        for (int i=0; i<10; i++)
             trackList.add(new ListDiceRound());
-        }
     }
 
     @Override
@@ -31,9 +30,8 @@ public class RoundTrack {
 
     public void dump() {
         logger.info("contains following : ");
-        for (ListDiceRound r :trackList ) {
+        for (ListDiceRound r :trackList )
             r.dump();
-        }
     }
 
     public Dice findDice (int id) throws IDNotFoundException {
@@ -44,6 +42,7 @@ public class RoundTrack {
                     return d.copyDice();
             }
         }
+
         throw new IDNotFoundException("Id not found");
     }
 
@@ -56,12 +55,14 @@ public class RoundTrack {
     public boolean addDice(Dice d, int round) throws SameDiceException {
         if (round < 0 || round > 9)
             throw new IndexOutOfBoundsException("Round doesn't exists");
+
         return trackList.get(round).addDice(d);
     }
 
     public boolean rmDice(Dice d, int round) throws EmptyException, IDNotFoundException {
         if (round < 0 || round > 9)
             throw new IndexOutOfBoundsException("Round doesn't exists");
+
         return trackList.get(round).rmDice(d);
     }
 }

@@ -12,6 +12,7 @@ public class PublicObjective extends ObjectiveCard {
         super(id, descr, point, objStrat);
     }
 
+    @Override
     public void dump() {
         final String logMsg = String.format("id = [%d] descr = [%s] point = [%d]", getId(), getDescr(), getPoint());
         logger.info(logMsg);

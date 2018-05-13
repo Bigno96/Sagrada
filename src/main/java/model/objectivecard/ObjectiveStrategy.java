@@ -25,12 +25,10 @@ public class ObjectiveStrategy {
     public int calcPoint(ObjectiveCard obj, WindowCard winCard) throws ValueException, FileNotFoundException, IDNotFoundException, PositionException {
         this.winCard = winCard;
         this.objective = obj;
-        if (obj instanceof PrivateObjective) {
+        if (obj instanceof PrivateObjective)
             return parsePriv(obj.getId());
-        }
-        else if (obj instanceof PublicObjective) {
+        else if (obj instanceof PublicObjective)
             return parsePubl(obj.getId());
-        }
 
         throw new ValueException("Objective Card passed it's not correct");
     }
@@ -44,9 +42,8 @@ public class ObjectiveStrategy {
 
         for (Object o : objArray) {
             JsonObject obj = (JsonObject) o;
-            if (Integer.parseInt(obj.get("ID").toString()) == id) {
+            if (Integer.parseInt(obj.get("ID").toString()) == id)
                 col = Colors.parseColor(obj.get("effect").getAsString());
-            }
         }
 
         if (col.equals(Colors.NULL))

@@ -30,9 +30,7 @@ public class Round {
     public void dump() {
         logger.info("contains following players: ");
         for (Player p : playerList)
-        {
             p.dump();
-        }
     }
 
     public boolean addPlayer(Player p) throws SamePlayerException {
@@ -42,11 +40,10 @@ public class Round {
     }
 
     public boolean rmPlayer(Player p) throws EmptyException {
-        if (playerList.isEmpty()) {
+        if (playerList.isEmpty())
             throw new EmptyException("Round List is empty");
-        } else {
+        else
             return playerList.remove(p);
-        }
     }
 
     public Player findPlayer(Player p) throws PlayerNotFoundException, EmptyException {
@@ -66,9 +63,9 @@ public class Round {
                     return p;
                 }
             }
-            for (Player p : playerList) {
+            for (Player p : playerList)
                 p.resetTurn();
-            }
+
             firstTurn = false;
         }
 
@@ -85,16 +82,15 @@ public class Round {
 
     public void nextRound() {
         List<Player> tmp = new ArrayList<>();
-        for(ListIterator<Player> itr = playerList.listIterator(1); itr.hasNext();) {
+        for(ListIterator<Player> itr = playerList.listIterator(1); itr.hasNext();)
             tmp.add(itr.next());
-        }
+
         tmp.add(playerList.get(0));
 
         playerList = tmp;
 
-        for(Player p: playerList){
+        for(Player p: playerList)
             p.resetTurn();
-        }
 
         firstTurn = true;
     }

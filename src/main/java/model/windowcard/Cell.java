@@ -82,6 +82,7 @@ public class Cell {
     public Dice getDice() throws IDNotFoundException {
         if (dice == null)
             return null;
+
         return dice.copyDice();
     }
 

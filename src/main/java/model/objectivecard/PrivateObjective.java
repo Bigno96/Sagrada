@@ -12,6 +12,7 @@ public class PrivateObjective extends ObjectiveCard {
         super(id, descr, objStrat);
     }
 
+    @Override
     public void dump() {
         logger.info("id = " + getId() + " descr = " + getDescr());
     }

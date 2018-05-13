@@ -37,12 +37,12 @@
 * **testExceptionPriv**: testing reaction when getting a private Objective with an incorrect id
 * **testExceptionPubl**: testing reaction when getting a public Objective with an incorrect id
 
-##ObjectiveStrategy
+## ObjectiveStrategy
 * **testPrivateObjectiveCard**: testing the call to Objective Strategy to calc point from private objective
 * **testPublicObjectiveCard**: testing the call to Objective Strategy to calc point from public objective
 * **testException**: testing bad id or bad objective
 
-##PointCalculator
+## PointCalculator
 * **testCalcPointPriv**: testing calculating private objective point
 * **testCalcDifferentColumnColor**: testing calculating point from different colors columns
 * **testCalcDifferentRowColor**: testing calculating point from different colors rows
@@ -81,6 +81,10 @@
 * **testGetter**: testing getRows, getCols, getMatrix, getCell
 * **testLoadMatrixCell**: testing setting correctly matrix inside of window card
 * **testIsBorder**: testing finding cells on border
+* **testPositionException**: testing reaction when asking for nearby cells around an incorrect cell
+* **testRetOrtogonal**: testing finding ortogonal neighbors of a cell
+* **testRetDiagonal**: testing finding diagonal neighbors of a cell
+* **testRetNeighbors**: testing finding all neighbors of a cell
 
 ## WindowCard
 * **testGetter**: testing getId, getName, getNumFavPoint and getWindow
@@ -91,7 +95,7 @@
 * **testCheckOneDiceException**: testing cases no dice are positioned and color and/or value restriction not respected
 * **testCheckPlaceCond**: testing if all dices are correctly positioned
 * **testCheckPlaceCondException**: testing all bad cases of placement
-* **testIdNotFoundException**: testing reaction to an incorrect Id
+
 
 ## WindowFactory 
 * **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard

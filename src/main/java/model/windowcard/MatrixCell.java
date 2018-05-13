@@ -65,11 +65,10 @@ public class MatrixCell {
 
     public Iterator<Cell> itrOrizz(){
         List<Cell> cellList = new ArrayList<>();
-        for (int i=0; i<rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i=0; i<rows; i++)
+            for (int j = 0; j < cols; j++)
                 cellList.add(matrix[i][j]);
-            }
-        }
+
         return cellList.iterator();
     }
 

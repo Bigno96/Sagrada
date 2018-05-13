@@ -19,13 +19,12 @@ public class DiceBag {
         dices = new ArrayList<>();
         int n = 0;
         for (final Colors c : Colors.values()) {    // loop on Dice's enum color
-            if (c != Colors.NULL) {
+            if (c != Colors.NULL)
                 for (int i = n * 18; i < (n + 1) * 18; i++) {       // 18 dices assigned per color
                     Dice dice = new Dice(i, c);
                     dices.add(dice);
                 }
                 n++;
-            }
         }
     }
 
@@ -41,17 +40,16 @@ public class DiceBag {
 
     public void dump() {
         logger.info("contains following dices: ");
-        for (Dice d : dices) {
+        for (Dice d : dices)
             d.dump();
-        }
+
     }
 
     public Dice findDice(int id) {         // find and return Dice with passed id
-        for (final Dice d : dices) {
-            if (d.getID() == id) {
+        for (final Dice d : dices)
+            if (d.getID() == id)
                 return d;
-            }
-        }
+
         return null;
     }
 
@@ -61,7 +59,7 @@ public class DiceBag {
         Dice d;
         do {
             Random rand = new Random();
-            d = findDice(rand.nextInt(dices.size()));
+            d = dices.get(rand.nextInt(dices.size()));
         } while (d == null || d.getValue() != 0);
 
         return d.copyDice();
@@ -73,20 +71,19 @@ public class DiceBag {
         if (dices.isEmpty()) {
             throw new EmptyException("Draft is empty");
         } else {
-            for (Dice itr : dices) {
-                if (d.getID() == itr.getID()) {
+            for (Dice itr : dices)
+                if (d.getID() == itr.getID())
                     return dices.remove(itr);
-                }
-            }
         }
+
         throw new IDNotFoundException("Id not found");
     }
 
     public boolean addDice(Dice d) throws SameDiceException {        // add Dice d if d it's not already in the bag
-        for (Dice itr : dices) {
+        for (Dice itr : dices)
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already in Draft");
-        }
+
         return dices.add(d);
     }
 

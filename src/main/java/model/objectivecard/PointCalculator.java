@@ -93,15 +93,14 @@ public class PointCalculator {
             if (c.isOccupied()) {                           // if cell is occupied
                 Colors col = c.getDice().getColor();        // get color of the Dice in the cell
                 // add it to the set that doesn't contain it already
-                if (!var1.contains(col)) {
+                if (!var1.contains(col))
                     var1.add(col);
-                } else if (!var2.contains(col)) {
+                else if (!var2.contains(col))
                     var2.add(col);
-                } else if (!var3.contains(col)) {
+                else if (!var3.contains(col))
                     var3.add(col);
-                } else if (!var4.contains(col)) {
+                else if (!var4.contains(col))
                     var4.add(col);
-                }
             }
         }
 
@@ -198,13 +197,12 @@ public class PointCalculator {
             if (c.isOccupied()) {                           // if cell is occupied
                 int val = c.getDice().getValue();           // get shade of the Dice in the cell
                 // add it to the set that doesn't contain it already
-                if (!var1.contains(val)) {
+                if (!var1.contains(val))
                     var1.add(val);
-                } else if (!var2.contains(val)) {
+                else if (!var2.contains(val))
                     var2.add(val);
-                } else if (!var3.contains(val)) {
+                else if (!var3.contains(val))
                     var3.add(val);
-                }
             }
         }
 

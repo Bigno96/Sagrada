@@ -78,7 +78,6 @@ public class WindowCard {
             }
             else if (c.isOccupied() && !first)
                 throw new WrongPositionException("More than one dice positioned");
-
         }
 
         if (first)
@@ -112,11 +111,10 @@ public class WindowCard {
     public boolean checkOrtPos(Cell c) throws PositionException, IDNotFoundException {
         List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
 
-        for (Cell cell : cellList) {
+        for (Cell cell : cellList)
             if (cell.getDice() != null)
                 if (c.getDice().getValue() == cell.getDice().getValue() || c.getDice().getColor().equals(cell.getDice().getColor()))
-                return false;
-        }
+                    return false;
 
         return true;
     }
@@ -124,11 +122,9 @@ public class WindowCard {
     public boolean checkNeighbors(Cell c) throws PositionException {
         List<Cell> cellList = window.retNeighbors(c.getRow(), c.getCol());
 
-        for (Cell cell : cellList) {
-            if (cell.isOccupied()) {
+        for (Cell cell : cellList)
+            if (cell.isOccupied())
                 return true;
-            }
-        }
 
         return false;
     }
@@ -149,6 +145,7 @@ public class WindowCard {
                 }
             }
         }
+
         return true;
     }
 

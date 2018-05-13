@@ -30,9 +30,7 @@ public class Draft {
     public void dump() {
         logger.info("contains following dices: ");
         for (Dice d : draftList)
-        {
             d.dump();
-        }
     }
 
     public boolean fillDraft() throws EmptyException, IDNotFoundException {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
@@ -40,10 +38,12 @@ public class Draft {
             final Dice d = diceBag.randDice();
             if (d == null)
                 throw new EmptyException("No Dice in Bag");
+            if (diceBag.diceRemaining() < nDice)
+                throw new EmptyException("Not Enough Dices in Bag");
+            diceBag.rmDice(d);
             draftList.add(d);
-            if (!diceBag.rmDice(d))
-                throw new IDNotFoundException("No dice with that id");
         }
+
         return true;
     }
 
@@ -57,11 +57,9 @@ public class Draft {
 
     public Dice findDice(int id) throws IDNotFoundException {         // find and return Dice with passed id
         for (Dice d : draftList)
-        {
-            if (d.getID() == id) {
+            if (d.getID() == id)
                 return d.copyDice();
-            }
-        }
+
         return null;
     }
 
@@ -81,21 +79,19 @@ public class Draft {
         if (draftList.isEmpty()) {
             throw new EmptyException("Draft is empty");
         } else {
-            for (Dice dice : draftList) {
-                if (d.getID() == dice.getID()) {
+            for (Dice dice : draftList)
+                if (d.getID() == dice.getID())
                     return draftList.remove(dice);
-                }
-            }
-
         }
+
         throw new IDNotFoundException("Id not found");
     }
 
     public boolean addDice(Dice d) throws SameDiceException {
-        for (Dice itr : draftList) {
+        for (Dice itr : draftList)
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already in Draft");
-        }
+
         return draftList.add(d);
     }
 
