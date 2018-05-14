@@ -1,8 +1,6 @@
 package model;
 
-import exception.EmptyException;
 import exception.PlayerNotFoundException;
-import exception.SamePlayerException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +14,8 @@ public class Round {
     private static final Logger logger = Logger.getLogger(Player.class.getName());
     private boolean firstTurn;
 
-    public Round() {
-        playerList = new ArrayList<>();
+    public Round(List<Player> playerList) {
+        this.playerList = playerList;
         firstTurn = true;
     }
 
@@ -31,28 +29,6 @@ public class Round {
         logger.info("contains following players: ");
         for (Player p : playerList)
             p.dump();
-    }
-
-    public boolean addPlayer(Player p) throws SamePlayerException {
-        if (playerList.contains(p))
-            throw new SamePlayerException("Player already in game");
-        return playerList.add(p);
-    }
-
-    public boolean rmPlayer(Player p) throws EmptyException {
-        if (playerList.isEmpty())
-            throw new EmptyException("Round List is empty");
-        else
-            return playerList.remove(p);
-    }
-
-    public Player findPlayer(Player p) throws PlayerNotFoundException, EmptyException {
-        if (playerList.isEmpty())
-            throw new EmptyException("No player in game");
-        if (playerList.contains(p))
-            return p;
-        else
-            throw new PlayerNotFoundException("Player not found");
     }
 
     public Player nextPlayer() {
@@ -99,6 +75,16 @@ public class Round {
         }
 
         firstTurn = true;
+
+    }
+
+    public Player getPlayer(int id) throws PlayerNotFoundException {
+        for (Player p: playerList){
+            if (p.getId() == id)
+                return p;
+        }
+
+        throw new PlayerNotFoundException("ID of the player not found");
     }
 
 }

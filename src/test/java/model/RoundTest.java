@@ -1,102 +1,72 @@
 package model;
 
-import exception.EmptyException;
-import exception.IDNotFoundException;
-import exception.PlayerNotFoundException;
-import exception.SamePlayerException;
+import exception.*;
 import junit.framework.TestCase;
-
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class RoundTest extends TestCase {
 
-    private static final Random random = new Random();
-    private int nPlayer = random.nextInt(3)+2;
+    private int nPlayer = 2;
     private Board board = new Board(nPlayer);
-    private int id = random.nextInt();
 
     public RoundTest(String testName) throws IDNotFoundException {
         super(testName);
     }
 
-    public void testAddPlayer() throws SamePlayerException, EmptyException, PlayerNotFoundException {
-        Round round = new Round();
-        Player p = new Player(id, board);
-
-        assertTrue(round.addPlayer(p));
-        assertSame(p, round.findPlayer(p));
+    private List<Player> myCellList() {
+        List<Player> playerList = new ArrayList<>();
+        for (int i=0; i<nPlayer; i++)
+                playerList.add(new Player(i, board));
+        return playerList;
     }
 
-    public void testSamePlayerException() throws SamePlayerException {
-        Round round = new Round();
-        Player p = new Player(id, board);
+    public void testNextPlayer() throws PlayerNotFoundException {
+        List<Player> list = myCellList();
+        Round round = new Round(list);
 
-        assertTrue(round.addPlayer(p));
-        assertThrows(SamePlayerException.class, () -> round.addPlayer(p));
-    }
-
-    public void testPlayerNotFoundException() throws SamePlayerException {
-        Round round = new Round();
-        Player p = new Player(id, board);
-        Player pDiff = new Player(id+1, board);
-
-        assertTrue(round.addPlayer(p));
-        assertThrows(PlayerNotFoundException.class, () -> round.findPlayer(pDiff));
-    }
-
-    public void testRmPlayer() throws SamePlayerException, EmptyException {
-        Round round = new Round();
-        Player p = new Player(id, board);
-        Player pDiff = new Player(id+1, board);
-
-        assertThrows(EmptyException.class, () -> round.rmPlayer(p));
-        assertThrows(EmptyException.class, () -> round.findPlayer(p));
-        assertTrue(round.addPlayer(p));
-        assertTrue(round.rmPlayer(p));
-        assertTrue(round.addPlayer(pDiff));
-        assertThrows(PlayerNotFoundException.class, () -> round.findPlayer(p));
-    }
-
-    public void testNextPlayer() throws SamePlayerException {
-        Round round = new Round();
-        Player player1 = new Player(id, board);
-        Player player2 = new Player(id+1, board);
-
-        assertTrue(round.addPlayer(player1));
-        assertTrue(round.addPlayer(player2));
-
-        assertSame(player1, round.nextPlayer());
-        assertSame(player2, round.nextPlayer());
-        assertSame(player2, round.nextPlayer());
-        assertSame(player1, round.nextPlayer());
+        assertSame(round.getPlayer(0), round.nextPlayer());
+        assertSame(round.getPlayer(1), round.nextPlayer());
+        assertSame(round.getPlayer(1), round.nextPlayer());
+        assertSame(round.getPlayer(0), round.nextPlayer());
         assertNull(round.nextPlayer());
     }
 
 
-    public void testNextRound() throws SamePlayerException {
-        Round round = new Round();
-        Player player1 = new Player(id, board);
-        Player player2 = new Player(id+1, board);
+    public void testNextRound() throws PlayerNotFoundException {
+        List<Player> list = myCellList();
+        Round round = new Round(list);
 
-        assertTrue(round.addPlayer(player1));
-        assertTrue(round.addPlayer(player2));
-
-        assertSame(player1, round.nextPlayer());
-        assertSame(player2, round.nextPlayer());
-        assertSame(player2, round.nextPlayer());
-        assertSame(player1, round.nextPlayer());
+        assertSame(round.getPlayer(0), round.nextPlayer());
+        assertSame(round.getPlayer(1), round.nextPlayer());
+        assertSame(round.getPlayer(1), round.nextPlayer());
+        assertSame(round.getPlayer(0), round.nextPlayer());
         assertNull(round.nextPlayer());
 
         round.nextRound();
 
-        assertSame(player2, round.nextPlayer());
-        assertSame(player1, round.nextPlayer());
-        assertSame(player1, round.nextPlayer());
-        assertSame(player2, round.nextPlayer());
+        assertSame(round.getPlayer(1), round.nextPlayer());
+        assertSame(round.getPlayer(0), round.nextPlayer());
+        assertSame(round.getPlayer(0), round.nextPlayer());
+        assertSame(round.getPlayer(1), round.nextPlayer());
         assertNull(round.nextPlayer());
 
-        assertNotSame(round.toString(), player1.toString());
+        assertNotSame(round.toString(), round.getPlayer(0).toString());
+    }
+
+    public void testGetPlayer() throws PlayerNotFoundException{
+        List<Player> list = myCellList();
+        Round round = new Round(list);
+        Player player = round.getPlayer(0);
+        assertEquals(player, round.getPlayer(0));
+    }
+
+    public void testGetPlayerException(){
+        List<Player> list = myCellList();
+        Round round = new Round(list);
+
+        assertThrows(PlayerNotFoundException.class, () -> round.getPlayer(10));
     }
 }

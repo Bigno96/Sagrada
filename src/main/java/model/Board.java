@@ -8,6 +8,7 @@ import model.objectivecard.ObjectiveFactory;
 import model.objectivecard.ObjectiveStrategy;
 import model.objectivecard.PublicObjective;
 import model.roundtrack.RoundTrack;
+import model.toolcard.ToolCard;
 import model.windowcard.WindowFactory;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Board {
     private List<ObjectiveCard> publObj;
     private ObjectiveStrategy objectiveStrategy;
     private ObjectiveFactory objectiveFactory;
-    //private List<ToolCard> toolCard;
+    private List<ToolCard> toolCard;
     private DiceBag diceBag;
     private Draft draft;
     private RoundTrack roundTrack;
@@ -33,12 +34,26 @@ public class Board {
         objectiveFactory = new ObjectiveFactory(objectiveStrategy);
         publObj = new ArrayList<>();
         this.nPlayer = nPlayer;
-        //toolCard = new ArrayList<ToolCard>;
+        toolCard = new ArrayList<>();
         diceBag = new DiceBag();
         draft = new Draft(diceBag, (nPlayer*2)+1);
         roundTrack = new RoundTrack(draft);
         windowFactory = new WindowFactory();
-     }
+    }
+
+    @Override
+    public String toString()
+    {
+        return getClass().getName() + "@ " + this.hashCode();
+    }
+
+    public void dump()
+    {
+        logger.info("PublObj: " + getPublObj() + " ObjStrat: " + getObjectiveStrategy() +
+                " ObjFact: " + getObjectiveFactory() + " ToolCard: " + getToolCard() +
+                " DiceBag: " + getDiceBag() + " Draft: " + getDraft() + " RoundTrack: "
+                + getRoundTrack() + " WindowFact: " + getWindowFactory() + " nPlayer: " + getnPlayer());
+    }
 
     public void setPublObj(PublicObjective obj1, PublicObjective obj2, PublicObjective obj3) {
         this.publObj.add(obj1);
@@ -56,6 +71,10 @@ public class Board {
 
     public ObjectiveFactory getObjectiveFactory() {
         return objectiveFactory;
+    }
+
+    public List<ToolCard> getToolCard() {
+        return toolCard;
     }
 
     public DiceBag getDiceBag() {
