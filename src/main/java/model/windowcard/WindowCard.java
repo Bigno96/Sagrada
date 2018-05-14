@@ -62,26 +62,15 @@ public class WindowCard {
     }
 
     public boolean checkFirstDice() throws WrongPositionException, EmptyException {
-        Boolean first = true;
-
-        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext(); ) {
-            Cell c = itr.next();
-            if (c.isOccupied() && first) {
-                first = false;
-                if (!window.isBorder(c))
+        if (checkOneDice()) {
+            for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+                Cell c = itr.next();
+                if (c.isOccupied() && !window.isBorder(c)) {
                     throw new WrongPositionException("First Dice not correctly positioned");
-                if (!c.checkColor())
-                    throw new WrongPositionException(colorMsg + c.toString());
-                if (!c.checkValue())
-                    throw new WrongPositionException(valueMsg + c.toString());
-
+                }
             }
-            else if (c.isOccupied() && !first)
-                throw new WrongPositionException("More than one dice positioned");
-        }
-
-        if (first)
-            throw new EmptyException("No Dice positioned");
+        } else
+            throw new WrongPositionException("More than one dice positioned");
 
         return true;
     }
@@ -108,18 +97,42 @@ public class WindowCard {
         return true;
     }
 
-    public boolean checkOrtPos(Cell c) throws PositionException, IDNotFoundException {
-        List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
-
+    public boolean checkOrtCol(Cell c, List<Cell> cellList) throws IDNotFoundException {
         for (Cell cell : cellList)
             if (cell.getDice() != null)
-                if (c.getDice().getValue() == cell.getDice().getValue() || c.getDice().getColor().equals(cell.getDice().getColor()))
+                if (!cell.isIgnoreColor() && c.getDice().getColor().equals(cell.getDice().getColor()))
                     return false;
 
         return true;
     }
 
+    public boolean checkOrtVal(Cell c, List<Cell> cellList) throws IDNotFoundException {
+        for (Cell cell : cellList)
+            if (cell.getDice() != null)
+                if (!cell.isIgnoreValue() && c.getDice().getValue() == cell.getDice().getValue())
+                    return false;
+
+        return true;
+    }
+
+    public boolean checkOrtPos(Cell c) throws IDNotFoundException, PositionException {
+        List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
+
+        for (Cell cell : cellList)
+            if (cell.getDice() != null) {
+                if (!c.isIgnoreValue() && !checkOrtVal(c, cellList))
+                    return false;
+                if (!c.isIgnoreColor() && !checkOrtCol(c, cellList))
+                    return false;
+            }
+
+        return true;
+    }
+
     public boolean checkNeighbors(Cell c) throws PositionException {
+        if (c.isIgnoreNearby())
+            return true;
+
         List<Cell> cellList = window.retNeighbors(c.getRow(), c.getCol());
 
         for (Cell cell : cellList)
@@ -129,20 +142,18 @@ public class WindowCard {
         return false;
     }
 
-    public boolean checkPlaceCond() throws WrongPositionException, EmptyException, IDNotFoundException, PositionException {
-        if(!checkOneDice()) {
-            for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
-                Cell c = itr.next();
-                if (c.isOccupied()) {
-                    if (!c.checkColor())
-                        throw new WrongPositionException(colorMsg + c.toString());
-                    else if (!c.checkValue())
-                        throw new WrongPositionException(valueMsg + c.toString());
-                    else if (!checkOrtPos(c))
-                        throw new WrongPositionException("Position not correct on cell " + c.toString());
-                    else if (!checkNeighbors(c))
-                        throw new WrongPositionException("Position not correct on cell (no dice around) " + c.toString());
-                }
+    public boolean checkPlaceCond() throws WrongPositionException, IDNotFoundException, PositionException {
+        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+            Cell c = itr.next();
+            if (c.isOccupied()) {
+                if (!c.checkColor())
+                    throw new WrongPositionException(colorMsg + c.toString());
+                else if (!c.checkValue())
+                    throw new WrongPositionException(valueMsg + c.toString());
+                else if (!checkOrtPos(c))
+                    throw new WrongPositionException("Position not correct on cell " + c.toString());
+                else if (!checkNeighbors(c))
+                    throw new WrongPositionException("Position not correct on cell (no dice around) " + c.toString());
             }
         }
 

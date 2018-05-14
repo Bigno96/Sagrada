@@ -82,10 +82,14 @@ public class CellTest extends TestCase{
 
         c.changeDiceValue(wrongVal);
         assertFalse(c.checkValue());
+        c.setIgnoreValue();
+        assertTrue(c.checkValue());
 
         c.freeCell();
         c.setDice(new Dice(id, wrongCol));
         assertFalse(c.checkColor());
+        c.setIgnoreColor();
+        assertTrue(c.checkColor());
     }
 
     public void testValueException() throws PositionException, ValueException, IDNotFoundException, NotEmptyException {
@@ -116,6 +120,28 @@ public class CellTest extends TestCase{
         assertTrue(c.isOccupied());
         c.freeCell();
         assertFalse(c.isOccupied());
+    }
+
+    public void testIgnoreRestriction() throws ValueException, PositionException {
+        Cell c = new Cell(value, color, row, col);
+
+        assertFalse(c.isIgnoreNearby());
+        c.setIgnoreNearby();
+        assertTrue(c.isIgnoreNearby());
+        c.resetIgnoreNearby();
+        assertFalse(c.isIgnoreNearby());
+
+        assertFalse(c.isIgnoreValue());
+        c.setIgnoreValue();
+        assertTrue(c.isIgnoreValue());
+        c.resetIgnoreValue();
+        assertFalse(c.isIgnoreValue());
+
+        assertFalse(c.isIgnoreColor());
+        c.setIgnoreColor();
+        assertTrue(c.isIgnoreColor());
+        c.resetIgnoreColor();
+        assertFalse(c.isIgnoreColor());
     }
 
 }

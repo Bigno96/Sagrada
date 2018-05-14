@@ -14,6 +14,9 @@ public class Cell {
     private Colors color;
     private Dice dice;
     private boolean isOccupied;
+    private boolean ignoreNearby;
+    private boolean ignoreValue;
+    private boolean ignoreColor;
     private int row;            // position from 0 to 3
     private int col;            // position from 0 to 4
 
@@ -25,6 +28,7 @@ public class Cell {
         this.value = value;
         this.color = color;
         isOccupied = false;
+        ignoreNearby = false;
         if (row < 0 || row > 3 || col < 0 || col > 4)
             throw new PositionException("Illegal Position");
         this.row = row;
@@ -72,10 +76,14 @@ public class Cell {
     }
 
     public boolean checkColor(){
+        if (ignoreColor)
+            return true;
         return this.color.equals(dice.getColor());
     }
 
     public boolean checkValue(){
+        if (ignoreValue)
+            return true;
         return this.getValue() == dice.getValue();
     }
 
@@ -94,4 +102,39 @@ public class Cell {
         return col;
     }
 
+    public boolean isIgnoreNearby() {
+        return ignoreNearby;
+    }
+
+    public void setIgnoreNearby() {
+        this.ignoreNearby = true;
+    }
+
+    public void resetIgnoreNearby() {
+        this.ignoreNearby = false;
+    }
+
+    public boolean isIgnoreColor() {
+        return ignoreColor;
+    }
+
+    public void setIgnoreColor() {
+        this.ignoreColor = true;
+    }
+
+    public void resetIgnoreColor() {
+        this.ignoreColor = false;
+    }
+
+    public boolean isIgnoreValue() {
+        return ignoreValue;
+    }
+
+    public void setIgnoreValue() {
+        this.ignoreValue = true;
+    }
+
+    public void resetIgnoreValue() {
+        this.ignoreValue = false;
+    }
 }

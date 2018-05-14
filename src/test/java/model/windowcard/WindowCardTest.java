@@ -28,6 +28,14 @@ public class WindowCardTest extends TestCase{
         return cellList;
     }
 
+    private List<Cell> myCleanCellList() throws ValueException, PositionException {
+        List<Cell> cellList = new ArrayList<>();
+        for (int i=0; i<4; i++)
+            for (int j=0; j<5; j++)
+                cellList.add(new Cell(0, Colors.NULL, i, j));
+        return cellList;
+    }
+
     public void testGetter() throws ValueException, PositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
@@ -201,6 +209,112 @@ public class WindowCardTest extends TestCase{
         card.getWindow().getCell(row,col).freeCell();
     }
 
+    public void testCheckOrtPos() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+        List<Cell> list = myCleanCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        int row, col;
+        Colors color = Colors.random();
+        int value = random.nextInt(6)+1;
+        Colors diffColor;
+        int diffValue;
+
+        do {
+            diffColor = Colors.random();
+        } while (color.equals(diffColor));
+
+        do {
+            diffValue = random.nextInt(6)+1;
+        } while (value == diffValue);
+
+        row = 0;
+        col = 0;
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+
+        assertTrue(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertTrue(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertTrue(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+
+        row = 0;
+        col = 1;
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,diffValue));
+
+        assertFalse(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertTrue(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertFalse(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+
+        card.getWindow().getCell(0, 1).setIgnoreColor();
+        assertTrue(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        card.getWindow().getCell(0, 1).resetIgnoreColor();
+        card.getWindow().getCell(0, 0).setIgnoreColor();
+        assertTrue(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+        card.getWindow().getCell(0, 0).resetIgnoreColor();
+
+        card.getWindow().getCell(0,1).freeCell();
+
+        row = 0;
+        col = 1;
+        card.getWindow().getCell(row,col).setDice(new Dice(id,diffColor,value));
+
+        assertTrue(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertFalse(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertFalse(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+
+        card.getWindow().getCell(0, 1).setIgnoreValue();
+        assertTrue(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        card.getWindow().getCell(0, 1).resetIgnoreValue();
+        card.getWindow().getCell(0, 0).setIgnoreValue();
+        assertTrue(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+        card.getWindow().getCell(0, 0).resetIgnoreValue();
+
+        card.getWindow().getCell(0,1).freeCell();
+
+        row = 0;
+        col = 1;
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+
+        assertFalse(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertFalse(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertFalse(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+
+        card.getWindow().getCell(0,1).freeCell();
+
+        row = 0;
+        col = 1;
+        card.getWindow().getCell(row,col).setDice(new Dice(id,diffColor,diffValue));
+
+        assertTrue(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertTrue(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
+        assertTrue(card.checkOrtPos(card.getWindow().getCell(0, 0)));
+
+    }
+
+    public void testCheckNeighbors() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        int row, col;
+        Colors color;
+        int value;
+
+        row = 0;
+        col = 0;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+
+        assertFalse(card.checkNeighbors(card.getWindow().getCell(0,0)));
+
+        card.getWindow().getCell(0,0).setIgnoreNearby();
+        assertTrue(card.checkNeighbors(card.getWindow().getCell(0,0)));
+        card.getWindow().getCell(0,0).resetIgnoreNearby();
+
+        row = 1;
+        col = 1;
+        color = card.getWindow().getCell(row,col).getColor();
+        value = card.getWindow().getCell(row,col).getValue();
+        card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
+
+        assertTrue(card.checkNeighbors(card.getWindow().getCell(0,0)));
+    }
 
     public void testCheckPlaceCond() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, EmptyException, WrongPositionException {
         List<Cell> list = myCellList();
@@ -268,7 +382,6 @@ public class WindowCardTest extends TestCase{
         assertThrows(WrongPositionException.class, card::checkPlaceCond);
 
         card.getWindow().getCell(row,col).freeCell();
-
 
         row = random.nextInt(2)+1;
         col = random.nextInt(2)+2;

@@ -61,6 +61,8 @@ public class MatrixCell {
     }
 
     public boolean isBorder(Cell c){
+        if (c == null)
+            return false;
         return c.getCol()==0 || c.getCol()==4 || c.getRow()==0 || c.getRow()==3;
     }
 
