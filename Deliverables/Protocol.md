@@ -2,18 +2,6 @@
 
 ## Connection Messages
 
-* **connection message** </br>
-    Client -> Server </br>
-    Socket <TAB>(IP) <TAB>(Port)CR </br>
-
-    explanation: Client starts connection
-
-* **connection answer** </br>
-    Server -> Socket </br>
-    "Socket connection OK!"CR </br>
-    
-    explanation: Server sends "Socket connection OK!" if it was successful
-
 * **login message** </br>
     Client -> Server </br>
     login <TAB>(user) <TAB>(Password)CR </br>

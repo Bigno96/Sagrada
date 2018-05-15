@@ -20,7 +20,7 @@ public class GameTest extends TestCase {
         super(testName);
     }
 
-    public void testGetterAndSetter() throws SamePlayerException, IDNotFoundException {
+    public void testGetter() throws SamePlayerException, IDNotFoundException {
         Game game = new Game();
         Player p = new Player(id, board);
         Player p1 = new Player(id+1, board);
@@ -41,9 +41,6 @@ public class GameTest extends TestCase {
         assertEquals(board, game.getBoard());
         assertEquals(round, game.getRound());
 
-        game.setNRound();
-
-        assertEquals(nRound+1, game.getNRound());
     }
 
     public void testStartGame() throws SamePlayerException, IDNotFoundException {
@@ -84,6 +81,31 @@ public class GameTest extends TestCase {
 
         assertTrue(game.addPlayer(p));
         assertThrows(PlayerNotFoundException.class, () -> game.findPlayer(pDiff));
+    }
+
+    public void testCurrentPlayer() throws SamePlayerException, IDNotFoundException {
+        Game game = new Game();
+        Player p = new Player(id, board);
+        Player p1 = new Player(id+1, board);
+        game.addPlayer(p);
+        game.addPlayer(p1);
+
+        game.startGame();
+
+        assertEquals(p, game.currentPlayer());
+        assertEquals(p1, game.currentPlayer());
+        assertEquals(p1, game.currentPlayer());
+        assertEquals(p, game.currentPlayer());
+
+        game.getRound().nextRound();
+
+        assertEquals(p1, game.currentPlayer());
+        assertEquals(p, game.currentPlayer());
+        assertEquals(p, game.currentPlayer());
+        assertEquals(p1, game.currentPlayer());
+
+        game.setnRound(9);
+        assertNull(game.currentPlayer());
     }
 
     public void testRmPlayer() throws SamePlayerException, EmptyException {

@@ -55,12 +55,12 @@ public class Game {
             throw new PlayerNotFoundException("Player not found");
     }
 
-    public int getNRound() {
-        return nRound;
+    public void setnRound(int nRound) {
+        this.nRound = nRound;
     }
 
-    public void setNRound() {
-        nRound++;
+    public int getNRound() {
+        return nRound;
     }
 
     public Board getBoard() {
@@ -73,6 +73,18 @@ public class Game {
 
     public int getNPlayer() {
         return nPlayer;
+    }
+
+    public Player currentPlayer(){
+        Player p = round.nextPlayer();
+        while( p == null ){
+                nRound++;
+                if (nRound > 9)
+                    return null;                //if currentPlayer -> null  the game is finished
+                round.nextRound();
+                p = round.nextPlayer();
+            }
+        return p;
     }
 
     @Override
