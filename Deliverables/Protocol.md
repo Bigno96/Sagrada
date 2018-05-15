@@ -4,82 +4,59 @@
 
 ### Initialization
 
-* **login username request** </br>
+* **login username** </br>
     Client -> Server </br>
-    login <TAB>(user) </br>
+    login <TAB>\<user> <TAB><password> </br>
     
     explanation: Client sends his username for authentication
     
-* **login password request** </br>
-    Client -> Server </br>
-    login <TAB>(Password) </br>
-
-    explanation: Client sends his password for authentication
-
 * **login authentication successful reply** </br>
     Server -> Client </br>
-    "logged" <TAB>(userID) </br>
+    logged <TAB>\<userID> </br>
 
     explanation: Server answer is "logged" and userID if it was successful
 
 * **login authentication failed reply** </br>
     Server -> Client </br>
-    "Your username or password are wrong" </br>
+    Your username or password are wrong </br>
 
     explanation: Server reply is "Your username or password are wrong" if authentication failed
 
-* **start Game message** </br>
-    Client -> Server </br>
-    start </br>
-
-    explanation: Client send "start" when he is ready to start a game
-
 * **start Game waiting reply** </br>
     Server -> Client </br>
-    "Wait a moment, the game will start shortly" </br>
+    Wait a moment, the game will start shortly </br>
 
     explanation: Server answer is "Wait a moment, the game will start shortly" if it was successful
 
 * **impossible to start** </br>
      Server -> Client </br>
-     "Impossible to start a game" </br>
+     Impossible to start a game </br>
 
      explanation: Server answer is  "Impossible to start a game" if is impossible to start a new game
      
-* **close connection request** </br>
-    Client -> Server </br>
-    close_connection </br>
+* **log out message**
+    Client -> Server<\br>
+    log out <\br>
     
-    explanation: Client send "close_connection" when he wants to close the connection
-
-* **end Connection** </br>
-    Server -> Client </br>
-    "Connection closed!" </br>
-
-    explanation: Server sends "Connection closed!" if the connection go out
-
-* **Error Code** </br>
-    "Description" </br>
-
-    explanation: generic error messages
-
+    explanation: Client sends "logOut" if he want close the connection
+     
 ## Game Messages
 
 ### Window Card
 
 * **ChooseWindowCard message** </br>
     Server -> Client </br>
-    "Choose your windowCard between:" </br>
-    "Num1" <TAB>(IDWindowCard) </br>
-    "Num2" <TAB>(IDWindowCard) </br>
-    "Num3" <TAB>(IDWindowCard) </br>
-    "Num4" <TAB>(IDWindowCard) </br>
+    Choose your windowCard between: </br>
+    Num1 <TAB>\<IDWindowCard> </br>
+    Num2 <TAB>\<IDWindowCard> </br>
+    Num3 <TAB>\<IDWindowCard> </br>
+    Num4 <TAB>\<IDWindowCard> </br>
 
     explanation: server sends the four windowCards for the choice
 
 * **ChooseWindowCard reply** </br> 
     Client -> Server </br>
-    ChooseWindowCard <TAB>(NumWindowCard) </br>
+    ChooseWindowCard <TAB>\<NumWindowCard> </br>
     
     explanation: client chooses the number of his card
     
@@ -87,10 +64,10 @@
 
 * **ToolCard message** </br>
     Server -> Client </br>
-    "These are the toolCards:" </br>
-    "Num1" <TAB>(IDToolCard) </br>
-    "Num2" <TAB>(IDToolCard) </br>
-    "Num3" <TAB>(IDToolCard) </br>
+    These are the toolCards: </br>
+    Num1 <TAB>\<IDToolCard> </br>
+    Num2 <TAB>\<IDToolCard> </br>
+    Num3 <TAB>\<IDToolCard> </br>
 
     explanation: server sends the three toolCards
     
@@ -98,10 +75,10 @@
 
 * **Public Objective message** </br>
     Server -> Client </br>
-    "These are the publicObjectiveCards:" </br>
-    "Num1" <TAB>(IDPubObj) </br>
-    "Num2" <TAB>(IDPubObj) </br>
-    "Num3" <TAB>(IDPubObj) </br>
+    These are the publicObjectiveCards: </br>
+    Num1 <TAB>\<IDPubObj> </br>
+    Num2 <TAB>\<IDPubObj> </br>
+    Num3 <TAB>\<IDPubObj> </br>
 
     explanation: server sends the three publicObjectiveCards
     
@@ -109,8 +86,8 @@
 
 * **Private Objective message** </br>
     Server -> Client </br>
-    "These are the privateObjectiveCards:" </br>
-    "Num1" <TAB>(IDPrivObj) </br>
+    These are the privateObjectiveCards: </br>
+    \<IDPrivObj> </br>
     
     explanation: server sends the three privateObjectiveCards
     
@@ -118,14 +95,14 @@
 
 * **ranking message** </br>
     Server -> Client </br>
-    "The First Player is" <TAB>(Username) </br>
-    "With" <TAB>(PlayerPoints) </br>
-    "The Second Player is" <TAB>(Username) </br>
-    "With" <TAB>(PlayerPoints) </br>
-    "The Third Player is" <TAB>(Username) //only if the number of players is >3 </br>
-    "With" <TAB>(PlayerPoints) </br>
-    "The First Player is" <TAB>(Username) //only if the number of players is 4 </br>
-    "With" <TAB>(PlayerPoints) </br>
+    The First Player is <TAB>\<Username> </br>
+    With <TAB>\<PlayerPoints> </br>
+    The Second Player is" <TAB>\<Username> </br>
+    With <TAB>\<PlayerPoints> </br>
+    The Third Player is" <TAB>\<Username> //only if the number of players is >3 </br>
+    With <TAB>\<PlayerPoints> </br>
+    The First Player is" <TAB>\<Username> //only if the number of players is 4 </br>
+    With <TAB>\<PlayerPoints> </br>
     
     explanation: at the end of the game, server sends the ranking of all players
    
@@ -145,14 +122,14 @@
 
 * **MoveDiceInWindowCard** </br>
     Client -> Server </br>
-    MoveDice <TAB>(NumDice) </br>
-    (Col) <TAB>(Row) </br>
+    MoveDice <TAB>\<NumDice> </br>
+    \<Col> <TAB>\<Row> </br>
 
     explanation: during his turn, client chooses a dice in the draft and puts it in him windowCard
     
 * **UseToolCard** </br>
     Client -> Server </br>
-    Tool <TAB>(NumOfToolCard) </br>
+    Tool <TAB>\<NumOfToolCard> </br>
 
     explanation: during his turn, when client wants use a toolCard send "Tool (NumOfToolCard)"
     
