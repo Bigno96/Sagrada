@@ -34,9 +34,9 @@
 
      explanation: Server answer is  "Impossible to start a game" if is impossible to start a new game
      
-* **log out message**
-    Client -> Server<\br>
-    log out <\br>
+* **log out message** </br>
+    Client -> Server</br>
+    log out </br>
     
     explanation: Client sends "logOut" if he want close the connection
      
