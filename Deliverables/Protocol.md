@@ -197,27 +197,9 @@
     "The game is over" </br>
 
     explanation: when the tenth round finished, server sends "The game is over" at all clients
-
-* **play again?** </br>
-    Server -> Client </br>
-    "Do you want play again?" </br>
-
-    explanation: after the "end game message", server sends "Do you want play again" to all clients
     
 * **close connection request** </br>
     Client -> Server </br>
     close_connection </br>
     
     explanation: Client send "close_connection" when he wants to close the connection
-
-* **Yes, replay** </br>
-    Client -> Server </br>
-    YesReplay </br>
-
-    explanation: client answer "Yes, replay", at the server, if he want play another game
-
-* **No, replay** </br>
-    Client -> Server </br>
-    NoReplay </br>
-
-    explanation: client answer "No, replay", at the client, if he doesn't want play again
