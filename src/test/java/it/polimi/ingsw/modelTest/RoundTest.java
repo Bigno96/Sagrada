@@ -1,6 +1,5 @@
 package it.polimi.ingsw.modelTest;
 
-import exception.*;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
 import junit.framework.TestCase;

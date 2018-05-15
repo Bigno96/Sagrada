@@ -1,6 +1,5 @@
 package it.polimi.ingsw.modelTest.windowcardtest;
 
-import exception.*;
 import it.polimi.ingsw.exception.*;
 import junit.framework.TestCase;
 import it.polimi.ingsw.model.Colors;

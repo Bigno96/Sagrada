@@ -72,7 +72,7 @@ public class ToolCard {
     public boolean useTool() throws ValueException {
         if (id == 1)
             changeValue(dices.get(0), up);
-
+        
         return true;
     }
 
