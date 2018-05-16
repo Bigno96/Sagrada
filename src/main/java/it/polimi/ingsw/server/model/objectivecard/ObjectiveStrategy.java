@@ -16,10 +16,10 @@ public class ObjectiveStrategy {
 
     private WindowCard winCard;
     private ObjectiveCard objective;
-    private PointCalculator calculator;
+    private ObjectiveCalculator calculator;
 
     public ObjectiveStrategy() {
-       calculator = new PointCalculator();
+       calculator = new ObjectiveCalculator();
     }
 
     public int calcPoint(ObjectiveCard obj, WindowCard winCard) throws ValueException, FileNotFoundException, IDNotFoundException, PositionException {

@@ -25,7 +25,7 @@ public class ObjectiveStrategyTest extends TestCase {
     private int id = random.nextInt(100);
     private int fp = random.nextInt(4)+3;
     private WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
-    private PointCalculator pointCalc = new PointCalculator();
+    private ObjectiveCalculator pointCalc = new ObjectiveCalculator();
     private ObjectiveStrategy objStrat = new ObjectiveStrategy();
 
     public ObjectiveStrategyTest(String testName) throws IDNotFoundException, PositionException, NotEmptyException, ValueException {

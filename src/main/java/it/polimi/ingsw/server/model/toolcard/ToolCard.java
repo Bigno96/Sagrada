@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model.toolcard;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.NotEmptyException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.game.Player;
@@ -146,13 +143,29 @@ public class ToolCard {
     }
 
     private boolean moveExTwoDice(List<Dice> dices, List<Cell> dest) throws IDNotFoundException, NotEmptyException {
-        windowCard.getWindow().getCell(dices.get(0)).freeCell();
-        dest.get(0).setDice(dices.get(0));
-        dest.get(0).setIgnoreColor();
+        Cell c;
 
-        windowCard.getWindow().getCell(dices.get(1)).freeCell();
+        c = windowCard.getWindow().getCell(dices.get(0));
+        c.freeCell();
+        dest.get(0).setDice(dices.get(0));
+        try {
+            windowCard.checkPlaceCond();
+        } catch (WrongPositionException | PositionException e) {
+            c.setDice(dices.get(0));
+            dest.get(0).freeCell();
+            return false;
+        }
+
+        c =  windowCard.getWindow().getCell(dices.get(1));
+        c.freeCell();
         dest.get(1).setDice(dices.get(1));
-        dest.get(1).setIgnoreColor();
+        try {
+            windowCard.checkPlaceCond();
+        } catch (WrongPositionException | PositionException e) {
+            c.setDice(dices.get(0));
+            dest.get(1).freeCell();
+            return false;
+        }
 
         return true;
     }

@@ -24,10 +24,19 @@ public class WindowCardTest extends TestCase{
     }
 
     private List<Cell> myCellList() throws ValueException, PositionException {
+        Colors col;
+        int val;
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++)
-                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
+            for (int j=0; j<5; j++) {
+                do {
+                    col = Colors.random();
+                } while (col == Colors.NULL);
+                do {
+                    val = random.nextInt(7);
+                } while (val == 0);
+                cellList.add(new Cell(val, col, i, j));
+            }
         return cellList;
     }
 
@@ -319,7 +328,7 @@ public class WindowCardTest extends TestCase{
         assertTrue(card.checkNeighbors(card.getWindow().getCell(0,0)));
     }
 
-    public void testCheckPlaceCond() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, EmptyException, WrongPositionException {
+    public void testCheckPlaceCond() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, WrongPositionException {
         List<Cell> list = myCellList();
         WindowCard card = new WindowCard(id, "Test", fp, list);
         int row, col;

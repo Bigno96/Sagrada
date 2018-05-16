@@ -76,13 +76,13 @@ public class Cell {
     }
 
     public boolean checkColor(){
-        if (ignoreColor)
+        if (ignoreColor || color.equals(Colors.NULL))
             return true;
         return this.color.equals(dice.getColor());
     }
 
     public boolean checkValue(){
-        if (ignoreValue)
+        if (ignoreValue || value == 0)
             return true;
         return this.getValue() == dice.getValue();
     }

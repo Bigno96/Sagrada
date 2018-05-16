@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
-import it.polimi.ingsw.server.model.objectivecard.PointCalculator;
+import it.polimi.ingsw.server.model.objectivecard.ObjectiveCalculator;
 import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.MatrixCell;
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PointCalculatorTest extends TestCase {
+public class ObjectiveCalculatorTest extends TestCase {
 
     private Random random = new Random();
     private List<Cell> cellList = myCellListFilled();
     private int id = random.nextInt(100);
     private int fp = random.nextInt(4)+3;
     private WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
-    private PointCalculator pointCalc = new PointCalculator();
+    private ObjectiveCalculator pointCalc = new ObjectiveCalculator();
     private ObjectiveStrategy objStrat = new ObjectiveStrategy();
 
     // numbers of dices with that color
@@ -51,7 +51,7 @@ public class PointCalculatorTest extends TestCase {
     private int num5 = 0;
     private int num6 = 0;
 
-    public PointCalculatorTest(String testName) throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+    public ObjectiveCalculatorTest(String testName) throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         super(testName);
     }
 

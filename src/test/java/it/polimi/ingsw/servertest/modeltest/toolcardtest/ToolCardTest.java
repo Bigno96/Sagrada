@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class ToolCardTest extends TestCase {
     private RoundTrack roundTrack = new RoundTrack(draft);
     private Board board = new Board(4);
 
-    public ToolCardTest(String testName) throws ValueException, PositionException, IDNotFoundException {
+    public ToolCardTest(String testName) throws IDNotFoundException {
         super(testName);
     }
 
@@ -41,6 +42,15 @@ public class ToolCardTest extends TestCase {
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
                 cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
+        return cellList;
+    }
+
+    // filling a list with 20 random cells with no restriction
+    private List<Cell> myEmptyCellList() throws ValueException, PositionException {
+        List<Cell> cellList = new ArrayList<>();
+        for (int i=0; i<4; i++)
+            for (int j=0; j<5; j++)
+                cellList.add(new Cell(0, Colors.NULL, i, j));
         return cellList;
     }
 
@@ -167,12 +177,13 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.checkPlaceCond());
     }
 
-    public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, WrongPositionException {
-        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
+    public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException {
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool4 = new ToolCard(4, "Tool4", col);
         Player p = new Player(id, board);
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
+        int row = 0;
         int column = 0;
 
         tool4.setActor(winCard, null, null, null);
@@ -181,17 +192,22 @@ public class ToolCardTest extends TestCase {
         List<Object> obj = tool4.askParameter();
         for (Object o : obj) {
             if (o instanceof Dice) {
-                Cell c = winCard.getWindow().getCell(0, column);
-                Dice d = new Dice(idDice, c.getColor(), c.getValue());
-                c.setDice(d);
+                Dice d = new Dice(idDice, Colors.random(), random.nextInt(6)+1);
+                winCard.getWindow().getCell(row, column).setDice(d);
                 dices.add(d);
+                row++;
                 column++;
             } else if (o instanceof Cell) {
-                cells.add(winCard.getWindow().getCell(0, column));
+                cells.add(winCard.getWindow().getCell(row, column));
+                row++;
                 column++;
             }
         }
 
         assertTrue(tool4.checkTool(dices, cells));
+
+        assertTrue(tool4.useTool(dices, null, cells));
+        assertFalse(winCard.getWindow().getCell(0,0).isOccupied());
+        assertFalse(winCard.getWindow().getCell(0,1).isOccupied());
     }
 }

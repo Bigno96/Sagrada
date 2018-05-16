@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class PointCalculator {
+public class ObjectiveCalculator {
 
-    public PointCalculator() {
+    public ObjectiveCalculator() {
         // simple create an instance of ObjectiveStrategy
     }
 
