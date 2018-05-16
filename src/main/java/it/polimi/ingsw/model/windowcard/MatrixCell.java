@@ -53,6 +53,16 @@ public class MatrixCell {
         return null;
     }
 
+    public Cell getCell(Dice d) throws IDNotFoundException {
+        for (int i=0; i<rows; i++){
+            for (int j=0; j<cols; j++){
+                if (matrix[i][j].isOccupied() && matrix[i][j].getDice().getID() == d.getID())
+                    return matrix[i][j];
+            }
+        }
+        return null;
+    }
+
     public boolean containsDice(Dice d) throws IDNotFoundException {
         for (Cell[] c1 : matrix) {
             for (Cell c2 : c1) {
