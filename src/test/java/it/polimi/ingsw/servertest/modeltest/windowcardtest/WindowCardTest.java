@@ -404,4 +404,28 @@ public class WindowCardTest extends TestCase{
         assertThrows(WrongPositionException.class, card::checkPlaceCond);
     }
 
+    public void testNumEmptyCells() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
+        List<Cell> list = myCellList();
+        WindowCard card = new WindowCard(id, "Test", fp, list);
+        int row, col;
+        Colors color;
+        int value;
+        int numTotCell = 20;
+
+        assertEquals(numTotCell, card.numEmptyCells());
+
+        for (int i=0; i<numTotCell;) {
+            do {
+                row = random.nextInt(4);
+                col = random.nextInt(5);
+            }while(card.getWindow().getCell(row, col).isOccupied());
+            color = card.getWindow().getCell(row, col).getColor();
+            value = card.getWindow().getCell(row, col).getValue();
+            card.getWindow().getCell(row, col).setDice(new Dice(id, color, value));
+            i++;
+            assertEquals(numTotCell - i, card.numEmptyCells());
+        }
+
+    }
+
 }

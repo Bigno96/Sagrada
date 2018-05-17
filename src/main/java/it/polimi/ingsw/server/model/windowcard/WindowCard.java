@@ -160,4 +160,13 @@ public class WindowCard {
         return true;
     }
 
+    public int numEmptyCells(){
+        int cont = 0;
+        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+            if (!itr.next().isOccupied())
+                cont++;
+        }
+        return cont;
+    }
+
 }

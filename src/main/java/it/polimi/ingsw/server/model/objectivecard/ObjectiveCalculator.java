@@ -22,8 +22,10 @@ public class ObjectiveCalculator {
 
         for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {          // iterates on cells of Window Card
             Cell c = itr.next();
-            if (c.getDice().getColor() == col) {                    // if dice on cell has same color of the one of the Private Objective
-                sum += c.getDice().getValue();                      // sum the value of the dice
+            if(c.isOccupied()) {
+                if (c.getDice().getColor() == col) {                    // if dice on cell has same color of the one of the Private Objective
+                    sum += c.getDice().getValue();                      // sum the value of the dice
+                }
             }
         }
         

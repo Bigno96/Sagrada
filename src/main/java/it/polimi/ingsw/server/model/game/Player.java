@@ -1,8 +1,14 @@
 package it.polimi.ingsw.server.model.game;
 
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Player {
@@ -18,20 +24,24 @@ public class Player {
     private boolean usedTool;
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
-    public Player(int id, Board board) {
+    public Player(int id) {
         this.id = id;
         this.favorPoint = 0;
         this.firstTurn = true;
         this.secondTurn = true;
         this.privObj = null;
         this.windCard = null;
-        this.board = board;
+        this.board = null;
         this.playedDice = false;
     }
 
     public void setWindowCard(WindowCard windCard) {
         this.windCard = windCard;
         this.favorPoint = windCard.getNumFavPoint();
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     public WindowCard getWindowCard() {
@@ -108,6 +118,18 @@ public class Player {
 
     public void resetUsedTool() {
         this.usedTool = false;
+    }
+
+    public int rateScore() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+        int sum=0;
+        List<ObjectiveCard> publObj = board.getPublObj();
+        for (ObjectiveCard obj : publObj) {
+            sum += obj.calcPoint(windCard);
+        }
+        sum += privObj.calcPoint(windCard);
+        sum += favorPoint;
+        sum -= windCard.numEmptyCells();
+        return sum;
     }
 
     @Override
