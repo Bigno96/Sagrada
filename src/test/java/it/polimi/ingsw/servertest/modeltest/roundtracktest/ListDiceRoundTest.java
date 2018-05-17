@@ -60,11 +60,7 @@ public class ListDiceRoundTest extends TestCase {
     public void testIDNotFoundException() throws IDNotFoundException, SameDiceException {
         ListDiceRound list = new ListDiceRound();
         Dice d = new Dice(id, col);
-        int idDiff;
-
-        do {
-            idDiff = random.nextInt(90);
-        } while (id == idDiff);
+        int idDiff = (id+1)%90;
 
         Dice dDiff = new Dice(idDiff, col);
         list.addDice(d);

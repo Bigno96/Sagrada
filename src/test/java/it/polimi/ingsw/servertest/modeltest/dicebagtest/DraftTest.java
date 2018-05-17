@@ -74,12 +74,8 @@ public class DraftTest extends TestCase {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
         int length = draft.diceRemaining();
-        int wrongId;
+        int wrongId = (id+1)%90;
         Dice d = new Dice(id, col);
-
-        do {
-            wrongId = random.nextInt(90);
-        } while (id == wrongId);
 
         Dice dWrong = new Dice(wrongId, col);
 

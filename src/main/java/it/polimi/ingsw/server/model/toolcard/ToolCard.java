@@ -160,7 +160,7 @@ public class ToolCard {
         else if (id == 4)
             return moveExTwoDice(dices, cells);
         else if (id == 5)
-            return moveFromDraft(dices, null);
+            return moveDraftToRound(dices, null);
         return true;
     }
 
@@ -228,7 +228,7 @@ public class ToolCard {
         return true;
     }
 
-    private boolean moveFromDraft(List<Dice> dices, List<Cell> cells) throws IDNotFoundException, SameDiceException, EmptyException {
+    private boolean moveDraftToRound(List<Dice> dices, List<Cell> cells) throws IDNotFoundException, SameDiceException, EmptyException {
         if (id == 5) {
             int round = roundTrack.getRound(dices.get(1));
             draft.addDice(dices.get(1).copyDice());

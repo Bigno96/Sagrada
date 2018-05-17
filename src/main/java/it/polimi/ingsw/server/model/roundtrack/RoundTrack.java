@@ -70,8 +70,9 @@ public class RoundTrack {
         for (ListDiceRound l : trackList) {
             for (Iterator<Dice> itr = l.itr(); itr.hasNext();) {
                 Dice dice = itr.next();
-                if (d.getID() == dice.getID())
+                if (d.getID() == dice.getID()) {
                     return trackList.indexOf(l);
+                }
             }
         }
 

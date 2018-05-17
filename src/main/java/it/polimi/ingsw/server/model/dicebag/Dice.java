@@ -49,7 +49,7 @@ public class Dice {
 
     public void rollDice() {
         Random rand = new Random();
-        value = rand.nextInt(6 ) + 1;
+        value = rand.nextInt(6) + 1;
     }
 
     public void changeValue(int newValue) throws ValueException {

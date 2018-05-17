@@ -71,9 +71,8 @@ public class ObjectiveCalculatorTest extends TestCase {
                 c = new Cell(val, col, i, j);
 
                 // cannot set a dice with val = 0 or null color
-                while (val == 0) {
-                    val = random.nextInt(6)+1;
-                }
+                val = random.nextInt(6)+1;
+
                 while (col.equals(Colors.NULL)) {
                     col = Colors.random();
                 }
@@ -226,7 +225,6 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcDiagonalColor() throws IDNotFoundException, PositionException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 4, objStrat);
         int sum = 0;
 
         for (Cell c : cellList) {               // count all dices with diagonally adjacent dice of the same color

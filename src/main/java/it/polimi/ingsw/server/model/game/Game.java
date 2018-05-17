@@ -7,8 +7,6 @@ import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveFactory;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
-import jdk.nashorn.internal.ir.WhileNode;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

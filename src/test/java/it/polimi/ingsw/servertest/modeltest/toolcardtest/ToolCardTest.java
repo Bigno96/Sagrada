@@ -23,7 +23,7 @@ public class ToolCardTest extends TestCase {
 
     private static final Random random = new Random();
     private int id = random.nextInt(12)+1;
-    private int idDice = random.nextInt(90);
+    private int idDice = random.nextInt(89)+1;
     private Colors col = Colors.random();
     private int fp = random.nextInt(4)+3;
     private DiceBag diceBag = new DiceBag();
@@ -123,8 +123,10 @@ public class ToolCardTest extends TestCase {
         Cell c = winCard.getWindow().getCell(0,0);
         Cell cNear = winCard.getWindow().getCell(0,1);
 
-        Colors col = cNear.getColor();
-        int val = cNear.getValue();
+        Colors colNear = cNear.getColor();
+        int valNear = cNear.getValue();
+        Colors col = c.getColor();
+        int val = c.getValue();
 
         tool2.setActor(winCard, null, null, null);
         tool3.setActor(winCard, null, null, null);
@@ -134,7 +136,7 @@ public class ToolCardTest extends TestCase {
         List<Object> obj = tool2.askParameter();
         for (Object o : obj) {
             if (o instanceof Dice) {
-                d = new Dice(idDice, col);
+                d = new Dice(idDice, colNear);
                 dices.add(d);
             }
             else if (o instanceof Cell) {
@@ -170,8 +172,8 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.checkFirstDice());
         assertThrows(NotEmptyException.class, () -> c.setDice(new Dice(0, col)));
 
-        cNear.setDice(new Dice(0, col));
-        cNear.changeDiceValue(val);
+        cNear.setDice(new Dice(0, colNear));
+        cNear.changeDiceValue(valNear);
 
         assertThrows(WrongPositionException.class, winCard::checkFirstDice);
         assertTrue(winCard.checkPlaceCond());
@@ -215,7 +217,7 @@ public class ToolCardTest extends TestCase {
     }
 
     public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException {
-        ToolCard tool5 = new ToolCard(4, "Tool5", col);
+        ToolCard tool5 = new ToolCard(5, "Tool5", col);
         Player p = new Player(id);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
@@ -227,6 +229,7 @@ public class ToolCardTest extends TestCase {
         List<Object> obj = tool5.askParameter();
         for (Object o : obj) {
             if (o instanceof Dice) {
+                idDice = (idDice+1)%90;
                 Dice d = new Dice(idDice, Colors.random(), random.nextInt(6)+1);
                 dices.add(d);
             }
@@ -241,7 +244,7 @@ public class ToolCardTest extends TestCase {
         assertThrows(IDNotFoundException.class, () -> draft.rmDice(dices.get(0)));
         assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(dices.get(1).getID()));
         assertSame(draft.findDice(dices.get(1).getID()).getID(), idDice);
-        assertSame(roundTrack.findDice(dices.get(0).getID()).getID(), idDice);
+        assertSame(roundTrack.findDice(dices.get(0).getID()).getID(), (idDice-1));
     }
 }
 

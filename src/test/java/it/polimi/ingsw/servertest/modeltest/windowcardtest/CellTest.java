@@ -67,9 +67,8 @@ public class CellTest extends TestCase{
         int wrongVal;
         Colors wrongCol;
 
-        do {
-            wrongVal = random.nextInt(6)+1;
-        } while (wrongVal == value);
+
+        wrongVal = (value+1)%5;
 
         do {
             wrongCol = Colors.random();
@@ -82,13 +81,15 @@ public class CellTest extends TestCase{
         assertTrue(c.checkValue());
 
         c.changeDiceValue(wrongVal);
-        assertFalse(c.checkValue());
+        if (c.getValue() != 0)
+            assertFalse(c.checkValue());
         c.setIgnoreValue();
         assertTrue(c.checkValue());
 
         c.freeCell();
         c.setDice(new Dice(id, wrongCol));
-        assertFalse(c.checkColor());
+        if (!c.getColor().equals(Colors.NULL))
+            assertFalse(c.checkColor());
         c.setIgnoreColor();
         assertTrue(c.checkColor());
     }

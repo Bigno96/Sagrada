@@ -15,7 +15,6 @@ public class RoundTest extends TestCase {
 
     private int nPlayer = 2;
     private Board board = new Board(nPlayer);
-    private Player p;
 
     public RoundTest(String testName) throws IDNotFoundException {
         super(testName);
@@ -24,7 +23,7 @@ public class RoundTest extends TestCase {
     private List<Player> myCellList() {
         List<Player> playerList = new ArrayList<>();
         for (int i=0; i<nPlayer; i++) {
-            p = new Player(i);
+            Player p = new Player(i);
             p.setBoard(board);
             playerList.add(p);
         }

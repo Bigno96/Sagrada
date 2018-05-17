@@ -44,11 +44,7 @@ public class RoundTrackTest extends TestCase {
     public void testGetRound() throws IDNotFoundException, SameDiceException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
-        int id1;
-        if (id == 90)
-            id1 = 0;
-        else
-            id1 = id++;
+        int id1 = (id+1)%90;
         Dice d1 = new Dice(id1, col);
         int round = random.nextInt(10);
         roundTrack.addDice(d, round);
@@ -81,12 +77,7 @@ public class RoundTrackTest extends TestCase {
         Dice d = new Dice(id, col);
         int roundNeg = random.nextInt() - (random.nextInt()+1);
         int roundOver = random.nextInt() + 10;
-        int roundDiff;
-
-        if (round+1 > 9)
-            roundDiff = 0;
-        else
-            roundDiff = round+1;
+        int roundDiff = (round+1)%10;
 
         assertTrue(roundTrack.addDice(d, round));
         assertSame(id, roundTrack.findDice(id).getID());
@@ -102,17 +93,8 @@ public class RoundTrackTest extends TestCase {
         Dice d = new Dice(id, col);
         int roundNeg = random.nextInt() - (random.nextInt()+1);
         int roundOver = random.nextInt() + 10;
-        int roundDiff, idDiff;
-
-        if (round+1 > 9)
-            roundDiff = 0;
-        else
-            roundDiff = round+1;
-
-        if (id+1 > 89)
-            idDiff = 0;
-        else
-            idDiff = id+1;
+        int roundDiff = (round+1)%10;
+        int idDiff = (id+1)%90;
 
         Dice dDiff = new Dice(idDiff, col);
 

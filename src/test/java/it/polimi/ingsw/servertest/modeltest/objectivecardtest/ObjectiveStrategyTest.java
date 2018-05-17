@@ -48,9 +48,8 @@ public class ObjectiveStrategyTest extends TestCase {
                 c = new Cell(val, col, i, j);
 
                 // cannot set a dice with val = 0 or null color
-                while (val == 0) {
-                    val = random.nextInt(6)+1;
-                }
+                val = random.nextInt(6)+1;
+
                 while (col.equals(Colors.NULL)) {
                     col = Colors.random();
                 }

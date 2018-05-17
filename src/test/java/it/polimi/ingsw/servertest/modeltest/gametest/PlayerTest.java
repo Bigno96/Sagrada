@@ -39,12 +39,7 @@ public class PlayerTest extends TestCase {
         p.setBoard(board);
         int pick = random.nextInt(4);
         int idCard1 = random.nextInt(12)+1;
-        int idCard2;
-
-        if (idCard1+1 > 12)
-            idCard2 = 1;
-        else
-            idCard2 = idCard1 +1;
+        int idCard2 = (idCard1+1)%12 +1;
 
         List<WindowCard> windows = winFact.getWindow(idCard1, idCard2);
         WindowCard winCard = windows.get(pick);
@@ -137,9 +132,7 @@ public class PlayerTest extends TestCase {
                 do {
                     col = Colors.random();
                 } while (col == Colors.NULL);
-                do {
-                    val = random.nextInt(7);
-                } while (val == 0);
+                val = random.nextInt(6)+1;
                 cellList.add(new Cell(val, col, i, j));
             }
         return cellList;
