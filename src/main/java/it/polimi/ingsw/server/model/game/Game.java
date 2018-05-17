@@ -4,9 +4,16 @@ import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
 import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.ObjectiveFactory;
+import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
+import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
+import jdk.nashorn.internal.ir.WhileNode;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class Game {
@@ -15,6 +22,7 @@ public class Game {
     private List<Player> playerList;
     private int nPlayer;
     private int nRound;                 //counter from 1 to 10
+    private static final Random random = new Random();
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
@@ -24,9 +32,45 @@ public class Game {
         nRound = 0;
     }
 
-    public void startGame() throws IDNotFoundException {
+    public void startGame() throws IDNotFoundException, FileNotFoundException {
+        int id, id2, id3;
+        List<Integer> vetID = new ArrayList<>();
+        ObjectiveCard obj1, obj2, obj3, objPriv;
+        ObjectiveStrategy objStrat = new ObjectiveStrategy();
+        ObjectiveFactory obj = new ObjectiveFactory(objStrat);
+
         round = new Round(playerList);
         board = new Board(nPlayer);
+
+        for (Player p: playerList){
+            p.setBoard(board);
+        }
+
+        id = random.nextInt(10)+1;
+        obj1 = obj.getPublCard(id);
+
+        do {
+            id2 = random.nextInt(10) + 1;
+        }while(id2 == id);
+        obj2 = obj.getPublCard(id);
+
+        do {
+            id3 = random.nextInt(10) + 1;
+        }while (id3 == id || id3 == id2);
+        obj3 = obj.getPublCard(id);
+
+        board.setPublObj(obj1, obj2, obj3);
+
+        for (Player p: playerList){
+            do {
+                id = random.nextInt(5) + 1;
+            }while (vetID.contains(id));
+            vetID.add(id);
+            objPriv = obj.getPrivCard(id);
+            p.setPrivObj(objPriv);
+        }
+
+        //create and assign (setToolCard) toolCard
     }
 
     public boolean addPlayer(Player p) throws SamePlayerException {
@@ -73,6 +117,10 @@ public class Game {
 
     public int getNPlayer() {
         return nPlayer;
+    }
+
+    public List<Player> getPlayerList(){
+        return playerList;
     }
 
     public Player currentPlayer(){

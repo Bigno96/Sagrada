@@ -56,10 +56,16 @@ public class Board {
                 + getRoundTrack() + " WindowFact: " + getWindowFactory() + " nPlayer: " + getnPlayer());
     }
 
-    public void setPublObj(PublicObjective obj1, PublicObjective obj2, PublicObjective obj3) {
+    public void setPublObj(ObjectiveCard obj1, ObjectiveCard obj2, ObjectiveCard obj3) {
         this.publObj.add(obj1);
         this.publObj.add(obj2);
         this.publObj.add(obj3);
+    }
+
+    public void setToolCard(ToolCard obj1, ToolCard obj2, ToolCard obj3) {
+        this.toolCard.add(obj1);
+        this.toolCard.add(obj2);
+        this.toolCard.add(obj3);
     }
 
     public List<ObjectiveCard> getPublObj() {

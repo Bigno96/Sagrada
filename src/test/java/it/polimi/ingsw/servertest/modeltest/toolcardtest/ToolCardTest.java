@@ -1,5 +1,5 @@
-package it.polimi.ingsw.servertest.modeltest.toolcardtest;
 
+<<<<<<< HEAD
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Player;
@@ -70,7 +70,8 @@ public class ToolCardTest extends TestCase {
     public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
         ToolCard tool = new ToolCard(1, "Tool1", col);
-        Player p = new Player(id, board);
+        Player p = new Player(id);
+        p.setBoard(board);
         Colors colDice;
         Dice d = null;
         List<Dice> dices = new ArrayList<>();
@@ -115,7 +116,8 @@ public class ToolCardTest extends TestCase {
         WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
         ToolCard tool2 = new ToolCard(2, "Tool2", col);
         ToolCard tool3 = new ToolCard(3, "Tool3", col);
-        Player p = new Player(id, board);
+        Player p = new Player(id);
+        p.setBoard(board);
         Dice d = null;
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
@@ -179,7 +181,8 @@ public class ToolCardTest extends TestCase {
     public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool4 = new ToolCard(4, "Tool4", col);
-        Player p = new Player(id, board);
+        Player p = new Player(id);
+        p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         int row = 0;
@@ -214,7 +217,8 @@ public class ToolCardTest extends TestCase {
 
     public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException {
         ToolCard tool5 = new ToolCard(4, "Tool5", col);
-        Player p = new Player(id, board);
+        Player p = new Player(id);
+        p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
         int round = random.nextInt(10);
 
@@ -241,3 +245,5 @@ public class ToolCardTest extends TestCase {
         assertSame(roundTrack.findDice(dices.get(0).getID()).getID(), idDice);
     }
 }
+=======
+>>>>>>> 6cdd43f771e0ac2e34d58a277a39829d297ada56
