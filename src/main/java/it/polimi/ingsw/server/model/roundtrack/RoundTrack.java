@@ -65,4 +65,16 @@ public class RoundTrack {
 
         return trackList.get(round).rmDice(d);
     }
+
+    public int getRound(Dice d) throws IDNotFoundException {
+        for (ListDiceRound l : trackList) {
+            for (Iterator<Dice> itr = l.itr(); itr.hasNext();) {
+                Dice dice = itr.next();
+                if (d.getID() == dice.getID())
+                    return trackList.indexOf(l);
+            }
+        }
+
+        throw new IDNotFoundException("Dice not found");
+    }
 }

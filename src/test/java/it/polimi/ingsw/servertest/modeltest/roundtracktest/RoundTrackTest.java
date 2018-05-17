@@ -41,6 +41,22 @@ public class RoundTrackTest extends TestCase {
         assertNotSame(d, roundTrack.findDice(id));
     }
 
+    public void testGetRound() throws IDNotFoundException, SameDiceException {
+        RoundTrack roundTrack = new RoundTrack(draft);
+        Dice d = new Dice(id, col);
+        int id1;
+        if (id == 90)
+            id1 = 0;
+        else
+            id1 = id++;
+        Dice d1 = new Dice(id1, col);
+        int round = random.nextInt(10);
+        roundTrack.addDice(d, round);
+
+        assertSame(round, roundTrack.getRound(d));
+        assertThrows(IDNotFoundException.class, () -> roundTrack.getRound(d1));
+    }
+
     public void testIDNotFoundException() throws IDNotFoundException, SameDiceException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);

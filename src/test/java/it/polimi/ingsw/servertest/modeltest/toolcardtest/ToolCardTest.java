@@ -67,7 +67,7 @@ public class ToolCardTest extends TestCase {
     }
 
     // testing tool card 1
-    public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException {
+    public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
         ToolCard tool = new ToolCard(1, "Tool1", col);
         Player p = new Player(id, board);
@@ -111,7 +111,7 @@ public class ToolCardTest extends TestCase {
     }
 
     // testing tool card 2 and 3
-    public void testTool2_3() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, WrongPositionException {
+    public void testTool2_3() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, WrongPositionException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
         ToolCard tool2 = new ToolCard(2, "Tool2", col);
         ToolCard tool3 = new ToolCard(3, "Tool3", col);
@@ -122,7 +122,7 @@ public class ToolCardTest extends TestCase {
         Cell c = winCard.getWindow().getCell(0,0);
         Cell cNear = winCard.getWindow().getCell(0,1);
 
-        Colors col = c.getColor();
+        Colors col = cNear.getColor();
         int val = cNear.getValue();
 
         tool2.setActor(winCard, null, null, null);
@@ -148,7 +148,6 @@ public class ToolCardTest extends TestCase {
         cNear.setIgnoreValue();
         c.setDice(d);
 
-        assertTrue(winCard.checkFirstDice());
         assertTrue(tool2.useTool(dices, null, cells));
         assertThrows(NotEmptyException.class, () -> cNear.setDice(new Dice(0, col)));
 
@@ -177,7 +176,7 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.checkPlaceCond());
     }
 
-    public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException {
+    public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool4 = new ToolCard(4, "Tool4", col);
         Player p = new Player(id, board);
@@ -208,6 +207,37 @@ public class ToolCardTest extends TestCase {
 
         assertTrue(tool4.useTool(dices, null, cells));
         assertFalse(winCard.getWindow().getCell(0,0).isOccupied());
-        assertFalse(winCard.getWindow().getCell(0,1).isOccupied());
+        assertFalse(winCard.getWindow().getCell(1,1).isOccupied());
+        assertTrue(winCard.getWindow().getCell(2,2).isOccupied());
+        assertTrue(winCard.getWindow().getCell(3,3).isOccupied());
+    }
+
+    public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException {
+        ToolCard tool5 = new ToolCard(4, "Tool5", col);
+        Player p = new Player(id, board);
+        List<Dice> dices = new ArrayList<>();
+        int round = random.nextInt(10);
+
+        tool5.setActor(null, roundTrack, draft, null);
+        assertTrue(tool5.checkPreCondition(p));
+
+        List<Object> obj = tool5.askParameter();
+        for (Object o : obj) {
+            if (o instanceof Dice) {
+                Dice d = new Dice(idDice, Colors.random(), random.nextInt(6)+1);
+                dices.add(d);
+            }
+        }
+
+        draft.addDice(dices.get(0));
+        roundTrack.addDice(dices.get(1), round);
+
+        assertTrue(tool5.checkTool(dices, null));
+
+        assertTrue(tool5.useTool(dices, null, null));
+        assertThrows(IDNotFoundException.class, () -> draft.rmDice(dices.get(0)));
+        assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(dices.get(1).getID()));
+        assertSame(draft.findDice(dices.get(1).getID()).getID(), idDice);
+        assertSame(roundTrack.findDice(dices.get(0).getID()).getID(), idDice);
     }
 }

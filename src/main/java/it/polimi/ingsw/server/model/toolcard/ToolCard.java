@@ -41,7 +41,7 @@ public class ToolCard {
 
     public Colors getDiceColor() {
         return diceColor;
-    }
+    }       // single player dice color
 
     public int getFavorPoint() {
         return favorPoint;
@@ -56,6 +56,21 @@ public class ToolCard {
         this.draft = draft;
         this.diceBag = diceBag;
         this.roundTrack = roundTrack;
+    }
+
+    public List<Object> getParameter() {
+        List<Object> ret = new ArrayList<>();
+
+        if (windowCard != null)
+            ret.add(windowCard);
+        if (roundTrack != null)
+            ret.add(roundTrack);
+        if (diceBag != null)
+            ret.add(diceBag);
+        if (draft != null)
+            ret.add(draft);
+
+        return ret;
     }
 
     public boolean checkPreCondition(Player player) {
@@ -80,25 +95,62 @@ public class ToolCard {
             list.add(new Cell(0, Colors.NULL, 0, 0));
             list.add(new Cell(0, Colors.NULL, 0, 1));
         }
+        else if (id == 5) {
+            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.NULL));
+        }
+        else if (id == 6) {
+            list.add(new Dice(0, Colors.NULL));
+        }
 
         return list;
     }
 
     public boolean checkTool(List<Dice> dices, List<Cell> cells) throws IDNotFoundException {
         if (id == 1) {
-            return dices.size()==1 && checkDiceIn(dices.get(0), windowCard);
+            return dices.size()==1 && checkDiceWinCard(dices.get(0));
         }
         else if (id == 2 || id ==3) {
-            return dices.size()==1 && cells.size()==1 && checkDiceIn(dices.get(0), windowCard);
+            return dices.size()==1 && cells.size()==1 && checkDiceWinCard(dices.get(0));
         }
         else if (id == 4) {
-            return dices.size()==2 && cells.size()==2 && checkDiceIn(dices.get(0), windowCard) && checkDiceIn(dices.get(1), windowCard);
+            return dices.size()==2 && cells.size()==2 && checkDiceWinCard(dices.get(0)) && checkDiceWinCard(dices.get(1));
+        }
+        else if (id == 5) {
+            return dices.size()==2 && checkDiceDraft(dices.get(0)) && checkDiceRoundTrack(dices.get(1));  // first dice is in draft, second in round track
+        }
+        else if (id == 6) {
+
         }
 
         return true;
     }
 
-    public boolean useTool(List<Dice> dices, Boolean up, List<Cell> cells) throws ValueException, IDNotFoundException, NotEmptyException {
+    private boolean checkDiceWinCard(Dice d) throws IDNotFoundException {
+        return windowCard.getWindow().containsDice(d);
+    }
+
+    private boolean checkDiceRoundTrack(Dice d) {
+        try {
+            roundTrack.findDice(d.getID());
+        } catch (IDNotFoundException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkDiceDraft(Dice d) {
+        try {
+            draft.findDice(d.getID());
+        } catch (IDNotFoundException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean useTool(List<Dice> dices, Boolean up, List<Cell> cells) throws ValueException, IDNotFoundException, NotEmptyException, EmptyException, SameDiceException {
         if (id == 1)
             return changeValue(dices.get(0), up);
         else if (id == 2)
@@ -107,11 +159,9 @@ public class ToolCard {
             return moveOneDice(dices.get(0), cells.get(0), "value");
         else if (id == 4)
             return moveExTwoDice(dices, cells);
+        else if (id == 5)
+            return moveFromDraft(dices, null);
         return true;
-    }
-
-    private boolean checkDiceIn(Dice d, WindowCard windowCard) throws IDNotFoundException {
-        return windowCard.getWindow().containsDice(d);
     }
 
     private boolean changeValue(Dice d, boolean up) throws ValueException {
@@ -127,19 +177,27 @@ public class ToolCard {
     }
 
     private boolean moveOneDice(Dice d, Cell dest, String restrictionIgnored) throws IDNotFoundException, NotEmptyException {
-        if (restrictionIgnored.equals("color")) {
-            windowCard.getWindow().getCell(d).freeCell();
-            dest.setDice(d);
-            dest.setIgnoreColor();
-            return true;
+        Cell c;
+
+        c = windowCard.getWindow().getCell(d);
+        c.freeCell();
+        dest.setDice(d);
+        try {
+            if (windowCard.numEmptyCells() == 19)
+                windowCard.checkFirstDice();
+            else
+                windowCard.checkPlaceCond();
+            if (restrictionIgnored.equals("color"))
+                dest.setIgnoreColor();
+            else // restrictionIgnored is "value"
+                dest.setIgnoreValue();
+        } catch (WrongPositionException | PositionException | EmptyException e) {
+            c.setDice(d);
+            dest.freeCell();
+            return false;
         }
-        else if (restrictionIgnored.equals("value")) {
-            windowCard.getWindow().getCell(d).freeCell();
-            dest.setDice(d);
-            dest.setIgnoreValue();
-            return true;
-        }
-        return false;
+
+        return true;
     }
 
     private boolean moveExTwoDice(List<Dice> dices, List<Cell> dest) throws IDNotFoundException, NotEmptyException {
@@ -165,6 +223,18 @@ public class ToolCard {
             c.setDice(dices.get(0));
             dest.get(1).freeCell();
             return false;
+        }
+
+        return true;
+    }
+
+    private boolean moveFromDraft(List<Dice> dices, List<Cell> cells) throws IDNotFoundException, SameDiceException, EmptyException {
+        if (id == 5) {
+            int round = roundTrack.getRound(dices.get(1));
+            draft.addDice(dices.get(1).copyDice());
+            roundTrack.addDice(dices.get(0).copyDice(), round);
+            draft.rmDice(dices.get(0));
+            roundTrack.rmDice(dices.get(1), round);
         }
 
         return true;
