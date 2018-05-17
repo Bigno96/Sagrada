@@ -1,5 +1,5 @@
+package it.polimi.ingsw.servertest.modeltest.toolcardtest;
 
-<<<<<<< HEAD
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Player;
@@ -13,7 +13,6 @@ import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -245,5 +244,4 @@ public class ToolCardTest extends TestCase {
         assertSame(roundTrack.findDice(dices.get(0).getID()).getID(), idDice);
     }
 }
-=======
->>>>>>> 6cdd43f771e0ac2e34d58a277a39829d297ada56
+
