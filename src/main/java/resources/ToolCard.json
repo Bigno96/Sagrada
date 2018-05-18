@@ -1,0 +1,62 @@
+[
+  {
+    "ID": 1,
+    "name": "Grozing Pliers",
+    "color": "VIOLET"
+  },
+  {
+    "ID": 2,
+    "name": "Eglomise Brush",
+    "color": "BLUE"
+  },
+  {
+    "ID": 3,
+    "name": "Copper Foil Burnisher",
+    "color": "RED"
+  },
+  {
+    "ID": 4,
+    "name": "Lathekin",
+    "color": "YELLOW"
+  },
+  {
+    "ID": 5,
+    "name": "Lens Cutter",
+    "color": "GREEN"
+  },
+  {
+    "ID": 6,
+    "name": "Flux Brush",
+    "color": "VIOLET"
+  },
+  {
+    "ID": 7,
+    "name": "Glazing Hammer",
+    "color": "BLUE"
+  },
+  {
+    "ID": 8,
+    "name": "Running Pliers",
+    "color": "RED"
+  },
+  {
+    "ID": 9,
+    "name": "Cork-backed Straightedge",
+    "color": "YELLOW"
+  },
+  {
+    "ID": 10,
+    "name": "Grinding Stone",
+    "color": "GREEN"
+  },
+  {
+    "ID": 11,
+    "name": "Flux Remover",
+    "color": "VIOLET"
+  },
+  {
+    "ID": 12,
+    "name": "Tap Wheel",
+    "color": "BLUE"
+  }
+]

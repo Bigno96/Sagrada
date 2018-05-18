@@ -18,16 +18,34 @@ public class ToolStrategy {
     private Draft draft;
     private DiceBag diceBag;
 
+    /**
+     * Constructor
+     * @param roundTrack != null
+     * @param draft != null
+     * @param diceBag != null
+     */
     public ToolStrategy(RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
         this.diceBag = diceBag;
         this.roundTrack = roundTrack;
         this.draft = draft;
     }
 
+    /**
+     * Check if the Dice is in the Window Card
+     * @param d != null
+     * @param windowCard != null
+     * @return true if window Card contains Dice, else false
+     * @throws IDNotFoundException when dice has an illegal id
+     */
     public boolean checkDiceWinCard(Dice d, WindowCard windowCard) throws IDNotFoundException {
         return windowCard.getWindow().containsDice(d);
     }
 
+    /**
+     * Check if the Dice is in the Round Track
+     * @param d != null
+     * @return true if Round Track contains Dice, else false
+     */
     public boolean checkDiceRoundTrack(Dice d) {
         try {
             roundTrack.findDice(d.getID());
@@ -38,16 +56,26 @@ public class ToolStrategy {
         return true;
     }
 
-    public boolean checkDiceDraft(Dice d) {
-        try {
-            draft.findDice(d.getID());
-        } catch (IDNotFoundException e) {
-            return false;
-        }
-
-        return true;
+    /**
+     * Check if the Dice is in the Draft
+     * @param d != null
+     * @return true if Draft contains Dice, else false
+     * @throws IDNotFoundException when Dice has an illegal id
+     */
+    public boolean checkDiceDraft(Dice d) throws IDNotFoundException {
+        return draft.findDice(d.getID()) != null;
     }
 
+    /**
+     * Check if the condition for the tool number 12 are rights. Dices must be the same color of diceColor and
+     * windowCard must contains the dices.
+     * @param dices != null && dices.size() < 3
+     * @param cells != null && dices.size() == cells.size()
+     * @param diceColor != null
+     * @param windowCard != null
+     * @return true if conditions are respected, else false
+     * @throws IDNotFoundException when illegal dices are passed
+     */
     public boolean checkTool12(List<Dice> dices, List<Cell> cells, Colors diceColor, WindowCard windowCard) throws IDNotFoundException {
         boolean bool = true;
         if (dices.isEmpty())
@@ -60,6 +88,13 @@ public class ToolStrategy {
                 roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.NULL);
     }
 
+    /**
+     * Change value of a dice into /old+1 or /old-1. Can't change 6 into 1, 1 into 6
+     * @param d != null
+     * @param up != null
+     * @return true if can change the value, else false
+     * @throws ValueException when invalid value
+     */
     public boolean changeValue(Dice d, boolean up) throws ValueException {
         if ((up && d.getValue() == 6) || (!up && d.getValue() == 1))
             return false;
@@ -72,6 +107,16 @@ public class ToolStrategy {
         return true;
     }
 
+    /**
+     * Move a dice from a cell in window Card to a Cell (dest) passed as parameter. Ignore restriction based on the String parameter
+     * @param d != null && windowCard.contains(d)
+     * @param dest != null
+     * @param restrictionIgnored == "color" || "value"
+     * @param windowCard != null
+     * @return true if can move the Dice
+     * @throws IDNotFoundException when dice has wrong id
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     */
     public boolean moveOneDice(Dice d, Cell dest, String restrictionIgnored, WindowCard windowCard) throws IDNotFoundException, NotEmptyException {
         Cell c;
         boolean colorBool = restrictionIgnored.equals("color");
@@ -106,6 +151,15 @@ public class ToolStrategy {
         }
     }
 
+    /**
+     * Moving exactly two dice inside window Card. Respecting all restrictions.
+     * @param dices != null && dices.size() == 2
+     * @param dest != null && dest.size() == dices.size()
+     * @param windowCard != null
+     * @return true if can move the dices
+     * @throws IDNotFoundException when dices have wrong id
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     */
     public boolean moveExTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws IDNotFoundException, NotEmptyException {
         Cell c0 = windowCard.getWindow().getCell(dices.get(0));
         Cell c1 = windowCard.getWindow().getCell(dices.get(1));
@@ -129,6 +183,15 @@ public class ToolStrategy {
 
     }
 
+    /**
+     * Moving 0, 1 or 2 dices inside window Card.
+     * @param dices has the same colors
+     * @param dest dest.size() == dices.size()
+     * @param windowCard != null
+     * @return true if can move the dices
+     * @throws IDNotFoundException when dices have wrong id
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     */
     public boolean moveUpToTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws IDNotFoundException, NotEmptyException {
         if (dices.isEmpty())
             return true;
@@ -165,6 +228,14 @@ public class ToolStrategy {
 
     }
 
+    /**
+     * Swapping a dice from round Track with one from Draft
+     * @param dices dices.size() == 2 && roundTrack.contains(dices.get(0)) && draft.contains(dices.get(1))
+     * @return true if the swap is successful
+     * @throws IDNotFoundException when dices have wrong id
+     * @throws SameDiceException when trying to add the same dice twice to the same object
+     * @throws EmptyException when trying to get a dice from an empty draft
+     */
     public boolean moveFromDraftToRound(List<Dice> dices) throws IDNotFoundException, SameDiceException, EmptyException {
         int round = roundTrack.getRound(dices.get(1));
         draft.addDice(dices.get(1).copyDice());
@@ -175,6 +246,16 @@ public class ToolStrategy {
         return true;
     }
 
+    /**
+     * Place a Dice from draft into window Card, no Dice must be around the destination cell
+     * @param d != null && draft.contains(d)
+     * @param dest dest.checkNeighbors == false;
+     * @param windowCard != null
+     * @return true if the move has success, else false
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     * @throws IDNotFoundException when dices have wrong id
+     * @throws SameDiceException when trying to add the same dice twice to the same object
+     */
     public boolean moveFromDraftToCard(Dice d, Cell dest, WindowCard windowCard) throws NotEmptyException, IDNotFoundException, SameDiceException {
         try {
             dest.setDice(d);
@@ -195,6 +276,20 @@ public class ToolStrategy {
         }
     }
 
+    /**
+     * Permits to move one dice from draft to the bag, resetting its value, the pick up a random dice from Bag, choose
+     * the value and place it, respecting all the restrictions
+     * @param dice != null && draft.contains(d)
+     * @param dest != null && dest.isFree
+     * @param diceValue > 0 && < 7
+     * @param windowCard != null
+     * @return true if the operation is successful
+     * @throws IDNotFoundException when dices have wrong id
+     * @throws EmptyException when trying to get a dice from an empty draft or bag
+     * @throws ValueException when an incorrect value is being forced to a dice
+     * @throws SameDiceException when trying to add the same dice twice to the same object
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     */
     public boolean moveFromDraftToBag(Dice dice, Cell dest, int diceValue, WindowCard windowCard) throws IDNotFoundException, EmptyException, ValueException, SameDiceException, NotEmptyException {
         Dice tmp = dice.copyDice();
         draft.rmDice(dice);
@@ -221,6 +316,13 @@ public class ToolStrategy {
         }
     }
 
+    /**
+     * If two dices are on window Card, ignore or set nearby restriction of both of their Cells. Else, ignore or set
+     * nearby restriction only for dest.
+     * @param dest != null && dest.isFree
+     * @param set == true if ignore Nearby Restriction, == false if set Nearby Restrion
+     * @param windowCard != null
+     */
     public void findSetNearby(Cell dest, boolean set, WindowCard windowCard) {
         if (windowCard.numEmptyCells() == 18) {
             for (Iterator<Cell> itr = windowCard.getOrizzItr(); itr.hasNext();) {

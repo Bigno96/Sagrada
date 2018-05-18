@@ -67,13 +67,11 @@ public class ToolCard {
 
     /**
      * Used by the Factory to sets objects involved in this tool card
-     * @param windowCard window Card of the player that used the tool
      * @param roundTrack of the game
      * @param draft of the current Round
      * @param diceBag of the game
      */
-    public void setActor(WindowCard windowCard, RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
-        this.windowCard = windowCard;
+    public void setActor(RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
         this.draft = draft;
         this.diceBag = diceBag;
         this.roundTrack = roundTrack;
@@ -99,7 +97,8 @@ public class ToolCard {
      * @param player != null && currentPlayer = player
      * @return true is tool is usable by Player in this turn, else false
      */
-    public boolean checkPreCondition(Player player) {
+    public boolean checkPreCondition(Player player, WindowCard windowCard) {
+        this.windowCard = windowCard;
         this.player = player;
         if (id == 7 && (player.isFirstTurn() || player.isSecondTurn()))
             return false;
@@ -163,10 +162,11 @@ public class ToolCard {
      * @param diceColor null when not needed
      * @return true if selected elements are correct for this tool, else false
      * @throws IDNotFoundException when non existent Dices are selected
+     * @throws PositionException when cells have invalid positions
      */
-    public boolean checkTool(List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws IDNotFoundException {
+    public boolean checkTool(List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws IDNotFoundException, PositionException {
         if (id == 1) {
-            return dices.size()==1 && strat.checkDiceWinCard(dices.get(0), windowCard);
+            return dices.size()==1 && strat.checkDiceDraft(dices.get(0));
         }
         else if (id == 2 || id ==3) {
             return dices.size()==1 && cells.size()==1 && strat.checkDiceWinCard(dices.get(0), windowCard);
@@ -181,7 +181,7 @@ public class ToolCard {
             return dices.size()==1 && strat.checkDiceDraft(dices.get(0));
         }
         else if (id == 9) {
-            return dices.size()==1 && strat.checkDiceDraft(dices.get(0)) && cells.size()==1;
+            return dices.size()==1 && strat.checkDiceDraft(dices.get(0)) && cells.size()==1 && !windowCard.checkNeighbors(cells.get(0));
         }
         else if (id == 11) {
             if (diceValue < 1 || diceValue > 6)

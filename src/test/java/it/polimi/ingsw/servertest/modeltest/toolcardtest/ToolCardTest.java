@@ -67,21 +67,17 @@ public class ToolCardTest extends TestCase {
         assertSame(fp, tool.getFavorPoint());
     }
 
-    public void testGetActor() throws ValueException, PositionException {
-        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
+    public void testGetActor() {
         ToolCard tool = new ToolCard(id, "Test", col, strat);
-        WindowCard testWin = null;
         RoundTrack testTrack = null;
         Draft testDraft = null;
         DiceBag testBag = null;
 
-        tool.setActor(winCard, null, draft, diceBag);
+        tool.setActor(null, draft, diceBag);
         List<Object> obj = tool.getActor();
 
         for (Object o : obj) {
-            if (o instanceof WindowCard)
-                testWin = (WindowCard) o;
-            else if (o instanceof RoundTrack)
+            if (o instanceof RoundTrack)
                 testTrack = (RoundTrack) o;
             else if (o instanceof Draft)
                 testDraft = (Draft) o;
@@ -89,7 +85,6 @@ public class ToolCardTest extends TestCase {
                 testBag = (DiceBag) o;
         }
 
-        assertSame(testWin, winCard);
         assertNull(testTrack);
         assertSame(testDraft, draft);
         assertSame(testBag, diceBag);
@@ -97,47 +92,42 @@ public class ToolCardTest extends TestCase {
 
     // testing tool card 1
     public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
-        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
-        ToolCard tool = new ToolCard(1, "Tool1", col, strat);
+        ToolCard tool1 = new ToolCard(1, "Tool1", col, strat);
         Player p = new Player(id);
         p.setBoard(board);
-        Colors colDice;
-        Dice d = null;
         List<Dice> dices = new ArrayList<>();
-        Cell c = winCard.getWindow().getCell(0,0);
 
-        colDice = c.getColor();
+        tool1.setActor(null, draft, null);
+        assertTrue(tool1.checkPreCondition(p, null));
 
-        tool.setActor(winCard, null, null, null);
-        assertTrue(tool.checkPreCondition(p));
-
-        List<Object> obj = tool.askParameter();
+        List<Object> obj = tool1.askParameter();
         for (Object o : obj) {
             if (o instanceof Dice) {
-                d = new Dice((idDice++)%90, colDice);
+                Dice d = new Dice((idDice++)%90, Colors.random());
                 dices.add(d);
             }
         }
 
-        assertFalse(tool.checkTool(dices, null, 0, null));                 // the dice is not in the window card
+        assertFalse(tool1.checkTool(dices, null, 0, null));    // the dice is not in the draft
 
-        c.setDice(d);        // set it
+        Dice d = dices.get(0);
+        draft.addDice(d);        // set it
 
-        c.changeDiceValue(3);      // verify positive with value = 3
-        assertTrue(tool.useTool(dices, true, null));
-        assertSame(4, c.getDice().getValue());
+        d.changeValue(3);      // verify positive with value = 3
+        assertTrue(tool1.useTool(dices, true, null));
+        assertSame(4, d.getValue());
 
-        c.changeDiceValue(3);
-        assertTrue(tool.useTool(dices, false, null));
-        assertSame(2, c.getDice().getValue());
+        d.changeValue(3);
+        assertTrue(tool1.useTool(dices, false, null));
+        assertSame(2, d.getValue());
 
-        c.changeDiceValue(1);      // verify negative when reducing value = 1
-        assertFalse(tool.useTool(dices, false, null));
-        assertSame(1, c.getDice().getValue());
+        d.changeValue(1);      // verify negative when reducing value = 1
+        assertFalse(tool1.useTool(dices, false, null));
+        assertSame(1, d.getValue());
 
-        c.changeDiceValue(6);      // verify positive when adding value = 6
-        assertFalse(tool.useTool(dices, true, null));
-        assertSame(6, c.getDice().getValue());
+        d.changeValue(6);      // verify positive when adding value = 6
+        assertFalse(tool1.useTool(dices, true, null));
+        assertSame(6, d.getValue());
     }
 
     // testing tool card 2 and 3
@@ -146,6 +136,7 @@ public class ToolCardTest extends TestCase {
         ToolCard tool2 = new ToolCard(2, "Tool2", col, strat);
         ToolCard tool3 = new ToolCard(3, "Tool3", col, strat);
         Player p = new Player(id);
+        p.setWindowCard(winCard);
         p.setBoard(board);
         Dice d = null;
         List<Dice> dices = new ArrayList<>();
@@ -158,10 +149,10 @@ public class ToolCardTest extends TestCase {
         Colors col = c.getColor();
         int val = c.getValue();
 
-        tool2.setActor(winCard, null, null, null);
-        tool3.setActor(winCard, null, null, null);
-        assertTrue(tool2.checkPreCondition(p));
-        assertTrue(tool3.checkPreCondition(p));
+        tool2.setActor(null, null, null);
+        tool3.setActor(null, null, null);
+        assertTrue(tool2.checkPreCondition(p, p.getWindowCard()));
+        assertTrue(tool3.checkPreCondition(p, p.getWindowCard()));
 
         List<Object> obj = tool2.askParameter();
         for (Object o : obj) {
@@ -214,13 +205,14 @@ public class ToolCardTest extends TestCase {
         ToolCard tool4 = new ToolCard(4, "Tool4", col, strat);
         Player p = new Player(id);
         p.setBoard(board);
+        p.setWindowCard(winCard);
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         int row = 0;
         int column = 0;
 
-        tool4.setActor(winCard, null, null, null);
-        assertTrue(tool4.checkPreCondition(p));
+        tool4.setActor(null, null, null);
+        assertTrue(tool4.checkPreCondition(p, p.getWindowCard()));
 
         List<Object> obj = tool4.askParameter();
         for (Object o : obj) {
@@ -253,8 +245,8 @@ public class ToolCardTest extends TestCase {
         List<Dice> dices = new ArrayList<>();
         int round = random.nextInt(10);
 
-        tool5.setActor(null, roundTrack, draft, null);
-        assertTrue(tool5.checkPreCondition(p));
+        tool5.setActor(roundTrack, draft, null);
+        assertTrue(tool5.checkPreCondition(p, p.getWindowCard()));
 
         List<Object> obj = tool5.askParameter();
         for (Object o : obj) {
@@ -283,11 +275,11 @@ public class ToolCardTest extends TestCase {
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool6.setActor(null, null, draft, null);
-        tool7.setActor(null, null, draft, null);
+        tool6.setActor(null, draft, null);
+        tool7.setActor( null, draft, null);
 
-        assertTrue(tool6.checkPreCondition(p));
-        assertFalse(tool7.checkPreCondition(p));
+        assertTrue(tool6.checkPreCondition(p, p.getWindowCard()));
+        assertFalse(tool7.checkPreCondition(p, p.getWindowCard()));
 
         p.endFirstTurn();
         p.endSecondTurn();
@@ -319,15 +311,15 @@ public class ToolCardTest extends TestCase {
         Player p = new Player(id);
         p.setBoard(board);
 
-        tool8.setActor(null, null, null, null);
+        tool8.setActor(null, null, null);
 
-        assertFalse(tool8.checkPreCondition(p));
+        assertFalse(tool8.checkPreCondition(p, p.getWindowCard()));
 
         p.playDice();
-        assertFalse(tool8.checkPreCondition(p));
+        assertFalse(tool8.checkPreCondition(p, p.getWindowCard()));
 
         p.endFirstTurn();
-        assertTrue(tool8.checkPreCondition(p));
+        assertTrue(tool8.checkPreCondition(p, p.getWindowCard()));
 
         assertEquals(new ArrayList<>(), tool8.askParameter());
 
@@ -343,15 +335,16 @@ public class ToolCardTest extends TestCase {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool9 = new ToolCard(9, "Tool9", col, strat);
         Player p = new Player(id);
+        p.setWindowCard(winCard);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
         Cell dest = winCard.getWindow().getCell(0,0);
         int val = dest.getValue();
         Colors col = dest.getColor();
 
-        tool9.setActor(winCard, null, draft, null);
+        tool9.setActor(null, draft, null);
 
-        assertTrue(tool9.checkPreCondition(p));
+        assertTrue(tool9.checkPreCondition(p, p.getWindowCard()));
 
         List <Object> obj = tool9.askParameter();
         for (Object o : obj) {
@@ -380,9 +373,9 @@ public class ToolCardTest extends TestCase {
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool10.setActor(null, null, draft, null);
+        tool10.setActor(null, draft, null);
 
-        assertTrue(tool10.checkPreCondition(p));
+        assertTrue(tool10.checkPreCondition(p, p.getWindowCard()));
 
         List <Object> obj = tool10.askParameter();
         for (Object o : obj) {
@@ -405,6 +398,7 @@ public class ToolCardTest extends TestCase {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool11 = new ToolCard(11, "Tool11", col, strat);
         Player p = new Player(id);
+        p.setWindowCard(winCard);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
@@ -412,9 +406,9 @@ public class ToolCardTest extends TestCase {
         int val = dest.getValue();
         Colors col = dest.getColor();
 
-        tool11.setActor(winCard, null, draft, diceBag);
+        tool11.setActor(null, draft, diceBag);
 
-        assertTrue(tool11.checkPreCondition(p));
+        assertTrue(tool11.checkPreCondition(p, p.getWindowCard()));
 
         List <Object> obj = tool11.askParameter();
         for (Object o : obj) {
@@ -441,6 +435,7 @@ public class ToolCardTest extends TestCase {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool12 = new ToolCard(12, "Tool12", col, strat);
         Player p = new Player(id);
+        p.setWindowCard(winCard);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
@@ -449,9 +444,9 @@ public class ToolCardTest extends TestCase {
         int row = 0;
         int col = 0;
 
-        tool12.setActor(winCard, roundTrack, null, null);
+        tool12.setActor(roundTrack, null, null);
 
-        assertTrue(tool12.checkPreCondition(p));
+        assertTrue(tool12.checkPreCondition(p, p.getWindowCard()));
 
         List <Object> obj = tool12.askParameter();
         for (Object o : obj) {
