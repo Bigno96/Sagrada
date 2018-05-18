@@ -82,12 +82,12 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testAddPlayer() throws SamePlayerException, EmptyException, PlayerNotFoundException, IDNotFoundException {
+    public void testAddPlayer() throws SamePlayerException, EmptyException, PlayerNotFoundException {
         Game game = new Game();
         Player p = new Player(id);
 
         assertTrue(game.addPlayer(p));
-        assertSame(p, game.findPlayer(p));
+        assertTrue(game.findPlayer(p));
     }
 
     public void testSamePlayerException() throws SamePlayerException {

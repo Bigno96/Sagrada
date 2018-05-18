@@ -88,13 +88,13 @@ public class Game {
         }
     }
 
-    public Player findPlayer(Player p) throws PlayerNotFoundException, EmptyException {
+    public boolean findPlayer(Player p) throws PlayerNotFoundException, EmptyException {
         if (playerList.isEmpty())
             throw new EmptyException("No player in game");
         if (playerList.contains(p))
-            return p;
-        else
-            throw new PlayerNotFoundException("Player not found");
+            return true;
+
+        throw new PlayerNotFoundException("Player not found");
     }
 
     public void setnRound(int nRound) {
