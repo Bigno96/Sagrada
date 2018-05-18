@@ -15,20 +15,34 @@ import java.util.List;
 
 public class ToolCard {
 
-    private String name;
-    private int id;
-    private Colors diceColor;
-    private int favorPoint;
+    //used to realize useTool()
+    private ToolStrategy strat;
     private WindowCard windowCard;
     private RoundTrack roundTrack;
     private Draft draft;
     private DiceBag diceBag;
+    private Player player;
 
-    public ToolCard(int id, String name, Colors diceColor) {
+    //attribute of the card
+    private String name;
+    private int id;
+    private Colors color;
+    private int favorPoint;
+    private int diceValue;
+
+    /**
+     * Constructor
+     * @param id > 0 && id < 12
+     * @param name of the tool card
+     * @param color of the dice for single player
+     * @param toolStrategy used for the implementation of useTool()
+     */
+    public ToolCard(int id, String name, Colors color, ToolStrategy toolStrategy) {
         this.name = name;
         this.id = id;
-        this.diceColor = diceColor;
+        this.color = color;
         this.favorPoint = 0;
+        this.strat = toolStrategy;
     }
 
     public String getName() {
@@ -39,8 +53,8 @@ public class ToolCard {
         return id;
     }
 
-    public Colors getDiceColor() {
-        return diceColor;
+    public Colors getColor() {
+        return color;
     }       // single player dice color
 
     public int getFavorPoint() {
@@ -51,6 +65,13 @@ public class ToolCard {
         this.favorPoint = favorPoint;
     }
 
+    /**
+     * Used by the Factory to sets objects involved in this tool card
+     * @param windowCard window Card of the player that used the tool
+     * @param roundTrack of the game
+     * @param draft of the current Round
+     * @param diceBag of the game
+     */
     public void setActor(WindowCard windowCard, RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
         this.windowCard = windowCard;
         this.draft = draft;
@@ -58,27 +79,37 @@ public class ToolCard {
         this.roundTrack = roundTrack;
     }
 
-    public List<Object> getParameter() {
+    /**
+     * Might return @Nullable Object
+     * @return list of Object involved in this tool card.
+     */
+    public List<Object> getActor() {
         List<Object> ret = new ArrayList<>();
 
-        if (windowCard != null)
-            ret.add(windowCard);
-        if (roundTrack != null)
-            ret.add(roundTrack);
-        if (diceBag != null)
-            ret.add(diceBag);
-        if (draft != null)
-            ret.add(draft);
+        ret.add(windowCard);
+        ret.add(roundTrack);
+        ret.add(diceBag);
+        ret.add(draft);
 
         return ret;
     }
 
+    /**
+     * Checks if Tool card can be used
+     * @param player != null && currentPlayer = player
+     * @return true is tool is usable by Player in this turn, else false
+     */
     public boolean checkPreCondition(Player player) {
+        this.player = player;
         if (id == 7 && (player.isFirstTurn() || player.isSecondTurn()))
             return false;
-        return id != 8 || (!player.isFirstTurn() && player.isSecondTurn());
+        return id != 8 || (player.isPlayedDice() && (!player.isFirstTurn() && player.isSecondTurn()));
     }
 
+    /**
+     * Permits to get information on what is needed by the tool card
+     * @return List<Object> needed to make the move specified by the tool Card
+     */
     public List<Object> askParameter() throws IDNotFoundException, ValueException, PositionException {
         List<Object> list = new ArrayList<>();
 
@@ -102,141 +133,120 @@ public class ToolCard {
         else if (id == 6) {
             list.add(new Dice(0, Colors.NULL));
         }
+        else if (id == 9) {
+            list.add(new Dice(0, Colors.NULL));
+        }
+        else if (id == 10) {
+            list.add(new Dice(0, Colors.NULL));
+        }
+        else if (id == 11) {
+            list.add(new Dice(0, Colors.NULL));
+            list.add(new Cell(0, Colors.NULL, 0, 0));
+            list.add(0);
+        }
+        else if (id == 12) {
+            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.NULL));
+            list.add(new Cell(0, Colors.NULL, 0, 0));
+            list.add(new Cell(0, Colors.NULL, 0, 0));
+            list.add(Colors.NULL);
+        }
 
         return list;
     }
 
-    public boolean checkTool(List<Dice> dices, List<Cell> cells) throws IDNotFoundException {
+    /**
+     * Checks if correct elements have been selected for this tool
+     * @param dices null when not needed
+     * @param cells null when not needed
+     * @param diceValue null when not needed
+     * @param diceColor null when not needed
+     * @return true if selected elements are correct for this tool, else false
+     * @throws IDNotFoundException when non existent Dices are selected
+     */
+    public boolean checkTool(List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws IDNotFoundException {
         if (id == 1) {
-            return dices.size()==1 && checkDiceWinCard(dices.get(0));
+            return dices.size()==1 && strat.checkDiceWinCard(dices.get(0), windowCard);
         }
         else if (id == 2 || id ==3) {
-            return dices.size()==1 && cells.size()==1 && checkDiceWinCard(dices.get(0));
+            return dices.size()==1 && cells.size()==1 && strat.checkDiceWinCard(dices.get(0), windowCard);
         }
         else if (id == 4) {
-            return dices.size()==2 && cells.size()==2 && checkDiceWinCard(dices.get(0)) && checkDiceWinCard(dices.get(1));
+            return dices.size()==2 && cells.size()==2 && strat.checkDiceWinCard(dices.get(0), windowCard) && strat.checkDiceWinCard(dices.get(1), windowCard);
         }
         else if (id == 5) {
-            return dices.size()==2 && checkDiceDraft(dices.get(0)) && checkDiceRoundTrack(dices.get(1));  // first dice is in draft, second in round track
+            return dices.size()==2 && strat.checkDiceDraft(dices.get(0)) && strat.checkDiceRoundTrack(dices.get(1));  // first dice is in draft, second in round track
         }
-        else if (id == 6) {
-
+        else if (id == 6 || id==10) {
+            return dices.size()==1 && strat.checkDiceDraft(dices.get(0));
         }
-
-        return true;
-    }
-
-    private boolean checkDiceWinCard(Dice d) throws IDNotFoundException {
-        return windowCard.getWindow().containsDice(d);
-    }
-
-    private boolean checkDiceRoundTrack(Dice d) {
-        try {
-            roundTrack.findDice(d.getID());
-        } catch (IDNotFoundException e) {
-            return false;
+        else if (id == 9) {
+            return dices.size()==1 && strat.checkDiceDraft(dices.get(0)) && cells.size()==1;
         }
-
-        return true;
-    }
-
-    private boolean checkDiceDraft(Dice d) {
-        try {
-            draft.findDice(d.getID());
-        } catch (IDNotFoundException e) {
-            return false;
+        else if (id == 11) {
+            if (diceValue < 1 || diceValue > 6)
+                return false;
+            else
+                this.diceValue = diceValue;
+            return dices.size()==1 && strat.checkDiceDraft(dices.get(0)) && cells.size()==1;
+        }
+        else if (id == 12) {
+            return strat.checkTool12(dices, cells, diceColor, windowCard);
         }
 
         return true;
     }
 
+    /**
+     * Realize the effect of the tool card on the passed parameter
+     * @param dices null when not needed
+     * @param up null when not needed
+     * @param cells null when not needed
+     * @return true if move was sucessfull, else false
+     * @throws ValueException when wrong value are chosen
+     * @throws IDNotFoundException when couldn't find a dice
+     * @throws NotEmptyException when trying to stack dice on the same cell
+     * @throws EmptyException when trying to get dice from empty draft or bag
+     * @throws SameDiceException when trying to put the same dice twice
+     */
     public boolean useTool(List<Dice> dices, Boolean up, List<Cell> cells) throws ValueException, IDNotFoundException, NotEmptyException, EmptyException, SameDiceException {
         if (id == 1)
-            return changeValue(dices.get(0), up);
+            return strat.changeValue(dices.get(0), up);
         else if (id == 2)
-            return moveOneDice(dices.get(0), cells.get(0), "color");
+            return strat.moveOneDice(dices.get(0), cells.get(0), "color", windowCard);
         else if (id == 3)
-            return moveOneDice(dices.get(0), cells.get(0), "value");
+            return strat.moveOneDice(dices.get(0), cells.get(0), "value", windowCard);
         else if (id == 4)
-            return moveExTwoDice(dices, cells);
+            return strat.moveExTwoDice(dices, cells, windowCard);
         else if (id == 5)
-            return moveDraftToRound(dices, null);
-        return true;
-    }
-
-    private boolean changeValue(Dice d, boolean up) throws ValueException {
-        if ((up && d.getValue() == 6) || (!up && d.getValue() == 1))
-            return false;
-
-        if (up)
-            d.changeValue(d.getValue()+1);
-        else
-            d.changeValue(d.getValue()-1);
-
-        return true;
-    }
-
-    private boolean moveOneDice(Dice d, Cell dest, String restrictionIgnored) throws IDNotFoundException, NotEmptyException {
-        Cell c;
-
-        c = windowCard.getWindow().getCell(d);
-        c.freeCell();
-        dest.setDice(d);
-        try {
-            if (windowCard.numEmptyCells() == 19)
-                windowCard.checkFirstDice();
-            else
-                windowCard.checkPlaceCond();
-            if (restrictionIgnored.equals("color"))
-                dest.setIgnoreColor();
-            else // restrictionIgnored is "value"
-                dest.setIgnoreValue();
-        } catch (WrongPositionException | PositionException | EmptyException e) {
-            c.setDice(d);
-            dest.freeCell();
-            return false;
+            return strat.moveFromDraftToRound(dices);
+        else if (id == 6) {
+            dices.get(0).rollDice();
+            return true;
+        }
+        else if (id == 7) {
+            draft.rollDraft();
+            return true;
+        }
+        else if (id == 8) {
+            player.resetPlayedDice();
+            player.endSecondTurn();
+        }
+        else if (id == 9) {
+            return strat.moveFromDraftToCard(dices.get(0), cells.get(0), windowCard);
+        }
+        else if (id==10) {
+            dices.get(0).changeValue(7 - dices.get(0).getValue());
+            return true;
+        }
+        else if (id == 11) {
+            return strat.moveFromDraftToBag(dices.get(0), cells.get(0), diceValue, windowCard);
+        }
+        else if (id == 12) {
+            return strat.moveUpToTwoDice(dices, cells, windowCard);
         }
 
         return true;
     }
 
-    private boolean moveExTwoDice(List<Dice> dices, List<Cell> dest) throws IDNotFoundException, NotEmptyException {
-        Cell c;
-
-        c = windowCard.getWindow().getCell(dices.get(0));
-        c.freeCell();
-        dest.get(0).setDice(dices.get(0));
-        try {
-            windowCard.checkPlaceCond();
-        } catch (WrongPositionException | PositionException e) {
-            c.setDice(dices.get(0));
-            dest.get(0).freeCell();
-            return false;
-        }
-
-        c =  windowCard.getWindow().getCell(dices.get(1));
-        c.freeCell();
-        dest.get(1).setDice(dices.get(1));
-        try {
-            windowCard.checkPlaceCond();
-        } catch (WrongPositionException | PositionException e) {
-            c.setDice(dices.get(0));
-            dest.get(1).freeCell();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean moveDraftToRound(List<Dice> dices, List<Cell> cells) throws IDNotFoundException, SameDiceException, EmptyException {
-        if (id == 5) {
-            int round = roundTrack.getRound(dices.get(1));
-            draft.addDice(dices.get(1).copyDice());
-            roundTrack.addDice(dices.get(0).copyDice(), round);
-            draft.rmDice(dices.get(0));
-            roundTrack.rmDice(dices.get(1), round);
-        }
-
-        return true;
-    }
 }

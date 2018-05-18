@@ -83,7 +83,7 @@ public class DiceBag {
     public boolean addDice(Dice d) throws SameDiceException, ValueException {        // add Dice d if d it's not already in the bag
         for (Dice itr : dices)
             if (itr.getID() == d.getID())
-                throw new SameDiceException("Dice is already in Draft");
+                throw new SameDiceException("Dice is already in Bag");
         d.changeValue(0);
         return dices.add(d);
     }

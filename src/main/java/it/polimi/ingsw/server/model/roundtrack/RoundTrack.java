@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.roundtrack;
 import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
+import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
@@ -44,6 +45,18 @@ public class RoundTrack {
         }
 
         throw new IDNotFoundException("Id not found");
+    }
+
+    public boolean findColor (Colors col) {
+        for (ListDiceRound l : trackList) {
+            for (Iterator<Dice> itr = l.itr(); itr.hasNext();) {
+                Dice d = itr.next();
+                if (d.getColor() == col)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     public void moveDraft(int round) throws SameDiceException {
