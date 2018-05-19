@@ -4,7 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.dicebag.DiceBag;
+import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.game.Game;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,6 +38,9 @@ public class ToolFactory {
         ToolCard ret;
         String name = null;
         Colors color = null;
+        RoundTrack roundTrack = null;
+        Draft draft = null;
+        DiceBag diceBag = null;
         JsonParser parser = new JsonParser();
 
         JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
@@ -44,12 +50,33 @@ public class ToolFactory {
             if (Integer.parseInt(obj.get("ID").toString()) == id) {
                 name = obj.get("name").getAsString();
                 color = Colors.parseColor(obj.get("color").getAsString());
+                roundTrack = readRoundTrack(obj);
+                draft = readDraft(obj);
+                diceBag = readDiceBag(obj);
             }
         }
 
         ret = new ToolCard(id, name, color, strategy);
-        ret.setActor(game.getBoard().getRoundTrack(), game.getBoard().getDraft(), game.getBoard().getDiceBag());
+        ret.setActor(roundTrack, draft, diceBag);
 
         return ret;
+    }
+
+    private RoundTrack readRoundTrack(JsonObject obj) {
+        if (obj.get("roundTrack").getAsString() != null)
+            return game.getBoard().getRoundTrack();
+        return null;
+    }
+
+    private Draft readDraft(JsonObject obj) {
+        if (obj.get("draft").getAsString() != null)
+            return game.getBoard().getDraft();
+        return null;
+    }
+
+    private DiceBag readDiceBag(JsonObject obj) {
+        if (obj.get("roundTrack").getAsString() != null)
+            return game.getBoard().getDiceBag();
+        return null;
     }
 }

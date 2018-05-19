@@ -2,61 +2,97 @@
   {
     "ID": 1,
     "name": "Grozing Pliers",
-    "color": "VIOLET"
+    "color": "VIOLET",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 2,
     "name": "Eglomise Brush",
-    "color": "BLUE"
+    "color": "BLUE",
+    "roundTrack": "null",
+    "draft": "null",
+    "diceBag": "null"
   },
   {
     "ID": 3,
     "name": "Copper Foil Burnisher",
-    "color": "RED"
+    "color": "RED",
+    "roundTrack": "null",
+    "draft": "null",
+    "diceBag": "null"
   },
   {
     "ID": 4,
     "name": "Lathekin",
-    "color": "YELLOW"
+    "color": "YELLOW",
+    "roundTrack": "null",
+    "draft": "null",
+    "diceBag": "null"
   },
   {
     "ID": 5,
     "name": "Lens Cutter",
-    "color": "GREEN"
+    "color": "GREEN",
+    "roundTrack": "roundTrack",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 6,
     "name": "Flux Brush",
-    "color": "VIOLET"
+    "color": "VIOLET",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 7,
     "name": "Glazing Hammer",
-    "color": "BLUE"
+    "color": "BLUE",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 8,
     "name": "Running Pliers",
-    "color": "RED"
+    "color": "RED",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 9,
     "name": "Cork-backed Straightedge",
-    "color": "YELLOW"
+    "color": "YELLOW",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 10,
     "name": "Grinding Stone",
-    "color": "GREEN"
+    "color": "GREEN",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "null"
   },
   {
     "ID": 11,
     "name": "Flux Remover",
-    "color": "VIOLET"
+    "color": "VIOLET",
+    "roundTrack": "null",
+    "draft": "draft",
+    "diceBag": "diceBag"
   },
   {
     "ID": 12,
     "name": "Tap Wheel",
-    "color": "BLUE"
+    "color": "BLUE",
+    "roundTrack": "roundTrack",
+    "draft": "null",
+    "diceBag": "null"
   }
 ]

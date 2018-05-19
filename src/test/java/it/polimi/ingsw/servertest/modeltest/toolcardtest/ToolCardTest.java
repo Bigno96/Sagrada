@@ -67,6 +67,7 @@ public class ToolCardTest extends TestCase {
         assertSame(fp, tool.getFavorPoint());
     }
 
+    // testing obtaining elements (round Track, dice Bag, Draft) involved in the tool card
     public void testGetActor() {
         ToolCard tool = new ToolCard(id, "Test", col, strat);
         RoundTrack testTrack = null;
@@ -76,7 +77,7 @@ public class ToolCardTest extends TestCase {
         tool.setActor(null, draft, diceBag);
         List<Object> obj = tool.getActor();
 
-        for (Object o : obj) {
+        for (Object o : obj) {      // if it's not used, it's null at the end
             if (o instanceof RoundTrack)
                 testTrack = (RoundTrack) o;
             else if (o instanceof Draft)
