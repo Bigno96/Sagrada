@@ -8,6 +8,13 @@ public class PublicObjective extends ObjectiveCard {
 
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
+    /**
+     * Constructor
+     * @param id
+     * @param descr
+     * @param point
+     * @param objStrat
+     */
     public PublicObjective(int id, String descr, int point, ObjectiveStrategy objStrat) {
         super(id, descr, point, objStrat);
     }

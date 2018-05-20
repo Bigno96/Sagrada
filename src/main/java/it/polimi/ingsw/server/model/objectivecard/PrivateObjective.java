@@ -8,6 +8,13 @@ public class PrivateObjective extends ObjectiveCard {
 
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
+    /**
+     * Constructor
+     * @param id
+     * @param descr
+     * @param objStrat
+     */
+
     public PrivateObjective(int id, String descr, ObjectiveStrategy objStrat) {
         super(id, descr, objStrat);
     }
