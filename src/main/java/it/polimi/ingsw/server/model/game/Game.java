@@ -7,6 +7,9 @@ import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveFactory;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.toolcard.ToolFactory;
+import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -34,11 +37,15 @@ public class Game {
         int id, id2, id3;
         List<Integer> vetID = new ArrayList<>();
         ObjectiveCard obj1, obj2, obj3, objPriv;
+        ToolCard tool1, tool2, tool3;
         ObjectiveStrategy objStrat = new ObjectiveStrategy();
         ObjectiveFactory obj = new ObjectiveFactory(objStrat);
 
         round = new Round(playerList);
         board = new Board(nPlayer);
+
+        ToolStrategy toolStrat = new ToolStrategy(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+        ToolFactory tool = new ToolFactory(toolStrat, this);
 
         for (Player p: playerList){
             p.setBoard(board);
@@ -50,12 +57,12 @@ public class Game {
         do {
             id2 = random.nextInt(10) + 1;
         }while(id2 == id);
-        obj2 = obj.getPublCard(id);
+        obj2 = obj.getPublCard(id2);
 
         do {
             id3 = random.nextInt(10) + 1;
         }while (id3 == id || id3 == id2);
-        obj3 = obj.getPublCard(id);
+        obj3 = obj.getPublCard(id3);
 
         board.setPublObj(obj1, obj2, obj3);
 
@@ -68,7 +75,20 @@ public class Game {
             p.setPrivObj(objPriv);
         }
 
-        //create and assign (setToolCard) toolCard
+        id = random.nextInt(12)+1;
+        tool1 = tool.makeToolCard(id);
+
+        do {
+            id2 = random.nextInt(12) + 1;
+        }while(id2 == id);
+        tool2 = tool.makeToolCard(id2);
+
+        do {
+            id3 = random.nextInt(12) + 1;
+        }while (id3 == id || id3 == id2);
+        tool3 = tool.makeToolCard(id3);
+
+        board.setToolCard(tool1, tool2, tool3);
     }
 
     public boolean addPlayer(Player p) throws SamePlayerException {

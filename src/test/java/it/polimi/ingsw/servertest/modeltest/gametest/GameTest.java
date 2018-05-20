@@ -6,6 +6,7 @@ import it.polimi.ingsw.exception.PlayerNotFoundException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Game;
@@ -64,6 +65,7 @@ public class GameTest extends TestCase {
         Player p1 = new Player(id+1);
         Player p2 = new Player(id+2);
         List<ObjectiveCard> list;
+        List<ToolCard> listTool;
 
         game.addPlayer(p);
         game.addPlayer(p1);
@@ -75,6 +77,8 @@ public class GameTest extends TestCase {
         assertNotNull(game.getBoard());
         list = game.getBoard().getPublObj();
         assertEquals(list, game.getBoard().getPublObj());
+        listTool = game.getBoard().getToolCard();
+        assertEquals(listTool, game.getBoard().getToolCard());
 
         for (Player player: game.getPlayerList()){
             assertNotNull(player.getPrivObj());
