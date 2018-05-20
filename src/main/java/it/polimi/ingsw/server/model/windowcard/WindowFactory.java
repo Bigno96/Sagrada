@@ -18,13 +18,24 @@ public class WindowFactory {
     private JsonObject winCard1;
     private JsonObject winCard2;
 
+    /**
+     * Constructor
+     */
     public WindowFactory() {
         winCard1 = null;
         winCard2 = null;
     }
 
-    /**requires id1 != id2
-    ensures return.size() == 4*/
+    /**
+     * Make the 4 WindowCards with the passed id1, id2
+     * @param id1 != id2 && id1 >= 1 && id1 <= 12
+     * @param id2 != id1 && >= 1 && id1 <= 12
+     * @return List<WindowCard> && return.size() == 4
+     * @throws FileNotFoundException when File Reader doesn't find the info file
+     * @throws IDNotFoundException when dice has an illegal id
+     * @throws ValueException when invalid value
+     * @throws PositionException when invalid position
+     */
     public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<>();
         JsonParser parser = new JsonParser();

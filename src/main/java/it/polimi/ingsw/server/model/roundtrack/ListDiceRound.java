@@ -15,6 +15,9 @@ public class ListDiceRound {
     private List<Dice> listDice;
     private static final Logger logger = Logger.getLogger(ListDiceRound.class.getName());
 
+    /**
+     * Constructor
+     */
     public ListDiceRound() {
         listDice = new ArrayList<>();
     }
@@ -30,6 +33,12 @@ public class ListDiceRound {
             d.dump();
     }
 
+    /**
+     * Add Dice into ListDiceRound
+     * @param d != null
+     * @return true if is possible add Dice, else false
+     * @throws SameDiceException when there is another Dice with the same ID
+     */
     public boolean addDice(Dice d) throws SameDiceException {
         for (Dice itr : listDice)
             if (itr.getID() == d.getID())
@@ -45,6 +54,13 @@ public class ListDiceRound {
         return listDice.addAll(d);
     }
 
+    /**
+     * Remove Dice from ListDiceRound
+     * @param d != null
+     * @return true if is removed, else false
+     * @throws EmptyException when trying to get a dice from an empty ListDiceRound
+     * @throws IDNotFoundException when non existent Dices are selected
+     */
     public boolean rmDice(Dice d) throws EmptyException, IDNotFoundException {
         if (listDice.isEmpty())
             throw new EmptyException(this.toString() + "is empty");

@@ -18,12 +18,21 @@ public class MatrixCell {
 
     private static final Logger logger = Logger.getLogger(MatrixCell.class.getName());
 
+    /**
+     * Constructor
+     * @param rows != null
+     * @param cols != null
+     */
     public MatrixCell(int rows, int cols) {
         matrix = new Cell[rows][cols];
         this.rows = rows;
         this.cols = cols;
     }
 
+    /**
+     * Set pos of Cells
+     * @param cellList
+     */
     public void loadMatrixCell(List<Cell> cellList){
         int pos = 0;
         for (int i=0; i<rows; i++){
@@ -62,6 +71,12 @@ public class MatrixCell {
         }
         return null;
     }
+
+    /**
+     * Check if the Dice is in the windowCard
+     * @param d != null
+     * @throws IDNotFoundException when Dice has an illegal id
+     */
 
     public boolean containsDice(Dice d) throws IDNotFoundException {
         for (Cell[] c1 : matrix) {

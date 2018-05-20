@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import java.util.logging.Logger;
 
 public class Cell {
-    private int value;
+    private int value;  // value from 0 to 6, 0 when when there aren't value restrictions
     private Colors color;
     private Dice dice;
     private boolean isOccupied;
@@ -22,6 +22,15 @@ public class Cell {
 
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
+    /**
+     * Constructor
+     * @param value >= 0 && value <= 6
+     * @param color color restriction
+     * @param row != null
+     * @param col != null
+     * @throws ValueException when invalid value
+     * @throws PositionException when invalid position ( row || col)
+     */
     public Cell(int value, Colors color, int row, int col) throws ValueException, PositionException {
         if (value < 0 || value > 6)
             throw new ValueException("Illegal Value");
@@ -48,6 +57,11 @@ public class Cell {
         return this.color;
     }
 
+    /**
+     * Change value of Dice of the Cell
+     * @param newValue >= 0 && newValue <= 6
+     * @throws ValueException when invalid value
+     */
     public void changeDiceValue(int newValue) throws ValueException {
         this.dice.changeValue(newValue);
     }
@@ -61,6 +75,9 @@ public class Cell {
         return this.isOccupied;
     }
 
+    /**
+     * If the cell is occupied, free the cell
+     */
     public void freeCell() {
         if (isOccupied) {
             this.dice = null;
@@ -68,6 +85,11 @@ public class Cell {
         }
     }
 
+    /**
+     * Change value of Dice of the Cell
+     * @param dice != null
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     */
     public void setDice(Dice dice) throws NotEmptyException {
         if (isOccupied)
             throw new NotEmptyException("Cell not empty");
@@ -75,12 +97,20 @@ public class Cell {
         isOccupied = true;
     }
 
+    /**
+     * Check the Dice color of the Cell
+     * @return true if the Dice color is permitted, else false
+     */
     public boolean checkColor(){
         if (ignoreColor || color.equals(Colors.NULL))
             return true;
         return this.color.equals(dice.getColor());
     }
 
+    /**
+     * Check the Dice value of the Cell
+     * @return true if the Dice value is permitted, else false
+     */
     public boolean checkValue(){
         if (ignoreValue || value == 0)
             return true;

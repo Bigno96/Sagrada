@@ -18,6 +18,10 @@ public class RoundTrack {
     private Draft draft;
     private static final Logger logger = Logger.getLogger(RoundTrack.class.getName());
 
+    /**
+     * Constructor
+     * @param draft of the current Round
+     */
     public RoundTrack(Draft draft){
         this.draft = draft;
         for (int i=0; i<10; i++)
@@ -35,6 +39,12 @@ public class RoundTrack {
             r.dump();
     }
 
+    /**
+     * Find dice into RoundTrack, with that ID
+     * @param id != null
+     * @return a copy of the Dice
+     * @throws IDNotFoundException
+     */
     public Dice findDice (int id) throws IDNotFoundException {
         for (ListDiceRound l : trackList) {
             for (Iterator<Dice> itr = l.itr(); itr.hasNext();) {
@@ -47,6 +57,11 @@ public class RoundTrack {
         throw new IDNotFoundException("Id not found");
     }
 
+    /**
+     * Check if exist a dice, into RoundTrack, with this color
+     * @param col != null
+     * @return true if exist a Dice with that color, else false
+     */
     public boolean findColor (Colors col) {
         for (ListDiceRound l : trackList) {
             for (Iterator<Dice> itr = l.itr(); itr.hasNext();) {
@@ -59,6 +74,11 @@ public class RoundTrack {
         return false;
     }
 
+    /**
+     * Move Dice from draft of round, to RoundTrack
+     * @param round != null
+     * @throws SameDiceException
+     */
     public void moveDraft(int round) throws SameDiceException {
         List<Dice> copy = draft.copyDraft();
         draft.freeDraft();

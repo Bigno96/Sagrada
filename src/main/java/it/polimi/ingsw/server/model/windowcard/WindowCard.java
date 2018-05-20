@@ -19,6 +19,13 @@ public class WindowCard {
 
     private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
+    /**
+     * Constructor
+     * @param id != null
+     * @param name != null
+     * @param numFavPoint !=null
+     * @param cellList != null
+     */
     public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList){
         final int rows = 4;
         final int cols = 5;
@@ -61,6 +68,12 @@ public class WindowCard {
         return window.itrOrizz();
     }
 
+    /**
+     * Checks if the first dice position is correct
+     * @return true if dice position is correct, else false
+     * @throws WrongPositionException when Dice position is wrong
+     * @throws EmptyException when cells have invalid positions
+     */
     public boolean checkFirstDice() throws WrongPositionException, EmptyException {
         if (checkOneDice()) {
             for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
@@ -75,6 +88,12 @@ public class WindowCard {
         return true;
     }
 
+    /**
+     * Checks if the dice position is correct
+     * @return true if dice position is correct, else false
+     * @throws WrongPositionException when Dice position is wrong
+     * @throws EmptyException when cells have invalid positions
+     */
     public boolean checkOneDice() throws EmptyException, WrongPositionException {
         Boolean first = true;
 

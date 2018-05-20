@@ -24,6 +24,7 @@ public class ClientMain {
         out.println("ClientMain on");
 
         try {
+            //requestIp();
             exe();
         }catch(Exception e) {
             out.println("Exception: "+e);
@@ -125,5 +126,21 @@ public class ClientMain {
         ClientMain c = new ClientMain(ipAddress, 4912);
         c.startClient();
     }
+
+    /*void requestIp(){
+        out.println("Insert IPAddress or -p for default");
+        try {
+            String choose = inKeyboard.readLine();
+            if (choose.equals("-p")) {
+                outSocket.println("Your IPAddress is" +InetAddress.getLocalHost());
+                ip = InetAddress.getLocalHost();
+            } else
+                outVideo.println("Your Address is" +socket.getInputStream());
+
+        } catch (Exception e) {
+            out.println("Exception: " + e);
+            e.printStackTrace();
+        }
+    }*/
 
 }
