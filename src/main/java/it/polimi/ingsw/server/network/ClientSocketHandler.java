@@ -4,55 +4,32 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+import static java.lang.System.*;
+
 public class ClientSocketHandler implements Runnable {
 
-    private int ID;
+    private int id;
     private Socket socket;
+    private Scanner socketIn;
+    private PrintWriter socketOut;
 
-    public ClientSocketHandler(Socket socket, int ID) {
+    public ClientSocketHandler(Socket socket, int id) {
         this.socket = socket;
-        this.ID = ID;
+        this.id = id;
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
-            Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            out.println("Open connection");
-            out.flush();
+            socketIn = new Scanner(socket.getInputStream());
+            socketOut = new PrintWriter(socket.getOutputStream());
 
-            while (true) {
-                String line = in.nextLine();
-                if (line.equals("q") && !(socket.isConnected())) {
-                    if(!(socket.isConnected())){
-                        socket.wait(300);
-                        if(!(socket.isConnected())){
-                            out.println("Close connection");
-                            break;
-                        }
-                    }else {
-                        out.println("Close connection");
-                        break;
-                    }
-                }
-            }
-            ServerMain.disconnectionClient(ID);
-            in.close();
-            out.close();
-            socket.close();
+            socketOut.println("Server is connected");
+            socketOut.flush();
+
         } catch (IOException e) {
-            System.err.println(e.getMessage());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            out.println(e.getMessage());
         }
     }
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
 }

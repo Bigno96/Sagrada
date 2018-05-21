@@ -15,10 +15,10 @@ public class Dice {
     private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
     /**
-     * Constructor
-     * @param id != null
+     * Constructor without value
+     * @param id != null && > 0 && < 89
      * @param color != null
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when id is < 0 || > 89
      */
     public Dice(int id, Colors color) throws IDNotFoundException {
         if (id > 89 || id < 0)
@@ -29,11 +29,11 @@ public class Dice {
     }
 
     /**
-     * Constructor
-     * @param id != null
+     * Constructor with value
+     * @param id != null && > 0 && < 89
      * @param color != null
      * @param value != null
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when id is < 0 || > 89
      */
     public Dice(int id, Colors color, int value) throws IDNotFoundException {
         if (id > 89 || id < 0)
@@ -70,8 +70,8 @@ public class Dice {
 
     /**
      * Change value of dice
-     * @param newValue
-     * @throws ValueException
+     * @param newValue > 0 && < 7
+     * @throws ValueException when new Value < 0 || > 6
      */
     public void changeValue(int newValue) throws ValueException {
         if (newValue < 0 || newValue > 6)

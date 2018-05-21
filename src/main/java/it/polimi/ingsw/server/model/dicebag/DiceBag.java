@@ -16,6 +16,10 @@ public class DiceBag {
     private List<Dice> dices;
     private static final Logger logger = Logger.getLogger(Dice.class.getName());
 
+    /**
+     * Constructor
+     * @throws IDNotFoundException when invalid Dices are forced in the bag
+     */
     public DiceBag() throws IDNotFoundException {     // dice enumerated from 0 to 89
         dices = new ArrayList<>();
         int n = 0;
@@ -29,6 +33,10 @@ public class DiceBag {
         }
     }
 
+    /**
+     * Constructor of an empty Dice Bag
+     * @param empty == true
+     */
     public DiceBag(boolean empty) {
         if (empty)
             dices = new ArrayList<>();
@@ -46,6 +54,11 @@ public class DiceBag {
 
     }
 
+    /**
+     * Return the dice searched by a passed id
+     * @param id > 0 && < 89
+     * @return null if not found
+     */
     public Dice findDice(int id) {         // find and return Dice with passed id
         for (final Dice d : dices)
             if (d.getID() == id)
