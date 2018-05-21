@@ -2,146 +2,121 @@ package it.polimi.ingsw.client.network;
 
 import java.net.*;
 import java.io.*;
+import java.util.*;
 import static java.lang.System.*;
 import java.net.Socket;
 
 public class ClientMain {
-
-    private int port;
-    private InetAddress ip;
+    private int port = 4912;
     private Socket socket;
-    private BufferedReader inSocket;
-    private PrintWriter outSocket;
-    private BufferedReader inKeyboard;
-    private PrintWriter outVideo;
+    private String ip;
+    private Boolean socketConnection;
 
-    public ClientMain(InetAddress ip, int port) {
-        this.ip = ip;
-        this.port = port;
+    private ClientMain() {
     }
 
-    public void startClient() {
+    private void startClient() {
         out.println("ClientMain on");
 
         try {
-            //requestIp();
-            exe();
-        }catch(Exception e) {
-            out.println("Exception: "+e);
-            e.printStackTrace();
-        }finally {
-            try {
-                socket.close();
-            } catch(IOException e) {
-                err.println("Socket not closed");
-            }
-        }
-    }
-
-    private void connect() {
-        try {
-
-            out.println("ClientMain try to connect");
-            socket = new Socket(ip, port);
-            inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            inKeyboard = new BufferedReader(new InputStreamReader(in));
-            outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out)), true);
-
-            out.println("ClientMain connected");
-        }catch(Exception e) {
-            out.println("Exception: "+e);
-            e.printStackTrace();
-
-            // Always close it:
-            try {
-                socket.close();
-            } catch(IOException ex) {
-                err.println("Socket not closed");
-            }
-        }
-    }
-
-    private void exe() {
-        try {
+            askConnection();
+            requestIp();
             connect();
-            stamp();
-            close();
+            //exe();
         }catch(Exception e) {
             out.println("Exception: "+e);
             e.printStackTrace();
-        }finally {
-            try {
-                socket.close();
-            } catch(IOException e) {
-                err.println("Socket not closed");
+        }
+    }
+
+    private void askConnection(){
+        out.println("Choose your connection \n -r for RMI \n -s for Socket");
+        while(true) {
+            Scanner input = new Scanner(System.in);
+            String s = input.nextLine();
+            if ("s".equals(s)) {
+                socketConnection = true;
+                out.println("Try to connect with Socket connection");
+                break;
+            } else if ("r".equals(s)) {
+                out.println("Next Update");
+                break;
+            } else {
+                out.println("Incorrect connection \n Choose your connection \n -r for RMI \n -s for Socket ");
             }
         }
     }
 
-    private void stamp() {
-        while (true) {
-            outVideo.println("Hello!");
-            outVideo.println("q --> exit");
-
-            try {
-                String choose = inKeyboard.readLine();
-                if (choose.equals("q")) {
-                    outSocket.println("EndSocket");
-                    outVideo.println("End");
-                    break;
-                } else
-                    outVideo.println("INPUT Not Found");
-            } catch (Exception e) {
-                out.println("Exception: " + e);
-                e.printStackTrace();
-            }
-
-            try {
-                socket.close();
-            } catch (IOException ex) {
-                err.println("Socket not closed");
-            }
-        }
-    }
-
-
-    private void close() {
-        try{
-            socket.close();
-        }catch(Exception e) {
-            out.println("Exception: "+e);
-            e.printStackTrace();
-        } finally{
-            try {
-                socket.close();
-            }catch(IOException ex) {
-                err.println("Socket not closed");
-            }
-        }
-    }
-
-    public static void main(String[] args) throws UnknownHostException {
-        InetAddress ipAddress = InetAddress.getLocalHost();
-        ClientMain c = new ClientMain(ipAddress, 4912);
-        c.startClient();
-    }
-
-    /*void requestIp(){
-        out.println("Insert IPAddress or -p for default");
+    private void requestIp(){
+        out.println("Insert IP Address or p for default");
         try {
-            String choose = inKeyboard.readLine();
-            if (choose.equals("-p")) {
-                outSocket.println("Your IPAddress is" +InetAddress.getLocalHost());
-                ip = InetAddress.getLocalHost();
-            } else
-                outVideo.println("Your Address is" +socket.getInputStream());
-
+            Scanner input = new Scanner(System.in);
+            String choose = input.nextLine();
+            if ("p".equals(choose)) {
+                out.println("Your IP Address is" +InetAddress.getLocalHost().getHostAddress());
+                ip = InetAddress.getLocalHost().getHostAddress();
+                out.println(ip);
+            } else {
+                out.println("Your Address is " + choose);
+                ip = choose;
+            }
         } catch (Exception e) {
             out.println("Exception: " + e);
             e.printStackTrace();
         }
-    }*/
+    }
 
+    private void connect() {
+        out.println("ClientMain try to connect");
 
+        try (Socket socket = new Socket(ip, port)) {
+                System.out.println("Connection established");
+                Scanner socketIn = new Scanner(socket.getInputStream());
+                PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+                Scanner stdin = new Scanner(System.in);
+            try {
+                while (true) {
+                    System.out.println("Welcome!");
+                    System.out.println("q --> exit");
+
+                    String inputLine = stdin.nextLine();
+                    if (inputLine.equals("q")) {
+                        socketOut.println(inputLine);
+                        System.out.println("EndSocket");
+                        break;
+                    }
+                    socketOut.println(inputLine);
+                    socketOut.flush();
+                    String socketLine = socketIn.nextLine();
+                    System.out.println(socketLine);
+                }
+            }
+            catch(NoSuchElementException e) {
+                System.out.println("Connection closed");
+            }
+            finally {
+                stdin.close();
+                socketIn.close();
+                socketOut.close();
+                socket.close();
+            }
+
+        }catch(Exception e) {
+                out.println("Exception: " + e);
+                e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        ClientMain c = new ClientMain();
+        c.startClient();
+    }
+
+    public Boolean getSocketConnection() {
+        return socketConnection;
+    }
+
+    public void setSocketConnection(Boolean socketConnection) {
+        this.socketConnection = socketConnection;
+    }
 }

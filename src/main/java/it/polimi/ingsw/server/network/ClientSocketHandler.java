@@ -6,12 +6,12 @@ import java.util.*;
 
 public class ClientSocketHandler implements Runnable {
 
-    private final ThreadLocal<Integer> ID = ThreadLocal.withInitial(() -> 0);
+    private int ID;
     private Socket socket;
 
     public ClientSocketHandler(Socket socket, int ID) {
         this.socket = socket;
-        this.ID.set(ID);
+        this.ID = ID;
     }
 
     @Override
@@ -19,23 +19,25 @@ public class ClientSocketHandler implements Runnable {
         try {
             Scanner in = new Scanner(socket.getInputStream());
             PrintWriter out = new PrintWriter(socket.getOutputStream());
+            out.println("Open connection");
+            out.flush();
 
             while (true) {
                 String line = in.nextLine();
-                out.println("Hello");
-                out.flush();
-                if (line.equals("quit") && !(socket.isConnected())) {
+                if (line.equals("q") && !(socket.isConnected())) {
                     if(!(socket.isConnected())){
                         socket.wait(300);
                         if(!(socket.isConnected())){
+                            out.println("Close connection");
                             break;
                         }
                     }else {
+                        out.println("Close connection");
                         break;
                     }
                 }
             }
-            ServerMain.disconnectionClient();
+            ServerMain.disconnectionClient(ID);
             in.close();
             out.close();
             socket.close();
@@ -47,10 +49,10 @@ public class ClientSocketHandler implements Runnable {
     }
 
     public int getID() {
-        return ID.get();
+        return ID;
     }
 
     public void setID(int ID) {
-        this.ID.set(ID);
+        this.ID = ID;
     }
 }

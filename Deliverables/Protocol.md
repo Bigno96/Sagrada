@@ -16,6 +16,12 @@
 
     explanation: Server answer is "logged" and userID if it was successful
 
+* **user already connected** <br>
+    Server -> Client <\br>
+    \<user> already connected <\br>
+
+    explanation: If the user tries to connect with the same username
+
 * **login authentication failed reply** </br>
     Server -> Client </br>
     Your username or password are wrong </br>
