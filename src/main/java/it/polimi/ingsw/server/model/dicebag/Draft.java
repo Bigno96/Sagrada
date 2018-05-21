@@ -33,7 +33,13 @@ public class Draft {
             d.dump();
     }
 
-    public boolean fillDraft() throws EmptyException, IDNotFoundException {                   // filling draft with nDice Dices from DiceBag removing dices taken from it
+    /**
+     * Filling draft with nDice Dices from DiceBag removing dices taken from it
+     * @return
+     * @throws EmptyException
+     * @throws IDNotFoundException
+     */
+    public boolean fillDraft() throws EmptyException, IDNotFoundException {
         for (int i = 0; i < nDice; i++) {
             final Dice d = diceBag.randDice();
             if (d == null)
@@ -47,15 +53,28 @@ public class Draft {
         return true;
     }
 
-    public void rollDraft() {                   // rollling all dices in the draft
+    /**
+     * Rolling all dices in the draft
+     */
+    public void rollDraft() {
         for (final Dice d : draftList) {
             d.rollDice();
         }
     }
 
+    /**
+     * Number of remaining dice
+     * @return draftList.size
+     */
     public int diceRemaining() { return this.draftList.size(); }
 
-    public Dice findDice(int id) throws IDNotFoundException {         // find and return Dice with passed id
+    /**
+     * Find and return Dice with passed id
+     * @param id != null
+     * @return Dice searched
+     * @throws IDNotFoundException
+     */
+    public Dice findDice(int id) throws IDNotFoundException {
         for (Dice d : draftList)
             if (d.getID() == id)
                 return d.copyDice();
@@ -71,6 +90,9 @@ public class Draft {
         return new ArrayList<>(draftList);
     }
 
+    /**
+     * Clear all Draft
+     */
     public void freeDraft() {
         draftList.clear();
     }

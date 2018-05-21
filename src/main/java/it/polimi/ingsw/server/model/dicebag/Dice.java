@@ -14,6 +14,12 @@ public class Dice {
     private int id;     // id between 0 and 89
     private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
+    /**
+     * Constructor
+     * @param id != null
+     * @param color != null
+     * @throws IDNotFoundException
+     */
     public Dice(int id, Colors color) throws IDNotFoundException {
         if (id > 89 || id < 0)
             throw new IDNotFoundException("ID not allowed");
@@ -22,6 +28,13 @@ public class Dice {
         this.value = 0;
     }
 
+    /**
+     * Constructor
+     * @param id != null
+     * @param color != null
+     * @param value != null
+     * @throws IDNotFoundException
+     */
     public Dice(int id, Colors color, int value) throws IDNotFoundException {
         if (id > 89 || id < 0)
             throw new IDNotFoundException("ID not allowed");
@@ -47,11 +60,19 @@ public class Dice {
         return this.color;
     }
 
+    /**
+     * Roll dice randomly
+     */
     public void rollDice() {
         Random rand = new Random();
         value = rand.nextInt(6) + 1;
     }
 
+    /**
+     * Change value of dice
+     * @param newValue
+     * @throws ValueException
+     */
     public void changeValue(int newValue) throws ValueException {
         if (newValue < 0 || newValue > 6)
             throw new ValueException("Illegal Value");

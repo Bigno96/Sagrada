@@ -108,6 +108,4 @@ public class ObjectiveStrategy {
                 return calculator.calcGradationShade(5 ,6, winCard, objective);
         }
     }
-
-
 }
