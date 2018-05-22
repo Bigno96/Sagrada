@@ -46,7 +46,7 @@ public class SocketServerHandler implements Runnable, ServerHandler {
 
     @Override
     public void login(String user) {
-        out.println(user + " is logging in");
+        out.println(user + " is logging in with Socket");
         socketOut.println("Connection Established \n Welcome!");
         socketOut.flush();
         out.println(socketIn.nextLine());

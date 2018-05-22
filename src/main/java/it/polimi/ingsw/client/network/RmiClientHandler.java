@@ -81,6 +81,11 @@ public class RmiClientHandler implements ClientHandler, ClientRemote {
     }
 
     @Override
+    public void tooManyPlayersError() {
+        out.println("Logged failed, too many players connected");
+    }
+
+    @Override
     public void welcome() {
         out.println("Connection established");
         out.println("Welcome!");

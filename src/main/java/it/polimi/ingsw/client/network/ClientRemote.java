@@ -6,5 +6,6 @@ import java.rmi.RemoteException;
 public interface ClientRemote extends Remote {
 
     boolean isLogged() throws RemoteException;
+    void tooManyPlayersError() throws RemoteException;
     void welcome() throws RemoteException;
 }

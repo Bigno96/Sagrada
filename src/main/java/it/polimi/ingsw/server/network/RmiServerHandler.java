@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.network;
 
 import it.polimi.ingsw.client.network.ClientRemote;
+import it.polimi.ingsw.server.ServerMain;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
@@ -14,8 +15,10 @@ import static java.lang.System.*;
 public class RmiServerHandler implements ServerRemote, ServerHandler {
 
     private ClientRemote skeleton;
+    private ServerMain server;
 
-    public RmiServerHandler() {
+    public RmiServerHandler(ServerMain server) {
+        this.server = server;
         try {
             ServerRemote remote = (ServerRemote) UnicastRemoteObject.exportObject(this, 4500);
             Registry registry = LocateRegistry.createRegistry(4500);
@@ -29,13 +32,19 @@ public class RmiServerHandler implements ServerRemote, ServerHandler {
     @Override
     public void login(String user) {
         try {
+            if (!server.legalConnect()) {
+                skeleton.tooManyPlayersError();
+                return;
+            }
+
             Registry registry = LocateRegistry.getRegistry(4000);
             skeleton = (ClientRemote) registry.lookup("Client_Interface");
 
-            out.println(user + " is logging in");
+            out.println(user + " is logging in with RMI");
             if (skeleton.isLogged()) {
                 out.println(user + " successfully logged");
                 skeleton.welcome();
+                server.countId();
             }
         } catch (RemoteException | NotBoundException e) {
             out.println(e.getMessage());
