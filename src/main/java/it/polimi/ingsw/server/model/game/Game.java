@@ -107,7 +107,7 @@ public class Game {
     }
 
     /**
-     * Add player to Game
+     * Add player p to Game
      * @param p != null && nPlayer < 4
      * @return true if addPlayer is successful
      * @throws SamePlayerException when try to add the same player
@@ -120,6 +120,12 @@ public class Game {
         return playerList.add(p);
     }
 
+    /**
+     * Remove player p to Game
+     * @param p != null
+     * @return true if rmPlayer is successful
+     * @throws EmptyException when RoundList is empty
+     */
     public boolean rmPlayer(Player p) throws EmptyException {
         if (playerList.isEmpty())
             throw new EmptyException("Round List is empty");
@@ -129,6 +135,13 @@ public class Game {
         }
     }
 
+    /**
+     * Find Player p to Game
+     * @param p != null
+     * @return true if Game.contain(p)
+     * @throws PlayerNotFoundException when !Game.contain(p)
+     * @throws EmptyException when Game have not player
+     */
     public boolean findPlayer(Player p) throws PlayerNotFoundException, EmptyException {
         if (playerList.isEmpty())
             throw new EmptyException("No player in game");
@@ -162,6 +175,10 @@ public class Game {
         return playerList;
     }
 
+    /**
+     * Return the Current Player of the Turn
+     * @return return the current Player, null if the game is finished
+     */
     public Player currentPlayer(){
         Player p = round.nextPlayer();
         while( p == null ){
