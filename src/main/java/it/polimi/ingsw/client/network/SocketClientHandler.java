@@ -35,11 +35,9 @@ public class SocketClientHandler implements ClientHandler {
             socketOut.println(user);
             socketOut.flush();
 
-            String input = socketIn.nextLine();
-            out.println(input);
             out.println(socketIn.nextLine());
 
-            if(input.equals("Connection Established")) {
+            if(socket.isConnected()) {
                 socketOut.println(user + " successfully logged");
                 socketOut.flush();
                 return true;

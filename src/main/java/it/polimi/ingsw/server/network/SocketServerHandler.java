@@ -8,7 +8,7 @@ import java.util.*;
 
 import static java.lang.System.*;
 
-public class SocketServerHandler implements Runnable, ServerHandler {
+public class SocketServerHandler implements Runnable {
 
     private int id;
     private Socket socket;
@@ -48,7 +48,6 @@ public class SocketServerHandler implements Runnable, ServerHandler {
         }
     }
 
-    @Override
     public void login(String user) {
         server.upId();
         out.println(user + " is logging in with Socket");
@@ -57,7 +56,6 @@ public class SocketServerHandler implements Runnable, ServerHandler {
         out.println(socketIn.nextLine());
     }
 
-    @Override
     public void logout(String user) {
         server.downId();
         out.println(user + " logged out");

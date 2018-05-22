@@ -36,7 +36,7 @@ public class ClientMain {
         requestIp();                // ip of serverSocket if Socket conn, ip of remote interface if rmi conn
 
         while(!clientHandler.connect(userName)) {          // connect to server
-            out.println("No server listening on given ip.\n Please insert new one\n");
+            out.println("\nNo server listening on given ip.\n Please insert new one\n");
             requestIp();
         }
         clientHandler.listen();                   // waiting for commands

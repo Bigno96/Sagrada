@@ -32,18 +32,14 @@ public class RmiClientHandler implements ClientHandler, ClientRemote {
         try {
             inKeyboard = new Scanner(in);
 
-            ClientRemote remote = (ClientRemote) UnicastRemoteObject.exportObject(this, 4000);
-            Registry registry = LocateRegistry.createRegistry(4000);
-            registry.bind("Client_Interface", remote);
-
-            registry = LocateRegistry.getRegistry(ip, 4500);
+            Registry registry = LocateRegistry.getRegistry(ip, 4500);
             stub = (ServerRemote) registry.lookup("Server_Interface");
 
-            stub.login(user);
+            stub.login(user, this);
 
             return true;
 
-        } catch (RemoteException | NotBoundException | AlreadyBoundException e) {
+        } catch (RemoteException | NotBoundException e) {
             out.print(e.getMessage());
             return false;
         }

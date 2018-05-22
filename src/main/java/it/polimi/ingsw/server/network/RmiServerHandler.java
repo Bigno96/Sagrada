@@ -12,7 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import static java.lang.System.*;
 
-public class RmiServerHandler implements ServerRemote, ServerHandler {
+public class RmiServerHandler implements ServerRemote {
 
     private ClientRemote skeleton;
     private ServerMain server;
@@ -30,15 +30,14 @@ public class RmiServerHandler implements ServerRemote, ServerHandler {
     }
 
     @Override
-    public void login(String user) {
+    public void login(String user, ClientRemote skeleton) {
         try {
             if (!server.legalConnect()) {
                 skeleton.tooManyPlayersError();
                 return;
             }
 
-            Registry registry = LocateRegistry.getRegistry(4000);
-            skeleton = (ClientRemote) registry.lookup("Client_Interface");
+            this.skeleton = skeleton;
 
             out.println(user + " is logging in with RMI");
             if (skeleton.isLogged()) {
@@ -46,7 +45,7 @@ public class RmiServerHandler implements ServerRemote, ServerHandler {
                 skeleton.welcome();
                 server.upId();
             }
-        } catch (RemoteException | NotBoundException e) {
+        } catch (RemoteException e) {
             out.println(e.getMessage());
         }
     }

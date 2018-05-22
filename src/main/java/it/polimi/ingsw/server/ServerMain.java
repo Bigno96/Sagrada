@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.network.SocketServerHandler;
 
 import java.net.*;
 import java.io.*;
-import java.util.Scanner;
 import java.util.concurrent.*;
 
 import static java.lang.System.*;
@@ -66,14 +65,9 @@ public class ServerMain {
 
                     } else {
                         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-                        Scanner socketIn = new Scanner(socket.getInputStream());
 
                         socketOut.println("Logged Fail, too many users connected");
                         socketOut.flush();
-
-                        socketIn.nextLine();
-                        socketIn.nextLine();
-                        out.println(socketIn.nextLine());
                     }
                 }
             }
