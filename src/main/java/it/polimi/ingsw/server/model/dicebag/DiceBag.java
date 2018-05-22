@@ -56,8 +56,8 @@ public class DiceBag {
 
     /**
      * Return the dice searched by a passed id
-     * @param id > 0 && < 89
-     * @return null if not found
+     * @param id >= 0 && <= 89
+     * @return null if not found,else return Dice
      */
     public Dice findDice(int id) {         // find and return Dice with passed id
         for (final Dice d : dices)
@@ -67,7 +67,12 @@ public class DiceBag {
         return null;
     }
 
-    public Dice randDice() throws IDNotFoundException {                // return random dice between the ones in the bag that doesn't have a value
+    /**
+     * Return random dice between the ones in the bag that doesn't have a value
+     * @return return null if bag is empty,else ID of a random dice of the bag
+     * @throws IDNotFoundException when try to take a Dice with invalid id
+     */
+    public Dice randDice() throws IDNotFoundException {
         if (dices.isEmpty())            // if bag is empty, return null
             return null;
         Dice d;
@@ -81,7 +86,14 @@ public class DiceBag {
 
     public int diceRemaining() { return this.dices.size(); }
 
-    public boolean rmDice(Dice d) throws EmptyException, IDNotFoundException {         // remove Dice d if the bag is not empty
+    /**
+     * Remove Dice d if the bag is not empty
+     * @param d dice to remove
+     * @return true if remove is successful
+     * @throws EmptyException when bag is empty
+     * @throws IDNotFoundException when try to take a Dice with invalid id
+     */
+    public boolean rmDice(Dice d) throws EmptyException, IDNotFoundException {
         if (dices.isEmpty()) {
             throw new EmptyException("Draft is empty");
         } else {
@@ -93,7 +105,14 @@ public class DiceBag {
         throw new IDNotFoundException("Id not found");
     }
 
-    public boolean addDice(Dice d) throws SameDiceException, ValueException {        // add Dice d if d it's not already in the bag
+    /**
+     * Add Dice d if d it's not already in the bag
+     * @param d dice to add
+     * @return true if add is successful
+     * @throws SameDiceException when dice is already in Bag
+     * @throws ValueException when changeValue try to put an incorrect value
+     */
+    public boolean addDice(Dice d) throws SameDiceException, ValueException {
         for (Dice itr : dices)
             if (itr.getID() == d.getID())
                 throw new SameDiceException("Dice is already in Bag");

@@ -9,15 +9,15 @@ import java.util.logging.Logger;
 
 public class Dice {
 
-    private int value;
+    private int value;  //value = 0, when it has not yet been rolled
     private Colors color;
     private int id;     // id between 0 and 89
     private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
     /**
      * Constructor without value
-     * @param id != null && > 0 && < 89
-     * @param color != null
+     * @param id != null && id >= 0 && id <= 89
+     * @param color != null && Colors.contain(color)
      * @throws IDNotFoundException when id is < 0 || > 89
      */
     public Dice(int id, Colors color) throws IDNotFoundException {
@@ -30,9 +30,9 @@ public class Dice {
 
     /**
      * Constructor with value
-     * @param id != null && > 0 && < 89
-     * @param color != null
-     * @param value != null
+     * @param id != null && id >= 0 && id <= 89
+     * @param color != null && Colors.contain(color)
+     * @param value != null && value >= 0 && value =< 6
      * @throws IDNotFoundException when id is < 0 || > 89
      */
     public Dice(int id, Colors color, int value) throws IDNotFoundException {
@@ -70,7 +70,7 @@ public class Dice {
 
     /**
      * Change value of dice
-     * @param newValue > 0 && < 7
+     * @param newValue >= 0 && < 7
      * @throws ValueException when new Value < 0 || > 6
      */
     public void changeValue(int newValue) throws ValueException {
@@ -83,10 +83,20 @@ public class Dice {
         return this.value;
     }
 
+    /**
+     * Return a copy of the dice
+     * @return copy of the dice
+     * @throws IDNotFoundException when id is < 0 || > 89
+     */
     public Dice copyDice() throws IDNotFoundException {
         return new Dice(this.id, this.color, this.value);
     }
 
+    /**
+     * Equality of Dice
+     * @param d dice to control
+     * @return true d is equal
+     */
     public boolean isEqual(Dice d) {
         return d.getID() == this.id && d.getValue() == this.value && d.getColor() == this.color;
     }

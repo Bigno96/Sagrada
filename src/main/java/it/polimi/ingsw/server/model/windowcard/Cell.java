@@ -26,8 +26,8 @@ public class Cell {
      * Constructor
      * @param value >= 0 && value <= 6
      * @param color color restriction
-     * @param row != null
-     * @param col != null
+     * @param row >= 0 && row <= 3
+     * @param col >= 0 && row <= 4
      * @throws ValueException when invalid value
      * @throws PositionException when invalid position ( row || col)
      */

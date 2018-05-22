@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.server.model.dicebag.Draft;
-import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveFactory;
@@ -30,6 +28,11 @@ public class Board {
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
+    /**
+     * Constructor
+     * @param nPlayer!= null, number of player of the game
+     * @throws IDNotFoundException when DiceBag throws IDNotFoundException
+     */
     public Board(int nPlayer) throws IDNotFoundException {
         objectiveStrategy = new ObjectiveStrategy();
         objectiveFactory = new ObjectiveFactory(objectiveStrategy);
@@ -56,12 +59,24 @@ public class Board {
                 + getRoundTrack() + " WindowFact: " + getWindowFactory() + " nPlayer: " + getnPlayer());
     }
 
+    /**
+     * Set 3 Public Objective Card on Board
+     * @param obj1 != null && obj1 != obj2 && obj1 != obj3 && obj1 > 0 && obj < 11
+     * @param obj2 != null && obj2 != obj1 && obj2 != obj3 && obj2 > 0 && obj < 11
+     * @param obj3 != null && obj3 != obj1 && obj3 != obj2 && obj3 > 0 && obj < 11
+     */
     public void setPublObj(ObjectiveCard obj1, ObjectiveCard obj2, ObjectiveCard obj3) {
         this.publObj.add(obj1);
         this.publObj.add(obj2);
         this.publObj.add(obj3);
     }
 
+    /**
+     * Set 3 ToolCard on Board
+     * @param obj1 != null && obj1 != obj2 && obj1 != obj3 && obj1 > 0 && obj < 13
+     * @param obj2 != null && obj2 != obj1 && obj2 != obj3 && obj2 > 0 && obj < 13
+     * @param obj3 != null && obj3 != obj1 && obj3 != obj2 && obj3 > 0 && obj < 13
+     */
     public void setToolCard(ToolCard obj1, ToolCard obj2, ToolCard obj3) {
         this.toolCard.add(obj1);
         this.toolCard.add(obj2);
