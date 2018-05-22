@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.game;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 
@@ -20,21 +19,29 @@ public class Player {
     private Board board;
     private WindowCard windCard;
     private int favorPoint;
-    private boolean playedDice;
-    private boolean usedTool;
+    private boolean playedDice;     //true if player play a Dice in this turn
+    private boolean usedTool;       //true if player used a ToolCard in this turn
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
+    /**
+     * Constructor
+     * @param id != null
+     */
     public Player(int id) {
         this.id = id;
         this.favorPoint = 0;
-        this.firstTurn = true;
-        this.secondTurn = true;
+        this.firstTurn = true;      //first turn of round
+        this.secondTurn = true;     //second turn of round
         this.privObj = null;
         this.windCard = null;
         this.board = null;
         this.playedDice = false;
     }
 
+    /**
+     * Set the WindowCard and Number of Favor Points of the Player
+     * @param windCard chosen by the Player
+     */
     public void setWindowCard(WindowCard windCard) {
         this.windCard = windCard;
         this.favorPoint = windCard.getNumFavPoint();
@@ -66,7 +73,7 @@ public class Player {
 
     public void endFirstTurn() {
         this.firstTurn = false;
-    }
+    }   //when first turn (of the round) of the player finished
 
     public boolean isSecondTurn() {
         return this.secondTurn;
@@ -78,7 +85,7 @@ public class Player {
 
     public void endSecondTurn() {
         this.secondTurn = false;
-    }
+    }   //when second turn (of the round) of the player finished
 
     public void setPrivObj(ObjectiveCard privObj) {
         this.privObj = privObj;
@@ -120,8 +127,16 @@ public class Player {
         this.usedTool = false;
     }
 
+    /**
+     * Score Calculation
+     * @return sum of points
+     * @throws FileNotFoundException PublObjCard throw FileNotFoundException
+     * @throws IDNotFoundException PublObjCard throw IDNotFoundException
+     * @throws PositionException PublObjCard throw PositionException
+     * @throws ValueException PublObjCard throw ValueException
+     */
     public int rateScore() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-        int sum=0;
+        int sum = 0;
         List<ObjectiveCard> publObj = board.getPublObj();
         for (ObjectiveCard obj : publObj) {
             sum += obj.calcPoint(windCard);
@@ -138,9 +153,8 @@ public class Player {
     }
 
     public void dump() {
-        logger.info("ID: " + getId() /*+ " PrivObj: " + getPrivObj() + " WinCard: " + getWind()*/ + "FavorPoint: "
+        logger.info("ID: " + getId() + " PrivObj: " + getPrivObj() + " WinCard: " + getWindowCard()+ "FavorPoint: "
                 + getFavorPoint());
     }
-
 
 }

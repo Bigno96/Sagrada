@@ -128,8 +128,12 @@ public class Draft {
         return draftList.add(d);
     }
 
-    public void setnDice(int n) { this.nDice = n; }
+    public void setnDice(int n) {
+        this.nDice = n;
+        }
 
-    public int getnDice() { return this.nDice; }
+    public int getnDice() {
+        return this.nDice;
+    }
 
 }
