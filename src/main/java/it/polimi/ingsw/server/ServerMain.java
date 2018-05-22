@@ -25,8 +25,12 @@ public class ServerMain {
         this.id = 0;
     }
 
-    public void countId() {
+    public void upId() {
         this.id++;
+    }
+
+    public void downId() {
+        this.id--;
     }
 
     public boolean legalConnect() {
@@ -56,11 +60,11 @@ public class ServerMain {
                 synchronized(this) {
                     Socket socket = serverSocket.accept();
                     if (legalConnect()) {
-                        id++;
-                        executor.submit(new SocketServerHandler(socket, id));
+                        executor.submit(new SocketServerHandler(socket, id, this));
                     } else {
                         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
                         socketOut.println("Logged Fail, too many users connected");
+                        socketOut.flush();
                     }
 
                 }

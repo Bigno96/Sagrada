@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.network;
 
+import it.polimi.ingsw.server.ServerMain;
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -12,8 +14,10 @@ public class SocketServerHandler implements Runnable, ServerHandler {
     private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
+    private ServerMain server;
 
-    public SocketServerHandler(Socket socket, int id) {
+    public SocketServerHandler(Socket socket, int id, ServerMain server) {
+        this.server = server;
         this.socket = socket;
         this.id = id;
     }
@@ -46,6 +50,7 @@ public class SocketServerHandler implements Runnable, ServerHandler {
 
     @Override
     public void login(String user) {
+        server.upId();
         out.println(user + " is logging in with Socket");
         socketOut.println("Connection Established \n Welcome!");
         socketOut.flush();
@@ -54,6 +59,7 @@ public class SocketServerHandler implements Runnable, ServerHandler {
 
     @Override
     public void logout(String user) {
+        server.downId();
         out.println(user + " logged out");
     }
 }

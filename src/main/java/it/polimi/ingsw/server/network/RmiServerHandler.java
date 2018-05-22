@@ -44,7 +44,7 @@ public class RmiServerHandler implements ServerRemote, ServerHandler {
             if (skeleton.isLogged()) {
                 out.println(user + " successfully logged");
                 skeleton.welcome();
-                server.countId();
+                server.upId();
             }
         } catch (RemoteException | NotBoundException e) {
             out.println(e.getMessage());
@@ -53,6 +53,7 @@ public class RmiServerHandler implements ServerRemote, ServerHandler {
 
     @Override
     public void logout(String user) {
+        server.downId();
         out.println(user + " logged out");
     }
 
