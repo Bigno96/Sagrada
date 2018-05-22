@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.network.SocketServerHandler;
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 import java.util.concurrent.*;
 
 import static java.lang.System.*;
@@ -34,7 +35,7 @@ public class ServerMain {
     }
 
     public boolean legalConnect() {
-        return id<4;
+        return id<2;
     }
 
     private void startServer() {
@@ -59,14 +60,21 @@ public class ServerMain {
             while (exit) {
                 synchronized(this) {
                     Socket socket = serverSocket.accept();
+
                     if (legalConnect()) {
                         executor.submit(new SocketServerHandler(socket, id, this));
+
                     } else {
                         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+                        Scanner socketIn = new Scanner(socket.getInputStream());
+
                         socketOut.println("Logged Fail, too many users connected");
                         socketOut.flush();
-                    }
 
+                        socketIn.nextLine();
+                        socketIn.nextLine();
+                        out.println(socketIn.nextLine());
+                    }
                 }
             }
 
