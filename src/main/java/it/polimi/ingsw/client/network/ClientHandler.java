@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.network;
 
-public interface Handler {
+public interface ClientHandler {
 
-    void connect(String user);
+    boolean connect(String user);
     void listen();
     void disconnect(String user);
 }

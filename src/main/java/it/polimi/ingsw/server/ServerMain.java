@@ -1,51 +1,39 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.network.RmiInterface;
-import it.polimi.ingsw.server.network.ClientRmiHandler;
-import it.polimi.ingsw.server.network.ClientSocketHandler;
+import it.polimi.ingsw.server.network.RmiServerHandler;
+import it.polimi.ingsw.server.network.SocketServerHandler;
 
 import java.net.*;
 import java.io.*;
-import java.rmi.AlreadyBoundException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.*;
 
 import static java.lang.System.*;
 
 public class ServerMain {
     private int id;
-    private int portSocket;
-    private int portRmi;
+    private int portSocket = 5000;
     private ServerSocket serverSocket;
-    private ClientRmiHandler rmiSkeleton;
+    private RmiServerHandler rmiStub;
 
     public static void main(String[] args) {
-        ServerMain server = new ServerMain(4912, 4500);
+        ServerMain server = new ServerMain();
         server.startServer();
     }
 
-    private ServerMain(int portSocket, int portRmi) {
-        rmiSkeleton = new ClientRmiHandler();
+    private ServerMain() {
         this.id = 0;
-        this.portSocket = portSocket;
-        this.portRmi = portRmi;
     }
 
     private void startServer() {
         try {
             serverSocket = new ServerSocket(portSocket);
+            rmiStub = new RmiServerHandler();
 
-            RmiInterface skeleton = (RmiInterface) UnicastRemoteObject.exportObject(rmiSkeleton, portRmi);
-            Registry registry = LocateRegistry.createRegistry(portRmi);
-            registry.bind("Rmi_Interface", skeleton);
+            out.println("Server ready");
 
-        } catch (IOException | AlreadyBoundException e) {
+        } catch (IOException e) {
             out.println(e.getMessage());
         }
-
-        out.println("Server ready");
 
         serverListening();
     }
@@ -56,12 +44,13 @@ public class ServerMain {
 
         try {
             while (exit) {
+                synchronized(this) {
                     Socket socket = serverSocket.accept();
                     id++;
-                    executor.submit(new ClientSocketHandler(socket, id));
-
-                    out.println("New Users Registered");
+                    executor.submit(new SocketServerHandler(socket, id));
+                }
             }
+
         } catch (IOException e) {
             out.println(e.getMessage());
         }
