@@ -27,17 +27,32 @@ public class Game {
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
+    /**
+     * Constructor
+     */
     public Game(){
         playerList = new ArrayList<>();
         nPlayer = 0;
         nRound = 0;
     }
 
+    /**
+     * Initialization
+     * @throws IDNotFoundException when getPublCard, getPrivCard and makeToolCard
+     * @throws FileNotFoundException when getPublCard, getPrivCard and makeToolCard
+     */
     public void startGame() throws IDNotFoundException, FileNotFoundException {
-        int id, id2, id3;
+        int id;
+        int id2;
+        int id3;
         List<Integer> vetID = new ArrayList<>();
-        ObjectiveCard obj1, obj2, obj3, objPriv;
-        ToolCard tool1, tool2, tool3;
+        ObjectiveCard obj1;
+        ObjectiveCard obj2;
+        ObjectiveCard obj3;
+        ObjectiveCard objPriv;
+        ToolCard tool1;
+        ToolCard tool2;
+        ToolCard tool3;
         ObjectiveStrategy objStrat = new ObjectiveStrategy();
         ObjectiveFactory obj = new ObjectiveFactory(objStrat);
 
@@ -91,6 +106,12 @@ public class Game {
         board.setToolCard(tool1, tool2, tool3);
     }
 
+    /**
+     * Add player to Game
+     * @param p != null && nPlayer < 4
+     * @return true if addPlayer is successful
+     * @throws SamePlayerException when try to add the same player
+     */
     public boolean addPlayer(Player p) throws SamePlayerException {
         if (playerList.contains(p))
             throw new SamePlayerException("Player already in game");
