@@ -1,19 +1,19 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.network.ClientHandler;
-import it.polimi.ingsw.client.network.RmiClientHandler;
-import it.polimi.ingsw.client.network.SocketClientHandler;
+import it.polimi.ingsw.client.network.rmi.RmiClientHandler;
+import it.polimi.ingsw.client.network.socket.SocketClientHandler;
 
-import java.net.*;
 import java.util.*;
 import static java.lang.System.*;
 
 public class ClientMain {
     private String userName;
-    private String ip;
+    private String ip;                      // ip of the server
     private Boolean socketConnection;
     private Boolean rmiConnection;
-    private ClientHandler clientHandler;
+    private Boolean connectingIp;
+    private ClientHandler clientHandler;        // handles communication Client -> Server
 
     private ClientMain(String userName) {
         this.userName = userName;
@@ -33,16 +33,25 @@ public class ClientMain {
         out.println("Client is working");
 
         askConnection();            // ask type of connection wanted
-        requestIp();                // ip of serverSocket if Socket conn, ip of remote interface if rmi conn
+        ip = requestIp();
 
-        while(!clientHandler.connect(userName)) {          // connect to server
-            out.println("\nNo server listening on given ip.\n Please insert new one\n");
-            requestIp();
+        if (socketConnection) {
+            clientHandler = new SocketClientHandler(ip);          // delegate to a socket connection
         }
-        clientHandler.listen();                   // waiting for commands
-        clientHandler.disconnect(userName);       // disconnection wanted when not listening anymore
+        else if (rmiConnection) {
+            clientHandler = new RmiClientHandler(ip, userName);             // delegate to a rmi connection
+        }
+
+        while(!clientHandler.connect(userName)) {   // connect to server
+            out.println("\nNo server listening on given ip.\n Please insert new one\n");
+            ip = requestIp();
+            clientHandler.setIp(ip);
+        }
     }
 
+    /**
+     * Ask for type of Connection to use
+     */
     private void askConnection() {
         do {
             out.println("Choose your connection \n 'r' for RMI \n 's' for Socket \n 'd' for Default");
@@ -63,39 +72,33 @@ public class ClientMain {
         } while (!socketConnection && !rmiConnection);
     }
 
-    private void requestIp() {
+    /**
+     * Ask for ip
+     * @return String read from cmd as input
+     */
+    private String requestIp() {
         Boolean ok = false;
+        String ret = "";
 
         while(!ok) {
-            out.println("Insert IP Address \n ['d' for default]");
-            try {
-                Scanner input = new Scanner(System.in);
-                String choose = input.nextLine();
+            out.println("Insert IP Address");
+            Scanner input = new Scanner(System.in);
+            ret = input.nextLine();
 
-                if (choose.equals("d")) {                       // default ip -> localHost
-                    ip = InetAddress.getLocalHost().getHostAddress();
-                } else {
-                    ip = choose;
-                }
+            ok = validIP(ret);                   // verify if ip is a valid address
 
-                ok = validIP(ip);                   // verify if ip is a valid address
-
-                if(!ok)
-                    out.println("Not a valid ip");
-
-            } catch (UnknownHostException e) {
-                out.println(e.getMessage());
-            }
+            if(!ok)
+                out.println("Not a valid ip");
         }
 
-        if (socketConnection) {
-            clientHandler = new SocketClientHandler(ip);          // delegate to a socket connection
-        }
-        else if (rmiConnection) {
-            clientHandler = new RmiClientHandler(ip);             // delegate to a rmi connection
-        }
+        return ret;
     }
 
+    /**
+     * Verify if passed String represents a valid IPv4 or IPv6 address
+     * @param ip != null
+     * @return true if valid ip address is passed, else false
+     */
     private boolean validIP(String ip) {
         if (ip.isEmpty())
             return false;
