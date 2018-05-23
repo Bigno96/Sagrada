@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.exception.PlayerNotFoundException;
-import it.polimi.ingsw.server.model.game.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +75,6 @@ public class Round {
         }
 
         firstTurn = true;
-
     }
 
     public Player getPlayer(int id) throws PlayerNotFoundException {
