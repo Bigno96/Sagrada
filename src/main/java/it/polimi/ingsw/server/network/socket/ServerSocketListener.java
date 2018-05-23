@@ -27,7 +27,7 @@ public class ServerSocketListener {
         try {
             while (exit) {
                 Socket socket = serverSocket.accept();
-                executor.submit(new SocketServerHandler(socket));
+                executor.submit(new SocketClientSpeaker(socket));
                 }
         } catch (IOException e) {
             out.println(e.getMessage());

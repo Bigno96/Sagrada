@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.network.socket;
 
-import it.polimi.ingsw.client.network.rmi.ClientRemote;
-import it.polimi.ingsw.server.network.ServerHandler;
+import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.net.*;
 import java.io.*;
@@ -9,13 +8,13 @@ import java.util.*;
 
 import static java.lang.System.*;
 
-public class SocketServerHandler implements Runnable, ServerHandler {
+public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
 
-    public SocketServerHandler(Socket socket) {
+    public SocketClientSpeaker(Socket socket) {
         this.socket = socket;
     }
 

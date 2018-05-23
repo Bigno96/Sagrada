@@ -29,7 +29,7 @@
 
     explanation: Server reply is "Your username or password are wrong" if authentication failed
 
-* **starting Game ** </br>
+* **starting Game** </br>
     Server -> Client </br>
     Wait a moment, the game will start shortly </br>
 

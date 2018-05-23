@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.network.socket;
 
-import it.polimi.ingsw.client.network.ClientHandler;
+import it.polimi.ingsw.client.network.ServerSpeaker;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,14 +9,14 @@ import java.util.Scanner;
 
 import static java.lang.System.*;
 
-public class SocketClientHandler implements ClientHandler {
+public class SocketServerSpeaker implements ServerSpeaker {
 
     private String ip;
     private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
 
-    public SocketClientHandler(String ip) {
+    public SocketServerSpeaker(String ip) {
         this.ip = ip;
     }
 

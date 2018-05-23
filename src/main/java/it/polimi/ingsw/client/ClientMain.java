@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.network.ClientHandler;
-import it.polimi.ingsw.client.network.rmi.RmiClientHandler;
-import it.polimi.ingsw.client.network.socket.SocketClientHandler;
+import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
+import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 
 import java.util.*;
 import static java.lang.System.*;
@@ -13,7 +13,7 @@ public class ClientMain {
     private Boolean socketConnection;
     private Boolean rmiConnection;
     private Boolean connectingIp;
-    private ClientHandler clientHandler;        // handles communication Client -> Server
+    private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
 
     private ClientMain(String userName) {
         this.userName = userName;
@@ -36,16 +36,16 @@ public class ClientMain {
         ip = requestIp();
 
         if (socketConnection) {
-            clientHandler = new SocketClientHandler(ip);          // delegate to a socket connection
+            serverSpeaker = new SocketServerSpeaker(ip);          // delegate to a socket connection
         }
         else if (rmiConnection) {
-            clientHandler = new RmiClientHandler(ip, userName);             // delegate to a rmi connection
+            serverSpeaker = new RmiServerSpeaker(ip, userName);             // delegate to a rmi connection
         }
 
-        while(!clientHandler.connect(userName)) {   // connect to server
+        while(!serverSpeaker.connect(userName)) {   // connect to server
             out.println("\nNo server listening on given ip.\n Please insert new one\n");
             ip = requestIp();
-            clientHandler.setIp(ip);
+            serverSpeaker.setIp(ip);
         }
     }
 

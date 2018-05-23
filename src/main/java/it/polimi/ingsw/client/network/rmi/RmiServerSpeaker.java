@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.network.rmi;
 
-import it.polimi.ingsw.client.network.ClientHandler;
+import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
 import java.rmi.NotBoundException;
@@ -10,13 +10,13 @@ import java.rmi.registry.Registry;
 
 import static java.lang.System.*;
 
-public class RmiClientHandler implements ClientHandler {
+public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
     private String ip;
     private ServerRemote server;            // server remote interface
     private ClientRemote client;            // client remote interface passed to server
 
-    public RmiClientHandler(String ip, String username) {
+    public RmiServerSpeaker(String ip, String username) {
         this.ip = ip;
         try {
             this.client = new ClientRemoteImpl(username);
