@@ -8,11 +8,11 @@ import java.util.*;
 import static java.lang.System.*;
 
 public class ClientMain {
+
     private String userName;
     private String ip;                      // ip of the server
     private Boolean socketConnection;
     private Boolean rmiConnection;
-    private Boolean connectingIp;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
 
     private ClientMain(String userName) {
