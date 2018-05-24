@@ -1,6 +1,9 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
@@ -50,6 +53,22 @@ public class BoardTest extends TestCase {
         board.setPublObj(obj1, obj2, obj3);
 
         assertEquals(list, board.getPublObj());
+    }
+
+    public void testSetToolCard() throws IDNotFoundException{
+        Board board = new Board(nPlayer);
+        List<ToolCard> list = new ArrayList<>();
+        ToolStrategy objStrat = new ToolStrategy(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+        ToolCard obj1 = new ToolCard(id, "Obj1", Colors.random(), objStrat);
+        ToolCard obj2 = new ToolCard(id+1, "Obj2", Colors.random(), objStrat);
+        ToolCard obj3 = new ToolCard(id+2, "Obj3", Colors.random(), objStrat);
+
+        list.add(obj1);
+        list.add(obj2);
+        list.add(obj3);
+        board.setToolCard(obj1, obj2, obj3);
+
+        assertEquals(list, board.getToolCard());
     }
 
 }
