@@ -1,4 +1,4 @@
-package it.polimi.ingsw.CLI;
+package it.polimi.ingsw.client.view.cli;
 
 import static org.fusesource.jansi.Ansi.*;
 import static org.fusesource.jansi.Ansi.Color.*;
