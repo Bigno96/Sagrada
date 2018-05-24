@@ -17,8 +17,9 @@ public class ColorsTest extends TestCase {
         assertSame(Colors.GREEN, Colors.parseColor("GREEN"));
         assertSame(Colors.BLUE, Colors.parseColor("BLUE"));
         assertSame(Colors.RED, Colors.parseColor("RED"));
-        assertSame(Colors.VIOLET, Colors.parseColor("VIOLET"));
+        assertSame(Colors.MAGENTA, Colors.parseColor("MAGENTA"));
         assertSame(Colors.YELLOW, Colors.parseColor("YELLOW"));
+        assertSame(Colors.WHITE, Colors.parseColor("WHITE"));
         assertSame(Colors.NULL, Colors.parseColor("NULL"));
     }
 }

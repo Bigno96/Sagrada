@@ -33,7 +33,7 @@ public class ToolFactoryTest extends TestCase {
         tool = toolFactory.makeToolCard(1);
         assertSame(1, tool.getId());
         assertEquals("Grozing Pliers", tool.getName());
-        assertSame(Colors.VIOLET, tool.getColor());
+        assertSame(Colors.MAGENTA, tool.getColor());
 
         tool = toolFactory.makeToolCard(2);
         assertSame(2, tool.getId());
@@ -58,7 +58,7 @@ public class ToolFactoryTest extends TestCase {
         tool = toolFactory.makeToolCard(6);
         assertSame(6, tool.getId());
         assertEquals("Flux Brush", tool.getName());
-        assertSame(Colors.VIOLET, tool.getColor());
+        assertSame(Colors.MAGENTA, tool.getColor());
 
         tool = toolFactory.makeToolCard(7);
         assertSame(7, tool.getId());
@@ -83,7 +83,7 @@ public class ToolFactoryTest extends TestCase {
         tool = toolFactory.makeToolCard(11);
         assertSame(11, tool.getId());
         assertEquals("Flux Remover", tool.getName());
-        assertSame(Colors.VIOLET, tool.getColor());
+        assertSame(Colors.MAGENTA, tool.getColor());
 
         tool = toolFactory.makeToolCard(12);
         assertSame(12, tool.getId());

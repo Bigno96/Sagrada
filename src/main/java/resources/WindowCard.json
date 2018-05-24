@@ -5,10 +5,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "GREEN" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 2, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 5, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 2, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -17,10 +17,10 @@
     "FP": 6,
     "Cell":
     [
-      { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" },
-      { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "RED" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 4, "color": "GREEN" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" },
+      { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "RED" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 4, "color": "GREEN" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -29,10 +29,10 @@
     "FP": 4,
     "Cell":
     [
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 2, "color": "NULL" },
-      { "value": 3, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "RED" }
+      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" },
+      { "value": 3, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "RED" }
     ]
   },
   {
@@ -41,10 +41,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" },
-      { "value": 5, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 1, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "RED" }
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" },
+      { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 1, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "RED" }
     ]
   },
   {
@@ -53,10 +53,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 3, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "VIOLET" }, { "value": 2, "color": "NULL" },
-      { "value": 1, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "NULL" }, { "value": 3, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 3, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" },
+      { "value": 1, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" }, { "value": 3, "color": "WHITE" }
     ]
   },
   {
@@ -65,10 +65,10 @@
     "FP": 3,
     "Cell":
     [
-      { "value": 0, "color": "BLUE" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "GREEN" }
+      { "value": 0, "color": "BLUE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
+      { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }
     ]
   },
   {
@@ -77,10 +77,10 @@
     "FP": 4,
     "Cell":
     [
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" },
-      { "value": 0, "color": "GREEN" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" },
-      { "value": 3, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "GREEN" },
-      { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "YELLOW" }
+      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" },
+      { "value": 0, "color": "GREEN" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" },
+      { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" },
+      { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "YELLOW" }
     ]
   },
   {
@@ -89,10 +89,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "VIOLET" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 3, "color": "NULL" },
-      { "value": 5, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 4, "color": "NULL" }
+      { "value": 0, "color": "MAGENTA" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" },
+      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" }
     ]
   },
   {
@@ -101,10 +101,10 @@
     "FP": 4,
     "Cell":
     [
-      { "value": 0, "color": "RED" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" },
-      { "value": 4, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 2, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
+      { "value": 4, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 2, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -113,10 +113,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 5, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "VIOLET" }, { "value": 2, "color": "NULL" },
-      { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "VIOLET" },
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 4, "color": "NULL" }
+      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" },
+      { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
+      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" },
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 4, "color": "WHITE" }
     ]
   },
   {
@@ -125,10 +125,10 @@
     "FP": 3,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "GREEN" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "VIOLET" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
+      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "GREEN" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }
     ]
   },
   {
@@ -137,10 +137,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 6, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" },
-      { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "RED" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 3, "color": "NULL" }
+      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" },
+      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "RED" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 3, "color": "WHITE" }
     ]
   },
   {
@@ -149,10 +149,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 3, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" },
-      { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 6, "color": "NULL" }
+      { "value": 3, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" },
+      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 6, "color": "WHITE" }
     ]
   },
   {
@@ -161,10 +161,10 @@
     "FP": 6,
     "Cell":
     [
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" },
-      { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" },
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 3, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 1, "color": "NULL" }
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" },
+      { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" },
+      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 3, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 1, "color": "WHITE" }
     ]
   },
   {
@@ -173,10 +173,10 @@
     "FP": 6,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 2, "color": "NULL" },
-      { "value": 0, "color": "BLUE" }, { "value": 5, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "GREEN" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 2, "color": "WHITE" },
+      { "value": 0, "color": "BLUE" }, { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "GREEN" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -185,10 +185,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "VIOLET" }, { "value": 4, "color": "NULL" },
-      { "value": 6, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 2, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "RED" },
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 5, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "VIOLET" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" },
+      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "RED" },
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 5, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -197,10 +197,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 6, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "BLUE" }, { "value": 5, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" }
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "BLUE" }, { "value": 5, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }
     ]
   },
   {
@@ -209,10 +209,10 @@
     "FP": 6,
     "Cell":
     [
-      { "value": 6, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 1, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 4, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "GREEN" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "VIOLET" }
+      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 4, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "GREEN" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }
     ]
   },
   {
@@ -221,10 +221,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "BLUE" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "NULL" },
-      { "value": 0, "color": "YELLOW" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "RED" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "BLUE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "WHITE" },
+      { "value": 0, "color": "YELLOW" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "RED" }
     ]
   },
   {
@@ -233,10 +233,10 @@
     "FP": 3,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "NULL" },
-      { "value": 0, "color": "RED" }, { "value": 0, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "VIOLET" }, { "value": 1, "color": "NULL" },
-      { "value": 0, "color": "BLUE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "WHITE" },
+      { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "MAGENTA" }, { "value": 1, "color": "WHITE" },
+      { "value": 0, "color": "BLUE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -245,10 +245,10 @@
     "FP": 4,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 2, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 1, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "VIOLET" }, { "value": 0, "color": "NULL" },
-      { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 2, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 1, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" },
+      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }
     ]
   },
   {
@@ -257,10 +257,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 6, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 5, "color": "NULL" },
-      { "value": 1, "color": "NULL" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 3, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 5, "color": "WHITE" },
+      { "value": 1, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -269,10 +269,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 4, "color": "NULL" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" },
-      { "value": 0, "color": "BLUE" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "NULL" },
-      { "value": 6, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "NULL" }, { "value": 1, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" },
+      { "value": 0, "color": "BLUE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" },
+      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   },
   {
@@ -281,10 +281,10 @@
     "FP": 5,
     "Cell":
     [
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "NULL" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "VIOLET" }, { "value": 4, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "GREEN" }, { "value": 3, "color": "NULL" },
-      { "value": 6, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "NULL" },
-      { "value": 0, "color": "NULL" }, { "value": 0, "color": "YELLOW" }, { "value": 2, "color": "NULL" }, { "value": 0, "color": "NULL" }, { "value": 0, "color": "NULL" }
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 3, "color": "WHITE" },
+      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" },
+      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
     ]
   }
 ]

@@ -31,14 +31,14 @@ public class ObjectiveCalculatorTest extends TestCase {
 
     // numbers of dices with that color
     private int numYellow = 0;
-    private int numViolet = 0;
+    private int numMAGENTA = 0;
     private int numRed = 0;
     private int numGreen= 0;
     private int numBlue = 0;
 
     // sums of values of dices with that color
     private int sumYellow = 0;
-    private int sumViolet = 0;
+    private int sumMAGENTA = 0;
     private int sumRed = 0;
     private int sumGreen= 0;
     private int sumBlue = 0;
@@ -99,8 +99,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         if (c.getDice().getColor().equals(Colors.BLUE)) {
             numBlue++;
         }
-        if (c.getDice().getColor().equals(Colors.VIOLET)) {
-            numViolet++;
+        if (c.getDice().getColor().equals(Colors.MAGENTA)) {
+            numMAGENTA++;
         }
     }
 
@@ -118,8 +118,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         if (c.getDice().getColor().equals(Colors.BLUE)) {
             sumBlue += c.getDice().getValue();
         }
-        if (c.getDice().getColor().equals(Colors.VIOLET)) {
-            sumViolet += c.getDice().getValue();
+        if (c.getDice().getColor().equals(Colors.MAGENTA)) {
+            sumMAGENTA += c.getDice().getValue();
         }
     }
 
@@ -148,7 +148,7 @@ public class ObjectiveCalculatorTest extends TestCase {
         assertSame(sumRed, pointCalc.calcPointPriv(Colors.RED, winCard));
         assertSame(sumGreen, pointCalc.calcPointPriv(Colors.GREEN, winCard));
         assertSame(sumBlue, pointCalc.calcPointPriv(Colors.BLUE, winCard));
-        assertSame(sumViolet, pointCalc.calcPointPriv(Colors.VIOLET, winCard));
+        assertSame(sumMAGENTA, pointCalc.calcPointPriv(Colors.MAGENTA, winCard));
     }
 
     public void testCalcDifferentColumnColor() throws IDNotFoundException {
@@ -215,7 +215,7 @@ public class ObjectiveCalculatorTest extends TestCase {
 
         // find minimun of all values counted
         int min1 = Math.min(numBlue, numGreen);
-        int min2 = Math.min(numRed, numViolet);
+        int min2 = Math.min(numRed, numMAGENTA);
         int min3 = Math.min(min1, min2);
         int min = Math.min(min3, numYellow);
 

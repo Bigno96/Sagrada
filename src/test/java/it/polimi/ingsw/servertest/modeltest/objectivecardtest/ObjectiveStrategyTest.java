@@ -73,7 +73,7 @@ public class ObjectiveStrategyTest extends TestCase {
         assertSame(pointCalc.calcPointPriv(Colors.RED, winCard), objStrat.calcPoint(obj2, winCard));
         assertSame(pointCalc.calcPointPriv(Colors.BLUE, winCard), objStrat.calcPoint(obj3, winCard));
         assertSame(pointCalc.calcPointPriv(Colors.GREEN, winCard), objStrat.calcPoint(obj4, winCard));
-        assertSame(pointCalc.calcPointPriv(Colors.VIOLET, winCard), objStrat.calcPoint(obj5, winCard));
+        assertSame(pointCalc.calcPointPriv(Colors.MAGENTA, winCard), objStrat.calcPoint(obj5, winCard));
     }
 
     public void testPublicObjectiveCard() throws IDNotFoundException, FileNotFoundException, PositionException, ValueException {

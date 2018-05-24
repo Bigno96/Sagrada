@@ -2,7 +2,7 @@
   {
     "ID": 1,
     "name": "Grozing Pliers",
-    "color": "VIOLET",
+    "color": "MAGENTA",
     "roundTrack": "null",
     "draft": "draft",
     "diceBag": "null"
@@ -42,7 +42,7 @@
   {
     "ID": 6,
     "name": "Flux Brush",
-    "color": "VIOLET",
+    "color": "MAGENTA",
     "roundTrack": "null",
     "draft": "draft",
     "diceBag": "null"
@@ -82,7 +82,7 @@
   {
     "ID": 11,
     "name": "Flux Remover",
-    "color": "VIOLET",
+    "color": "MAGENTA",
     "roundTrack": "null",
     "draft": "draft",
     "diceBag": "diceBag"
