@@ -12,8 +12,12 @@ public class Round {
 
     private List<Player> playerList;
     private static final Logger logger = Logger.getLogger(Player.class.getName());
-    private boolean firstTurn;
+    private boolean firstTurn;      //false if all player finished the first round
 
+    /**
+     * Constructor
+     * @param playerList list of player ordered by turn order
+     */
     public Round(List<Player> playerList) {
         this.playerList = playerList;
         firstTurn = true;
@@ -31,6 +35,10 @@ public class Round {
             p.dump();
     }
 
+    /**
+     * Next Player
+     * @return the next player, who will play
+     */
     public Player nextPlayer() {
         if (firstTurn) {
             for (Player p : playerList) {
@@ -44,9 +52,10 @@ public class Round {
                 p.resetUsedTool();
             }
 
-            firstTurn = false;
+            firstTurn = false;      //if all player finished the first turn, set firstTurn = false
         }
 
+        //The second turn of the round, will start from the last player of the previous turn
         for (ListIterator<Player> itr = playerList.listIterator(playerList.size()); itr.hasPrevious(); ) {
             Player p = itr.previous();
             if (p.isSecondTurn()) {
@@ -58,6 +67,10 @@ public class Round {
         return null;
     }
 
+    /**
+     * When the second turn of the round finished, nextRound reset all parameters of Player and Round
+     * and move the first Player of the previous turn at the end of the playerList
+     */
     public void nextRound() {
         List<Player> tmp = new ArrayList<>();
         for(ListIterator<Player> itr = playerList.listIterator(1); itr.hasNext();)
@@ -77,6 +90,12 @@ public class Round {
         firstTurn = true;
     }
 
+    /**
+     * Find Player with thaht ID, on the list of players
+     * @param id != null
+     * @return Player with this id
+     * @throws PlayerNotFoundException when Id of the player not found
+     */
     public Player getPlayer(int id) throws PlayerNotFoundException {
         for (Player p: playerList){
             if (p.getId() == id)

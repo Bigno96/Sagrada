@@ -15,14 +15,16 @@ public class ObjectiveCalculator {
     /**
      * Simple create an instance of ObjectiveStrategy
      */
-    public ObjectiveCalculator() {    }
+    public ObjectiveCalculator() {
+
+    }
 
     /**
      * Calculating points from Private Objective
-     * @param col != null
+     * @param col != null && col >= 0 && col <= 4
      * @param winCard != null
      * @return sum points of PrivateObjective
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw exception
      */
     public int calcPointPriv(Colors col, WindowCard winCard) throws IDNotFoundException {
         int sum = 0;
@@ -30,8 +32,8 @@ public class ObjectiveCalculator {
         for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {          // iterates on cells of Window Card
             Cell c = itr.next();
             if(c.isOccupied()) {
-                if (c.getDice().getColor() == col) {                    // if dice on cell has same color of the one of the Private Objective
-                    sum += c.getDice().getValue();                      // sum the value of the dice
+               if (c.getDice().getColor() == col) {         // if dice on cell has same color of the one of the Private Objective
+                    sum += c.getDice().getValue();          // sum the value of the dice
                 }
             }
         }
@@ -44,7 +46,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 1
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw IDNotFoundException
      */
     public int calcDifferentRowColor(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         Cell c;
