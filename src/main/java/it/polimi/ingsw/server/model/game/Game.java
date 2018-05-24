@@ -41,7 +41,7 @@ public class Game {
      * @throws IDNotFoundException when getPublCard, getPrivCard and makeToolCard
      * @throws FileNotFoundException when getPublCard, getPrivCard and makeToolCard
      */
-    public void startGame() throws IDNotFoundException, FileNotFoundException {
+    public void startGame() {
         int id;
         int id2;
         int id3;
@@ -57,7 +57,11 @@ public class Game {
         ObjectiveFactory obj = new ObjectiveFactory(objStrat);
 
         round = new Round(playerList);
-        board = new Board(nPlayer);
+        try {
+            board = new Board(nPlayer);
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+        }
 
         ToolStrategy toolStrat = new ToolStrategy(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
         ToolFactory tool = new ToolFactory(toolStrat, this);
@@ -66,44 +70,49 @@ public class Game {
             p.setBoard(board);
         }
 
-        id = random.nextInt(10)+1;
-        obj1 = obj.getPublCard(id);
+        try {
+            id = random.nextInt(10) + 1;
+            obj1 = obj.getPublCard(id);
 
-        do {
-            id2 = random.nextInt(10) + 1;
-        }while(id2 == id);
-        obj2 = obj.getPublCard(id2);
-
-        do {
-            id3 = random.nextInt(10) + 1;
-        }while (id3 == id || id3 == id2);
-        obj3 = obj.getPublCard(id3);
-
-        board.setPublObj(obj1, obj2, obj3);
-
-        for (Player p: playerList){
             do {
-                id = random.nextInt(5) + 1;
-            }while (vetID.contains(id));
-            vetID.add(id);
-            objPriv = obj.getPrivCard(id);
-            p.setPrivObj(objPriv);
+                id2 = random.nextInt(10) + 1;
+            } while (id2 == id);
+            obj2 = obj.getPublCard(id2);
+
+            do {
+                id3 = random.nextInt(10) + 1;
+            } while (id3 == id || id3 == id2);
+            obj3 = obj.getPublCard(id3);
+
+            board.setPublObj(obj1, obj2, obj3);
+
+            for (Player p : playerList) {
+                do {
+                    id = random.nextInt(5) + 1;
+                } while (vetID.contains(id));
+                vetID.add(id);
+                objPriv = obj.getPrivCard(id);
+                p.setPrivObj(objPriv);
+            }
+
+            id = random.nextInt(12) + 1;
+            tool1 = tool.makeToolCard(id);
+
+            do {
+                id2 = random.nextInt(12) + 1;
+            } while (id2 == id);
+            tool2 = tool.makeToolCard(id2);
+
+            do {
+                id3 = random.nextInt(12) + 1;
+            } while (id3 == id || id3 == id2);
+            tool3 = tool.makeToolCard(id3);
+
+            board.setToolCard(tool1, tool2, tool3);
+
+        } catch (IDNotFoundException | FileNotFoundException e) {
+            logger.info(e.getMessage());
         }
-
-        id = random.nextInt(12)+1;
-        tool1 = tool.makeToolCard(id);
-
-        do {
-            id2 = random.nextInt(12) + 1;
-        }while(id2 == id);
-        tool2 = tool.makeToolCard(id2);
-
-        do {
-            id3 = random.nextInt(12) + 1;
-        }while (id3 == id || id3 == id2);
-        tool3 = tool.makeToolCard(id3);
-
-        board.setToolCard(tool1, tool2, tool3);
     }
 
     /**

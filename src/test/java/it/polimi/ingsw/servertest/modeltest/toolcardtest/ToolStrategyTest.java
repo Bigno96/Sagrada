@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
 import it.polimi.ingsw.server.model.dicebag.Draft;
-import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -22,27 +21,16 @@ public class ToolStrategyTest extends TestCase {
 
     private static final Random random = new Random();
     private int id = random.nextInt(12)+1;
-    private int idDice = random.nextInt(80)+1;
     private Colors color = Colors.random();
     private int fp = random.nextInt(4)+3;
     private int val = random.nextInt(6)+1;
     private DiceBag diceBag = new DiceBag();
     private Draft draft = new Draft(diceBag, 9);
     private RoundTrack roundTrack = new RoundTrack(draft);
-    private Board board = new Board(4);
     private ToolStrategy strat = new ToolStrategy(roundTrack, draft, diceBag);
 
     public ToolStrategyTest(String testName) throws IDNotFoundException {
         super(testName);
-    }
-
-    // filling a list with 20 random cells
-    private List<Cell> myCellList() throws ValueException, PositionException {
-        List<Cell> cellList = new ArrayList<>();
-        for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++)
-                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
-        return cellList;
     }
 
     // filling a list with 20 random cells with no restriction
@@ -164,7 +152,7 @@ public class ToolStrategyTest extends TestCase {
 
         assertFalse(strat.moveExTwoDice(dices, cells, winCard));
 
-        d0.changeValue((val+1)%6);
+        d0.changeValue((val+1)%6+1);
         assertFalse(strat.moveExTwoDice(dices, cells, winCard));
 
         dices.remove(d1);
@@ -204,11 +192,11 @@ public class ToolStrategyTest extends TestCase {
 
         assertFalse(strat.moveUpToTwoDice(dices, cells, winCard));
 
-        d1.changeValue((val+1)%6);
+        d1.changeValue((val+1)%6+1);
         assertTrue(strat.moveUpToTwoDice(dices, cells, winCard));
     }
 
-    public void testMoveFromDraftToRound() throws IDNotFoundException, EmptyException, SameDiceException {
+    public void testMoveFromDraftToRound() throws IDNotFoundException {
         Dice d0 = new Dice(id, Colors.random(), val);
         Dice d1 = new Dice((id+1)%90, Colors.random(), val);
         List<Dice> dices = new ArrayList<>();
@@ -222,7 +210,7 @@ public class ToolStrategyTest extends TestCase {
     public void testMoveFromDraftToBag() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, SameDiceException, EmptyException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         Dice d0 = new Dice(id, Colors.BLUE, val);
-        Dice d1 = new Dice((id+1)%90, Colors.GREEN, (val+1)%6);
+        Dice d1 = new Dice((id+1)%90, Colors.GREEN, val);
         Cell c0 = winCard.getWindow().getCell(0, 0);
         Cell c1 = winCard.getWindow().getCell(0, 1);
 
@@ -232,10 +220,10 @@ public class ToolStrategyTest extends TestCase {
         draft.addDice(d1);
 
         assertFalse(strat.moveFromDraftToBag(d1, c1, val, winCard));
-        assertTrue(strat.moveFromDraftToBag(d1, c1, (val+1)%6, winCard));
+        assertTrue(strat.moveFromDraftToBag(d1, c1, (val+1)%6+1, winCard));
     }
 
-    public void testMoveFromDraftToCard() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, SameDiceException, EmptyException {
+    public void testMoveFromDraftToCard() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         Dice d0 = new Dice((id+2)%90, Colors.BLUE, val);
         Dice d1 = new Dice((id+3)%90, Colors.GREEN, val);
@@ -246,7 +234,7 @@ public class ToolStrategyTest extends TestCase {
 
         assertFalse(strat.moveFromDraftToCard(d1, c1, winCard));
 
-        d1.changeValue((val+1)%6);
+        d1.changeValue((val+1)%6+1);
 
         assertTrue(strat.moveFromDraftToCard(d1, c1, winCard));
     }

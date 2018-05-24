@@ -6,15 +6,16 @@
 
 * **login username** </br>
     Client -> Server </br>
-    login <TAB>\<user> <TAB><password> </br>
+    login <TAB>\<username> </br>
     
     explanation: Client sends his username for authentication
     
 * **login authentication successful reply** </br>
     Server -> Client </br>
-    logged <TAB>\<userID> </br>
+    Connection Established </br>
+    Welcome </br>
 
-    explanation: Server answer is "logged" and userID if it was successful
+    explanation: Server answer welcoming client if login was successful
 
 * **user already connected** <br>
     Server -> Client <\br>
@@ -28,11 +29,11 @@
 
     explanation: Server reply is "Your username or password are wrong" if authentication failed
 
-* **start Game waiting reply** </br>
+* **starting Game** </br>
     Server -> Client </br>
     Wait a moment, the game will start shortly </br>
 
-    explanation: Server answer is "Wait a moment, the game will start shortly" if it was successful
+    explanation: Server tell client that the game will start shortly when a lobby is ready
 
 * **impossible to start** </br>
      Server -> Client </br>
@@ -42,7 +43,7 @@
      
 * **log out message** </br>
     Client -> Server</br>
-    log out </br>
+    logout <TAB>\<username> </br>
     
     explanation: Client sends "logOut" if he want close the connection
      
@@ -60,7 +61,7 @@
 
     explanation: server sends the four windowCards for the choice
 
-* **ChooseWindowCard reply** </br> 
+* **ChooseWindowCard reply** </br>
     Client -> Server </br>
     ChooseWindowCard <TAB>\<NumWindowCard> </br>
     
