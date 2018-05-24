@@ -15,7 +15,7 @@ public class ObjectiveCalculator {
     /**
      * Simple create an instance of ObjectiveStrategy
      */
-    public ObjectiveCalculator() {
+    public ObjectiveCalculator() {                                                            //Constructor
 
     }
 
@@ -56,17 +56,17 @@ public class ObjectiveCalculator {
         for (int i=0; i < 4; i++) {                             // iterates on rows of Window Card
             for (int j=0; j < 5; j++) {
                 c = winCard.getWindow().getCell(i ,j);
-                if (c.isOccupied())                                             // if the cell is occupied
-                    if (colorFound.contains(c.getDice().getColor()))            // and it's not a new color in the row
-                        break;                                                  // exit from the row
+                if (c.isOccupied())                                          // if the cell is occupied
+                    if (colorFound.contains(c.getDice().getColor()))         // and it's not a new color in the row
+                        break;                                               // exit from the row
                     else
-                        colorFound.add(c.getDice().getColor()); // if it's a new color, add it to colorFound on the row
+                        colorFound.add(c.getDice().getColor());              // if it's a new color, add it to colorFound on the row
             }
 
             if (colorFound.size() == 5)                     // if 5 different colors are found on a row
                 sum += objective.getPoint();                // add points
 
-            colorFound.clear();                 // reset color Found on row
+            colorFound.clear();                             // reset color Found on row
         }
 
         return sum;
@@ -76,7 +76,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 2
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw IDNotFoundException
      */
     public int calcDifferentColumnColor(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         Cell c;
@@ -107,7 +107,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 3
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw IDNotFoundException
      */
     public int calcDifferentRowShade(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         Cell c;
@@ -138,7 +138,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 4
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw exception
      */
     public int calcDifferentColumnShade(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         Cell c;
@@ -171,7 +171,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCards 5, 6, 7
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw exception
      */
     public int calcGradationShade(int val1, int val2, WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         int num1 = 0;
@@ -195,7 +195,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 8
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw exception
      */
     public int calcVarietyShade(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         int sum = 0;
@@ -232,8 +232,8 @@ public class ObjectiveCalculator {
      * Calculating points from Dices with the same colors diagonally
      * @param winCard != null
      * @return sum of points of PublicCard 9
-     * @throws PositionException
-     * @throws IDNotFoundException
+     * @throws PositionException when retDiagonal throw exception
+     * @throws IDNotFoundException when getDice throw exception
      */
     public int calcDiagonalColor(WindowCard winCard) throws PositionException, IDNotFoundException {
         int sum = 0;
@@ -257,7 +257,7 @@ public class ObjectiveCalculator {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 10
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when getDice throw exception
      */
     public int calcVarietyColor(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
         int sum = 0;
