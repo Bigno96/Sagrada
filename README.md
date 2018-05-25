@@ -9,4 +9,8 @@ Progetto ingegneria del software 2017/2018
 
 ## Status
 
-Creating model classes of pattern MVC
+Completed Model classes of pattern MVC </br>
+Network module supporting socket and rmi </br>
+Network module supporting basic login, disconnection and game starting </br>
+Creating view and controller of pattern MVC </br>
+

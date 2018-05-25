@@ -1,11 +1,29 @@
 package it.polimi.ingsw.server.network.rmi;
 
+import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.server.network.ClientSpeaker;
+
+import java.rmi.RemoteException;
+
+import static java.lang.System.out;
 
 public class RmiClientSpeaker implements ClientSpeaker {
 
-    public RmiClientSpeaker() {
+    private ClientRemote client;
 
+    RmiClientSpeaker(ClientRemote client) {
+        this.client = client;
     }
 
+    /**
+     * @param s to be printed
+     */
+    @Override
+    public void tell(String s) {
+        try {
+            client.tell(s);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
 }

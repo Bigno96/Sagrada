@@ -4,12 +4,15 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 
-import java.util.*;
-import static java.lang.System.*;
+import java.util.Scanner;
+
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 public class ClientMain {
 
     private String userName;
+    private static Scanner inKeyboard;
     private String ip;                      // ip of the server
     private Boolean socketConnection;
     private Boolean rmiConnection;
@@ -22,7 +25,7 @@ public class ClientMain {
     }
 
     public static void main(String[] args) {
-        Scanner inKeyboard = new Scanner(in);
+        inKeyboard = new Scanner(in);
         out.println("Insert your user Name");           // ask name of the user
 
         ClientMain c = new ClientMain(inKeyboard.nextLine());
@@ -47,6 +50,12 @@ public class ClientMain {
             ip = requestIp();
             serverSpeaker.setIp(ip);
         }
+
+        while(!serverSpeaker.login(userName)) {
+            out.println("\nInsert new user Name");
+            this.userName = inKeyboard.nextLine();
+        }
+
     }
 
     /**

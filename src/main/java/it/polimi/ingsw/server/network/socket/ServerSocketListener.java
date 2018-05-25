@@ -1,18 +1,22 @@
 package it.polimi.ingsw.server.network.socket;
 
+import it.polimi.ingsw.server.controller.Lobby;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class ServerSocketListener {
 
     private ServerSocket serverSocket;
+    private Lobby lobby;
 
-    public ServerSocketListener(int portSocket) {
+    public ServerSocketListener(int portSocket, Lobby lobby) {
+        this.lobby = lobby;
         try {
             this.serverSocket = new ServerSocket(portSocket);
         } catch (IOException e) {
@@ -27,7 +31,7 @@ public class ServerSocketListener {
         try {
             while (exit) {
                 Socket socket = serverSocket.accept();
-                executor.submit(new SocketClientSpeaker(socket));
+                executor.submit(new SocketClientSpeaker(socket, lobby));
                 }
         } catch (IOException e) {
             out.println(e.getMessage());

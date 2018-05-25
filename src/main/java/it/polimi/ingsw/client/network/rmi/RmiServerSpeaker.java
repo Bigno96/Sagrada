@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.exception.GameAlreadyStartedException;
+import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.TooManyPlayersException;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
 import java.rmi.NotBoundException;
@@ -8,7 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
@@ -25,14 +28,17 @@ public class RmiServerSpeaker implements ServerSpeaker {
         }
     }
 
+    /**
+     * @param ip isValidIPv4Address || isValidIPv6Address
+     */
+    @Override
     public void setIp(String ip) {
         this.ip = ip;
     }
 
     /**
-     * Tries to connect to the server
-     * @param username name chosen by user
-     * @return true if connection succeed, else false
+     * @param username != null
+     * @return true if connection was successful, false else
      */
     @Override
     public boolean connect(String username) {
@@ -42,8 +48,8 @@ public class RmiServerSpeaker implements ServerSpeaker {
             Registry registry = LocateRegistry.getRegistry(ip, 4500);
             server = (ServerRemote) registry.lookup("Server_Interface");        // find remote interface
 
-            server.login(username, client);                                             // logs to server
-            server.tell("User " + username + " successfully logged in");            // tells logged successfully
+            server.connect(username, client);                                             // logs to server
+            server.tell("User " + username + " successfully connected");            // tells logged successfully
 
             return true;
 
@@ -51,5 +57,35 @@ public class RmiServerSpeaker implements ServerSpeaker {
             out.print(e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * @param username != null
+     * @return true if login was successful, false else
+     */
+    @Override
+    public boolean login(String username) {
+        try {
+            server.addPlayer(username, client);                             // add this player to a game Lobby
+            server.tell("User " + username + " successfully logged in");
+            return true;
+
+        } catch (TooManyPlayersException e) {
+            out.println("Too many players in Lobby");
+            return false;
+
+        } catch (SamePlayerException e) {
+            out.println("An user with the same name already logged");
+            return false;
+
+        } catch (GameAlreadyStartedException e) {
+            out.println("Game is already started");
+            return false;
+
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+            return false;
+        }
+
     }
 }

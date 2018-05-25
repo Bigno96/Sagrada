@@ -1,17 +1,11 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.exception.EmptyException;
-import it.polimi.ingsw.exception.GameAlreadyStartedException;
-import it.polimi.ingsw.exception.PlayerNotFoundException;
-import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static java.lang.System.*;
 
@@ -24,7 +18,7 @@ public class Lobby {
     private int id;
     private boolean gameStarted;
     private Timer lobbyTimer;
-    private Timer disconnectionTimer;
+    private HashMap<String, Timer> disconnectedPlayer;
 
     public Lobby() {
         game = new Game();
@@ -33,58 +27,111 @@ public class Lobby {
         nPlayer = 0;
         id = 0;
         gameStarted = false;
+        disconnectedPlayer = new HashMap<>();
+        lobbyTimer = new Timer();
     }
 
+    /**
+     * Get speaker for player passed as parameter
+     * @param p game.contains(p)
+     * @return ClientSpeaker for player p
+     */
     public synchronized ClientSpeaker getSpeaker(Player p) {
         return speakers.get(p.getId());
     }
 
-    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, SamePlayerException {
-        if (gameStarted)
-            throw new GameAlreadyStartedException();
+    /**
+     * Add player to the Lobby, first connection or reconnection
+     * @param username != null
+     * @param speaker instanceof ClientSpeaker
+     * @throws GameAlreadyStartedException when trying to enter after game has started
+     * @throws SamePlayerException when trying to add same player twice
+     * @throws TooManyPlayersException when adding a player on full lobby, 4 player
+     */
+    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, SamePlayerException, TooManyPlayersException {
+        if (disconnectedPlayer.get(username) != null)       // if player has been disconnected
+            reconnectPlayer(username);
+        else {
+            if (gameStarted)
+                throw new GameAlreadyStartedException();
 
-        if (players.containsKey(username) || nPlayer > 4)
-            throw new SamePlayerException();
+            if (players.containsKey(username))
+                throw new SamePlayerException();
 
-        Player p = new Player(id);
-        players.put(username, p);
-        speakers.put(id, speaker);
-        nPlayer++;
-        id++;
+            if (nPlayer > 4)
+                throw new TooManyPlayersException();
 
-        if (nPlayer >= 2)
-            startLobbyTimer();
+            Player p = new Player(id);
+            players.put(username, p);
+            speakers.put(id, speaker);
+            nPlayer++;
+            id++;
+
+            speaker.tell("Welcome " + username);
+            speaker.tell("Game will start when enough player are connected");
+
+            if (checkStartGame())                   // check if can create the game
+                startLobbyTimer();                  // start countdown towards start game
+
+        }
     }
 
-    private synchronized void rmPlayerLobby(String username) throws PlayerNotFoundException {
-        if (!players.containsKey(username))
-            throw new PlayerNotFoundException();
-
-        Player p = players.get(username);
-        speakers.remove(p.getId());
-        players.remove(username);
-        nPlayer--;
-    }
-
-    public void disconnection(String username) {
-        disconnectionTimer = new Timer(username);
+    /**
+     * Disconnection of a player. Wait for 2 minutes before quitting him from Lobby
+     * @param username lobby.contains(username)
+     */
+    public synchronized void disconnection(String username) {
+        Timer disconnectionTimer = new Timer();
+        disconnectedPlayer.put(username, disconnectionTimer);
         disconnectionTimer.schedule(new DisconnectUser(username), 120000);
     }
 
+    /**
+     * Check if game is ready to be create
+     * @return true if at least 2 player are connected, false else
+     */
+    private synchronized boolean checkStartGame() {
+        int nConnected = 0;
+
+        for(String s : players.keySet())
+            if (!disconnectedPlayer.containsKey(s))
+                nConnected++;
+
+        return nConnected >= 2;
+    }
+
+    /**
+     * Reconnect to the lobby a previously connected player after his disconnection
+     * @param username lobby.contains(username)
+     */
+    private synchronized void reconnectPlayer(String username) {
+        disconnectedPlayer.remove(username);
+        disconnectedPlayer.get(username).purge();
+    }
+
+    /**
+     * Start timer for Game preparation, 3 minutes
+     */
     private void startLobbyTimer() {
-        lobbyTimer = new Timer();
+        for (Map.Entry<Integer,ClientSpeaker> entry : speakers.entrySet()) {   // for every player in the lobby
+            entry.getValue().tell("Game timer is on: 3 minutes before game starts");
+        }
         lobbyTimer.schedule(new StartGame(), 180000);
     }
 
+    /**
+     * Task class for starting game
+     * Executed when lobby timer expires
+     */
     private class StartGame extends TimerTask {
+
         @Override
         public synchronized void run()  {
-            Enumeration userList = (Enumeration) players.keySet();
             try {
-                    while (userList.hasMoreElements()) {
-                        String user = (String) userList.nextElement();
-                        game.addPlayer(players.get(user));
-                    }
+                for (Map.Entry<String,Player> entry : players.entrySet()) {   // for every player in the lobby
+                    game.addPlayer(entry.getValue());                           // add to the game
+                    speakers.get(entry.getValue().getId()).tell("Game is starting");
+                }
 
             } catch (SamePlayerException e) {
                 emptyLobby();
@@ -92,39 +139,71 @@ public class Lobby {
             }
 
             gameStarted = true;
-            game.startGame();
+            game.startGame();                               // start game
         }
 
+        /**
+         * Empty the lobby when errors occur while starting game
+         */
         private synchronized void emptyLobby() {
             players.clear();
             speakers.clear();
             nPlayer = 0;
             id = 0;
             game = new Game();
+            disconnectedPlayer.clear();
         }
     }
 
+    /**
+     * Task class for disconnection
+     * Execute when disconnection Timer for that player expires
+     */
     private class DisconnectUser extends TimerTask {
+
         String username;
 
         private DisconnectUser(String username) {
             this.username = username;
         }
 
-        @Override
-        public synchronized void run() {
+        /**
+         * Remove dead player from lobby and from game, if started
+         * @param username lobby.contains(username)
+         * @throws PlayerNotFoundException when username doesn't correspond to any player
+         * @throws EmptyException when trying to remove from an empty game
+         */
+        private synchronized void rmPlayerLobby(String username) throws PlayerNotFoundException, EmptyException {
+            if (!players.containsKey(username))
+                throw new PlayerNotFoundException();
+
             Player p = players.get(username);
+            if (gameStarted)
+                game.rmPlayer(p);
             speakers.remove(p.getId());
             players.remove(username);
+            nPlayer--;                              // 1 player less in the lobby
+            disconnectedPlayer.remove(username);    // removed, not disconnected anymore
+        }
 
-            if (gameStarted)
-                try {
-                    game.rmPlayer(p);
-                } catch (EmptyException e) {
-                    out.println(e.getMessage());
-                }
-            else
-                nPlayer--;
+        /**
+         * Remove all player from game
+         * @throws EmptyException when trying to remove from an empty game
+         */
+        private synchronized void closeGame() throws EmptyException {
+            for (Map.Entry<String,Player> entry : players.entrySet())
+                game.rmPlayer(entry.getValue());
+        }
+
+        @Override
+        public synchronized void run() {
+            try {
+                rmPlayerLobby(username);        // remove player
+                if (players.size() < 2)         // if 1 or none player are left in the game, close it
+                    closeGame();
+            } catch (PlayerNotFoundException | EmptyException e) {
+                out.println(e.getMessage());
+            }
 
         }
     }

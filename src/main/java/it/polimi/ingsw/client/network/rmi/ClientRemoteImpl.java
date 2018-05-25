@@ -4,22 +4,38 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote, Serializable {
 
     private String username;
 
-    public ClientRemoteImpl(String username) throws RemoteException {
+    ClientRemoteImpl(String username) throws RemoteException {
         super();
         this.username = username;
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    /**
+     * @param s to be printed
+     */
+    @Override
     public void tell(String s) {
         out.println(s);
     }
 
+    /**
+     * @return this username
+     */
     @Override
     public String getUsername() {
         return this.username;
