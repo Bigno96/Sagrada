@@ -45,18 +45,14 @@ public class Lobby {
      * @param username != null
      * @param speaker instanceof ClientSpeaker
      * @throws GameAlreadyStartedException when trying to enter after game has started
-     * @throws SamePlayerException when trying to add same player twice
      * @throws TooManyPlayersException when adding a player on full lobby, 4 player
      */
-    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, SamePlayerException, TooManyPlayersException {
+    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, TooManyPlayersException {
         if (disconnectedPlayer.get(username) != null)       // if player has been disconnected
             reconnectPlayer(username);
         else {
             if (gameStarted)
                 throw new GameAlreadyStartedException();
-
-            if (players.containsKey(username))
-                throw new SamePlayerException();
 
             if (nPlayer > 4)
                 throw new TooManyPlayersException();

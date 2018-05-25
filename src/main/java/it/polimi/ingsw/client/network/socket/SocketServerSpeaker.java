@@ -1,13 +1,14 @@
 package it.polimi.ingsw.client.network.socket;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.exception.SamePlayerException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class SocketServerSpeaker implements ServerSpeaker {
 
@@ -56,11 +57,11 @@ public class SocketServerSpeaker implements ServerSpeaker {
     /**
      * @param username != null
      * @return true if connection was successful, false else
+     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean connect(String username) {
-        out.println("Trying to connect");
-        out.println(ip);
+    public boolean connect(String username) throws SamePlayerException {
+        out.println("Trying to connect to " + ip);
 
         try{
             socket = new Socket(ip, 5000);
@@ -72,7 +73,8 @@ public class SocketServerSpeaker implements ServerSpeaker {
             socketOut.println(username);        // username passed
             socketOut.flush();
 
-            out.println(socketIn.nextLine());   // waiting response "Connection Established"
+            if (parseException(socketIn.nextLine()))   // waiting response "Connection Established" or "SamePlayerException"
+                throw new SamePlayerException();
 
             if(socket.isConnected()) {          // if was successful
                 socketOut.println("print");

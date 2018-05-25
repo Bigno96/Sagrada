@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
@@ -39,9 +39,10 @@ public class RmiServerSpeaker implements ServerSpeaker {
     /**
      * @param username != null
      * @return true if connection was successful, false else
+     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean connect(String username) {
+    public boolean connect(String username) throws SamePlayerException {
         out.println("Trying to connect to " + ip);
 
         try {
@@ -72,10 +73,6 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
         } catch (TooManyPlayersException e) {
             out.println("Too many players in Lobby");
-            return false;
-
-        } catch (SamePlayerException e) {
-            out.println("An user with the same name already logged");
             return false;
 
         } catch (GameAlreadyStartedException e) {

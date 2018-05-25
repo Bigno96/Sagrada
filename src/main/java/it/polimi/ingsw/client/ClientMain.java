@@ -3,11 +3,11 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
+import it.polimi.ingsw.exception.SamePlayerException;
 
 import java.util.Scanner;
 
-import static java.lang.System.in;
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class ClientMain {
 
@@ -45,14 +45,28 @@ public class ClientMain {
             serverSpeaker = new RmiServerSpeaker(ip, userName);             // delegate to a rmi connection
         }
 
-        while(!serverSpeaker.connect(userName)) {   // connect to server
-            out.println("\nNo server listening on given ip.\n Please insert new one\n");
-            ip = requestIp();
-            serverSpeaker.setIp(ip);
-        }
+        Boolean exit;
 
-        while(!serverSpeaker.login(userName)) {
-            out.println("\nInsert new user Name");
+        do {
+            try {
+                exit = serverSpeaker.connect(userName);                   // connect to server
+
+                if (!exit) {                                    // ip didn't connected
+                    out.println("\nNo server listening on given ip.\n Please insert new one");
+                    ip = requestIp();
+                    serverSpeaker.setIp(ip);
+                }
+
+            } catch (SamePlayerException e) {               // player with the same name already logged
+                out.println(" Please insert new one");
+                this.userName = inKeyboard.nextLine();
+                exit = false;
+            }
+
+        } while (!exit);
+
+        while(!serverSpeaker.login(userName)) {                         // login to the lobby
+            out.println("\nInsert your user Name");
             this.userName = inKeyboard.nextLine();
         }
 

@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.rmi.RemoteException;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class RmiClientSpeaker implements ClientSpeaker {
 

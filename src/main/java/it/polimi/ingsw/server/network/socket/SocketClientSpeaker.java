@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.network.socket;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
-import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
 import it.polimi.ingsw.server.controller.Lobby;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -40,8 +43,8 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
                     out.println(socketIn.nextLine());
                 }
                 else if (command.equals("connect")) {
-                    String user = socketIn.nextLine();
-                    connect(user);
+                    String username = socketIn.nextLine();
+                    connect(username);
                 }
                 else if (command.equals("addPlayer")) {
                     String user = socketIn.nextLine();
@@ -56,12 +59,59 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     /**
      * Used to connect player to the Server.
-     * @param user to be connected
+     * @param username to be connected
      */
-    private synchronized void connect(String user) {
-        out.println(user + " is connecting with Socket");
-        socketOut.println("Connection Established");            // notify client the connection
-        socketOut.flush();
+    private synchronized void connect(String username) {
+        out.println(username + " is connecting with Socket");
+
+        if (nameLookup(username)) {
+            socketOut.println("Connection Established");            // notify client the connection
+            socketOut.flush();
+        }
+        else {
+            socketOut.println("SamePlayerException");
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Find if same username is already logged
+     * @param username != null
+     * @return true if new username, false if already taken
+     */
+    private synchronized boolean nameLookup(String username) {
+        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PlayerLog.json";
+        JsonParser parser = new JsonParser();
+        JsonArray objArray;
+
+        try {
+            objArray = (JsonArray) parser.parse(new FileReader(infoPath));
+
+            for (JsonElement o : objArray) {
+                if (o.getAsString().equals(username))
+                    return false;
+            }
+
+        } catch (FileNotFoundException e) {
+            out.println(e.getMessage());
+            return false;
+        }
+
+        try (JsonWriter writer = new JsonWriter(new FileWriter(infoPath))) {
+
+            writer.beginArray();
+            for (JsonElement o : objArray) {
+                writer.value(o.getAsString());
+            }
+            writer.value(username);
+            writer.endArray();
+
+        } catch (IOException e) {
+            out.println(e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -75,19 +125,15 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     /**
      * Add player to the Lobby. Catch and flush exception messages.
-     * @param user to be logged in
+     * @param username to be logged in
      */
-    private synchronized void addPlayer(String user) {
+    private synchronized void addPlayer(String username) {
         try {
-            lobby.addPlayerLobby(user, this);
+            lobby.addPlayerLobby(username, this);
             out.println(socketIn.nextLine());                   // waiting for success response from client
 
         } catch (GameAlreadyStartedException e) {
             socketOut.println("GameAlreadyStartedException");
-            socketOut.flush();
-
-        } catch (SamePlayerException e) {
-            socketOut.println("SamePlayerException");
             socketOut.flush();
 
         } catch (TooManyPlayersException e) {

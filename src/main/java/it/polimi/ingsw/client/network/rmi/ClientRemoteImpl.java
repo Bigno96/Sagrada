@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote, Serializable {
 
