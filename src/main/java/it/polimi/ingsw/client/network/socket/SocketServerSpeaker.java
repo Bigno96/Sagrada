@@ -123,4 +123,19 @@ public class SocketServerSpeaker implements ServerSpeaker {
         }
     }
 
+    @Override
+    public void setWindowCard(int id) {
+
+    }
+
+    @Override
+    public void endTurn(String username) {
+
+    }
+
+    @Override
+    public void moveDiceFromDraftToCard(int index, int row, int col) {
+
+    }
+
 }

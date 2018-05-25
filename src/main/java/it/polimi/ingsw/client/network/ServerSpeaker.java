@@ -25,5 +25,12 @@ public interface ServerSpeaker {
      * @return true if login was successful, false else
      */
     boolean login(String username);
+
+    void setWindowCard(int id);
+
+    void endTurn(String username);
+
+    void moveDiceFromDraftToCard(int index, int row, int col);
+
 }
 
