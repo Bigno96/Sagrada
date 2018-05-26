@@ -124,7 +124,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void setWindowCard(int id) {
+    public void setWindowCard(String name) {
 
     }
 

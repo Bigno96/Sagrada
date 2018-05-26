@@ -8,14 +8,18 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.windowcard.WindowFactory;
-
+import org.fusesource.jansi.Ansi;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 import static java.lang.System.*;
+import static org.fusesource.jansi.Ansi.Color;
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
 
 
 public class CliSystem implements viewInterface {
@@ -27,9 +31,10 @@ public class CliSystem implements viewInterface {
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private static Scanner inKeyboard;
+    private WindowCard winCard;
+    private HashMap<String, WindowCard> windPlayers = new HashMap<>();
 
-    public CliSystem(String userName){
-        this.userName = userName;
+    public CliSystem(){
         socketConnection = false;
         rmiConnection = false;
         inKeyboard = new Scanner(in);
@@ -41,11 +46,25 @@ public class CliSystem implements viewInterface {
     }
 
     @Override
-    public void chooseWindowCard(int[] ids) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void chooseWindowCard(int id1, int id2) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
 
-        List<WindowCard> windows = winFact.getWindow(ids[0], ids[1]);
+        int pick;
 
-        //WindowCard winCard = windows.get();
+        List<WindowCard> windows = winFact.getWindow(id1, id2);
+
+        for (WindowCard w: windows)
+            printWindowCard(w);
+
+        print("Choose your window card (choice between 1 and 4):");
+        do{
+            pick = inKeyboard.nextInt();
+        }while(pick<0 || pick>4);
+
+        winCard = windows.get(pick);
+
+        windPlayers.put(userName, winCard);
+
+        serverSpeaker.setWindowCard(winCard.getName());
 
     }
 
@@ -69,20 +88,19 @@ public class CliSystem implements viewInterface {
 
     }
 
-    /*public void printWindowCard(Player player, WindowCard window) throws IDNotFoundException { //param id to choose windowCard in json
-        out.println(player.getId());
+    public void printWindowCard(WindowCard window) throws IDNotFoundException { //param id to choose windowCard in json
         Cell c;
         for (int i=0; i<window.getWindow().getRows(); i++) {
             for (int j = 0; j < window.getWindow().getCols(); j++) {
                 c = window.getWindow().getCell(i, j);
                 if (c.isOccupied())
-                    out.print(ansi().eraseScreen().bg(Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
+                    out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
                 else
                     out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
             }
             out.println("\n");
         }
-    }*/
+    }
 
     @Override
     public void isTurn (String username){
@@ -99,15 +117,18 @@ public class CliSystem implements viewInterface {
 
     }
 
-    public void askParameter(){
+    public void askParameter() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
+        chooseWindowCard(1,2);
 
     }
 
-    public void listenCli(){
+    public void startGraphic() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
 
-    }
+        inKeyboard = new Scanner(in);
+        out.println("Insert your user Name");           // ask name of the user
 
-    public void startGraphic() {
+        userName = inKeyboard.nextLine();
 
         askConnection();            // ask type of connection wanted
         ip = requestIp();
@@ -142,6 +163,8 @@ public class CliSystem implements viewInterface {
             out.println("\nInsert your user Name");
             this.userName = inKeyboard.nextLine();
         }
+
+        askParameter();
     }
 
     /**

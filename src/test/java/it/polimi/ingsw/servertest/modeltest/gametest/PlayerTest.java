@@ -44,6 +44,8 @@ public class PlayerTest extends TestCase {
         List<WindowCard> windows = winFact.getWindow(idCard1, idCard2);
         WindowCard winCard = windows.get(pick);
 
+        winCard.dump();
+
         p.setWindowCard(winCard);
         assertSame(winCard, p.getWindowCard());
 

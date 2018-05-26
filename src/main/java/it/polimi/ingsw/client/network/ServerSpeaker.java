@@ -26,7 +26,7 @@ public interface ServerSpeaker {
      */
     boolean login(String username);
 
-    void setWindowCard(int id);
+    void setWindowCard(String name);
 
     void endTurn(String username);
 

@@ -87,7 +87,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void setWindowCard(int id) {
+    public void setWindowCard(String name) {
 
     }
 
