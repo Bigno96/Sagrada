@@ -33,6 +33,9 @@ public class WindowFactoryTest extends TestCase {
         assertSame(x, winCards.get(1).getId());
         assertSame(y, winCards.get(2).getId());
         assertSame(y, winCards.get(3).getId());
+
+        assertSame(2, winFact.getWindow("Via Lux").getId());
+        assertSame(2, winFact.getWindow("Industria").getId());
     }
 
     public void testException() {

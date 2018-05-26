@@ -27,12 +27,12 @@ public class WindowFactory {
     }
 
     /**
-     * Make the 4 WindowCards with the passed id1, id2
+     * Return the 4 WindowCards with the passed id1, id2
      * @param id1 != id2 && id1 >= 1 && id1 <= 12
      * @param id2 != id1 && >= 1 && id1 <= 12
      * @return List<WindowCard> && return.size() == 4
      * @throws FileNotFoundException when File Reader doesn't find the info file
-     * @throws IDNotFoundException when dice has an illegal id
+     * @throws IDNotFoundException when card has an illegal id
      * @throws ValueException when invalid value
      * @throws PositionException when invalid position
      */
@@ -55,11 +55,41 @@ public class WindowFactory {
         return ret;
     }
 
+    /**
+     * Return a window card with the corresponding name
+     * @param cardName != null
+     * @return WindowCard, WindowCard.getName == cardName
+     * @throws FileNotFoundException when File Reader doesn't find the info file
+     * @throws IDNotFoundException when card has an illegal id
+     * @throws ValueException when invalid value
+     * @throws PositionException when invalid position
+     */
+    public WindowCard getWindow(String cardName) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {
+        JsonParser parser = new JsonParser();
+        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowCard.json";
+
+        JsonArray winArray = (JsonArray) parser.parse(new FileReader(infoPath));
+
+        winCard1 = scanArray(winArray, cardName);
+        return makeCard(winCard1);
+    }
+
     //scan a JsonArray searching for matching id
     private JsonObject scanArray (JsonArray winArray, String name, int id) throws IDNotFoundException {     // since two card (front and back) has the same Id, name (which is unique) is needed
         for (Object o : winArray) {
             JsonObject obj = (JsonObject) o;
             if (Integer.parseInt(obj.get("ID").toString()) == id && !obj.get("name").toString().equals(name))      // if it's not the card with the same name and has correct Id
+                return obj;
+        }
+
+        throw new IDNotFoundException("Could't find matching Window Card");
+    }
+
+    //scan a JsonArray searching for matching name
+    private JsonObject scanArray (JsonArray winArray, String cardName) throws IDNotFoundException {     // since two card (front and back) has the same Id, name (which is unique) is needed
+        for (Object o : winArray) {
+            JsonObject obj = (JsonObject) o;
+            if (obj.get("name").getAsString().equals(cardName))                    // if it's the card with the same name
                 return obj;
         }
 
