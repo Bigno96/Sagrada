@@ -4,16 +4,19 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.viewInterface;
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.dicebag.Draft;
+import it.polimi.ingsw.server.model.objectivecard.PrivateObjective;
+import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 import org.fusesource.jansi.Ansi;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import static java.lang.System.*;
@@ -32,7 +35,12 @@ public class CliSystem implements viewInterface {
     private String userName;
     private static Scanner inKeyboard;
     private WindowCard winCard;
+    private WindowCard winTmp;
     private HashMap<String, WindowCard> windPlayers = new HashMap<>();
+    private PrivateObjective objPriv;
+    private List<PublicObjective> listPubObj;
+    private Draft draft;
+    private Dice dTmp;
 
     public CliSystem(){
         socketConnection = false;
@@ -69,12 +77,16 @@ public class CliSystem implements viewInterface {
     }
 
     @Override
-    public void sendCardPlayers(int[] ids) {
-
+    public void sendCardPlayer(String user, String name) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException {
+        winTmp = winFact.getWindow(name);
+        windPlayers.put(user, winTmp);
+        print(user + " choose the window card " + name);
+        printWindowCard(winTmp);
     }
 
     @Override
     public void printPrivObj(int id) {
+
 
     }
 
@@ -88,9 +100,13 @@ public class CliSystem implements viewInterface {
 
     }
 
-    public void printWindowCard(WindowCard window) throws IDNotFoundException { //param id to choose windowCard in json
+    public void printWindowCard(WindowCard window) throws IDNotFoundException {
         Cell c;
+        for (int i=0; i<window.getWindow().getCols(); i++)
+            out.print("\t" + i);
+        print("");
         for (int i=0; i<window.getWindow().getRows(); i++) {
+            out.print(i + "\t");
             for (int j = 0; j < window.getWindow().getCols(); j++) {
                 c = window.getWindow().getCell(i, j);
                 if (c.isOccupied())
@@ -98,18 +114,37 @@ public class CliSystem implements viewInterface {
                 else
                     out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
             }
-            out.println("\n");
+            print("");
         }
+        print("");
     }
 
     @Override
     public void isTurn (String username){
-
+        if (userName.equals(username))
+            print("It is your turn!");
+        else
+            print("It is the turn of: " + username);
     }
 
     @Override
-    public void printDraft(List<Integer> draftValue, List<String> draftColor) {
+    public void showDraft(List<Integer> draftId, List<Integer> draftValue, List<String> draftColor) throws IDNotFoundException, SameDiceException {
+        int i = 0;
+        for (Integer id: draftId){
+            dTmp = new Dice(id, Colors.parseColor(draftColor.get(i)), draftValue.get(i));
+            draft.addDice(dTmp);
+            i++;
+        }
+        printDraft();
+    }
 
+    public void printDraft(){
+        int i = 0;
+        for (Iterator<Dice> it = draft.itrDraft(); it.hasNext(); ) {
+            i++;
+            dTmp = it.next();
+            out.print("Dice n°" + i + ": " + ansi().eraseScreen().bg(Ansi.Color.valueOf(dTmp.getColor().toString())).fg(BLACK).a(dTmp.getValue()).reset() + "\n");
+        }
     }
 
     @Override
@@ -118,9 +153,7 @@ public class CliSystem implements viewInterface {
     }
 
     public void askParameter() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-
         chooseWindowCard(1,2);
-
     }
 
     public void startGraphic() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {

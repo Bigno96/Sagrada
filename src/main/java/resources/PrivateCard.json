@@ -1,27 +1,27 @@
 [
   {
     "ID": 1,
-    "descr": "Shades of Yellow",
+    "descr": "Shades of Yellow - Sum of values on yellow dice",
     "effect": "YELLOW"
   },
   {
     "ID": 2,
-    "descr": "Shades of Red",
+    "descr": "Shades of Red - Sum of values on red dice",
     "effect": "RED"
   },
   {
     "ID": 3,
-    "descr": "Shades of Blue",
+    "descr": "Shades of Blue - Sum of values on blue dice",
     "effect": "BLUE"
   },
   {
     "ID": 4,
-    "descr": "Shades of Green",
+    "descr": "Shades of Green - Sum of values on green dice",
     "effect": "GREEN"
   },
   {
     "ID": 5,
-    "descr": "Shades of Purple",
+    "descr": "Shades of Purple - Sum of values on purple dice",
     "effect": "MAGENTA"
   }
 ]

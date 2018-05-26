@@ -1,14 +1,8 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.network.ServerSpeaker;
-import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
-import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.cli.CliSystem;
 import it.polimi.ingsw.client.view.viewInterface;
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.exception.*;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -26,12 +20,12 @@ public class ClientMain {
         inKeyboard = new Scanner(in);
     }
 
-    public static void main(String[] args) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public static void main(String[] args) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, SameDiceException {
         ClientMain c = new ClientMain();
         c.startClient();
     }
 
-    private void startClient() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    private void startClient() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, SameDiceException {
         out.println("Client is working");
         askGraphic();
         graphic.startGraphic();

@@ -1,7 +1,7 @@
 [
   {
     "ID": 1,
-    "descr": "Row Color Variety",
+    "descr": "Row Color Variety - Rows with no repeated colors",
     "point": 6,
     "type": "color",
     "scope": "diff",
@@ -10,7 +10,7 @@
   },
   {
     "ID": 2,
-    "descr": "Column Color Variety",
+    "descr": "Column Color Variety - Columns with no repeated colors",
     "point": 5,
     "type": "color",
     "scope": "diff",
@@ -19,7 +19,7 @@
   },
   {
     "ID": 3,
-    "descr": "Row Shade Variety",
+    "descr": "Row Shade Variety - Rows with no repeated values",
     "point": 5,
     "type": "shade",
     "scope": "diff",
@@ -28,7 +28,7 @@
   },
   {
     "ID": 4,
-    "descr": "Column Shade Variety",
+    "descr": "Column Shade Variety - Columns with no repeated values",
     "point": 4,
     "type": "shade",
     "scope": "diff",
@@ -37,7 +37,7 @@
   },
   {
     "ID": 5,
-    "descr": "Light Shade",
+    "descr": "Light Shade - Sets of 1 and 2 values anywhere",
     "point": 2,
     "type": "shade",
     "scope": "grad",
@@ -46,7 +46,7 @@
   },
   {
     "ID": 6,
-    "descr": "Medium Shade",
+    "descr": "Medium Shade - Sets of 3 and 4 values anywhere",
     "point": 2,
     "type": "shade",
     "scope": "grad",
@@ -55,7 +55,7 @@
   },
   {
     "ID": 7,
-    "descr": "Dark Shade",
+    "descr": "Dark Shade - Sets of 5 and 6 values anywhere",
     "point": 2,
     "type": "shade",
     "scope": "grad",
@@ -64,7 +64,7 @@
   },
   {
     "ID": 8,
-    "descr": "Shade Variety",
+    "descr": "Shade Variety - Sets of one of each value anywhere",
     "point": 5,
     "type": "shade",
     "scope": "var",
@@ -73,7 +73,7 @@
   },
   {
     "ID": 9,
-    "descr": "Colored Diagonal",
+    "descr": "Colored Diagonal - Count of diagonally adjacent same color dice",
     "point": 0,
     "type": "color",
     "scope": "diag",
@@ -82,7 +82,7 @@
   },
   {
     "ID": 10,
-    "descr": "Color Variety",
+    "descr": "Color Variety - Sets of one of each color anywhere",
     "point": 4,
     "type": "color",
     "scope": "var",

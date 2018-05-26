@@ -49,7 +49,7 @@ public class WindowFactory {
         ret.add(makeCard(winCard2));
         winCard1 = scanArray(winArray, null, id2);
         ret.add(makeCard(winCard1));
-        winCard2 = scanArray(winArray, winCard2.get("name").toString(), id2);
+        winCard2 = scanArray(winArray, winCard1.get("name").toString(), id2);
         ret.add(makeCard(winCard2));
 
         return ret;
