@@ -38,8 +38,6 @@ public class Game {
 
     /**
      * Initialization
-     * @throws IDNotFoundException when getPublCard, getPrivCard and makeToolCard
-     * @throws FileNotFoundException when getPublCard, getPrivCard and makeToolCard
      */
     public void startGame() {
         int id;

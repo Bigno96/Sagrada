@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CliSystem;
-import it.polimi.ingsw.client.view.viewInterface;
+import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 
 import java.io.FileNotFoundException;
@@ -11,21 +11,18 @@ import static java.lang.System.*;
 
 public class ClientMain {
 
-
-    private static Scanner inKeyboard;
-    private viewInterface graphic;
+    private ViewInterface graphic;
 
 
     private ClientMain() {
-        inKeyboard = new Scanner(in);
     }
 
-    public static void main(String[] args) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, SameDiceException {
+    public static void main(String[] args) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         ClientMain c = new ClientMain();
         c.startClient();
     }
 
-    private void startClient() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, SameDiceException {
+    private void startClient() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         out.println("Client is working");
         askGraphic();
         graphic.startGraphic();

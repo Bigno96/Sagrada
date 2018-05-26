@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ToolCardTest extends TestCase {
 
     private static final Random random = new Random();
+    private String username = "Test";
     private int id = random.nextInt(12)+1;
     private int idDice = random.nextInt(80)+1;
     private Colors col = Colors.random();
@@ -94,7 +95,7 @@ public class ToolCardTest extends TestCase {
     // testing tool card 1
     public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
         ToolCard tool1 = new ToolCard(1, "Tool1", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
@@ -136,7 +137,7 @@ public class ToolCardTest extends TestCase {
         WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
         ToolCard tool2 = new ToolCard(2, "Tool2", col, strat);
         ToolCard tool3 = new ToolCard(3, "Tool3", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
         Dice d = null;
@@ -204,7 +205,7 @@ public class ToolCardTest extends TestCase {
     public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool4 = new ToolCard(4, "Tool4", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setBoard(board);
         p.setWindowCard(winCard);
         List<Dice> dices = new ArrayList<>();
@@ -241,7 +242,7 @@ public class ToolCardTest extends TestCase {
 
     public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException {
         ToolCard tool5 = new ToolCard(5, "Tool5", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
         int round = random.nextInt(10);
@@ -272,7 +273,7 @@ public class ToolCardTest extends TestCase {
     public void testTool6_7() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
         ToolCard tool6 = new ToolCard(6, "Tool6", col, strat);
         ToolCard tool7 = new ToolCard(7, "Tool7", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
@@ -309,7 +310,7 @@ public class ToolCardTest extends TestCase {
 
     public void testTool8() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
         ToolCard tool8 = new ToolCard(8, "Tool8", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setBoard(board);
 
         tool8.setActor(null, null, null);
@@ -335,7 +336,7 @@ public class ToolCardTest extends TestCase {
     public void testTool9() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException, WrongPositionException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool9 = new ToolCard(9, "Tool9", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
@@ -370,7 +371,7 @@ public class ToolCardTest extends TestCase {
 
     public void testTool10() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException {
         ToolCard tool10 = new ToolCard(10, "Tool10", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
@@ -398,7 +399,7 @@ public class ToolCardTest extends TestCase {
     public void testTool11() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, WrongPositionException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool11 = new ToolCard(11, "Tool11", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
@@ -432,10 +433,10 @@ public class ToolCardTest extends TestCase {
         assertSame(winCard.getWindow().getCell(0,0).getDice().getValue(), 3);
     }
 
-    public void testTool12() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, WrongPositionException {
+    public void testTool12() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException {
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
         ToolCard tool12 = new ToolCard(12, "Tool12", col, strat);
-        Player p = new Player(id);
+        Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();

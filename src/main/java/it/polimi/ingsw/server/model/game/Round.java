@@ -96,9 +96,9 @@ public class Round {
      * @return Player with this id
      * @throws PlayerNotFoundException when Id of the player not found
      */
-    public Player getPlayer(int id) throws PlayerNotFoundException {
+    public Player getPlayer(String id) throws PlayerNotFoundException {
         for (Player p: playerList){
-            if (p.getId() == id)
+            if (p.getId().equals(id))
                 return p;
         }
 

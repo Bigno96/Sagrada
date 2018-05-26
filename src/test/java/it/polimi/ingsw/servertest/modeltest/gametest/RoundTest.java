@@ -23,7 +23,7 @@ public class RoundTest extends TestCase {
     private List<Player> myCellList() {
         List<Player> playerList = new ArrayList<>();
         for (int i=0; i<nPlayer; i++) {
-            Player p = new Player(i);
+            Player p = new Player("test"+i);
             p.setBoard(board);
             playerList.add(p);
         }
@@ -34,10 +34,10 @@ public class RoundTest extends TestCase {
         List<Player> list = myCellList();
         Round round = new Round(list);
 
-        assertSame(round.getPlayer(0), round.nextPlayer());
-        assertSame(round.getPlayer(1), round.nextPlayer());
-        assertSame(round.getPlayer(1), round.nextPlayer());
-        assertSame(round.getPlayer(0), round.nextPlayer());
+        assertSame(round.getPlayer("test"+0), round.nextPlayer());
+        assertSame(round.getPlayer("test"+1), round.nextPlayer());
+        assertSame(round.getPlayer("test"+1), round.nextPlayer());
+        assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertNull(round.nextPlayer());
     }
 
@@ -46,34 +46,34 @@ public class RoundTest extends TestCase {
         List<Player> list = myCellList();
         Round round = new Round(list);
 
-        assertSame(round.getPlayer(0), round.nextPlayer());
-        assertSame(round.getPlayer(1), round.nextPlayer());
-        assertSame(round.getPlayer(1), round.nextPlayer());
-        assertSame(round.getPlayer(0), round.nextPlayer());
+        assertSame(round.getPlayer("test"+0), round.nextPlayer());
+        assertSame(round.getPlayer("test"+1), round.nextPlayer());
+        assertSame(round.getPlayer("test"+1), round.nextPlayer());
+        assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertNull(round.nextPlayer());
 
         round.nextRound();
 
-        assertSame(round.getPlayer(1), round.nextPlayer());
-        assertSame(round.getPlayer(0), round.nextPlayer());
-        assertSame(round.getPlayer(0), round.nextPlayer());
-        assertSame(round.getPlayer(1), round.nextPlayer());
+        assertSame(round.getPlayer("test"+1), round.nextPlayer());
+        assertSame(round.getPlayer("test"+0), round.nextPlayer());
+        assertSame(round.getPlayer("test"+0), round.nextPlayer());
+        assertSame(round.getPlayer("test"+1), round.nextPlayer());
         assertNull(round.nextPlayer());
 
-        assertNotSame(round.toString(), round.getPlayer(0).toString());
+        assertNotSame(round.toString(), round.getPlayer("test"+0).toString());
     }
 
     public void testGetPlayer() throws PlayerNotFoundException{
         List<Player> list = myCellList();
         Round round = new Round(list);
-        Player player = round.getPlayer(0);
-        assertEquals(player, round.getPlayer(0));
+        Player player = round.getPlayer("test"+0);
+        assertEquals(player, round.getPlayer("test"+0));
     }
 
     public void testGetPlayerException(){
         List<Player> list = myCellList();
         Round round = new Round(list);
 
-        assertThrows(PlayerNotFoundException.class, () -> round.getPlayer(10));
+        assertThrows(PlayerNotFoundException.class, () -> round.getPlayer("test"+10));
     }
 }

@@ -21,14 +21,13 @@ public class PlayerTest extends TestCase {
 
     private static final Random random = new Random();
     private int nPlayer = random.nextInt(3)+2;
-    private int id = random.nextInt(100);
+    private String id = "Test";
     private int idCard = random.nextInt(5)+2;
     private Board board = new Board(nPlayer);
     private WindowFactory winFact = new WindowFactory();
     private ObjectiveStrategy objStrat = new ObjectiveStrategy();
     private ObjectiveFactory objFact = new ObjectiveFactory(objStrat);
     private int fp = random.nextInt(4)+3;
-    private int point = random.nextInt(3)+3;
 
     public PlayerTest(String testName) throws IDNotFoundException {
         super(testName);
@@ -141,6 +140,7 @@ public class PlayerTest extends TestCase {
     public void testRateScore() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         int score = -20;
         List<Cell> list = myCellList();
+        int id = random.nextInt(12)+1;
         WindowCard card = new WindowCard(id, "Test", fp, list);
         ObjectiveStrategy objStrat = new ObjectiveStrategy();
         ObjectiveFactory obj = new ObjectiveFactory(objStrat);
@@ -150,7 +150,7 @@ public class PlayerTest extends TestCase {
         ObjectiveCard obj3 = obj.getPublCard(idCard+2);
         board.setPublObj(obj1, obj2, obj3);
 
-        Player p = new Player(id);
+        Player p = new Player("Test");
         p.setWindowCard(card);
         p.setBoard(board);
         p.setPrivObj(objPriv);

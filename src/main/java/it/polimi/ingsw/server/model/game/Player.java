@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class Player {
 
-    private int id;
+    private String id;
     private boolean firstTurn;
     private boolean secondTurn;
     private ObjectiveCard privObj;
@@ -27,7 +27,7 @@ public class Player {
      * Constructor
      * @param id != null
      */
-    public Player(int id) {
+    public Player(String id) {
         this.id = id;
         this.favorPoint = 0;
         this.firstTurn = true;      //first turn of round
@@ -55,7 +55,7 @@ public class Player {
         return windCard;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

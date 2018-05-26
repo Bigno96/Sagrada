@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.network.socket;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.SamePlayerException;
 
 import java.io.IOException;
@@ -16,8 +17,10 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
+    private ViewInterface view;
 
-    public SocketServerSpeaker(String ip) {
+    public SocketServerSpeaker(String ip, ViewInterface view) {
+        this.view = view;
         this.ip = ip;
     }
 
@@ -28,19 +31,19 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     private boolean parseException(String s) {
         if (s.equals("GameAlreadyStartedException")) {
-            out.println("Game is already started");
+            view.print("Game is already started");
             return true;
         }
         else if (s.equals("SamePlayerException")) {
-            out.println("An user with the same name already logged");
+            view.print("An user with the same name already logged");
             return true;
         }
         else if (s.equals("TooManyPlayersException")) {
-            out.println("Too many players in Lobby");
+            view.print("Too many players in Lobby");
             return true;
         }
         else
-            out.println(s);
+            view.print(s);
 
         return false;
     }
@@ -61,7 +64,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public boolean connect(String username) throws SamePlayerException {
-        out.println("Trying to connect to " + ip);
+        view.print("Trying to connect to " + ip);
 
         try{
             socket = new Socket(ip, 5000);
@@ -86,7 +89,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
             return false;
 
         } catch(IOException e) {
-            out.println(e.getMessage());
+            view.print(e.getMessage());
             return false;
         }
     }
@@ -108,13 +111,13 @@ public class SocketServerSpeaker implements ServerSpeaker {
             if (parseException(socketIn.nextLine()))        // check if server sends an exception message. Else,
                 return false;                               // printing "Welcome"
 
-            out.println(socketIn.nextLine());               // printing "Game will start shortly"
+            view.print(socketIn.nextLine());               // printing "Game will start shortly"
 
             socketOut.println("User " + username + " successfully logged in");      // inform server login was successful
             socketOut.flush();
 
-            out.println(socketIn.nextLine());           // waiting for "Game timer is on" notification
-            out.println(socketIn.nextLine());           // waiting for "Game is starting" notification
+            view.print(socketIn.nextLine());           // waiting for "Game timer is on" notification
+            view.print(socketIn.nextLine());           // waiting for "Game is starting" notification
 
             return true;
 

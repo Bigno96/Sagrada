@@ -1,11 +1,9 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
 import it.polimi.ingsw.exception.EmptyException;
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
@@ -13,29 +11,27 @@ import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Round;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameTest extends TestCase {
 
-    private int nPlayer = 2;
-    private Board board = new Board(nPlayer);
-    private static final Random random = new Random();
-    private int id = random.nextInt(20);
+    private String id1 = "Giovanni";
+    private String id2 = "Federico";
+    private String id3 = "Andrea";
 
-    public GameTest(String testName) throws IDNotFoundException {
+
+    public GameTest(String testName) {
         super(testName);
     }
 
-    public void testGetter() throws SamePlayerException, IDNotFoundException, FileNotFoundException {
+    public void testGetter() throws SamePlayerException {
         Game game = new Game();
-        Player p = new Player(id);
-        Player p1 = new Player(id+1);
-        Player p2 = new Player(id+2);
+        Player p = new Player(id1);
+        Player p1 = new Player(id2);
+        Player p2 = new Player(id3);
         List<Player> list = new ArrayList<>();
         list.add(p);
         list.add(p1);
@@ -59,11 +55,11 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testStartGame() throws SamePlayerException, IDNotFoundException, FileNotFoundException {
+    public void testStartGame() throws SamePlayerException {
         Game game = new Game();
-        Player p = new Player(id);
-        Player p1 = new Player(id+1);
-        Player p2 = new Player(id+2);
+        Player p = new Player(id1);
+        Player p1 = new Player(id2);
+        Player p2 = new Player(id3);
         List<ObjectiveCard> list;
         List<ToolCard> listTool;
 
@@ -88,7 +84,7 @@ public class GameTest extends TestCase {
 
     public void testAddPlayer() throws SamePlayerException, EmptyException, PlayerNotFoundException {
         Game game = new Game();
-        Player p = new Player(id);
+        Player p = new Player(id1);
 
         assertTrue(game.addPlayer(p));
         assertTrue(game.findPlayer(p));
@@ -96,7 +92,7 @@ public class GameTest extends TestCase {
 
     public void testSamePlayerException() throws SamePlayerException {
         Game game = new Game();
-        Player p = new Player(id);
+        Player p = new Player(id1);
 
         assertTrue(game.addPlayer(p));
         assertThrows(SamePlayerException.class, () -> game.addPlayer(p));
@@ -104,17 +100,17 @@ public class GameTest extends TestCase {
 
     public void testPlayerNotFoundException() throws SamePlayerException {
         Game game = new Game();
-        Player p = new Player(id);
-        Player pDiff = new Player(id+1);
+        Player p = new Player(id1);
+        Player pDiff = new Player(id2);
 
         assertTrue(game.addPlayer(p));
         assertThrows(PlayerNotFoundException.class, () -> game.findPlayer(pDiff));
     }
 
-    public void testCurrentPlayer() throws SamePlayerException, IDNotFoundException, FileNotFoundException {
+    public void testCurrentPlayer() throws SamePlayerException {
         Game game = new Game();
-        Player p = new Player(id);
-        Player p1 = new Player(id+1);
+        Player p = new Player(id1);
+        Player p1 = new Player(id2);
         game.addPlayer(p);
         game.addPlayer(p1);
 
@@ -138,8 +134,8 @@ public class GameTest extends TestCase {
 
     public void testRmPlayer() throws SamePlayerException, EmptyException {
         Game game = new Game();
-        Player p = new Player(id);
-        Player pDiff = new Player(id+1);
+        Player p = new Player(id1);
+        Player pDiff = new Player(id2);
 
         assertThrows(EmptyException.class, () -> game.rmPlayer(p));
         assertThrows(EmptyException.class, () -> game.findPlayer(p));

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
@@ -18,13 +19,15 @@ public class RmiServerSpeaker implements ServerSpeaker {
     private String ip;
     private ServerRemote server;            // server remote interface
     private ClientRemote client;            // client remote interface passed to server
+    private ViewInterface view;
 
-    public RmiServerSpeaker(String ip, String username) {
+    public RmiServerSpeaker(String ip, String username, ViewInterface view) {
+        this.view = view;
         this.ip = ip;
         try {
-            this.client = new ClientRemoteImpl(username);
+            this.client = new ClientRemoteImpl(username, view);
         } catch (RemoteException e) {
-            out.println(e.getMessage());
+            view.print(e.getMessage());
         }
     }
 
@@ -43,7 +46,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
      */
     @Override
     public boolean connect(String username) throws SamePlayerException {
-        out.println("Trying to connect to " + ip);
+        view.print("Trying to connect to " + ip);
 
         try {
             Registry registry = LocateRegistry.getRegistry(ip, 4500);
@@ -55,7 +58,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
             return true;
 
         } catch (RemoteException | NotBoundException e) {
-            out.print(e.getMessage());
+            view.print(e.getMessage());
             return false;
         }
     }
@@ -72,15 +75,15 @@ public class RmiServerSpeaker implements ServerSpeaker {
             return true;
 
         } catch (TooManyPlayersException e) {
-            out.println("Too many players in Lobby");
+            view.print("Too many players in Lobby");
             return false;
 
         } catch (GameAlreadyStartedException e) {
-            out.println("Game is already started");
+            view.print("Game is already started");
             return false;
 
         } catch (RemoteException e) {
-            out.println(e.getMessage());
+            view.print(e.getMessage());
             return false;
         }
 
