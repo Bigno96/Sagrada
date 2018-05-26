@@ -113,42 +113,42 @@ public class ToolCard {
         List<Object> list = new ArrayList<>();
 
         if (id == 1) {
-            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.WHITE));
         }
         else if (id == 2 || id == 3) {
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Cell(0, Colors.NULL, 0, 0));
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Cell(0, Colors.WHITE, 0, 0));
         }
         else if (id == 4) {
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Cell(0, Colors.NULL, 0, 0));
-            list.add(new Cell(0, Colors.NULL, 0, 1));
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Cell(0, Colors.WHITE, 0, 0));
+            list.add(new Cell(0, Colors.WHITE, 0, 1));
         }
         else if (id == 5) {
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Dice(0, Colors.WHITE));
         }
         else if (id == 6) {
-            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.WHITE));
         }
         else if (id == 9) {
-            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.WHITE));
         }
         else if (id == 10) {
-            list.add(new Dice(0, Colors.NULL));
+            list.add(new Dice(0, Colors.WHITE));
         }
         else if (id == 11) {
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Cell(0, Colors.NULL, 0, 0));
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Cell(0, Colors.WHITE, 0, 0));
             list.add(0);
         }
         else if (id == 12) {
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Dice(0, Colors.NULL));
-            list.add(new Cell(0, Colors.NULL, 0, 0));
-            list.add(new Cell(0, Colors.NULL, 0, 0));
-            list.add(Colors.NULL);
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Dice(0, Colors.WHITE));
+            list.add(new Cell(0, Colors.WHITE, 0, 0));
+            list.add(new Cell(0, Colors.WHITE, 0, 0));
+            list.add(Colors.WHITE);
         }
 
         return list;

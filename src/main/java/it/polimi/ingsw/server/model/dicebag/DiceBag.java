@@ -24,7 +24,7 @@ public class DiceBag {
         dices = new ArrayList<>();
         int n = 0;
         for (final Colors c : Colors.values()) {    // loop on Dice's enum color
-            if (c != Colors.NULL)
+            if (c != Colors.WHITE)
                 for (int i = n * 18; i < (n + 1) * 18; i++) {       // 18 dices assigned per color
                     Dice dice = new Dice(i, c);
                     dices.add(dice);

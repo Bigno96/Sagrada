@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model;
 import java.util.Random;
 
 public enum Colors {
-    YELLOW, RED, BLUE, GREEN, MAGENTA, WHITE, NULL;
+    YELLOW, RED, BLUE, GREEN, MAGENTA, WHITE;
 
     private static final Colors[] values = Colors.values();
     private static final Random random = new Random();
@@ -23,10 +23,8 @@ public enum Colors {
             return Colors.GREEN;
         else if (string.equals("MAGENTA"))
             return Colors.MAGENTA;
-        else if (string.equals("WHITE"))
-            return Colors.WHITE;
 
-        return Colors.NULL;
+        return Colors.WHITE;
     }
 
 }

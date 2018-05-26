@@ -51,7 +51,7 @@ public class ToolCardTest extends TestCase {
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
-                cellList.add(new Cell(0, Colors.NULL, i, j));
+                cellList.add(new Cell(0, Colors.WHITE, i, j));
         return cellList;
     }
 
@@ -456,7 +456,7 @@ public class ToolCardTest extends TestCase {
                 dices.add(d);
             }
             if (o instanceof Cell) {
-                cells.add(new Cell(0, Colors.NULL, row, col));
+                cells.add(new Cell(0, Colors.WHITE, row, col));
                 row++;
                 col++;
             }

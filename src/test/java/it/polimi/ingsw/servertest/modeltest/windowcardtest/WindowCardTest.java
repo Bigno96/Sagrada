@@ -31,7 +31,7 @@ public class WindowCardTest extends TestCase{
             for (int j=0; j<5; j++) {
                 do {
                     col = Colors.random();
-                } while (col == Colors.NULL);
+                } while (col == Colors.WHITE);
                 do {
                     val = random.nextInt(7);
                 } while (val == 0);
@@ -44,7 +44,7 @@ public class WindowCardTest extends TestCase{
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
-                cellList.add(new Cell(0, Colors.NULL, i, j));
+                cellList.add(new Cell(0, Colors.WHITE, i, j));
         return cellList;
     }
 

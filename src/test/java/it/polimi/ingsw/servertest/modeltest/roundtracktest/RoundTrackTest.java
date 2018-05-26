@@ -49,7 +49,7 @@ public class RoundTrackTest extends TestCase {
 
         do {
             wrongCol = Colors.random();
-        } while (wrongCol.equals(col) || wrongCol.equals(Colors.NULL));
+        } while (wrongCol.equals(col) || wrongCol.equals(Colors.WHITE));
 
         roundTrack.moveDraft(round);
 

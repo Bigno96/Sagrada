@@ -44,8 +44,6 @@ public class PlayerTest extends TestCase {
         List<WindowCard> windows = winFact.getWindow(idCard1, idCard2);
         WindowCard winCard = windows.get(pick);
 
-        winCard.dump();
-
         p.setWindowCard(winCard);
         assertSame(winCard, p.getWindowCard());
 
@@ -133,7 +131,7 @@ public class PlayerTest extends TestCase {
             for (int j=0; j<5; j++) {
                 do {
                     col = Colors.random();
-                } while (col == Colors.NULL);
+                } while (col == Colors.WHITE);
                 val = random.nextInt(6)+1;
                 cellList.add(new Cell(val, col, i, j));
             }

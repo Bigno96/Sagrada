@@ -17,6 +17,7 @@ public class Lobby {
     private int nPlayer;
     private int id;
     private boolean gameStarted;
+    private boolean timerGameStarted;
     private Timer lobbyTimer;
     private HashMap<String, Timer> disconnectedPlayer;
 
@@ -27,8 +28,10 @@ public class Lobby {
         nPlayer = 0;
         id = 0;
         gameStarted = false;
+        timerGameStarted = false;
         disconnectedPlayer = new HashMap<>();
         lobbyTimer = new Timer();
+        startGameDaemon();
     }
 
     /**
@@ -65,11 +68,35 @@ public class Lobby {
 
             speaker.tell("Welcome " + username);
             speaker.tell("Game will start when enough player are connected");
+        }
+    }
 
-            if (checkStartGame())                   // check if can create the game
-                startLobbyTimer();                  // start countdown towards start game
+    private void startGameDaemon() {
+        Timer daemonTimer = new Timer();
+        daemonTimer.scheduleAtFixedRate(new GameDaemon(), 0, 10);
+    }
+
+    public class GameDaemon extends TimerTask {
+
+        @Override
+        public void run() {
 
         }
+
+        /**
+         * Check if game is ready to be create
+         * @return true if at least 2 player are connected, false else
+         */
+        private synchronized boolean checkStartGame() {
+            int nConnected = 0;
+
+            for(String s : players.keySet())
+                if (!disconnectedPlayer.containsKey(s))
+                    nConnected++;
+
+            return nConnected >= 2;
+        }
+
     }
 
     /**
@@ -80,20 +107,6 @@ public class Lobby {
         Timer disconnectionTimer = new Timer();
         disconnectedPlayer.put(username, disconnectionTimer);
         disconnectionTimer.schedule(new DisconnectUser(username), 120000);
-    }
-
-    /**
-     * Check if game is ready to be create
-     * @return true if at least 2 player are connected, false else
-     */
-    private synchronized boolean checkStartGame() {
-        int nConnected = 0;
-
-        for(String s : players.keySet())
-            if (!disconnectedPlayer.containsKey(s))
-                nConnected++;
-
-        return nConnected >= 2;
     }
 
     /**

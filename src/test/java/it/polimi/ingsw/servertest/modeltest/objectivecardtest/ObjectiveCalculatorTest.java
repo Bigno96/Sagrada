@@ -73,7 +73,7 @@ public class ObjectiveCalculatorTest extends TestCase {
                 // cannot set a dice with val = 0 or null color
                 val = random.nextInt(6)+1;
 
-                while (col.equals(Colors.NULL)) {
+                while (col.equals(Colors.WHITE)) {
                     col = Colors.random();
                 }
                 d = new Dice(i+j, col, val);

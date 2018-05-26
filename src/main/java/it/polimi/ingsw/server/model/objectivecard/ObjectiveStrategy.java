@@ -35,7 +35,7 @@ public class ObjectiveStrategy {
     }
 
     private int parsePriv(int id) throws FileNotFoundException, IDNotFoundException {
-        Colors col = Colors.NULL;
+        Colors col = Colors.WHITE;
         JsonParser parser = new JsonParser();
         String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
 
@@ -47,7 +47,7 @@ public class ObjectiveStrategy {
                 col = Colors.parseColor(obj.get("effect").getAsString());
         }
 
-        if (col.equals(Colors.NULL))
+        if (col.equals(Colors.WHITE))
             throw new IDNotFoundException("Objective Card id not found");
 
         return calculator.calcPointPriv(col, winCard);

@@ -102,7 +102,7 @@ public class Cell {
      * @return true if the Dice color is permitted, else false
      */
     public boolean checkColor(){
-        if (ignoreColor || color.equals(Colors.NULL))
+        if (ignoreColor || color.equals(Colors.WHITE))
             return true;
         return this.color.equals(dice.getColor());
     }

@@ -88,7 +88,7 @@ public class CellTest extends TestCase{
 
         c.freeCell();
         c.setDice(new Dice(id, wrongCol));
-        if (!c.getColor().equals(Colors.NULL))
+        if (!c.getColor().equals(Colors.WHITE))
             assertFalse(c.checkColor());
         c.setIgnoreColor();
         assertTrue(c.checkColor());

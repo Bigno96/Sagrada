@@ -48,12 +48,10 @@ public class ToolStrategy {
      */
     public boolean checkDiceRoundTrack(Dice d) {
         try {
-            roundTrack.findDice(d.getID());
+            return (roundTrack.findDice(d.getID()) != null);
         } catch (IDNotFoundException e) {
             return false;
         }
-
-        return true;
     }
 
     /**
@@ -85,7 +83,7 @@ public class ToolStrategy {
         }
 
         return dices.size()== cells.size() && dices.size()<3 && checkDiceWinCard(dices.get(0), windowCard) && bool &&
-                roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.NULL);
+                roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.WHITE);
     }
 
     /**
