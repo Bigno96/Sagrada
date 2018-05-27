@@ -10,15 +10,18 @@ public class CheckStartGameDaemon extends TimerTask {
 
     private HashMap<String, Player> players;
     private HashMap<String, Timer> disconnectedPlayer;
+    private Lobby lobby;
 
-    CheckStartGameDaemon(HashMap<String, Player> players, HashMap<String, Timer> disconnectedPlayer) {
+    CheckStartGameDaemon(HashMap<String, Player> players, HashMap<String, Timer> disconnectedPlayer, Lobby lobby) {
         this.players = players;
         this.disconnectedPlayer = disconnectedPlayer;
+        this.lobby = lobby;
     }
 
     @Override
     public void run() {
         if (checkStartGame()) {
+            lobby.startPreGameTimer();
             this.cancel();
         }
     }

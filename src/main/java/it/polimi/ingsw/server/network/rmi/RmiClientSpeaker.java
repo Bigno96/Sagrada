@@ -26,4 +26,13 @@ public class RmiClientSpeaker implements ClientSpeaker {
             out.println(e.getMessage());
         }
     }
+
+    @Override
+    public boolean ping() {
+        try {
+            return client.ping();
+        } catch (RemoteException e) {
+            return false;
+        }
+    }
 }

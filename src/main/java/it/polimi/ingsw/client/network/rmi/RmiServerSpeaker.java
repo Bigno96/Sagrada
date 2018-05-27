@@ -12,8 +12,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static java.lang.System.*;
-
 public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
     private String ip;

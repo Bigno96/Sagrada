@@ -11,7 +11,6 @@ import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -48,7 +47,6 @@ public class CliSystem implements ViewInterface {
     }
 
     public void startGraphic() {
-
         inKeyboard = new Scanner(in);
         out.println("Insert your user Name");           // ask name of the user
 

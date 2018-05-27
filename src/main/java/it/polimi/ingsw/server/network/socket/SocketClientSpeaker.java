@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.net.*;
 import java.io.*;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static java.lang.System.*;
@@ -121,6 +122,16 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     public synchronized void tell(String s) {
         socketOut.println(s);
         socketOut.flush();
+    }
+
+    @Override
+    public synchronized boolean ping() {
+        try {
+            socketIn = new Scanner(socket.getInputStream());
+            return socketIn.nextLine() != null;
+        } catch (IOException | NoSuchElementException e) {
+            return false;
+        }
     }
 
     /**

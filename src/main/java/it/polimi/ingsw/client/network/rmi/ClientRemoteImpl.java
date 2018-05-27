@@ -2,11 +2,10 @@ package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.client.view.ViewInterface;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote, Serializable {
+public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote {
 
     private String username;
     private ViewInterface view;
@@ -33,6 +32,11 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     @Override
     public void tell(String s) {
         view.print(s);
+    }
+
+    @Override
+    public boolean ping() {
+        return true;
     }
 
     /**

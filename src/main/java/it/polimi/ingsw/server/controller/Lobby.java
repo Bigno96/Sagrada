@@ -11,12 +11,11 @@ import static java.lang.System.*;
 
 public class Lobby {
 
+    private Game game;
     private HashMap<String, Player> players;
     private HashMap<String, ClientSpeaker> speakers;
-    private Game game;
     private int nPlayer;
     private boolean gameStarted;
-    private boolean timerGameStarted;
     private Timer preGameTimer;
     private HashMap<String, Timer> disconnectedPlayer;
 
@@ -24,11 +23,12 @@ public class Lobby {
         game = new Game();
         players = new HashMap<>();
         speakers = new HashMap<>();
+        nPlayer = 1;
         gameStarted = false;
-        timerGameStarted = false;
-        disconnectedPlayer = new HashMap<>();
         preGameTimer = new Timer();
+        disconnectedPlayer = new HashMap<>();
         startGameDaemon();
+        startDisconnectionDaemon();
     }
 
     /**
@@ -81,9 +81,12 @@ public class Lobby {
 
     private void startGameDaemon() {
         Timer daemonTimer = new Timer();
-        daemonTimer.scheduleAtFixedRate(new CheckStartGameDaemon(players, disconnectedPlayer), 0, 100);
-        out.println("chiamo pre game timer");
-        startPreGameTimer();
+        daemonTimer.scheduleAtFixedRate(new CheckStartGameDaemon(players, disconnectedPlayer, this), 0, 100);
+    }
+
+    private void startDisconnectionDaemon() {
+        Timer daemonTimer = new Timer();
+        daemonTimer.scheduleAtFixedRate(new CheckDisconnectionDaemon(speakers, disconnectedPlayer, this), 0, 100);
     }
 
     /**
@@ -92,7 +95,7 @@ public class Lobby {
     synchronized void emptyLobby() {
         players.clear();
         speakers.clear();
-        nPlayer = 0;
+        nPlayer = 1;
         game = new Game();
         disconnectedPlayer.clear();
     }
@@ -100,8 +103,7 @@ public class Lobby {
     /**
      * Start timer for Game preparation, 3 minutes
      */
-    private void startPreGameTimer() {
-        out.println("entro in pre game timer");
+    void startPreGameTimer() {
         for (Map.Entry<String,ClientSpeaker> entry : speakers.entrySet()) {   // for every player in the lobby
             entry.getValue().tell("Game timer is on: 3 minutes before game starts");
         }
@@ -112,9 +114,10 @@ public class Lobby {
      * Disconnection of a player. Wait for 2 minutes before quitting him from Lobby
      * @param username lobby.contains(username)
      */
-    public synchronized void disconnection(String username) {
+    synchronized void disconnection(String username) {
         Timer disconnectionTimer = new Timer();
         disconnectedPlayer.put(username, disconnectionTimer);
+        out.println("Lost connection with "+ username);
         disconnectionTimer.schedule(new DisconnectUser(username, players, speakers, disconnectedPlayer, game, this), 120000);
     }
 

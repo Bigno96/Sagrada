@@ -14,6 +14,13 @@ public interface ClientRemote extends Remote {
     void tell(String s) throws RemoteException;
 
     /**
+     * Used to ping the client
+     * @return true
+     * @throws RemoteException default
+     */
+    boolean ping() throws RemoteException;
+
+    /**
      * Used to get username of the client
      * @return String username
      * @throws RemoteException default

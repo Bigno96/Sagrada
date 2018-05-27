@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-
-import static java.lang.System.*;
+import java.util.Timer;
 
 public class SocketServerSpeaker implements ServerSpeaker {
 
@@ -55,7 +54,6 @@ public class SocketServerSpeaker implements ServerSpeaker {
     public void setIp(String ip) {
         this.ip = ip;
     }
-
 
     /**
      * @param username != null
@@ -115,6 +113,9 @@ public class SocketServerSpeaker implements ServerSpeaker {
 
             socketOut.println("User " + username + " successfully logged in");      // inform server login was successful
             socketOut.flush();
+
+            /*Timer daemonTimer = new Timer();
+            daemonTimer.scheduleAtFixedRate(new DisconnectionDaemon(socket, view), 0, 100);*/
 
             view.print(socketIn.nextLine());           // waiting for "Game timer is on" notification
             view.print(socketIn.nextLine());           // waiting for "Game is starting" notification
