@@ -16,11 +16,12 @@ import java.util.List;
 public interface ViewInterface {
     void print(String s); // s -> general message
     void startGraphic() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException; // method used for asking connection
-    void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException; // id1, id2 -> ids windowCard to be chosen
-    // saves in the hashmap the choice of the window card made by the user who is passed. user -> username player who has picked the window card. name -> name of the window card that has to be created.
-    void setCardPlayer(String user, WindowCard card) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException;
-    void printPrivObj(PrivateObjective privObj); // id -> id of private objective
-    void printPublObj(List<PublicObjective> publObj); // ids -> 3 ids of public objectives
+    void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException; // cards -> list of windowCards from which the user has to choose
+    // saves in the hashmap the choice of the window card made by the user who is passed. user -> username player who has picked the window card. card -> the window card that has been chosen by the user passed
+    void showCardPlayer(String user, WindowCard card) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException;
+    void printWindowCard(WindowCard window) throws IDNotFoundException;
+    void printPrivObj(PrivateObjective privObj); // privObj -> private objective of the user
+    void printPublObj(List<PublicObjective> publObj); // publObj -> list of public objectives of the game
     void setRound(); // increment local variable of num round in the graphic system
     void isTurn(String username); // username -> user of current player
     // draftValue, draftColor -> lists of combination value-color of the dices in the draft
