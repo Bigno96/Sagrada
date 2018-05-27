@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
-import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
-import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -11,6 +9,8 @@ import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import static java.lang.System.*;
@@ -20,16 +20,18 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class CliSystem implements ViewInterface {
 
-    private Boolean socketConnection;
-    private Boolean rmiConnection;
+    private CliAskConnection connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private Scanner inKeyboard;
     private int numRound;
+    private HashMap<String, ServerSpeaker> connParam;
+    private boolean playing;
 
     public CliSystem() {
-        socketConnection = false;
-        rmiConnection = false;
+        connection = new CliAskConnection();
+        connParam = new HashMap<>();
+        inKeyboard = new Scanner(in);
         numRound = 0;
     }
 
@@ -104,10 +106,13 @@ public class CliSystem implements ViewInterface {
 
     @Override
     public void isTurn (String username){
-        if (userName.equals(username))
+        if (userName.equals(username)) {
             print("It is your turn!");
-        else
+            //askMove();
+        }else {
             print("It is the turn of: " + username);
+            //askWaiting();
+        }
     }
 
     @Override
@@ -133,114 +138,21 @@ public class CliSystem implements ViewInterface {
     }*/
 
     public void startGraphic() {
-        inKeyboard = new Scanner(in);
-        out.println("Insert your user Name");           // ask name of the user
 
-        userName = inKeyboard.nextLine();
+        connParam = connection.startConnection(this);
 
-        askConnection();            // ask type of connection wanted
-        String ip = requestIp();
+        userName = connParam.keySet().iterator().next();
 
-        if (socketConnection) {
-            serverSpeaker = new SocketServerSpeaker(ip, this);          // delegate to a socket connection
-        } else if (rmiConnection) {
-            serverSpeaker = new RmiServerSpeaker(ip, userName, this);             // delegate to a rmi connection
-        }
+        serverSpeaker = connParam.get(userName);
 
-        Boolean exit;
+        playing = true;
 
-        do {
-            try {
-                exit = serverSpeaker.connect(userName);                   // connect to server
+        while (playing);
 
-                if (!exit) {                                    // ip didn't connected
-                    out.println("\nNo server listening on given ip.\n Please insert new one");
-                    ip = requestIp();
-                    serverSpeaker.setIp(ip);
-                }
-
-            } catch (SamePlayerException e) {               // player with the same name already logged
-                out.println(" Please insert new one");
-                this.userName = inKeyboard.nextLine();
-                exit = false;
-            }
-
-        } while (!exit);
-
-        while (!serverSpeaker.login(userName)) {                         // login to the lobby
-            out.println("\nInsert your user Name");
-            this.userName = inKeyboard.nextLine();
-        }
-
-        //askParameter();
     }
 
-    /**
-     * Ask for type of Connection to use
-     */
-    private void askConnection() {
-        do {
-            out.println("Choose your connection \n 'r' for RMI \n 's' for Socket \n 'd' for Default");
-
-            Scanner input = new Scanner(System.in);
-            String s = input.nextLine();
-
-            if (s.equals("s") || s.equals("d")) {       // Socket (or default) connection chosen
-                socketConnection = true;
-                out.println("Socket connection chosen");
-            } else if (s.equals("r")) {                 // Rmi connection chosen
-                rmiConnection = true;
-                out.println("RMI connection chosen");
-            } else {                                    // wrong typing
-                out.println("Incorrect entry");
-            }
-
-        } while (!socketConnection && !rmiConnection);
-    }
-
-    /**
-     * Ask for ip
-     * @return String read from cmd as input
-     */
-    private String requestIp() {
-        Boolean ok = false;
-        String ret = "";
-
-        while(!ok) {
-            out.println("Insert IP Address");
-            Scanner input = new Scanner(System.in);
-            ret = input.nextLine();
-
-            ok = validIP(ret);                   // verify if ip is a valid address
-
-            if(!ok)
-                out.println("Not a valid ip");
-        }
-
-        return ret;
-    }
-
-    /**
-     * Verify if passed String represents a valid IPv4 or IPv6 address
-     * @param ip != null
-     * @return true if valid ip address is passed, else false
-     */
-    private boolean validIP(String ip) {
-        if (ip.isEmpty())
-            return false;
-
-        String[] parts = ip.split("\\.");
-
-        if (parts.length != 4 && parts.length != 6)
-            return false;
-
-        for (String s : parts) {
-            int i = Integer.parseInt(s);
-            if (i < 0 || i > 255)
-                return false;
-        }
-
-        return !ip.endsWith(".");
+    public void setPlaying(){
+        playing = false;
     }
 
 }
