@@ -10,12 +10,12 @@ import java.util.concurrent.Executors;
 
 import static java.lang.System.out;
 
-public class ServerSocketListener {
+public class ServerSocketThreadLauncher {
 
     private ServerSocket serverSocket;
     private Lobby lobby;
 
-    public ServerSocketListener(int portSocket, Lobby lobby) {
+    public ServerSocketThreadLauncher(int portSocket, Lobby lobby) {
         this.lobby = lobby;
         try {
             this.serverSocket = new ServerSocket(portSocket);
@@ -31,7 +31,7 @@ public class ServerSocketListener {
         try {
             while (exit) {
                 Socket socket = serverSocket.accept();
-                executor.submit(new SocketClientSpeaker(socket, lobby));
+                executor.submit(new SocketClientHandler(socket, lobby));
                 }
         } catch (IOException e) {
             out.println(e.getMessage());

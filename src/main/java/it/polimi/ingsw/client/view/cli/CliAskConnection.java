@@ -8,35 +8,33 @@ import it.polimi.ingsw.exception.SamePlayerException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import static java.lang.System.in;
-import static java.lang.System.out;
+import static java.lang.System.*;
 
-public class CliAskConnection {
+class CliAskConnection {
 
     private Boolean socketConnection;
     private Boolean rmiConnection;
     private ServerSpeaker serverSpeaker;
     private Scanner inKeyboard;
     private HashMap<String, ServerSpeaker> connParam;
-    private String userName;
 
-    public CliAskConnection(){
+    CliAskConnection(){
         socketConnection = false;
         rmiConnection = false;
         inKeyboard = new Scanner(in);
         connParam = new HashMap<>();
     }
 
-    public HashMap<String, ServerSpeaker> startConnection(CliSystem cli){
+    HashMap<String, ServerSpeaker> startConnection(CliSystem cli) {
 
         out.println("Insert your user Name");           // ask name of the user
-        userName = inKeyboard.nextLine();
+        String userName = inKeyboard.nextLine();
 
         askConnection();            // ask type of connection wanted
         String ip = requestIp();
 
         if (socketConnection) {
-            serverSpeaker = new SocketServerSpeaker(ip, cli);          // delegate to a socket connection
+            serverSpeaker = new SocketServerSpeaker(ip, cli);       // delegate to a socket connection
         } else if (rmiConnection) {
             serverSpeaker = new RmiServerSpeaker(ip, userName, cli);             // delegate to a rmi connection
         }

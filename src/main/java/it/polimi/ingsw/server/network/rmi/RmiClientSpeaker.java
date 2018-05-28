@@ -19,7 +19,7 @@ public class RmiClientSpeaker implements ClientSpeaker {
      * @param s to be printed
      */
     @Override
-    public void tell(String s) {
+    public synchronized void tell(String s) {
         try {
             client.tell(s);
         } catch (RemoteException e) {
@@ -28,7 +28,7 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     @Override
-    public boolean ping() {
+    public synchronized boolean ping() {
         try {
             return client.ping();
         } catch (RemoteException e) {

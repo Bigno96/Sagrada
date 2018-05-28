@@ -3,7 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.server.controller.Lobby;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 import it.polimi.ingsw.server.network.rmi.ServerRemoteImpl;
-import it.polimi.ingsw.server.network.socket.ServerSocketListener;
+import it.polimi.ingsw.server.network.socket.ServerSocketThreadLauncher;
 
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
@@ -28,7 +28,7 @@ public class ServerMain {
         try {
             Lobby lobby = new Lobby();
 
-            ServerSocketListener listener = new ServerSocketListener(5000, lobby);         // create the listener for socket connection
+            ServerSocketThreadLauncher listener = new ServerSocketThreadLauncher(5000, lobby);         // create the listener for socket connection
 
             ServerRemote server = new ServerRemoteImpl(lobby);                                       // export to port 4500 rmi remote server interface
             ServerRemote remote = (ServerRemote) UnicastRemoteObject.exportObject(server, 4500);

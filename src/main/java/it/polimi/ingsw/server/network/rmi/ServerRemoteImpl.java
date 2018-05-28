@@ -31,7 +31,7 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public void connect(String username, ClientRemote client) throws SamePlayerException {
+    public synchronized void connect(String username, ClientRemote client) throws SamePlayerException {
         try {
             out.println("User " + client.getUsername() + " is connecting with RMI");
 
@@ -100,7 +100,7 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws GameAlreadyStartedException when trying to login after game already started
      */
     @Override
-    public void addPlayer(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException {
+    public synchronized void addPlayer(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException {
         ClientSpeaker speaker = new RmiClientSpeaker(client);
         lobby.addPlayerLobby(username, speaker);
     }

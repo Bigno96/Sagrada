@@ -13,45 +13,51 @@ import java.net.*;
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 
 import static java.lang.System.*;
 
-public class SocketClientSpeaker implements Runnable, ClientSpeaker {
+public class SocketClientHandler implements Runnable, ClientSpeaker {
 
     private Socket socket;
-    private Scanner socketIn;
     private PrintWriter socketOut;
     private Lobby lobby;
+    private static String parse = "parseException";
+    private final Semaphore ping;
 
-    SocketClientSpeaker(Socket socket, Lobby lobby) {
+    SocketClientHandler(Socket socket, Lobby lobby) {
         this.lobby = lobby;
         this.socket = socket;
+        ping = new Semaphore(0, true);
     }
 
     @Override
     public void run() {
         try {
-            socketIn = new Scanner(socket.getInputStream());
+            Scanner socketIn = new Scanner(socket.getInputStream());
             socketOut = new PrintWriter(socket.getOutputStream());
 
             while(socketIn.hasNextLine()) {
-                String command = socketIn.nextLine();
+                    String command = socketIn.nextLine();
 
-                if (command.equals("quit")) {
-                    break;
+                    if (command.equals("quit")) {
+                        break;
+                    }
+                    else if (command.equals("print")) {
+                        out.println(socketIn.nextLine());
+                    }
+                    else if (command.equals("pong")) {
+                        ping.release();
+                    }
+                    else if (command.equals("connect")) {
+                        String username = socketIn.nextLine();
+                        connect(username);
+                    }
+                    else if (command.equals("addPlayer")) {
+                        String user = socketIn.nextLine();
+                        addPlayer(user);
+                    }
                 }
-                else if (command.equals("print")) {
-                    out.println(socketIn.nextLine());
-                }
-                else if (command.equals("connect")) {
-                    String username = socketIn.nextLine();
-                    connect(username);
-                }
-                else if (command.equals("addPlayer")) {
-                    String user = socketIn.nextLine();
-                    addPlayer(user);
-                }
-            }
 
         } catch (IOException e) {
             out.println(e.getMessage());
@@ -64,6 +70,14 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     private synchronized void connect(String username) {
         out.println(username + " is connecting with Socket");
+
+        try {
+            socketOut = new PrintWriter(socket.getOutputStream());
+        } catch (IOException e) {
+            out.println(e.getMessage());
+        }
+
+        socketOut.println(parse);
 
         if (nameLookup(username)) {
             socketOut.println("Connection Established");            // notify client the connection
@@ -120,16 +134,30 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public synchronized void tell(String s) {
+        try {
+            socketOut = new PrintWriter(socket.getOutputStream());
+        } catch (IOException e) {
+            out.println(e.getMessage());
+        }
+        socketOut.println("print");
         socketOut.println(s);
         socketOut.flush();
     }
 
     @Override
-    public synchronized boolean ping() {
+    public boolean ping() {
         try {
-            socketIn = new Scanner(socket.getInputStream());
-            return socketIn.nextLine() != null;
+            socketOut = new PrintWriter(socket.getOutputStream());
+            socketOut.println("ping");
+            socketOut.flush();
+
+            ping.acquire();
+            return true;
+
         } catch (IOException | NoSuchElementException e) {
+            return false;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             return false;
         }
     }
@@ -141,15 +169,17 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private synchronized void addPlayer(String username) {
         try {
             lobby.addPlayerLobby(username, this);
-            out.println(socketIn.nextLine());                   // waiting for success response from client
 
         } catch (GameAlreadyStartedException e) {
+            socketOut.println(parse);
             socketOut.println("GameAlreadyStartedException");
             socketOut.flush();
 
         } catch (TooManyPlayersException e) {
+            socketOut.println(parse);
             socketOut.println("TooManyPlayersException");
             socketOut.flush();
         }
     }
+
 }

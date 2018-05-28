@@ -36,7 +36,7 @@ public class Lobby {
      * @param p game.contains(p)
      * @return ClientSpeaker for player p
      */
-    public synchronized ClientSpeaker getSpeaker(Player p) {
+    public ClientSpeaker getSpeaker(Player p) {
         return speakers.get(p.getId());
     }
 
@@ -67,15 +67,15 @@ public class Lobby {
         }
     }
 
-    synchronized void setGameStarted() {
+    void setGameStarted() {
         gameStarted = true;
     }
 
-    synchronized Boolean isGameStarted() {
+    Boolean isGameStarted() {
         return this.gameStarted;
     }
 
-    synchronized void reduceNPlayer() {
+    void reduceNPlayer() {
         nPlayer--;
     }
 
@@ -86,7 +86,7 @@ public class Lobby {
 
     private void startDisconnectionDaemon() {
         Timer daemonTimer = new Timer();
-        daemonTimer.scheduleAtFixedRate(new CheckDisconnectionDaemon(speakers, disconnectedPlayer, this), 0, 100);
+        daemonTimer.scheduleAtFixedRate(new CheckDisconnectionDaemon(speakers, disconnectedPlayer, this), 0, 5000);
     }
 
     /**
@@ -128,6 +128,7 @@ public class Lobby {
     private synchronized void reconnectPlayer(String username) {
         disconnectedPlayer.remove(username);
         disconnectedPlayer.get(username).purge();
+        speakers.get(username).tell("Welcome back " + username);
     }
 
 

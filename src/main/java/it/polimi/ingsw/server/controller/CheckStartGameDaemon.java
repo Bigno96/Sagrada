@@ -19,7 +19,7 @@ public class CheckStartGameDaemon extends TimerTask {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         if (checkStartGame()) {
             lobby.startPreGameTimer();
             this.cancel();
