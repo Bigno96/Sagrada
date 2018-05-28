@@ -39,5 +39,5 @@ public interface ServerRemote extends Remote {
      */
     void addPlayer(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException;
 
-    void setWindowCard(WindowCard window, String userName) throws RemoteException;
+    void setWindowCard(String userName, String name) throws RemoteException;
 }

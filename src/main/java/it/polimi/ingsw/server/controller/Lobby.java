@@ -137,4 +137,12 @@ public class Lobby {
         return this;
     }
 
+    public void setWindowCard(String userName, String name){
+        chooseWindowCardObserver.notify(userName, name);
+    }
+
+    public HashMap<String, Player> getPlayers (){
+        return players;
+    }
+
 }

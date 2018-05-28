@@ -54,7 +54,7 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, RemoteException {
        view.chooseWindowCard(cards);
     }
 }

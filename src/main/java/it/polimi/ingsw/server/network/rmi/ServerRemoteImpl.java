@@ -109,13 +109,8 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
-    public void setWindowCard(WindowCard window, String userName) {
-        /*List<Player> players = lobby.getGame().getPlayerList();
-        for (Player p: players)
-            if (p.getId().equals(userName))
-                p.setWindowCard(window);
-        */
-        //notify other users
+    public void setWindowCard(String userName, String name) {
+        lobby.setWindowCard(userName, name);
     }
 
 

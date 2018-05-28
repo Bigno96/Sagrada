@@ -92,14 +92,8 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-        WindowFactory winFact = new WindowFactory();
-        WindowCard window = winFact.getWindow(name);
-        try {
-            server.setWindowCard(window, username);
-        } catch (RemoteException e) {
-            out.println(e.getMessage());
-        }
+    public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, RemoteException {
+        server.setWindowCard(username, name);
     }
 
     @Override

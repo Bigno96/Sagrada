@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
 
 import java.io.FileNotFoundException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -44,7 +45,7 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException {
+    public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException, RemoteException {
 
         int pick;
         inKeyboard = new Scanner(in);

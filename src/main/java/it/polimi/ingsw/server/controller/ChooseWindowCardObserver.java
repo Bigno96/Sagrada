@@ -5,6 +5,7 @@ import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.io.FileNotFoundException;
@@ -33,5 +34,20 @@ public class ChooseWindowCardObserver implements Observer {
                 }
             });
         }
+    }
+
+    public void notify(String userName, String name){
+        WindowFactory windFact = new WindowFactory();
+        (lobby.getPlayers()).forEach((key, value) -> {
+           if (key.equals(userName)){
+               try {
+                   value.setWindowCard(windFact.getWindow(name));
+               } catch (FileNotFoundException | IDNotFoundException | ValueException | PositionException e) {
+                   e.printStackTrace();
+               }
+           }else{
+               //notify other users
+           }
+        });
     }
 }
