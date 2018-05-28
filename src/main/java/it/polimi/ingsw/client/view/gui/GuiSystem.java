@@ -70,54 +70,18 @@ public class GuiSystem extends Application implements ViewInterface{
     private void displayLoginPage() {
 
         Platform.runLater(() -> {
-            GuiAskConnection connectionWindos = new GuiAskConnection();
+            GuiAskConnection connectionWindows = new GuiAskConnection();
             Stage window = new Stage();
             try {
-                ((GuiAskConnection) connectionWindos).display(window);
+                connection = connectionWindows.display(window);
             } catch (Exception e) {
                 out.println(e.getMessage());
             }
 
         });
-        /*window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Login");
-
-        Label label = new Label();
-        label.setText("Welcome");
-
-        //Form
-        TextField userName = new TextField();
-
-        Button button = new Button("Continue");
-        //button.setOnAction(e-> guiSystem.setUserName( userName.getText()));
-
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, button);
-        layout.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();*/
-    }
-
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
-
-    public void setConnection(String connection){
-        this.connection = connection;
-    }
-
-    @Override
-    public void print(String s) {
 
     }
 
-
-    @Override
-    public void startGraphic() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-
-    }
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
@@ -166,6 +130,16 @@ public class GuiSystem extends Application implements ViewInterface{
 
     @Override
     public void placementDice(String username, Cell dest, Dice moved) {
+
+    }
+
+    @Override
+    public void print(String s) {
+
+    }
+
+    @Override
+    public void startGraphic() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
 
     }
 

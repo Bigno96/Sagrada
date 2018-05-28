@@ -10,11 +10,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.net.Socket;
+
 public class GuiAskConnection{
+
+    private boolean RMIConnection;
+    private boolean socketConnetion;
 
     Stage LoginWindow;
 
-    public void display(Stage window){
+    public GuiAskConnection(){
+        RMIConnection = false;
+    }
+
+    public String display(Stage window){
 
         LoginWindow = window;
 
@@ -42,14 +51,20 @@ public class GuiAskConnection{
         Scene scene = new Scene(layout, 300, 100);
         window.setScene(scene);
         window.show();
+
+        if(socketConnetion) {
+            return "Socket";
+        } else {
+            return "RMI";
+        }
     }
 
     //Set Connection
     private void getChoice(ChoiceBox<String> choiceBox){
         if(choiceBox.getValue().equals("RMI")){
-            //GuiSystem.setRmiConnection();
+            RMIConnection = true;
         } else {
-            //GuiSystem.setSocketConnection();
+            socketConnetion = true;
         }
         closeWindow();
     }
