@@ -1,0 +1,58 @@
+package it.polimi.ingsw.client.view.gui;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.*;
+
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class GuiAskConnection extends Application {
+
+    private Stage window;
+
+    @Override
+    public void start(Stage primaryStage){
+        window = primaryStage;
+        window.setTitle("Choose connection");
+        Button button = new Button("Continue");
+
+        //ChoiceBoxes
+        ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
+        //getItems
+        choiceBox.getItems().add("RMI");
+        choiceBox.getItems().add("socket");
+
+        //set Default value
+        choiceBox.setValue("RMI");
+
+        button.setOnAction(e -> getChoice(choiceBox));
+
+        //Layout
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20, 20, 20 , 20));
+        layout.getChildren().addAll(choiceBox, button);
+
+        Scene scene = new Scene(layout, 300, 100);
+        window.setScene(scene);
+        window.show();
+    }
+
+    //Set Connection
+    private void getChoice(ChoiceBox<String> choiceBox){
+        if(choiceBox.getValue().equals("RMI")){
+            //GuiSystem.setRmiConnection();
+        } else {
+            //GuiSystem.setSocketConnection();
+        }
+        closeWindow();
+    }
+
+    private void closeWindow(){
+
+        window.close();
+    }
+}
