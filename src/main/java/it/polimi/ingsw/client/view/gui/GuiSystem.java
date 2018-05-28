@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.in;
+import static java.lang.System.out;
 
 public class GuiSystem extends Application implements ViewInterface{
 
@@ -65,9 +67,19 @@ public class GuiSystem extends Application implements ViewInterface{
         window.show();
     }
 
-    public static void displayLoginPage() {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
+    private void displayLoginPage() {
+
+        Platform.runLater(() -> {
+            GuiAskConnection connectionWindos = new GuiAskConnection();
+            Stage window = new Stage();
+            try {
+                ((GuiAskConnection) connectionWindos).display(window);
+            } catch (Exception e) {
+                out.println(e.getMessage());
+            }
+
+        });
+        /*window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Login");
 
         Label label = new Label();
@@ -85,7 +97,7 @@ public class GuiSystem extends Application implements ViewInterface{
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
+        window.showAndWait();*/
     }
 
     public void setUserName(String userName){
