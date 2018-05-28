@@ -45,6 +45,7 @@ public class GuiSystem extends Application implements ViewInterface{
     private String connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
+    private String IP;
     private Scene userNameScene;
 
     public GuiSystem() {
@@ -158,5 +159,13 @@ public class GuiSystem extends Application implements ViewInterface{
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getIP() {
+        return IP;
+    }
+
+    public void setIP(String IP) {
+        this.IP = IP;
     }
 }

@@ -16,6 +16,7 @@ public class GuiAskConnection{
 
     Stage LoginWindow;
     TextField userName = new TextField();
+    TextField IP = new TextField();
 
     public GuiAskConnection(GuiSystem guiSystem){
         this.guiSystem = guiSystem;
@@ -44,7 +45,7 @@ public class GuiAskConnection{
         //Layout
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20, 20, 20 , 20));
-        layout.getChildren().addAll(choiceBox, button, userName);
+        layout.getChildren().addAll(choiceBox, button, userName, IP);
 
         Label label = new Label();
         label.setText("Set your data");
@@ -65,6 +66,7 @@ public class GuiAskConnection{
         }
 
         guiSystem.setUserName( userName.getText());
+        guiSystem.setIP( IP.getText());
         closeWindow();
     }
 
