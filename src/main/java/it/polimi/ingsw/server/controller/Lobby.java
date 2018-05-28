@@ -1,10 +1,18 @@
 package it.polimi.ingsw.server.controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import static java.lang.System.*;
@@ -43,16 +51,59 @@ public class Lobby {
     }
 
     /**
+     * Find if same username is already logged
+     * @param username != null
+     * @return true if new username, false if already taken
+     */
+    private synchronized boolean nameLookup(String username) {
+        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PlayerLog.json";
+        JsonParser parser = new JsonParser();
+        JsonArray objArray;
+
+        try {
+            objArray = (JsonArray) parser.parse(new FileReader(infoPath));
+
+            for (JsonElement o : objArray) {
+                if (o.getAsString().equals(username))
+                    return false;
+            }
+
+        } catch (FileNotFoundException e) {
+            out.println(e.getMessage());
+            return false;
+        }
+
+        try (JsonWriter writer = new JsonWriter(new FileWriter(infoPath))) {
+
+            writer.beginArray();
+            for (JsonElement o : objArray) {
+                writer.value(o.getAsString());
+            }
+            writer.value(username);
+            writer.endArray();
+
+        } catch (IOException e) {
+            out.println(e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Add player to the Lobby, first connection or reconnection
      * @param username != null
      * @param speaker instanceof ClientSpeaker
      * @throws GameAlreadyStartedException when trying to enter after game has started
      * @throws TooManyPlayersException when adding a player on full lobby, 4 player
      */
-    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, TooManyPlayersException {
+    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, TooManyPlayersException, SamePlayerException {
         if (disconnectedPlayer.get(username) != null)       // if player has been disconnected
             reconnectPlayer(username);
         else {
+            if (!nameLookup(username))
+                throw new SamePlayerException();
+
             if (gameStarted)
                 throw new GameAlreadyStartedException();
 

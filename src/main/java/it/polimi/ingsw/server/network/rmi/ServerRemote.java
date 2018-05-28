@@ -4,8 +4,6 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
-import it.polimi.ingsw.server.controller.Lobby;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -35,7 +33,6 @@ public interface ServerRemote extends Remote {
      * @throws RemoteException default
      * @throws TooManyPlayersException when trying to login more than 4 player together
      * @throws GameAlreadyStartedException when trying to login after game already started
-     * @throws SamePlayerException when trying to login same player twice
      */
     void addPlayer(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 

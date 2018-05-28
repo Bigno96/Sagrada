@@ -46,7 +46,7 @@ public class SocketServerListener implements Runnable {
     }
 
     /**
-     * Find if s is the print of an Exception. Print s anyway.
+     * Find if s is the print of an Exception.
      * @param s != null
      * @return true if it was a string coming from an Exception, false else
      */
@@ -63,8 +63,6 @@ public class SocketServerListener implements Runnable {
             view.print("Too many players in Lobby");
             return false;
         }
-        else
-            view.print(s);
 
         return true;
     }
