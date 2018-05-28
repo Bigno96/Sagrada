@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.net.*;
 import java.io.*;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -76,56 +77,10 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
             out.println(e.getMessage());
         }
 
-        socketOut.println(parse);
+        socketOut.println("print");
+        socketOut.println("Connection Established");            // notify client the connection
+        socketOut.flush();
 
-        if (nameLookup(username)) {
-            socketOut.println("Connection Established");            // notify client the connection
-            socketOut.flush();
-        }
-        else {
-            socketOut.println("SamePlayerException");
-            socketOut.flush();
-        }
-    }
-
-    /**
-     * Find if same username is already logged
-     * @param username != null
-     * @return true if new username, false if already taken
-     */
-    private synchronized boolean nameLookup(String username) {
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PlayerLog.json";
-        JsonParser parser = new JsonParser();
-        JsonArray objArray;
-
-        try {
-            objArray = (JsonArray) parser.parse(new FileReader(infoPath));
-
-            for (JsonElement o : objArray) {
-                if (o.getAsString().equals(username))
-                    return false;
-            }
-
-        } catch (FileNotFoundException e) {
-            out.println(e.getMessage());
-            return false;
-        }
-
-        try (JsonWriter writer = new JsonWriter(new FileWriter(infoPath))) {
-
-            writer.beginArray();
-            for (JsonElement o : objArray) {
-                writer.value(o.getAsString());
-            }
-            writer.value(username);
-            writer.endArray();
-
-        } catch (IOException e) {
-            out.println(e.getMessage());
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -171,6 +126,11 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
 
     }
 
+    @Override
+    public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
+    }
+
     /**
      * Add player to the Lobby. Catch and flush exception messages.
      * @param username to be logged in
@@ -178,6 +138,11 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
     private synchronized void addPlayer(String username) {
         try {
             lobby.addPlayerLobby(username, this);
+
+        } catch (SamePlayerException e) {
+            socketOut.println(parse);
+            socketOut.println("SamePlayerException");
+            socketOut.flush();
 
         } catch (GameAlreadyStartedException e) {
             socketOut.println(parse);

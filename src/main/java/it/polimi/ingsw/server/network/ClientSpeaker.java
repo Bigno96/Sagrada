@@ -6,6 +6,7 @@ import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.io.FileNotFoundException;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public interface ClientSpeaker {
@@ -24,4 +25,6 @@ public interface ClientSpeaker {
     boolean ping();
 
     void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+
+    void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
 }

@@ -48,18 +48,11 @@ class CliAskConnection {
         Boolean exit;
 
         do {
-            try {
-                exit = serverSpeaker.login(userName);
+            exit = serverSpeaker.login(userName);
 
-                if (!exit) {
-                    out.println("\nSomething went wrong\n Please insert your user Name again");
-                    userName = inKeyboard.nextLine();
-                }
-
-            } catch (SamePlayerException e) {               // player with the same name already logged
-                out.println(" Please insert new one");
+            if (!exit) {
+                out.println(" Please insert your user Name again");
                 userName = inKeyboard.nextLine();
-                exit = false;
             }
 
         } while (!exit);

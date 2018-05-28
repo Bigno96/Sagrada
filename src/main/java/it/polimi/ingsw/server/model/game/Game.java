@@ -85,6 +85,7 @@ public class Game extends Observable {
             logger.info(e.getMessage());
         }
 
+        chooseWindowCardObserver.getCardController().setPoolCards(poolCards);
         chooseWindowCardObserver.update(this, poolCards);
     }
 

@@ -27,7 +27,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
     public SocketServerSpeaker(String ip, ViewInterface view) {
         this.view = view;
         this.ip = ip;
-        this.logged = false;
+        this.logged = true;
         this.go = new Semaphore(0, true);
     }
 
@@ -76,12 +76,6 @@ public class SocketServerSpeaker implements ServerSpeaker{
 
             go.acquire();
 
-            synchronized (this) {
-                socketOut.println("print");
-                socketOut.println("User " + username + " successfully connected");      // print on server the success
-                socketOut.flush();
-            }
-
             return true;
 
         } catch(IOException | InterruptedException e) {
@@ -93,10 +87,9 @@ public class SocketServerSpeaker implements ServerSpeaker{
     /**
      * @param username != null
      * @return true if connection was successful, false else
-     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean login(String username) throws SamePlayerException {
+    public boolean login(String username) {
         try {
             synchronized (this) {
                 socketOut = new PrintWriter(socket.getOutputStream());
@@ -108,8 +101,9 @@ public class SocketServerSpeaker implements ServerSpeaker{
 
             go.acquire();
 
-            if (!logged)
-                throw new SamePlayerException();
+            if (!logged) {
+                return false;
+            }
 
             synchronized (this) {
                 socketOut.println("print");

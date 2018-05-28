@@ -3,12 +3,8 @@ package it.polimi.ingsw.client.network.rmi;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
-import java.io.FileNotFoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -53,8 +49,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
             Registry registry = LocateRegistry.getRegistry(ip, 4500);
             server = (ServerRemote) registry.lookup("Server_Interface");        // find remote interface
 
-            server.connect(username, client);                                             // logs to server
-            server.tell("User " + username + " successfully connected");            // tells logged successfully
+            server.connect(username, client);
 
             return true;
 
@@ -67,14 +62,17 @@ public class RmiServerSpeaker implements ServerSpeaker {
     /**
      * @param username != null
      * @return true if login was successful, false else
-     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean login(String username) throws SamePlayerException {
+    public boolean login(String username) {
         try {
             server.addPlayer(username, client);                             // add this player to a game Lobby
             server.tell("User " + username + " successfully logged in");
             return true;
+
+        } catch (SamePlayerException e) {
+            view.print("An user with the same name already logged");
+            return false;
 
         } catch (TooManyPlayersException e) {
             view.print("Too many players in Lobby");
