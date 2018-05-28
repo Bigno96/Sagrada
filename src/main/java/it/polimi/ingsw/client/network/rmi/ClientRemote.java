@@ -35,4 +35,6 @@ public interface ClientRemote extends Remote {
     String getUsername() throws RemoteException;
 
     void chooseWindowCard(List<WindowCard> cards) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+
+    void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
 }

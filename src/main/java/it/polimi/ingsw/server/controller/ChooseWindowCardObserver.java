@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.io.FileNotFoundException;
+import java.rmi.RemoteException;
 import java.util.*;
 
 import static java.lang.System.*;
@@ -16,9 +17,11 @@ import static java.lang.System.*;
 public class ChooseWindowCardObserver implements Observer {
 
     private Lobby lobby;
+    private WindowCardController cardController;
 
     public ChooseWindowCardObserver(Lobby lobby){
         this.lobby = lobby;
+        cardController = new WindowCardController();
     }
 
     @SuppressWarnings("unchecked")
@@ -37,17 +40,22 @@ public class ChooseWindowCardObserver implements Observer {
     }
 
     public void notify(String userName, String name){
-        WindowFactory windFact = new WindowFactory();
         (lobby.getPlayers()).forEach((key, value) -> {
            if (key.equals(userName)){
-               try {
-                   value.setWindowCard(windFact.getWindow(name));
-               } catch (FileNotFoundException | IDNotFoundException | ValueException | PositionException e) {
-                   e.printStackTrace();
-               }
+               value.setWindowCard(cardController.checkChoiceWindowCard(userName, name));
            }else{
                //notify other users
+               ClientSpeaker client = lobby.getSpeaker(lobby.getPlayers().get(key));
+               try {
+                   client.showCardPlayer(key, cardController.checkChoiceWindowCard(userName, name));
+               } catch (RemoteException | FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
+                   e.printStackTrace();
+               }
            }
         });
+    }
+
+    public WindowCardController getCardController() {
+        return cardController;
     }
 }

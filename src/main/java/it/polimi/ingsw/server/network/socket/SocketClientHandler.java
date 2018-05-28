@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.net.*;
 import java.io.*;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -122,6 +123,11 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
+    }
+
+    @Override
+    public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
 
     }
 
