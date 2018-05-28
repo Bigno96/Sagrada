@@ -188,17 +188,39 @@ public class CliSystem implements ViewInterface {
         do{
             s = input.nextLine();
             if (s.equals("p")){
+
+                int index, row, col;
+
                 //place a dice (show personal window card and draft to choose dice)
+
                 print("This is the draft, choose the dice entering the number of the dice: ");
                 serverSpeaker.askDraft();
-                int index = Integer.parseInt(input.nextLine());
+                try{
+                    index = Integer.parseInt(input.nextLine());
+                }catch (NumberFormatException e){
+                    print("Insert a number!");
+                    index = Integer.parseInt(input.nextLine());
+                }
+
                 print("This is your window card, choose the position where do you want to place the dice: ");
                 serverSpeaker.askWindowCard(userName);
                 print("Row: ");
-                int row = Integer.parseInt(input.nextLine());
+                try{
+                    row = Integer.parseInt(input.nextLine());
+                }catch (NumberFormatException e){
+                    print("Insert a number!");
+                    row = Integer.parseInt(input.nextLine());
+                }
                 print("Column: ");
-                int col = Integer.parseInt(input.nextLine());
+                try{
+                    col = Integer.parseInt(input.nextLine());
+                }catch (NumberFormatException e){
+                    print("Insert a number!");
+                    col = Integer.parseInt(input.nextLine());
+                }
+
                 serverSpeaker.moveDiceFromDraftToCard(index, row, col);
+
                 played = true;
             }/*else if (s.equals("t")){
                 //use tool card (show tool cards and choose which one use)
