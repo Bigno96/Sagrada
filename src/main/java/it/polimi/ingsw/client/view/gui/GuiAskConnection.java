@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.gui;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,20 +9,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.net.Socket;
-
 public class GuiAskConnection{
 
-    private boolean RMIConnection;
-    private boolean socketConnetion;
+    private GuiSystem guiSystem;
 
     Stage LoginWindow;
 
-    public GuiAskConnection(){
-        RMIConnection = false;
+    public GuiAskConnection(GuiSystem guiSystem){
+        this.guiSystem = guiSystem;
     }
 
-    public String display(Stage window){
+    public void display(Stage window){
 
         LoginWindow = window;
 
@@ -52,25 +48,20 @@ public class GuiAskConnection{
         window.setScene(scene);
         window.show();
 
-        if(socketConnetion) {
-            return "Socket";
-        } else {
-            return "RMI";
-        }
     }
 
     //Set Connection
     private void getChoice(ChoiceBox<String> choiceBox){
         if(choiceBox.getValue().equals("RMI")){
-            RMIConnection = true;
+            guiSystem.setConnection("RMI");
         } else {
-            socketConnetion = true;
+            guiSystem.setConnection("Socket");
         }
         closeWindow();
     }
 
     private void closeWindow(){
-
         LoginWindow.close();
     }
+
 }

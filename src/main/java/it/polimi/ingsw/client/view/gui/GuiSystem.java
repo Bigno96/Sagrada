@@ -40,13 +40,15 @@ import static java.lang.System.out;
 public class GuiSystem extends Application implements ViewInterface{
 
     private Stage window;
+    private GuiAskConnection connectionWindow;
     private GuiLogin loginWindow;
     private String connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
+    private Scene userNameScene;
 
     public GuiSystem() {
-        connection = new String();
+        //connection = new String();
     }
 
     @Override
@@ -55,31 +57,30 @@ public class GuiSystem extends Application implements ViewInterface{
         window.setTitle("Sagrada");
         Button button = new Button("Play");
 
-        button.setOnAction(e -> displayLoginPage());
+        button.setOnAction(e -> displayAskConnection());
 
         //Layout
         VBox layout = new VBox(10);
         layout.getChildren().addAll(button);
         layout.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(layout, 300, 100);
-        window.setScene(scene);
+        Scene initScene = new Scene(layout, 300, 100);
+        window.setScene(initScene);
         window.show();
     }
 
-    private void displayLoginPage() {
+    private void displayAskConnection() {
 
         Platform.runLater(() -> {
-            GuiAskConnection connectionWindows = new GuiAskConnection();
+            GuiAskConnection connectionWindows = new GuiAskConnection(this);
             Stage window = new Stage();
             try {
-                connection = connectionWindows.display(window);
+                connectionWindows.display(window);
             } catch (Exception e) {
                 out.println(e.getMessage());
             }
 
         });
-
     }
 
 
@@ -143,4 +144,11 @@ public class GuiSystem extends Application implements ViewInterface{
 
     }
 
+    public String getConnection() {
+        return connection;
+    }
+
+    public void setConnection(String connection) {
+        this.connection = connection;
+    }
 }
