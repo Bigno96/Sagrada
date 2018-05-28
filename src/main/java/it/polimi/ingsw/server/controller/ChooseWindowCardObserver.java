@@ -8,11 +8,11 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
-public class ChooseWindowCardObserver extends Observable {
+import static java.lang.System.*;
+
+public class ChooseWindowCardObserver implements Observer {
 
     private Lobby lobby;
 
@@ -20,10 +20,18 @@ public class ChooseWindowCardObserver extends Observable {
         this.lobby = lobby;
     }
 
-    public void notifyClients(HashMap<Player, List<WindowCard>> poolCards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-        for (Player p: poolCards.keySet()){
-            ClientSpeaker client = lobby.getSpeaker(p);
-            client.chooseWindowCard(poolCards.get(p));
+    @SuppressWarnings("unchecked")
+    @Override
+    public void update(Observable o, Object poolCards) {
+        if (poolCards instanceof HashMap) {
+            ((HashMap<Player, List<WindowCard>>) poolCards).forEach((key, value) -> {
+                ClientSpeaker client = lobby.getSpeaker(key);
+                try {
+                    client.chooseWindowCard(value);
+                } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
+                    out.println(e.getMessage());
+                }
+            });
         }
     }
 }

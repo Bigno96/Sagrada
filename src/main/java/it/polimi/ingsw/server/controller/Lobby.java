@@ -109,7 +109,7 @@ public class Lobby {
         for (Map.Entry<String,ClientSpeaker> entry : speakers.entrySet()) {   // for every player in the lobby
             entry.getValue().tell("Game timer is on: 3 minutes before game starts");
         }
-        preGameTimer.schedule(new StartGame(players, speakers, disconnectedPlayer, game, this), 60000);
+        preGameTimer.schedule(new StartGame(players, speakers, disconnectedPlayer, game, this), 180000);
     }
 
     /**
@@ -128,8 +128,8 @@ public class Lobby {
      * @param username lobby.contains(username)
      */
     private synchronized void reconnectPlayer(String username) {
-        disconnectedPlayer.remove(username);
         disconnectedPlayer.get(username).purge();
+        disconnectedPlayer.remove(username);
         speakers.get(username).tell("Welcome back " + username);
     }
 

@@ -44,6 +44,10 @@ public class RmiClientSpeaker implements ClientSpeaker {
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-        client.chooseWindowCard(cards);
+        try {
+            client.chooseWindowCard(cards);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 }

@@ -13,7 +13,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
+
+import static java.lang.System.*;
 
 public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
@@ -94,7 +95,11 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         WindowFactory winFact = new WindowFactory();
         WindowCard window = winFact.getWindow(name);
-        server.setWindowCard(window, username);
+        try {
+            server.setWindowCard(window, username);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 
     @Override

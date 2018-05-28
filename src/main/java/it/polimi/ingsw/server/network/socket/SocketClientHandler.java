@@ -14,7 +14,6 @@ import java.io.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.concurrent.Semaphore;
 
 import static java.lang.System.*;
 
@@ -24,12 +23,11 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
     private PrintWriter socketOut;
     private Lobby lobby;
     private static String parse = "parseException";
-    private final Semaphore ping;
+    private Boolean pinged;
 
     SocketClientHandler(Socket socket, Lobby lobby) {
         this.lobby = lobby;
         this.socket = socket;
-        ping = new Semaphore(0, true);
     }
 
     @Override
@@ -48,7 +46,7 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
                         out.println(socketIn.nextLine());
                     }
                     else if (command.equals("pong")) {
-                        ping.release();
+                        pinged=true;
                     }
                     else if (command.equals("connect")) {
                         String username = socketIn.nextLine();
@@ -148,12 +146,17 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
     @Override
     public boolean ping() {
         try {
+            pinged = false;
+
             socketOut = new PrintWriter(socket.getOutputStream());
             socketOut.println("ping");
             socketOut.flush();
 
-            ping.acquire();
-            return true;
+            synchronized (this) {
+                wait(2000);
+            }
+
+            return pinged;
 
         } catch (IOException | NoSuchElementException e) {
             return false;

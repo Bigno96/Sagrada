@@ -48,11 +48,8 @@ public class StartGame extends TimerTask {
         }
 
         lobby.setGameStarted();
-        try {
-            game.startGame();                               // start game
-        } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
-            e.printStackTrace();
-        }
+        game.startGame();                               // start game
+
         this.cancel();
     }
 }

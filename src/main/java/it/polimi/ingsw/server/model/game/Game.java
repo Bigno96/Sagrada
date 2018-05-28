@@ -45,7 +45,7 @@ public class Game extends Observable {
     /**
      * Initialization
      */
-    public void startGame() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void startGame() {
 
         round = new Round(playerList);
         try {
@@ -62,11 +62,11 @@ public class Game extends Observable {
         loadWindowCard();
     }
 
-    public void loadWindowCard() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void loadWindowCard() {
         int id1;
         int id2;
         List<Integer> vetID = new ArrayList<>();
-        List<WindowCard> cards = new ArrayList<>();
+        List<WindowCard> cards;
         WindowFactory winFact = new WindowFactory();
         HashMap<Player, List<WindowCard>> poolCards = new HashMap<>();
 
@@ -85,7 +85,7 @@ public class Game extends Observable {
             logger.info(e.getMessage());
         }
 
-        chooseWindowCardObserver.notifyClients(poolCards);
+        chooseWindowCardObserver.update(this, poolCards);
     }
 
     public void loadPublObj() {
