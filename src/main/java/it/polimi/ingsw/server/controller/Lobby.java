@@ -88,7 +88,7 @@ public class Lobby {
 
     private void startDisconnectionDaemon() {
         Timer daemonTimer = new Timer();
-        daemonTimer.scheduleAtFixedRate(new CheckDisconnectionDaemon(speakers, disconnectedPlayer, this), 0, 5000);
+        daemonTimer.scheduleAtFixedRate(new CheckDisconnectionDaemon(speakers, disconnectedPlayer, this), 0, 1000);
     }
 
     /**
