@@ -1,6 +1,8 @@
 package it.polimi.ingsw.servertest.modeltest.toolcardtest;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
 import it.polimi.ingsw.server.model.dicebag.Draft;
@@ -26,7 +28,7 @@ public class ToolFactoryTest extends TestCase {
         super(testName);
     }
 
-    public void testMakeToolCard() throws FileNotFoundException, IDNotFoundException {
+    public void testMakeToolCard() throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {
         ToolCard tool;
         game.startGame();
 

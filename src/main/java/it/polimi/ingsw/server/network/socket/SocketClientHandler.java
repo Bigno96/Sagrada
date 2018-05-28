@@ -4,13 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
-import it.polimi.ingsw.exception.GameAlreadyStartedException;
-import it.polimi.ingsw.exception.TooManyPlayersException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.controller.Lobby;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.net.*;
 import java.io.*;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
@@ -160,6 +161,11 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
             Thread.currentThread().interrupt();
             return false;
         }
+    }
+
+    @Override
+    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
     }
 
     /**

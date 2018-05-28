@@ -1,8 +1,6 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
-import it.polimi.ingsw.exception.EmptyException;
-import it.polimi.ingsw.exception.PlayerNotFoundException;
-import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import junit.framework.TestCase;
@@ -11,6 +9,7 @@ import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Round;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class GameTest extends TestCase {
         super(testName);
     }
 
-    public void testGetter() throws SamePlayerException {
+    public void testGetter() throws SamePlayerException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);
@@ -55,7 +54,7 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testStartGame() throws SamePlayerException {
+    public void testStartGame() throws SamePlayerException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);
@@ -107,7 +106,7 @@ public class GameTest extends TestCase {
         assertThrows(PlayerNotFoundException.class, () -> game.findPlayer(pDiff));
     }
 
-    public void testCurrentPlayer() throws SamePlayerException {
+    public void testCurrentPlayer() throws SamePlayerException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);

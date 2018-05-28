@@ -2,15 +2,18 @@ package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
-import it.polimi.ingsw.exception.GameAlreadyStartedException;
-import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.exception.TooManyPlayersException;
+import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.server.model.game.Player;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
+import java.io.FileNotFoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 
 public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
@@ -88,8 +91,10 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void setWindowCard(String name) {
-
+    public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+        WindowFactory winFact = new WindowFactory();
+        WindowCard window = winFact.getWindow(name);
+        server.setWindowCard(window, username);
     }
 
     @Override

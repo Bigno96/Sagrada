@@ -12,6 +12,7 @@ import static java.lang.System.*;
 public class Lobby {
 
     private Game game;
+    private ChooseWindowCardObserver chooseWindowCardObserver;
     private HashMap<String, Player> players;
     private HashMap<String, ClientSpeaker> speakers;
     private int nPlayer;
@@ -20,7 +21,8 @@ public class Lobby {
     private HashMap<String, Timer> disconnectedPlayer;
 
     public Lobby() {
-        game = new Game();
+        game = new Game(chooseWindowCardObserver);
+        chooseWindowCardObserver = new ChooseWindowCardObserver(this);
         players = new HashMap<>();
         speakers = new HashMap<>();
         nPlayer = 1;
@@ -96,7 +98,7 @@ public class Lobby {
         players.clear();
         speakers.clear();
         nPlayer = 1;
-        game = new Game();
+        game = new Game(chooseWindowCardObserver);
         disconnectedPlayer.clear();
     }
 
@@ -131,5 +133,8 @@ public class Lobby {
         speakers.get(username).tell("Welcome back " + username);
     }
 
+    public Lobby getLobby(){
+        return this;
+    }
 
 }

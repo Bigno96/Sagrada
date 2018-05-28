@@ -1,9 +1,15 @@
 package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.client.view.ViewInterface;
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
+import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote {
 
@@ -45,5 +51,10 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    @Override
+    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+       view.chooseWindowCard(cards);
     }
 }

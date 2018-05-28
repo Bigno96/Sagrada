@@ -1,6 +1,11 @@
 package it.polimi.ingsw.client.network;
 
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.ValueException;
+
+import java.io.FileNotFoundException;
 
 public interface ServerSpeaker {
     // interface to hide network difference in comm Client -> Server
@@ -26,7 +31,7 @@ public interface ServerSpeaker {
      */
     boolean login(String username);
 
-    void setWindowCard(String name);
+    void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException;
 
     void askWindowCard(String username);
 

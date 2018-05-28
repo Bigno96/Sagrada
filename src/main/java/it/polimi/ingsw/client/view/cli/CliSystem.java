@@ -9,6 +9,8 @@ import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
+
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -42,7 +44,7 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException {
+    public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException {
 
         int pick;
         inKeyboard = new Scanner(in);
@@ -57,7 +59,7 @@ public class CliSystem implements ViewInterface {
 
         pick--;
 
-        serverSpeaker.setWindowCard(cards.get(pick).getName());
+        serverSpeaker.setWindowCard(userName, cards.get(pick).getName());
 
     }
 

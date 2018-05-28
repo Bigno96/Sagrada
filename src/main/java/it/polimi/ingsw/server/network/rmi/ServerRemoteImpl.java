@@ -7,6 +7,8 @@ import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
 import it.polimi.ingsw.server.controller.Lobby;
+import it.polimi.ingsw.server.model.game.Player;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.io.FileNotFoundException;
@@ -14,6 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static java.lang.System.*;
 
@@ -104,5 +107,17 @@ public class ServerRemoteImpl implements ServerRemote {
         ClientSpeaker speaker = new RmiClientSpeaker(client);
         lobby.addPlayerLobby(username, speaker);
     }
+
+    @Override
+    public void setWindowCard(WindowCard window, String userName) {
+        /*List<Player> players = lobby.getGame().getPlayerList();
+        for (Player p: players)
+            if (p.getId().equals(userName))
+                p.setWindowCard(window);
+        */
+        //notify other users
+    }
+
+
 
 }

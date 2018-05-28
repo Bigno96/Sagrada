@@ -1,10 +1,14 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -44,7 +48,11 @@ public class StartGame extends TimerTask {
         }
 
         lobby.setGameStarted();
-        game.startGame();                               // start game
+        try {
+            game.startGame();                               // start game
+        } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
+            e.printStackTrace();
+        }
         this.cancel();
     }
 }

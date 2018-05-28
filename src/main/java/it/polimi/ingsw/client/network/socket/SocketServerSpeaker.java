@@ -2,8 +2,12 @@ package it.polimi.ingsw.client.network.socket;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.ValueException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -122,7 +126,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
-    public void setWindowCard(String name) {
+    public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
 
     }
 
