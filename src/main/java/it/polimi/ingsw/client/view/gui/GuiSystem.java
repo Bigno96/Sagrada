@@ -151,4 +151,12 @@ public class GuiSystem extends Application implements ViewInterface{
     public void setConnection(String connection) {
         this.connection = connection;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
