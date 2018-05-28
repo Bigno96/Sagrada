@@ -20,6 +20,7 @@ public interface ViewInterface {
     // saves in the hashmap the choice of the window card made by the user who is passed. user -> username player who has picked the window card. card -> the window card that has been chosen by the user passed
     void showCardPlayer(String user, WindowCard card) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException;
     void printWindowCard(WindowCard window) throws IDNotFoundException;
+    void printUsers(List<String> users);
     void printPrivObj(PrivateObjective privObj); // privObj -> private objective of the user
     void printPublObj(List<PublicObjective> publObj); // publObj -> list of public objectives of the game
     void setRound(); // increment local variable of num round in the graphic system

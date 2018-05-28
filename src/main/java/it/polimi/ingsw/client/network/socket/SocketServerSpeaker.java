@@ -127,6 +127,31 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
+    public void askWindowCard(String username) {
+
+    }
+
+    @Override
+    public void askUsers(String currUser) {
+
+    }
+
+    @Override
+    public void askDraft() {
+
+    }
+
+    @Override
+    public void askPublObj() {
+
+    }
+
+    @Override
+    public void askPrivObj(String username) {
+
+    }
+
+    @Override
     public void endTurn(String username) {
 
     }

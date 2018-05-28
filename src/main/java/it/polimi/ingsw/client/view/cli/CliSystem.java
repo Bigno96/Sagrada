@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +26,8 @@ public class CliSystem implements ViewInterface {
     private int numRound;
     private HashMap<String, ServerSpeaker> connParam;
     private boolean playing;
+    private boolean waiting;
+    private boolean played;
 
     public CliSystem() {
         connection = new CliAskConnection();
@@ -87,6 +88,12 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
+    public void printUsers(List<String> users) {
+        for(String user: users)
+            out.print(user + "\t");
+    }
+
+    @Override
     public void printPrivObj(PrivateObjective privObj) {
         print("Your private objective is: " + privObj.getDescr());
     }
@@ -108,10 +115,13 @@ public class CliSystem implements ViewInterface {
     public void isTurn (String username){
         if (userName.equals(username)) {
             print("It is your turn!");
-            //askMove();
+            waiting = false;
+            played = false;
+            askMove();
         }else {
             print("It is the turn of: " + username);
-            //askWaiting();
+            waiting = true;
+            askWaiting();
         }
     }
 
@@ -129,13 +139,78 @@ public class CliSystem implements ViewInterface {
         print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
-    /*public void askWaiting() { // action user can do while he is waiting
+    public void askWaiting() { // action user can do while he is waiting
 
+        do {
+            print("You are waiting, what you want to do:");
+            print("w - see your window card");
+            print("o - see window card of another player");
+            print("d - see draft");
+            print("p - see public objectives");
+            print("q - see your private objective");
+            /*print("t - see tool cards");
+            print("f - see how many favor points you have left");*/
+
+            Scanner input = new Scanner(System.in);
+            String s = input.nextLine();
+
+            if (s.equals("w")){
+                serverSpeaker.askWindowCard(userName); //see personal window card
+            }else if (s.equals("o")){
+                print("Insert the name of the user whom you want to see the window card between these:");
+                serverSpeaker.askUsers(userName);
+                String user = input.nextLine();
+                serverSpeaker.askWindowCard(user); //see window card other player
+            }else if (s.equals("d")){
+                serverSpeaker.askDraft(); //see draft
+            }else if (s.equals("p")){
+                serverSpeaker.askPublObj(); //see public objective
+            }else if (s.equals("q")){
+                serverSpeaker.askPrivObj(userName); //see private objective
+            }/*else if (s.equals("t")){
+                serverSpeaker.askToolCards(); //see tool card
+            }else if (s.equals("f")){
+                serverSpeaker.askFavorPoints(); //see favor points
+            }*/else{
+                print("Incorrect choice!");
+            }
+
+        }while (waiting);
     }
 
     public void askMove(){ // action user can do while is playing
+        print("What move do you want to make:");
+        print("p - place a dice from the draft");
+        //print("t - use a tool card");
 
-    }*/
+        Scanner input = new Scanner(System.in);
+        String s;
+        do{
+            s = input.nextLine();
+            if (s.equals("p")){
+                //place a dice (show personal window card and draft to choose dice)
+                print("This is the draft, choose the dice entering the number of the dice: ");
+                serverSpeaker.askDraft();
+                int index = Integer.parseInt(input.nextLine());
+                print("This is your window card, choose the position where do you want to place the dice: ");
+                serverSpeaker.askWindowCard(userName);
+                print("Row: ");
+                int row = Integer.parseInt(input.nextLine());
+                print("Column: ");
+                int col = Integer.parseInt(input.nextLine());
+                serverSpeaker.moveDiceFromDraftToCard(index, row, col);
+                played = true;
+            }/*else if (s.equals("t")){
+                //use tool card (show tool cards and choose which one use)
+                played = true;
+            }*/else{
+                print("Incorrect choice!");
+            }
+        }while (!played);
+
+        serverSpeaker.endTurn(userName);
+
+    }
 
     public void startGraphic() {
 

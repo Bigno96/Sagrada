@@ -28,6 +28,16 @@ public interface ServerSpeaker {
 
     void setWindowCard(String name);
 
+    void askWindowCard(String username);
+
+    void askUsers(String currUser);
+
+    void askDraft();
+
+    void askPublObj();
+
+    void askPrivObj(String username);
+
     void endTurn(String username);
 
     void moveDiceFromDraftToCard(int index, int row, int col);
