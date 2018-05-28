@@ -59,19 +59,20 @@ public class ClientMain extends Application {
                         try {
                             ((GuiSystem) graphic).start(window);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                           out.println(e.getMessage());
                         }
                         try {
                             graphic.startGraphic();
                         } catch (FileNotFoundException | ValueException | PositionException | IDNotFoundException e) {
-                            e.printStackTrace();
+                            out.println(e.getMessage());
                         }
 
                     });
                     try {
                         TimeUnit.SECONDS.sleep(5);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
+                        out.println(e.getMessage());
                     }
                     out.println("GUI graphic chosen");
                     break;

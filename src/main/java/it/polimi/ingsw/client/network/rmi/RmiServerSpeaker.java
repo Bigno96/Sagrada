@@ -44,10 +44,9 @@ public class RmiServerSpeaker implements ServerSpeaker {
     /**
      * @param username != null
      * @return true if connection was successful, false else
-     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean connect(String username) throws SamePlayerException {
+    public boolean connect(String username) {
         view.print("Trying to connect to " + ip);
 
         try {
@@ -68,9 +67,10 @@ public class RmiServerSpeaker implements ServerSpeaker {
     /**
      * @param username != null
      * @return true if login was successful, false else
+     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean login(String username) {
+    public boolean login(String username) throws SamePlayerException {
         try {
             server.addPlayer(username, client);                             // add this player to a game Lobby
             server.tell("User " + username + " successfully logged in");
@@ -92,7 +92,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, RemoteException {
+    public void setWindowCard(String username, String name) throws RemoteException {
         server.setWindowCard(username, name);
     }
 

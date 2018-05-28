@@ -39,16 +39,21 @@ class CliAskConnection {
             serverSpeaker = new RmiServerSpeaker(ip, userName, cli);             // delegate to a rmi connection
         }
 
+        while (!serverSpeaker.connect(userName)) {
+            out.println("\nNo server listening on given ip.\n Please insert new one");  // ip didn't connected
+            ip = requestIp();
+            serverSpeaker.setIp(ip);
+        }
+
         Boolean exit;
 
         do {
             try {
-                exit = serverSpeaker.connect(userName);                   // connect to server
+                exit = serverSpeaker.login(userName);
 
-                if (!exit) {                                    // ip didn't connected
-                    out.println("\nNo server listening on given ip.\n Please insert new one");
-                    ip = requestIp();
-                    serverSpeaker.setIp(ip);
+                if (!exit) {
+                    out.println("\nSomething went wrong\n Please insert your user Name again");
+                    userName = inKeyboard.nextLine();
                 }
 
             } catch (SamePlayerException e) {               // player with the same name already logged
@@ -58,11 +63,6 @@ class CliAskConnection {
             }
 
         } while (!exit);
-
-        while (!serverSpeaker.login(userName)) {                         // login to the lobby
-            out.println("\nInsert your user Name");
-            userName = inKeyboard.nextLine();
-        }
 
         connParam.put(userName, serverSpeaker);
 

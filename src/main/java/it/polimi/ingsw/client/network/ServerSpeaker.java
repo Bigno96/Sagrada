@@ -21,16 +21,16 @@ public interface ServerSpeaker {
      * Used to connect client to server. No control on username yet.
      * @param username != null
      * @return true if connection was successful, false else
-     * @throws SamePlayerException when trying to login same player twice
      */
-    boolean connect(String username) throws SamePlayerException;
+    boolean connect(String username);
 
     /**
      * Used to login client to server. Username and other restrictions are controlled.
      * @param username != null
      * @return true if login was successful, false else
+     * @throws SamePlayerException when trying to login same player twice
      */
-    boolean login(String username);
+    boolean login(String username) throws SamePlayerException;
 
     void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, RemoteException;
 

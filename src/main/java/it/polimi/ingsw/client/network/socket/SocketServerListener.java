@@ -35,7 +35,7 @@ public class SocketServerListener implements Runnable {
                         view.print(socketIn.nextLine());
                         go.release();
                     } else if (command.equals("parseException")) {
-                        speaker.setConnected(parseException(socketIn.nextLine()));
+                        speaker.setLogged(parseException(socketIn.nextLine()));
                         go.release();
                     }
                 }

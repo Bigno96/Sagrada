@@ -28,7 +28,6 @@ public class CliSystem implements ViewInterface {
     private Scanner inKeyboard;
     private int numRound;
     private HashMap<String, ServerSpeaker> connParam;
-    private boolean playing;
     private boolean waiting;
     private boolean played;
 
@@ -37,6 +36,14 @@ public class CliSystem implements ViewInterface {
         connParam = new HashMap<>();
         inKeyboard = new Scanner(in);
         numRound = 0;
+    }
+
+    public void startGraphic() {
+        connParam = connection.startConnection(this);
+
+        userName = connParam.keySet().iterator().next();
+
+        serverSpeaker = connParam.get(userName);
     }
 
     @Override
@@ -142,7 +149,7 @@ public class CliSystem implements ViewInterface {
         print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
-    public void askWaiting() { // action user can do while he is waiting
+    private void askWaiting() { // action user can do while he is waiting
 
         do {
             print("You are waiting, what you want to do:");
@@ -181,7 +188,7 @@ public class CliSystem implements ViewInterface {
         }while (waiting);
     }
 
-    public void askMove(){ // action user can do while is playing
+    private void askMove(){ // action user can do while is playing
         print("What move do you want to make:");
         print("p - place a dice from the draft");
         //print("t - use a tool card");
@@ -192,7 +199,9 @@ public class CliSystem implements ViewInterface {
             s = input.nextLine();
             if (s.equals("p")){
 
-                int index, row, col;
+                int index;
+                int row;
+                int col;
 
                 //place a dice (show personal window card and draft to choose dice)
 
@@ -235,24 +244,6 @@ public class CliSystem implements ViewInterface {
 
         serverSpeaker.endTurn(userName);
 
-    }
-
-    public void startGraphic() {
-
-        connParam = connection.startConnection(this);
-
-        userName = connParam.keySet().iterator().next();
-
-        serverSpeaker = connParam.get(userName);
-
-        playing = true;
-
-        while (playing);
-
-    }
-
-    public void setPlaying(){
-        playing = false;
     }
 
 }

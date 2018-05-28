@@ -7,8 +7,6 @@ import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
 import it.polimi.ingsw.server.controller.Lobby;
-import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.io.FileNotFoundException;
@@ -16,7 +14,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.List;
 
 import static java.lang.System.*;
 
@@ -31,15 +28,11 @@ public class ServerRemoteImpl implements ServerRemote {
     /**
      * @param username != null
      * @param client instance of ClientRemote, permits server to talk back to client
-     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public synchronized void connect(String username, ClientRemote client) throws SamePlayerException {
+    public synchronized void connect(String username, ClientRemote client) {
         try {
             out.println("User " + client.getUsername() + " is connecting with RMI");
-
-            if (!nameLookup(username))
-                throw new SamePlayerException();
 
             client.tell("Connection established");
 
@@ -101,10 +94,19 @@ public class ServerRemoteImpl implements ServerRemote {
      * @param client instance of ClientRemote
      * @throws TooManyPlayersException when trying to login more than 4 player together
      * @throws GameAlreadyStartedException when trying to login after game already started
+     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public synchronized void addPlayer(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException {
+    public synchronized void addPlayer(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException, SamePlayerException {
         ClientSpeaker speaker = new RmiClientSpeaker(client);
+        if (!nameLookup(username)) {
+            try {
+                client.tell("An user with the same name already logged");
+            } catch (RemoteException e) {
+                out.println(e.getMessage());
+            }
+            throw new SamePlayerException();
+        }
         lobby.addPlayerLobby(username, speaker);
     }
 

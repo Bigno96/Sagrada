@@ -22,12 +22,12 @@ public class SocketServerSpeaker implements ServerSpeaker{
     private PrintWriter socketOut;
     private ViewInterface view;
     private final Semaphore go;
-    private Boolean connected;
+    private Boolean logged;
 
     public SocketServerSpeaker(String ip, ViewInterface view) {
         this.view = view;
         this.ip = ip;
-        this.connected = false;
+        this.logged = false;
         this.go = new Semaphore(0, true);
     }
 
@@ -49,17 +49,16 @@ public class SocketServerSpeaker implements ServerSpeaker{
         socketOut.flush();
     }
 
-    void setConnected(Boolean connected) {
-        this.connected = connected;
+    void setLogged(Boolean logged) {
+        this.logged = logged;
     }
 
     /**
      * @param username != null
      * @return true if connection was successful, false else
-     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean connect(String username) throws SamePlayerException {
+    public boolean connect(String username) {
         view.print("Trying to connect to " + ip);
 
         try {
@@ -76,9 +75,6 @@ public class SocketServerSpeaker implements ServerSpeaker{
             }
 
             go.acquire();
-
-            if (!connected)
-                throw new SamePlayerException();
 
             synchronized (this) {
                 socketOut.println("print");
@@ -97,9 +93,10 @@ public class SocketServerSpeaker implements ServerSpeaker{
     /**
      * @param username != null
      * @return true if connection was successful, false else
+     * @throws SamePlayerException when trying to login same player twice
      */
     @Override
-    public boolean login(String username) {
+    public boolean login(String username) throws SamePlayerException {
         try {
             synchronized (this) {
                 socketOut = new PrintWriter(socket.getOutputStream());
@@ -110,6 +107,9 @@ public class SocketServerSpeaker implements ServerSpeaker{
             }
 
             go.acquire();
+
+            if (!logged)
+                throw new SamePlayerException();
 
             synchronized (this) {
                 socketOut.println("print");

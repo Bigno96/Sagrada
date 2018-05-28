@@ -17,10 +17,9 @@ public interface ServerRemote extends Remote {
      * Used to connect a client to the server.
      * @param username != null
      * @param client instance of ClientRemote, permits server to talk back to client
-     * @throws SamePlayerException when trying to login same player twice
      * @throws RemoteException default
      */
-    void connect(String username, ClientRemote client) throws RemoteException, SamePlayerException;
+    void connect(String username, ClientRemote client) throws RemoteException;
 
     /**
      * Used to print on Server
@@ -36,8 +35,9 @@ public interface ServerRemote extends Remote {
      * @throws RemoteException default
      * @throws TooManyPlayersException when trying to login more than 4 player together
      * @throws GameAlreadyStartedException when trying to login after game already started
+     * @throws SamePlayerException when trying to login same player twice
      */
-    void addPlayer(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException;
+    void addPlayer(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
     void setWindowCard(String userName, String name) throws RemoteException;
 }
