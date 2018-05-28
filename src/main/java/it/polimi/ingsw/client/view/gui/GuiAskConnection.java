@@ -7,16 +7,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.*;
 
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class GuiAskConnection extends Application {
+public class GuiAskConnection{
 
-    private Stage window;
+    Stage LoginWindow;
 
-    @Override
-    public void start(Stage primaryStage){
-        window = primaryStage;
-        window.setTitle("Choose connection");
+    public void display(Stage window){
+
+        LoginWindow = window;
+
+        LoginWindow.initModality(Modality.APPLICATION_MODAL);
+        LoginWindow.setTitle("Choose connection");
         Button button = new Button("Continue");
 
         //ChoiceBoxes
@@ -53,6 +56,6 @@ public class GuiAskConnection extends Application {
 
     private void closeWindow(){
 
-        window.close();
+        LoginWindow.close();
     }
 }

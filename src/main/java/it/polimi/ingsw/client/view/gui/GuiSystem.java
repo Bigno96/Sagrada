@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.in;
+import static java.lang.System.out;
 
 public class GuiSystem extends Application implements ViewInterface{
 
@@ -44,41 +46,40 @@ public class GuiSystem extends Application implements ViewInterface{
     private String userName;
 
     public GuiSystem() {
-        Stage classStage = new Stage();
         connection = new String();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
-        window.setTitle("Choose connection");
-        Button button = new Button("Continue");
+        window.setTitle("Sagrada");
+        Button button = new Button("Play");
 
-        //ChoiceBoxes
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-
-        //getItems
-        choiceBox.getItems().add("RMI");
-        choiceBox.getItems().add("socket");
-
-        //set Default value
-        choiceBox.setValue("RMI");
-
-        //button.setOnAction(e -> getChoice(choiceBox));
+        button.setOnAction(e -> displayLoginPage());
 
         //Layout
         VBox layout = new VBox(10);
-        layout.setPadding(new Insets(20, 20, 20 , 20));
-        layout.getChildren().addAll(choiceBox, button);
+        layout.getChildren().addAll(button);
+        layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout, 300, 100);
         window.setScene(scene);
         window.show();
     }
 
-    public static void display() {
-        Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
+    private void displayLoginPage() {
+
+        Platform.runLater(() -> {
+            GuiAskConnection connectionWindos = new GuiAskConnection();
+            Stage window = new Stage();
+            try {
+                ((GuiAskConnection) connectionWindos).display(window);
+            } catch (Exception e) {
+                out.println(e.getMessage());
+            }
+
+        });
+        /*window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Login");
 
         Label label = new Label();
@@ -96,7 +97,7 @@ public class GuiSystem extends Application implements ViewInterface{
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
+        window.showAndWait();*/
     }
 
     public void setUserName(String userName){
