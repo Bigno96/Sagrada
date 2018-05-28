@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class GuiLogin{
 
     public static void loginStart() {
-       /* Stage window = new Stage();
+        Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Login");
 
@@ -32,7 +32,7 @@ public class GuiLogin{
 
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();*/
+        window.showAndWait();
     }
 
 }

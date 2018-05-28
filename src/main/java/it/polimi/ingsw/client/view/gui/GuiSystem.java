@@ -44,39 +44,28 @@ public class GuiSystem extends Application implements ViewInterface{
     private String userName;
 
     public GuiSystem() {
-        Stage classStage = new Stage();
         connection = new String();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
-        window.setTitle("Choose connection");
-        Button button = new Button("Continue");
+        window.setTitle("Sagrada");
+        Button button = new Button("Play");
 
-        //ChoiceBoxes
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-
-        //getItems
-        choiceBox.getItems().add("RMI");
-        choiceBox.getItems().add("socket");
-
-        //set Default value
-        choiceBox.setValue("RMI");
-
-        //button.setOnAction(e -> getChoice(choiceBox));
+        button.setOnAction(e -> displayLoginPage());
 
         //Layout
         VBox layout = new VBox(10);
-        layout.setPadding(new Insets(20, 20, 20 , 20));
-        layout.getChildren().addAll(choiceBox, button);
+        layout.getChildren().addAll(button);
+        layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout, 300, 100);
         window.setScene(scene);
         window.show();
     }
 
-    public static void display() {
+    public static void displayLoginPage() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Login");
