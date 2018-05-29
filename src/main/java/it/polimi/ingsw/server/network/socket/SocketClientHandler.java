@@ -1,9 +1,5 @@
 package it.polimi.ingsw.server.network.socket;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonWriter;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.controller.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -26,6 +22,7 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
     private PrintWriter socketOut;
     private Lobby lobby;
     private static String parse = "parseException";
+    private static String print = "print";
     private Boolean pinged;
 
     SocketClientHandler(Socket socket, Lobby lobby) {
@@ -45,7 +42,7 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
                     if (command.equals("quit")) {
                         break;
                     }
-                    else if (command.equals("print")) {
+                    else if (command.equals(print)) {
                         out.println(socketIn.nextLine());
                     }
                     else if (command.equals("pong")) {
@@ -79,7 +76,7 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
             out.println(e.getMessage());
         }
 
-        socketOut.println("print");
+        socketOut.println(print);
         socketOut.println("Connection Established");            // notify client the connection
         socketOut.flush();
 
@@ -95,7 +92,8 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
         } catch (IOException e) {
             out.println(e.getMessage());
         }
-        socketOut.println("print");
+
+        socketOut.println(print);
         socketOut.println(s);
         socketOut.flush();
     }
@@ -110,7 +108,9 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
             socketOut.flush();
 
             synchronized (this) {
-                wait(2000);
+                do {
+                    wait(2000);
+                } while (!socket.isConnected());
             }
 
             return pinged;

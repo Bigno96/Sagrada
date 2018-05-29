@@ -100,8 +100,9 @@ public class Lobby {
      * @throws TooManyPlayersException when adding a player on full lobby, 4 player
      */
     public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, TooManyPlayersException, SamePlayerException {
-        if (disconnectedPlayer.get(username) != null)       // if player has been disconnected
-            reconnectPlayer(username);
+        if (disconnectedPlayer.get(username) != null) {        // if player has been disconnected
+            reconnectPlayer(username, speaker);
+        }
         else {
             if (!nameLookup(username))
                 throw new SamePlayerException();
@@ -117,7 +118,7 @@ public class Lobby {
             speakers.put(username, speaker);
             nPlayer++;
 
-            speaker.tell("Welcome " + username);
+            speaker.tell("Welcome " + username +"\n");
             speaker.tell("Game will start when enough player are connected");
         }
     }
@@ -180,10 +181,16 @@ public class Lobby {
      * Reconnect to the lobby a previously connected player after his disconnection
      * @param username lobby.contains(username)
      */
-    private synchronized void reconnectPlayer(String username) {
+    synchronized void reconnectPlayer(String username, ClientSpeaker newSpeaker) {
+        speakers.replace(username, newSpeaker);
         disconnectedPlayer.get(username).purge();
         disconnectedPlayer.remove(username);
-        speakers.get(username).tell("Welcome back " + username);
+
+        speakers.get(username).tell("Welcome back " + username + "\n");
+        if (gameStarted)
+            speakers.get(username).tell("Game is still going");
+        else
+            speakers.get(username).tell("No game going on");
     }
 
     public Lobby getLobby(){
@@ -194,7 +201,7 @@ public class Lobby {
         chooseWindowCardObserver.notify(userName, name);
     }
 
-    public HashMap<String, Player> getPlayers (){
+    public Map<String, Player> getPlayers () {
         return players;
     }
 

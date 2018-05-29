@@ -101,6 +101,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
             }
 
             go.acquire();
+            go.acquire();
 
             if (!logged) {
                 return false;

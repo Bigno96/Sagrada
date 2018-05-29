@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class ServerSocketThreadLauncher {
 
