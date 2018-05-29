@@ -66,6 +66,9 @@ public class DisconnectUser extends TimerTask {
         players.remove(username);
         lobby.reduceNPlayer();                           // 1 player less in the lobby
         disconnectedPlayer.remove(username);    // removed, not disconnected anymore
+        lobby.removePlayer(username);
+
+        out.println("User " + username + " was removed");
     }
 
     /**

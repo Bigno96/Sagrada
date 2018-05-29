@@ -22,10 +22,11 @@ public class CheckDisconnectionDaemon extends TimerTask {
     @Override
     public synchronized void run() {
         for(Map.Entry<String,ClientSpeaker> entry : speakers.entrySet()) {
-            if (!disconnectedPlayer.containsKey(entry.getKey()) && !entry.getValue().ping()) {
+            if (!disconnectedPlayer.containsKey(entry.getKey()) && !entry.getValue().ping())
                 lobby.disconnection(entry.getKey());
-            }
-            else if (disconnectedPlayer.containsKey(entry.getKey()) && entry.getValue().ping()) {
+        }
+        for(Map.Entry<String,ClientSpeaker> entry : speakers.entrySet()) {
+            if (disconnectedPlayer.containsKey(entry.getKey()) && entry.getValue().ping()) {
                 lobby.reconnectPlayer(entry.getKey(), entry.getValue());
             }
         }

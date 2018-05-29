@@ -20,6 +20,7 @@ import static java.lang.System.*;
 public class Lobby {
 
     private Game game;
+    private static String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PlayerLog.json";
     private ChooseWindowCardObserver chooseWindowCardObserver;
     private MoveDiceObserver moveDiceObserver;
     private HashMap<String, Player> players;
@@ -58,7 +59,6 @@ public class Lobby {
      * @return true if new username, false if already taken
      */
     private synchronized boolean nameLookup(String username) {
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PlayerLog.json";
         JsonParser parser = new JsonParser();
         JsonArray objArray;
 
@@ -90,6 +90,41 @@ public class Lobby {
         }
 
         return true;
+    }
+
+    synchronized void removePlayer(String username) {
+        JsonParser parser = new JsonParser();
+        JsonArray objArray;
+
+        try {
+            objArray = (JsonArray) parser.parse(new FileReader(infoPath));
+
+            JsonElement found = null;
+            for (JsonElement o : objArray) {
+                if (o.getAsString().equals(username)) {
+                    found = o;
+                    break;
+                }
+            }
+
+            objArray.remove(found);
+
+        } catch (FileNotFoundException e) {
+            out.println(e.getMessage());
+            return;
+        }
+
+        try (JsonWriter writer = new JsonWriter(new FileWriter(infoPath))) {
+
+            writer.beginArray();
+            for (JsonElement o : objArray) {
+                writer.value(o.getAsString());
+            }
+            writer.endArray();
+
+        } catch (IOException e) {
+            out.println(e.getMessage());
+        }
     }
 
     /**

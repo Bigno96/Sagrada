@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
-import it.polimi.ingsw.exception.SamePlayerException;
 
 import java.util.HashMap;
 import java.util.Scanner;
