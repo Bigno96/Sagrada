@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import static java.lang.System.out;
 
 public class GuiAskConnection{
 
@@ -67,7 +70,37 @@ public class GuiAskConnection{
 
         guiSystem.setUserName( userName.getText());
         guiSystem.setIP( IP.getText());
-        closeWindow();
+        if(!validIP(IP.getText())){
+            Platform.runLater(() -> {
+                GuiAskConnection connectionWindows = new GuiAskConnection(this.guiSystem);
+                Stage window = new Stage();
+                try {
+                    connectionWindows.display(window);
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
+
+            });
+        }
+            closeWindow();
+    }
+
+    private boolean validIP(String ip) {
+        if (ip.isEmpty())
+            return false;
+
+        String[] parts = ip.split("\\.");
+
+        if (parts.length != 4 && parts.length != 6)
+            return false;
+
+        for (String s : parts) {
+            int i = Integer.parseInt(s);
+            if (i < 0 || i > 255)
+                return false;
+        }
+
+        return !ip.endsWith(".");
     }
 
     private void closeWindow(){
