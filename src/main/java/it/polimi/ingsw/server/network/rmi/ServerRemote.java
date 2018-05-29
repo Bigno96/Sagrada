@@ -37,4 +37,6 @@ public interface ServerRemote extends Remote {
     void addPlayer(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
     void setWindowCard(String userName, String name) throws RemoteException;
+
+    void moveDiceFromDraftToCard(String username, int index, int row, int col) throws  RemoteException;
 }

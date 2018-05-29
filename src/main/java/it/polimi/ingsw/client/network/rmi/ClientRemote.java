@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.network.rmi;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.io.FileNotFoundException;
@@ -37,4 +39,6 @@ public interface ClientRemote extends Remote {
     void chooseWindowCard(List<WindowCard> cards) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
 
     void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+
+    void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
 }

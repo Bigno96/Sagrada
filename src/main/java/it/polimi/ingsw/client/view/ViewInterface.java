@@ -25,7 +25,7 @@ public interface ViewInterface {
     void printPrivObj(PrivateObjective privObj); // privObj -> private objective of the user
     void printPublObj(List<PublicObjective> publObj); // publObj -> list of public objectives of the game
     void setRound(); // increment local variable of num round in the graphic system
-    void isTurn(String username); // username -> user of current player
+    void isTurn(String username) throws RemoteException; // username -> user of current player
     // draftValue, draftColor -> lists of combination value-color of the dices in the draft
     void showDraft(List<Dice> draft) throws IDNotFoundException, SameDiceException;
     // notify when a dice is placed. username -> user of the player who placed the dice. row,col -> coordinates of the position of the dice. color,value -> attributes of the dice

@@ -8,9 +8,11 @@ import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
 
-public class Player {
+public class Player extends Observable {
 
     private String id;
     private boolean firstTurn;

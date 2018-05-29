@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.io.FileNotFoundException;
@@ -61,5 +63,10 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     @Override
     public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
        view.showCardPlayer(user, card);
+    }
+
+    @Override
+    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
+        view.placementDice(username, dest, moved);
     }
 }
