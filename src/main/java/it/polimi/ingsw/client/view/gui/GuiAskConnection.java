@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.view.cli.CliSystem;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,7 +26,7 @@ public class GuiAskConnection{
 
     private GuiSystem guiSystem;
 
-    private boolean connect;
+    private boolean connect = false;
     private Stage loginWindow;
     private TextField userName = new TextField();
     private TextField ip = new TextField();
@@ -34,8 +35,8 @@ public class GuiAskConnection{
     private Scanner inKeyboard;
     private HashMap<String, ServerSpeaker> connParam;
 
-    public GuiAskConnection(GuiSystem guiSystem){
-        this.guiSystem = guiSystem;
+    public GuiAskConnection(){
+
     }
 
     public void display(Stage window){
@@ -75,7 +76,7 @@ public class GuiAskConnection{
 
     //Set Connection
     private void getChoice(ChoiceBox<String> choiceBox){
-        do {
+        /*do {
             if (choiceBox.getValue().equals("RMI")) {
                 guiSystem.setConnection("RMI");
             } else {
@@ -83,7 +84,7 @@ public class GuiAskConnection{
             }
 
             guiSystem.setUserName(userName.getText());
-            guiSystem.setIP(ip.getText());
+            guiSystem.setIp(ip.getText());
             if (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
                 Platform.runLater(() -> {
                     GuiAskConnection connectionWindows = new GuiAskConnection(this.guiSystem);
@@ -107,8 +108,11 @@ public class GuiAskConnection{
                 });
             }
             //If IP is correct try to connect
+            tryToConnect();
 
-        }while (connect);
+
+        }while (!connect);*/
+            System.out.println("Ti sei connesso");
             closeWindow();
     }
 
@@ -128,6 +132,18 @@ public class GuiAskConnection{
         }
 
         return !ip.endsWith(".");
+    }
+
+    private void tryToConnect() {
+
+        serverSpeaker.setIp(ip.getText());
+        serverSpeaker.connect(userName.getText());
+        serverSpeaker.login(userName.getText());
+
+        //connParam.put(userName.getText(), serverSpeaker);
+
+        connect = true;
+
     }
 
     private void closeWindow(){
