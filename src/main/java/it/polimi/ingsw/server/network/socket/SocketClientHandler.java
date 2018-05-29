@@ -6,6 +6,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.controller.Lobby;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
@@ -128,6 +130,11 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
 
     @Override
     public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
+    }
+
+    @Override
+    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
 
     }
 

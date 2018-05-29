@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
@@ -54,5 +56,10 @@ public class RmiClientSpeaker implements ClientSpeaker {
     @Override
     public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
         client.showCardPlayer(user, card);
+    }
+
+    @Override
+    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
+        client.placementDice(username, dest, moved);
     }
 }

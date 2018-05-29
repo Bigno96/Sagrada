@@ -61,6 +61,10 @@ public class ServerRemoteImpl implements ServerRemote {
         lobby.setWindowCard(userName, name);
     }
 
+    @Override
+    public void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException {
+       lobby.moveDiceFromDraftToCard(username, index, row, col);
+    }
 
 
 }

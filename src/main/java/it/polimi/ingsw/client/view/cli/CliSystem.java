@@ -122,7 +122,7 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void isTurn (String username){
+    public void isTurn (String username) throws RemoteException {
         if (userName.equals(username)) {
             print("It is your turn!");
             waiting = false;
@@ -188,7 +188,7 @@ public class CliSystem implements ViewInterface {
         }while (waiting);
     }
 
-    private void askMove(){ // action user can do while is playing
+    private void askMove() throws RemoteException { // action user can do while is playing
         print("What move do you want to make:");
         print("p - place a dice from the draft");
         //print("t - use a tool card");
@@ -209,9 +209,11 @@ public class CliSystem implements ViewInterface {
                 serverSpeaker.askDraft();
                 try{
                     index = Integer.parseInt(input.nextLine());
+                    index--;
                 }catch (NumberFormatException e){
                     print("Insert a number!");
                     index = Integer.parseInt(input.nextLine());
+                    index--;
                 }
 
                 print("This is your window card, choose the position where do you want to place the dice: ");
@@ -231,7 +233,7 @@ public class CliSystem implements ViewInterface {
                     col = Integer.parseInt(input.nextLine());
                 }
 
-                serverSpeaker.moveDiceFromDraftToCard(index, row, col);
+                serverSpeaker.moveDiceFromDraftToCard(userName, index, row, col);
 
                 played = true;
             }/*else if (s.equals("t")){

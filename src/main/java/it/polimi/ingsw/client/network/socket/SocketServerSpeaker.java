@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -155,7 +156,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
-    public void moveDiceFromDraftToCard(int index, int row, int col) {
+    public void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException {
 
     }
 

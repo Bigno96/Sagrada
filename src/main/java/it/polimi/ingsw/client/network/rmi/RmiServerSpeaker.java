@@ -125,7 +125,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void moveDiceFromDraftToCard(int index, int row, int col) {
-
+    public void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException {
+        server.moveDiceFromDraftToCard(username, index, row, col);
     }
 }

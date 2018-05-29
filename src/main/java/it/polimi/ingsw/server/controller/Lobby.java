@@ -21,6 +21,7 @@ public class Lobby {
 
     private Game game;
     private ChooseWindowCardObserver chooseWindowCardObserver;
+    private MoveDiceObserver moveDiceObserver;
     private HashMap<String, Player> players;
     private HashMap<String, ClientSpeaker> speakers;
     private int nPlayer;
@@ -31,6 +32,7 @@ public class Lobby {
     public Lobby() {
         game = new Game(chooseWindowCardObserver);
         chooseWindowCardObserver = new ChooseWindowCardObserver(this);
+        moveDiceObserver = new MoveDiceObserver(this);
         players = new HashMap<>();
         speakers = new HashMap<>();
         nPlayer = 1;
@@ -196,4 +198,15 @@ public class Lobby {
         return players;
     }
 
+    public void moveDiceFromDraftToCard(String username, int index, int row, int col){
+        List<Integer> listCoordinates = new ArrayList<>(); // 0: index, 1: row, 2: col
+        listCoordinates.add(index);
+        listCoordinates.add(row);
+        listCoordinates.add(col);
+        moveDiceObserver.update(players.get(username), listCoordinates);
+    }
+
+    public Game getGame() {
+        return game;
+    }
 }

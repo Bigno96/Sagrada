@@ -45,7 +45,7 @@ public interface ServerSpeaker {
 
     void endTurn(String username);
 
-    void moveDiceFromDraftToCard(int index, int row, int col);
+    void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException;
 
 }
 
