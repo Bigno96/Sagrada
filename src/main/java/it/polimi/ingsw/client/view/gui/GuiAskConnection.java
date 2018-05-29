@@ -16,6 +16,7 @@ import static java.lang.System.out;
 public class GuiAskConnection{
 
     private GuiSystem guiSystem;
+    private IncorrectIP incorrectIPWindow;
 
     Stage LoginWindow;
     TextField userName = new TextField();
@@ -54,7 +55,7 @@ public class GuiAskConnection{
         label.setText("Set your data");
         layout.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(layout, 300, 100);
+        Scene scene = new Scene(layout, 300, 400);
         window.setScene(scene);
         window.show();
 
@@ -76,6 +77,16 @@ public class GuiAskConnection{
                 Stage window = new Stage();
                 try {
                     connectionWindows.display(window);
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
+
+            });
+            Platform.runLater(() -> {
+                IncorrectIP incorrectIPWindow = new IncorrectIP();
+                Stage window = new Stage();
+                try {
+                    incorrectIPWindow.display(window);
                 } catch (Exception e) {
                     out.println(e.getMessage());
                 }
