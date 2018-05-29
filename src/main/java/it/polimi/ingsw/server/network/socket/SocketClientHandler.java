@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.network.socket;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.server.controller.CheckDisconnectionDaemon;
 import it.polimi.ingsw.server.controller.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -13,6 +14,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.Timer;
 
 import static java.lang.System.*;
 
@@ -123,21 +125,6 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
         }
     }
 
-    @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-
-    }
-
-    @Override
-    public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-
-    }
-
-    @Override
-    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
-
-    }
-
     /**
      * Add player to the Lobby. Catch and flush exception messages.
      * @param username to be logged in
@@ -161,6 +148,24 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
             socketOut.println("TooManyPlayersException");
             socketOut.flush();
         }
+
+        Timer disconnection = new Timer();
+        disconnection.scheduleAtFixedRate(new CheckDisconnectionDaemon(this, lobby, username), 0, 1000);
+    }
+
+    @Override
+    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
+    }
+
+    @Override
+    public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+
+    }
+
+    @Override
+    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
+
     }
 
 }

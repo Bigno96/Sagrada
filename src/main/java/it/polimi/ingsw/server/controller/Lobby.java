@@ -28,7 +28,7 @@ public class Lobby {
     private int nPlayer;
     private boolean gameStarted;
     private Timer preGameTimer;
-    private HashMap<String, Timer> disconnectedPlayer;
+    private List<String> disconnectedPlayer;
 
     public Lobby() {
         game = new Game(chooseWindowCardObserver);
@@ -39,9 +39,8 @@ public class Lobby {
         nPlayer = 1;
         gameStarted = false;
         preGameTimer = new Timer();
-        disconnectedPlayer = new HashMap<>();
+        disconnectedPlayer = new ArrayList<>();
         startGameDaemon();
-        startDisconnectionDaemon();
     }
 
     /**
@@ -92,9 +91,59 @@ public class Lobby {
         return true;
     }
 
-    synchronized void removePlayer(String username) {
+    /**
+     * Add player to the Lobby, first connection or reconnection
+     * @param username != null
+     * @param speaker instanceof ClientSpeaker
+     * @throws GameAlreadyStartedException when trying to enter after game has started
+     * @throws TooManyPlayersException when adding a player on full lobby, 4 player
+     */
+    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, TooManyPlayersException, SamePlayerException {
+        if (disconnectedPlayer.contains(username)) {        // if player has been disconnected
+            reconnectPlayer(username, speaker);
+        }
+        else {
+            if (!nameLookup(username))
+                throw new SamePlayerException();
+
+            if (gameStarted)
+                throw new GameAlreadyStartedException();
+
+            if (nPlayer > 4)
+                throw new TooManyPlayersException();
+
+            Player p = new Player(username);
+            players.put(username, p);
+            speakers.put(username, speaker);
+            nPlayer++;
+
+            speaker.tell("Welcome " + username);
+            speaker.tell("Game will start when enough player are connected");
+        }
+    }
+
+    public void setDisconnectedPlayer(String username) {
+        disconnectedPlayer.add(username);
+    }
+
+    synchronized void removePlayer(String username) throws EmptyException, PlayerNotFoundException {
         JsonParser parser = new JsonParser();
         JsonArray objArray;
+
+        if (!players.containsKey(username))
+            throw new PlayerNotFoundException();
+
+        Player p = players.get(username);
+        if (isGameStarted()) {
+            //p.setDisconnected();
+        }
+        else{
+            speakers.remove(p.getId());
+            players.remove(username);
+            disconnectedPlayer.remove(username);
+            reduceNPlayer();                           // 1 player less in the lobby
+            out.println("User " + username + " was removed");
+        }
 
         try {
             objArray = (JsonArray) parser.parse(new FileReader(infoPath));
@@ -125,37 +174,26 @@ public class Lobby {
         } catch (IOException e) {
             out.println(e.getMessage());
         }
+
+        checkCloseGame();
+    }
+
+    private synchronized void checkCloseGame() throws EmptyException {
+        if (players.size() == 1) {    // if 1 or none player are left in the game, close it
+            closeGame();
+            for (Map.Entry<String, ClientSpeaker> entry : speakers.entrySet())
+                entry.getValue().tell("Insufficient player remained to continue the game\n\nCongratulations! You won");
+        } else if (players.size() == 0)
+            closeGame();
     }
 
     /**
-     * Add player to the Lobby, first connection or reconnection
-     * @param username != null
-     * @param speaker instanceof ClientSpeaker
-     * @throws GameAlreadyStartedException when trying to enter after game has started
-     * @throws TooManyPlayersException when adding a player on full lobby, 4 player
+     * Remove all player from game
+     * @throws EmptyException when trying to remove from an empty game
      */
-    public synchronized void addPlayerLobby(String username, ClientSpeaker speaker) throws GameAlreadyStartedException, TooManyPlayersException, SamePlayerException {
-        if (disconnectedPlayer.get(username) != null) {        // if player has been disconnected
-            reconnectPlayer(username, speaker);
-        }
-        else {
-            if (!nameLookup(username))
-                throw new SamePlayerException();
-
-            if (gameStarted)
-                throw new GameAlreadyStartedException();
-
-            if (nPlayer > 4)
-                throw new TooManyPlayersException();
-
-            Player p = new Player(username);
-            players.put(username, p);
-            speakers.put(username, speaker);
-            nPlayer++;
-
-            speaker.tell("Welcome " + username +"\n");
-            speaker.tell("Game will start when enough player are connected");
-        }
+    private synchronized void closeGame() throws EmptyException {
+        for (Map.Entry<String,Player> entry : players.entrySet())
+            game.rmPlayer(entry.getValue());
     }
 
     void setGameStarted() {
@@ -173,11 +211,6 @@ public class Lobby {
     private void startGameDaemon() {
         Timer daemonTimer = new Timer();
         daemonTimer.scheduleAtFixedRate(new CheckStartGameDaemon(players, disconnectedPlayer, this), 0, 100);
-    }
-
-    private void startDisconnectionDaemon() {
-        Timer daemonTimer = new Timer();
-        daemonTimer.scheduleAtFixedRate(new CheckDisconnectionDaemon(speakers, disconnectedPlayer, this), 0, 1000);
     }
 
     /**
@@ -198,18 +231,7 @@ public class Lobby {
         for (Map.Entry<String,ClientSpeaker> entry : speakers.entrySet()) {   // for every player in the lobby
             entry.getValue().tell("Game timer is on: 3 minutes before game starts");
         }
-        preGameTimer.schedule(new StartGame(players, speakers, disconnectedPlayer, game, this), 180000);
-    }
-
-    /**
-     * Disconnection of a player. Wait for 2 minutes before quitting him from Lobby
-     * @param username lobby.contains(username)
-     */
-    synchronized void disconnection(String username) {
-        Timer disconnectionTimer = new Timer();
-        disconnectedPlayer.put(username, disconnectionTimer);
-        out.println("Lost connection with "+ username);
-        disconnectionTimer.schedule(new DisconnectUser(username, players, speakers, disconnectedPlayer, game, this), 120000);
+        preGameTimer.schedule(new StartGame(players, speakers, disconnectedPlayer, game, this), 60000);
     }
 
     /**
@@ -218,10 +240,9 @@ public class Lobby {
      */
     synchronized void reconnectPlayer(String username, ClientSpeaker newSpeaker) {
         speakers.replace(username, newSpeaker);
-        disconnectedPlayer.get(username).purge();
         disconnectedPlayer.remove(username);
 
-        speakers.get(username).tell("Welcome back " + username + "\n");
+        speakers.get(username).tell("Welcome back " + username);
         if (gameStarted)
             speakers.get(username).tell("Game is still going");
         else

@@ -4,10 +4,11 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
+import it.polimi.ingsw.server.controller.CheckDisconnectionDaemon;
 import it.polimi.ingsw.server.controller.Lobby;
-import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.rmi.RemoteException;
+import java.util.Timer;
 
 import static java.lang.System.*;
 
@@ -51,9 +52,12 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public synchronized void addPlayer(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException, SamePlayerException {
-        ClientSpeaker speaker = new RmiClientSpeaker(client);
+        RmiClientSpeaker speaker = new RmiClientSpeaker(client);
 
         lobby.addPlayerLobby(username, speaker);
+
+        Timer disconnection = new Timer();
+        disconnection.scheduleAtFixedRate(new CheckDisconnectionDaemon(speaker, lobby, username), 0,1000);
     }
 
     @Override

@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.network;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.ValueException;
 
 import java.io.FileNotFoundException;
