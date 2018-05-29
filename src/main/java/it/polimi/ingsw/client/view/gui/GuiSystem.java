@@ -53,7 +53,7 @@ public class GuiSystem extends Application implements ViewInterface{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         window = primaryStage;
         window.setTitle("Sagrada");
         Button button = new Button("Play");
