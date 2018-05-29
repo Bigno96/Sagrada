@@ -19,7 +19,7 @@ public class IncorrectIP {
         incorrectIPWindow = window;
 
         incorrectIPWindow.initModality(Modality.APPLICATION_MODAL);
-        incorrectIPWindow.setTitle("Errror! Incorrect IP");
+        incorrectIPWindow.setTitle("Error! Incorrect IP");
 
         Button button = new Button("Continue");
         button.setOnAction(e -> incorrectIPWindow.close());
