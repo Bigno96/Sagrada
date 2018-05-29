@@ -58,11 +58,12 @@ public class GuiSystem extends Application implements ViewInterface{
         Platform.runLater(() -> {
             Stage loginWindow = new Stage();
             try {
-                connectionWindow.display(loginWindow);
+                connParam = connectionWindow.display(loginWindow);
+                userName = connParam.keySet().iterator().next();
+                serverSpeaker = connParam.get(userName);
             } catch (Exception e) {
                 out.println(e.getMessage());
             }
-
         });
     }
 

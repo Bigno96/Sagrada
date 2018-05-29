@@ -12,9 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
-import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
-import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
-import it.polimi.ingsw.exception.SamePlayerException;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -23,23 +20,22 @@ import static java.lang.System.out;
 
 public class GuiAskConnection{
 
-    private GuiSystem guiSystem;
-
-    private boolean socketConnection = false;
+    private boolean socketConnection;
+    private boolean rmiConnection;
     private boolean connect = false;
     private Stage loginWindow;
     private TextField userName = new TextField();
     private TextField ip = new TextField();
-
     private ServerSpeaker serverSpeaker;
-    private Scanner inKeyboard;
     private HashMap<String, ServerSpeaker> connParam;
 
     public GuiAskConnection(){
-
+        socketConnection = false;
+        rmiConnection = false;
+        connParam = new HashMap<>();
     }
 
-    public void display(Stage window){
+    HashMap<String, ServerSpeaker> display(Stage window){
 
         loginWindow = window;
 
@@ -71,6 +67,8 @@ public class GuiAskConnection{
         Scene scene = new Scene(layout, 300, 400);
         window.setScene(scene);
         window.show();
+
+        return connParam;
 
     }
 
