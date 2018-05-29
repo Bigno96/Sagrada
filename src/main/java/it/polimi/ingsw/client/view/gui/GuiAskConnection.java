@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
+import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,7 +16,6 @@ import javafx.stage.Stage;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 import static java.lang.System.out;
 
@@ -28,6 +29,7 @@ public class GuiAskConnection{
     private TextField ip = new TextField();
     private ServerSpeaker serverSpeaker;
     private HashMap<String, ServerSpeaker> connParam;
+    private GuiSystem guiSystem;
 
     public GuiAskConnection(){
         socketConnection = false;
@@ -35,8 +37,9 @@ public class GuiAskConnection{
         connParam = new HashMap<>();
     }
 
-    HashMap<String, ServerSpeaker> display(Stage window){
+    HashMap<String, ServerSpeaker> display(GuiSystem guiSystem, Stage window){
 
+        this.guiSystem = guiSystem;
         loginWindow = window;
 
         loginWindow.initModality(Modality.APPLICATION_MODAL);
@@ -66,7 +69,7 @@ public class GuiAskConnection{
 
         Scene scene = new Scene(layout, 300, 400);
         window.setScene(scene);
-        window.show();
+        window.showAndWait();
 
         return connParam;
 
@@ -77,16 +80,18 @@ public class GuiAskConnection{
         do {
             if (choiceBox.getValue().equals("RMI")) {
                 socketConnection = false;
+                serverSpeaker = new SocketServerSpeaker(ip.getText(), guiSystem);
             } else {
                 socketConnection = true;
+                serverSpeaker = new RmiServerSpeaker(ip.getText(), userName.getText(), guiSystem);
             }
 
-            if (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
+            while (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
                 Platform.runLater(() -> {
                     GuiAskConnection connectionWindows = new GuiAskConnection();
                     Stage window = new Stage();
                     try {
-                        connectionWindows.display(window);
+                        connectionWindows.display(guiSystem, window);
                     } catch (Exception e) {
                         out.println(e.getMessage());
                     }
@@ -104,11 +109,14 @@ public class GuiAskConnection{
                 });
             }
             //If IP is correct try to connect
-            tryToConnect();
 
+            serverSpeaker.setIp(ip.getText());
+            serverSpeaker.connect(userName.getText());
+            connect = serverSpeaker.login(userName.getText());
+
+            connParam.put(userName.getText(), serverSpeaker);
 
         }while (!connect);
-            System.out.println("Ti sei connesso");
             closeWindow();
     }
 
@@ -128,19 +136,6 @@ public class GuiAskConnection{
         }
 
         return !ip.endsWith(".");
-    }
-
-    private void tryToConnect() {
-
-
-        serverSpeaker.setIp(ip.getText());
-        serverSpeaker.connect(userName.getText());
-        serverSpeaker.login(userName.getText());
-
-        //connParam.put(userName.getText(), serverSpeaker);
-
-        connect = true;
-
     }
 
     private void closeWindow(){

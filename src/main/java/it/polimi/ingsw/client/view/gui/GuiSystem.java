@@ -54,15 +54,15 @@ public class GuiSystem extends Application implements ViewInterface{
     }
 
     private void displayAskConnection() {
-
         Platform.runLater(() -> {
             Stage loginWindow = new Stage();
-            try {
-                connParam = connectionWindow.display(loginWindow);
+            try{
+                connParam = connectionWindow.display(this, loginWindow);
                 userName = connParam.keySet().iterator().next();
                 serverSpeaker = connParam.get(userName);
-            } catch (Exception e) {
+            }catch (Exception e) {
                 out.println(e.getMessage());
+                System.out.println("Fanculo");
             }
         });
     }
