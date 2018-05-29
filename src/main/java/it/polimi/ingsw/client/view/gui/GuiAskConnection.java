@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view.gui;
 
-import it.polimi.ingsw.client.view.cli.CliSystem;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,6 +25,7 @@ public class GuiAskConnection{
 
     private GuiSystem guiSystem;
 
+    private boolean socketConnection = false;
     private boolean connect = false;
     private Stage loginWindow;
     private TextField userName = new TextField();
@@ -76,18 +76,16 @@ public class GuiAskConnection{
 
     //Set Connection
     private void getChoice(ChoiceBox<String> choiceBox){
-        /*do {
+        do {
             if (choiceBox.getValue().equals("RMI")) {
-                guiSystem.setConnection("RMI");
+                socketConnection = false;
             } else {
-                guiSystem.setConnection("Socket");
+                socketConnection = true;
             }
 
-            guiSystem.setUserName(userName.getText());
-            guiSystem.setIp(ip.getText());
             if (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
                 Platform.runLater(() -> {
-                    GuiAskConnection connectionWindows = new GuiAskConnection(this.guiSystem);
+                    GuiAskConnection connectionWindows = new GuiAskConnection();
                     Stage window = new Stage();
                     try {
                         connectionWindows.display(window);
@@ -111,7 +109,7 @@ public class GuiAskConnection{
             tryToConnect();
 
 
-        }while (!connect);*/
+        }while (!connect);
             System.out.println("Ti sei connesso");
             closeWindow();
     }
@@ -135,6 +133,7 @@ public class GuiAskConnection{
     }
 
     private void tryToConnect() {
+
 
         serverSpeaker.setIp(ip.getText());
         serverSpeaker.connect(userName.getText());
