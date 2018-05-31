@@ -39,7 +39,7 @@ public class WindowFactory {
     public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<>();
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowCard.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/WindowCard.json";
 
         JsonArray winArray = (JsonArray) parser.parse(new FileReader(infoPath));
 
@@ -66,7 +66,7 @@ public class WindowFactory {
      */
     public WindowCard getWindow(String cardName) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/WindowCard.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/WindowCard.json";
 
         JsonArray winArray = (JsonArray) parser.parse(new FileReader(infoPath));
 

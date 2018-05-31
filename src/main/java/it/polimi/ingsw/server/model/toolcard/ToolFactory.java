@@ -16,7 +16,8 @@ public class ToolFactory {
 
     private ToolStrategy strategy;
     private Game game;
-    private final String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/ToolCard.json";
+    private final String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/ToolCard.json";
+
 
     /**
      * Constructor

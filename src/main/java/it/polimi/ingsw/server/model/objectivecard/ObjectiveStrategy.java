@@ -37,7 +37,7 @@ public class ObjectiveStrategy {
     private int parsePriv(int id) throws FileNotFoundException, IDNotFoundException {
         Colors col = Colors.WHITE;
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/PrivateCard.json";
 
         JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
 
@@ -59,7 +59,7 @@ public class ObjectiveStrategy {
         String grad = "null";
         String dir = "null";
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PublicCard.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/PublicCard.json";
 
         JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
 

@@ -17,7 +17,7 @@ public class ObjectiveFactory {
 
     public ObjectiveCard getPrivCard(int id) throws FileNotFoundException, IDNotFoundException {
         String descr;
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PrivateCard.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/PrivateCard.json";
         JsonParser parser = new JsonParser();
 
         JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
@@ -30,7 +30,7 @@ public class ObjectiveFactory {
     public ObjectiveCard getPublCard(int id) throws FileNotFoundException, IDNotFoundException {
         int point;
         String descr;
-        String infoPath = System.getProperty("user.dir") + "/src/main/java/resources/PublicCard.json";
+        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/PublicCard.json";
         JsonParser parser = new JsonParser();
 
         JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
