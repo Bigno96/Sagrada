@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class Game extends Observable {
     private Round round;
     private Board board;
-    private ChooseWindowCardObserver chooseWindowCardObserver;
     private List<Player> playerList;
     private int nPlayer;
     private int nRound;                 //counter from 1 to 10
@@ -26,18 +25,8 @@ public class Game extends Observable {
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
-    public Game(){
+    public Game() {
         playerList = new ArrayList<>();
-        nPlayer = 0;
-        nRound = 0;
-    }
-
-    /**
-     * Constructor
-     */
-    public Game(ChooseWindowCardObserver chooseWindowCardObserver){
-        playerList = new ArrayList<>();
-        this.chooseWindowCardObserver = chooseWindowCardObserver;
         nPlayer = 0;
         nRound = 0;
     }
@@ -84,9 +73,6 @@ public class Game extends Observable {
         }catch (IDNotFoundException | FileNotFoundException | ValueException | PositionException e) {
             logger.info(e.getMessage());
         }
-
-        chooseWindowCardObserver.getCardController().setPoolCards(poolCards);
-        chooseWindowCardObserver.update(this, poolCards);
     }
 
     public void loadPublObj() {
@@ -177,7 +163,7 @@ public class Game extends Observable {
     /**
      * Add player p to Game
      * @param p != null && nPlayer < 4
-     * @return true if addPlayer is successful
+     * @return true if login is successful
      * @throws SamePlayerException when try to add the same player
      */
     public boolean addPlayer(Player p) throws SamePlayerException {

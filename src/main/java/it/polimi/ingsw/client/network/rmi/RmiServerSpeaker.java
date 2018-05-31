@@ -10,8 +10,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static java.lang.System.*;
-
 public class RmiServerSpeaker implements ServerSpeaker {
     // realize the comm Client -> Server using rmi
     private String ip;
@@ -66,7 +64,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     @Override
     public boolean login(String username) {
         try {
-            server.addPlayer(username, client);                             // add this player to a game Lobby
+            server.login(username, client);                             // add this player to a game Lobby
             server.tell("User " + username + " successfully logged in");
             return true;
 

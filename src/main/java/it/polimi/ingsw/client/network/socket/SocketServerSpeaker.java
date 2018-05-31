@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.ValueException;
 
 import java.io.FileNotFoundException;
@@ -22,14 +21,16 @@ public class SocketServerSpeaker implements ServerSpeaker{
     private Socket socket;
     private PrintWriter socketOut;
     private ViewInterface view;
-    private final Semaphore go;
     private Boolean logged;
 
     public SocketServerSpeaker(String ip, ViewInterface view) {
         this.view = view;
         this.ip = ip;
-        this.logged = true;
-        this.go = new Semaphore(0, true);
+        this.logged = null;
+    }
+
+    void interrupt() {
+        Thread.currentThread().interrupt();
     }
 
     /**
@@ -38,16 +39,6 @@ public class SocketServerSpeaker implements ServerSpeaker{
     @Override
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    synchronized void pong() {
-        try {
-            socketOut = new PrintWriter(socket.getOutputStream());
-        } catch (IOException e) {
-            view.print(e.getMessage());
-        }
-        socketOut.println("pong");
-        socketOut.flush();
     }
 
     void setLogged(Boolean logged) {
@@ -65,7 +56,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
         try {
             socket = new Socket(ip, 5000);
             ExecutorService executor = Executors.newCachedThreadPool();
-            executor.submit(new SocketServerListener(socket, view, this, go));
+            executor.submit(new SocketServerListener(socket, view, this));
 
             synchronized (this) {
                 socketOut = new PrintWriter(socket.getOutputStream());
@@ -75,11 +66,9 @@ public class SocketServerSpeaker implements ServerSpeaker{
                 socketOut.flush();
             }
 
-            go.acquire();
-
             return true;
 
-        } catch(IOException | InterruptedException e) {
+        } catch(IOException e) {
             view.print(e.getMessage());
             return false;
         }
@@ -95,17 +84,18 @@ public class SocketServerSpeaker implements ServerSpeaker{
             synchronized (this) {
                 socketOut = new PrintWriter(socket.getOutputStream());
 
-                socketOut.println("addPlayer");                 // ask for login
+                socketOut.println("login");                 // ask for login
                 socketOut.println(username);                    // username passed
                 socketOut.flush();
             }
 
-            go.acquire();
-            go.acquire();
-
-            if (!logged) {
-                return false;
+            synchronized (this) {
+                while (logged == null)
+                    wait(100);
             }
+
+            if (!logged)
+                return false;
 
             synchronized (this) {
                 socketOut.println("print");
@@ -116,7 +106,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
             return true;
 
         } catch (IOException | InterruptedException e) {
-            Thread.currentThread().interrupt();
+            view.print(e.getMessage());
             return false;
         }
     }

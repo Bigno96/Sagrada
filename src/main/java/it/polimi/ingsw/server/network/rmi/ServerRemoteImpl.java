@@ -4,11 +4,9 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
-import it.polimi.ingsw.server.controller.CheckDisconnectionDaemon;
-import it.polimi.ingsw.server.controller.Lobby;
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 
 import java.rmi.RemoteException;
-import java.util.Timer;
 
 import static java.lang.System.*;
 
@@ -51,23 +49,20 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws GameAlreadyStartedException when trying to login after game already started
      */
     @Override
-    public synchronized void addPlayer(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException, SamePlayerException {
+    public synchronized void login(String username, ClientRemote client) throws TooManyPlayersException, GameAlreadyStartedException, SamePlayerException {
         RmiClientSpeaker speaker = new RmiClientSpeaker(client);
 
-        lobby.addPlayerLobby(username, speaker);
-
-        Timer disconnection = new Timer();
-        disconnection.scheduleAtFixedRate(new CheckDisconnectionDaemon(speaker, lobby, username), 0,1000);
+        lobby.addPlayer(username, speaker);
     }
 
     @Override
     public void setWindowCard(String userName, String name) {
-        lobby.setWindowCard(userName, name);
+
     }
 
     @Override
     public void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException {
-       lobby.moveDiceFromDraftToCard(username, index, row, col);
+
     }
 
 

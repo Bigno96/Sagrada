@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.network.socket;
 
-import it.polimi.ingsw.server.controller.Lobby;
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,8 +31,8 @@ public class ServerSocketThreadLauncher {
         try {
             while (exit) {
                 Socket socket = serverSocket.accept();
-                executor.submit(new SocketClientHandler(socket, lobby));
-                }
+                executor.submit(new SocketClientSpeaker(socket, lobby));
+            }
         } catch (IOException e) {
             out.println(e.getMessage());
         }

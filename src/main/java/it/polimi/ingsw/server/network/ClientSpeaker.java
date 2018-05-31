@@ -26,6 +26,8 @@ public interface ClientSpeaker {
      */
     boolean ping();
 
+    void loginSuccess(String s);
+
     void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException;
 
     void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;

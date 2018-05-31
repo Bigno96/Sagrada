@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.network.socket;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.server.controller.CheckDisconnectionDaemon;
-import it.polimi.ingsw.server.controller.Lobby;
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -13,53 +12,31 @@ import java.io.*;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Timer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.System.*;
 
-public class SocketClientHandler implements Runnable, ClientSpeaker {
+public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     private Socket socket;
     private PrintWriter socketOut;
     private Lobby lobby;
     private static String parse = "parseException";
     private static String print = "print";
-    private Boolean pinged;
 
-    SocketClientHandler(Socket socket, Lobby lobby) {
+    SocketClientSpeaker(Socket socket, Lobby lobby) {
         this.lobby = lobby;
         this.socket = socket;
     }
 
     @Override
     public void run() {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.submit(new SocketClientListener(socket, this));
+
         try {
-            Scanner socketIn = new Scanner(socket.getInputStream());
             socketOut = new PrintWriter(socket.getOutputStream());
-
-            while(socketIn.hasNextLine()) {
-                    String command = socketIn.nextLine();
-
-                    if (command.equals("quit")) {
-                        break;
-                    }
-                    else if (command.equals(print)) {
-                        out.println(socketIn.nextLine());
-                    }
-                    else if (command.equals("pong")) {
-                        pinged=true;
-                    }
-                    else if (command.equals("connect")) {
-                        String username = socketIn.nextLine();
-                        connect(username);
-                    }
-                    else if (command.equals("addPlayer")) {
-                        String user = socketIn.nextLine();
-                        addPlayer(user);
-                    }
-                }
-
         } catch (IOException e) {
             out.println(e.getMessage());
         }
@@ -69,19 +46,12 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
      * Used to connect player to the Server.
      * @param username to be connected
      */
-    private synchronized void connect(String username) {
+    synchronized void connect(String username) {
         out.println(username + " is connecting with Socket");
-
-        try {
-            socketOut = new PrintWriter(socket.getOutputStream());
-        } catch (IOException e) {
-            out.println(e.getMessage());
-        }
 
         socketOut.println(print);
         socketOut.println("Connection Established");            // notify client the connection
         socketOut.flush();
-
     }
 
     /**
@@ -89,49 +59,42 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
      */
     @Override
     public synchronized void tell(String s) {
-        try {
-            socketOut = new PrintWriter(socket.getOutputStream());
-        } catch (IOException e) {
-            out.println(e.getMessage());
-        }
-
         socketOut.println(print);
         socketOut.println(s);
         socketOut.flush();
     }
 
     @Override
-    public boolean ping() {
+    public synchronized boolean ping() {
         try {
-            pinged = false;
+            int reading = socket.getInputStream().read(new byte[1024], 0, 0);
+            if (reading == -1)
+                return false;
 
-            socketOut = new PrintWriter(socket.getOutputStream());
             socketOut.println("ping");
             socketOut.flush();
 
-            synchronized (this) {
-                do {
-                    wait(2000);
-                } while (!socket.isConnected());
-            }
-
-            return pinged;
+            return true;
 
         } catch (IOException | NoSuchElementException e) {
             return false;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return false;
         }
+    }
+
+    @Override
+    public synchronized void loginSuccess(String s) {
+        socketOut.println("loginSuccess");
+        socketOut.println(s);
+        socketOut.flush();
     }
 
     /**
      * Add player to the Lobby. Catch and flush exception messages.
      * @param username to be logged in
      */
-    private synchronized void addPlayer(String username) {
+    synchronized void login(String username) {
         try {
-            lobby.addPlayerLobby(username, this);
+            lobby.addPlayer(username, this);
 
         } catch (SamePlayerException e) {
             socketOut.println(parse);
@@ -148,9 +111,6 @@ public class SocketClientHandler implements Runnable, ClientSpeaker {
             socketOut.println("TooManyPlayersException");
             socketOut.flush();
         }
-
-        Timer disconnection = new Timer();
-        disconnection.scheduleAtFixedRate(new CheckDisconnectionDaemon(this, lobby, username), 0, 1000);
     }
 
     @Override

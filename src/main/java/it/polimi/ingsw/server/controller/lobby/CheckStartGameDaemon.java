@@ -1,27 +1,25 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.lobby;
 
 import it.polimi.ingsw.server.model.game.Player;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
 public class CheckStartGameDaemon extends TimerTask {
 
     private HashMap<String, Player> players;
-    private List<String> disconnectedPlayer;
     private Lobby lobby;
 
-    CheckStartGameDaemon(HashMap<String, Player> players, List<String> disconnectedPlayer, Lobby lobby) {
+    CheckStartGameDaemon(HashMap<String, Player> players, Lobby lobby) {
         this.players = players;
-        this.disconnectedPlayer = disconnectedPlayer;
         this.lobby = lobby;
     }
 
     @Override
     public synchronized void run() {
         if (checkStartGame()) {
-            lobby.startPreGameTimer();
+            lobby.startingGame();
             this.cancel();
         }
     }
@@ -33,10 +31,11 @@ public class CheckStartGameDaemon extends TimerTask {
     private synchronized boolean checkStartGame() {
         int nConnected = 0;
 
-        for(String s : players.keySet())
-            if (!disconnectedPlayer.contains(s))
+        for(Map.Entry<String, Player> entry : players.entrySet())
+            if (!entry.getValue().isDisconnected())
                 nConnected++;
 
+        //System.out.println("nConnected = " + nConnected);
         return nConnected >= 2;
     }
 }

@@ -34,7 +34,7 @@ public interface ServerRemote extends Remote {
      * @throws TooManyPlayersException when trying to login more than 4 player together
      * @throws GameAlreadyStartedException when trying to login after game already started
      */
-    void addPlayer(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
+    void login(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
     void setWindowCard(String userName, String name) throws RemoteException;
 

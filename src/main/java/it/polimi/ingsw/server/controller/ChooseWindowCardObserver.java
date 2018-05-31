@@ -1,18 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
-import it.polimi.ingsw.server.model.game.Player;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.server.model.windowcard.WindowFactory;
-import it.polimi.ingsw.server.network.ClientSpeaker;
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 
-import java.io.FileNotFoundException;
-import java.rmi.RemoteException;
 import java.util.*;
-
-import static java.lang.System.*;
 
 public class ChooseWindowCardObserver implements Observer {
 
@@ -27,7 +17,7 @@ public class ChooseWindowCardObserver implements Observer {
     @SuppressWarnings("unchecked")
     @Override
     public void update(Observable o, Object poolCards) {
-        if (poolCards instanceof HashMap) {
+        /*if (poolCards instanceof HashMap) {
             ((HashMap<Player, List<WindowCard>>) poolCards).forEach((key, value) -> {
                 ClientSpeaker client = lobby.getSpeaker(key);
                 try {
@@ -36,10 +26,10 @@ public class ChooseWindowCardObserver implements Observer {
                     out.println(e.getMessage());
                 }
             });
-        }
+        }*/
     }
 
-    public void notify(String userName, String name){
+    /*public void notify(String userName, String name){
         (lobby.getPlayers()).forEach((key, value) -> {
            if (key.equals(userName)){
                value.setWindowCard(cardController.checkChoiceWindowCard(userName, name));
@@ -57,5 +47,5 @@ public class ChooseWindowCardObserver implements Observer {
 
     public WindowCardController getCardController() {
         return cardController;
-    }
+    }*/
 }

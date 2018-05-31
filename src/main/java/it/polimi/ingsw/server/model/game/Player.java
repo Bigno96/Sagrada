@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class Player extends Observable {
 
     private String id;
+    private boolean disconnected;
     private boolean firstTurn;
     private boolean secondTurn;
     private ObjectiveCard privObj;
@@ -38,6 +39,7 @@ public class Player extends Observable {
         this.windCard = null;
         this.board = null;
         this.playedDice = false;
+        this.disconnected = false;
     }
 
     /**
@@ -159,4 +161,11 @@ public class Player extends Observable {
                 + getFavorPoint());
     }
 
+    public boolean isDisconnected() {
+        return disconnected;
+    }
+
+    public void setDisconnected(boolean disconnected) {
+        this.disconnected = disconnected;
+    }
 }
