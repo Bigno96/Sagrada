@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 public class SocketClientListener implements Runnable {
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller.lobby;
 
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 import static java.lang.System.*;

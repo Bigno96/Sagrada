@@ -32,13 +32,13 @@ public class Lobby {
 
     public void startLobby() {
         currentState = gameState.WAITING;
+
         Timer starting = new Timer();
         starting.scheduleAtFixedRate(new CheckStartGameDaemon(players, this), 0, 1000);
     }
 
     public synchronized void addPlayer(String username, ClientSpeaker speaker) throws SamePlayerException, GameAlreadyStartedException, TooManyPlayersException {
         if (players.containsKey(username)) {
-            System.out.println(players.get(username).isDisconnected());
             if (players.get(username).isDisconnected())
                 reconnectPlayer(username);
             else
@@ -67,7 +67,7 @@ public class Lobby {
         if(currentState.equals(gameState.WAITING)) {
             Timer removing = new Timer();
             RemovePlayerDaemon daemon = new RemovePlayerDaemon(username);
-            removing.schedule(daemon, 120000);
+            removing.schedule(daemon, 60000);
             checkerRemoving.put(username, daemon);
 
         } else
@@ -122,21 +122,33 @@ public class Lobby {
             } catch (SamePlayerException e) {
                 out.println(e.getMessage());
             }
-            speakers.get(entry.getKey()).tell("Game timer is on");
         }
+
         currentState = gameState.STARTING;
 
         Timer start = new Timer();
-        start.schedule(new StartGame(this), 180000);
+        start.scheduleAtFixedRate(new StartGame(this), 0,20000);
     }
 
     synchronized void startGame() {
-        for (Map.Entry<String,Player> entry : players.entrySet()) {   // for every player in the lobby
-            speakers.get(entry.getKey()).tell("Game is starting");
-        }
-
+        notifyAllPlayers("Game is starting");
         currentState = gameState.STARTED;
         game.startGame();
+
+        Timer ending = new Timer();
+        ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0,1000);
+    }
+
+    synchronized void notifyAllPlayers(String s) {
+        for (Map.Entry<String,Player> entry : players.entrySet()) {   // for every player in the lobby
+            if (!entry.getValue().isDisconnected())
+                speakers.get(entry.getKey()).tell(s);
+        }
+    }
+
+    public synchronized void endGame() {
+        if (game.getNPlayer() == 1)
+            notifyAllPlayers("Congratulations! You won!");
     }
 }
 

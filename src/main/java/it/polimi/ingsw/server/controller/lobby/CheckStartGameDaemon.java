@@ -35,7 +35,6 @@ public class CheckStartGameDaemon extends TimerTask {
             if (!entry.getValue().isDisconnected())
                 nConnected++;
 
-        //System.out.println("nConnected = " + nConnected);
         return nConnected >= 2;
     }
 }
