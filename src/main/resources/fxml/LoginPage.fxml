@@ -13,11 +13,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #20120F;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/null">
    <children>
-      <ImageView fitHeight="348.0" fitWidth="260.0" layoutX="205.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="" />
-         </image>
-      </ImageView>
       <Label graphicTextGap="0.0" layoutX="14.0" layoutY="68.0" prefHeight="55.0" prefWidth="334.0" text="Insert your username" textFill="#000000f7">
          <font>
             <Font size="29.0" />
