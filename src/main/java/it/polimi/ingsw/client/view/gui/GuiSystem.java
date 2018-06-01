@@ -62,7 +62,7 @@ public class GuiSystem extends Application implements ViewInterface{
                 serverSpeaker = connParam.get(userName);
             }catch (Exception e) {
                 out.println(e.getMessage());
-                System.out.println("Fanculo");
+                System.out.println("Exception");
             }
         });
     }
