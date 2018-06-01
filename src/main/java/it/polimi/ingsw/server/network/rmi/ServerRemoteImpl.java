@@ -5,6 +5,7 @@ import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
 
 import java.rmi.RemoteException;
 
@@ -13,8 +14,10 @@ import static java.lang.System.*;
 public class ServerRemoteImpl implements ServerRemote {
 
     private Lobby lobby;
+    private CommunicationParser communication;
 
     public ServerRemoteImpl(Lobby lobby) {
+        this.communication = new CommunicationParser();
         this.lobby = lobby;
     }
 
@@ -25,9 +28,9 @@ public class ServerRemoteImpl implements ServerRemote {
     @Override
     public synchronized void connect(String username, ClientRemote client) {
         try {
-            out.println("User " + client.getUsername() + " is connecting with RMI");
+            out.println(client.getUsername() + communication.getMessage("CONNECTION_WITH_RMI"));
 
-            client.tell("Connection established");
+            client.tell(communication.getMessage("CONNECTION_SUCCESS"));
 
         } catch (RemoteException e) {
             out.println(e.getMessage());
@@ -61,7 +64,7 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
-    public void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException {
+    public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
 
     }
 

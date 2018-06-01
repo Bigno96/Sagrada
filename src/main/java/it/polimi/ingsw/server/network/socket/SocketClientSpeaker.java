@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
 
 import java.net.*;
 import java.io.*;
@@ -17,17 +18,20 @@ import java.util.concurrent.Executors;
 
 import static java.lang.System.*;
 
+/**
+ * Send messages towards the client via socket
+ */
 public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     private Socket socket;
     private PrintWriter socketOut;
     private Lobby lobby;
-    private static String parse = "parseException";
-    private static String print = "print";
+    private CommunicationParser communication;
 
     SocketClientSpeaker(Socket socket, Lobby lobby) {
         this.lobby = lobby;
         this.socket = socket;
+        this.communication = new CommunicationParser();
     }
 
     @Override
@@ -47,10 +51,10 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      * @param username to be connected
      */
     synchronized void connect(String username) {
-        out.println(username + " is connecting with Socket");
+        out.println(username + communication.getMessage("CONNECTION_WITH_SOCKET"));
 
-        socketOut.println(print);
-        socketOut.println("Connection Established");            // notify client the connection
+        socketOut.println(communication.getMessage("PRINT"));
+        socketOut.println(communication.getMessage("CONNECTION_SUCCESS"));            // notify client the connection
         socketOut.flush();
     }
 
@@ -59,11 +63,14 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public synchronized void tell(String s) {
-        socketOut.println(print);
+        socketOut.println(communication.getMessage("PRINT"));
         socketOut.println(s);
         socketOut.flush();
     }
 
+    /**
+     * @return true if pong is true in return, else false
+     */
     @Override
     public synchronized boolean ping() {
         try {
@@ -71,7 +78,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             if (reading == -1)
                 return false;
 
-            socketOut.println("ping");
+            socketOut.println(communication.getMessage("PING"));
             socketOut.flush();
 
             return true;
@@ -81,9 +88,12 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         }
     }
 
+    /**
+     * @param s message of success for login
+     */
     @Override
     public synchronized void loginSuccess(String s) {
-        socketOut.println("loginSuccess");
+        socketOut.println(communication.getMessage("LOGIN_SUCCESS"));
         socketOut.println(s);
         socketOut.flush();
     }
@@ -97,7 +107,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             lobby.addPlayer(username, this);
 
         } catch (SamePlayerException | GameAlreadyStartedException | TooManyPlayersException e) {
-            socketOut.println(parse);
+            socketOut.println(communication.getMessage("EXCEPTION"));
             socketOut.println(e.getClass().toString());
             socketOut.flush();
         }

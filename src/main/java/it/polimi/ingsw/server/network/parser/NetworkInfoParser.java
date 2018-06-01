@@ -16,6 +16,7 @@ public class NetworkInfoParser {
     private static final String SOCKET_PORT = "socketPort";
     private static final String RMI_SERVER_PORT = "rmiServerPort";
     private static final String SO_TIMEOUT = "setSoTimeout";
+    private static final String LOCAL_IP = "getLocalIp";
 
     public NetworkInfoParser() {
         // just creates the instance
@@ -66,6 +67,22 @@ public class NetworkInfoParser {
         } catch (FileNotFoundException e) {
             out.println(e.getMessage());
             return 0;
+        }
+    }
+
+    /**
+     * @return string for ip addressing in local network
+     */
+    public String getLocalIp() {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+
+            return obj.get(LOCAL_IP).getAsString();
+
+        } catch (FileNotFoundException e) {
+            out.println(e.getMessage());
+            return "";
         }
     }
 }

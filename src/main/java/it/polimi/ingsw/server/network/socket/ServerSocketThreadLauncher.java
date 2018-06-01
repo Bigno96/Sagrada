@@ -10,6 +10,9 @@ import java.util.concurrent.Executors;
 
 import static java.lang.System.*;
 
+/**
+ * Class that listens on server socket for connection
+ */
 public class ServerSocketThreadLauncher {
 
     private ServerSocket serverSocket;

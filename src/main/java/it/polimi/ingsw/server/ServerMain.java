@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.controller.lobby.Lobby;
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
+import it.polimi.ingsw.server.network.parser.NetworkInfoParser;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 import it.polimi.ingsw.server.network.rmi.ServerRemoteImpl;
 import it.polimi.ingsw.server.network.socket.ServerSocketThreadLauncher;
@@ -27,8 +29,11 @@ public class ServerMain {
 
     private void startServer() {
         try {
+            NetworkInfoParser network = new NetworkInfoParser();
+            CommunicationParser communication = new CommunicationParser();
             String ip = "";
 
+            // find rmi ip address over the local network
             Enumeration e = NetworkInterface.getNetworkInterfaces();
             while(e.hasMoreElements()) {
                 NetworkInterface n = (NetworkInterface) e.nextElement();
@@ -36,7 +41,7 @@ public class ServerMain {
                 Enumeration ee = n.getInetAddresses();
                 while (ee.hasMoreElements()) {
                     InetAddress i = (InetAddress) ee.nextElement();
-                    if (i.toString().equals("192.168.x.x")) {
+                    if (i.toString().equals(network.getLocalIp())) {
                         ip = i.toString();
                         break;
                     }
@@ -46,13 +51,13 @@ public class ServerMain {
             Lobby lobby = new Lobby();
             lobby.startLobby();
 
-            ServerSocketThreadLauncher listener = new ServerSocketThreadLauncher(5000, lobby);         // create the listener for socket connection
+            ServerSocketThreadLauncher listener = new ServerSocketThreadLauncher(network.getSocketPort(), lobby);         // create the listener for socket connection
             System.setProperty("java.rmi.server.hostname", ip);
 
             ServerRemote server = new ServerRemoteImpl(lobby);                                       // export to port 4500 rmi remote server interface
-            ServerRemote remote = (ServerRemote) UnicastRemoteObject.exportObject(server, 4500);
-            Registry registry = LocateRegistry.createRegistry(4500);
-            registry.bind("Server_Interface", remote);
+            ServerRemote remote = (ServerRemote) UnicastRemoteObject.exportObject(server, network.getRmiServerPort());
+            Registry registry = LocateRegistry.createRegistry(network.getRmiServerPort());
+            registry.bind(communication.getMessage("SERVER_REMOTE"), remote);
 
             out.println("Server is up");
 

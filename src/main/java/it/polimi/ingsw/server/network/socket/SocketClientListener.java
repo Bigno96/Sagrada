@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.network.socket;
 
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -7,9 +9,11 @@ import java.util.Scanner;
 
 import static java.lang.System.*;
 
+/**
+ * Listen on socket messages from client
+ */
 public class SocketClientListener implements Runnable {
 
-    private static String print = "print";
     private Socket socket;
     private SocketClientSpeaker speaker;
 
@@ -22,18 +26,19 @@ public class SocketClientListener implements Runnable {
     public void run() {
         try {
             Scanner socketIn = new Scanner(new InputStreamReader(socket.getInputStream()));
+            CommunicationParser communication = new CommunicationParser();
 
             while(true) {
                 String command = socketIn.nextLine();
 
-                if (command.equals("quit")) {
+                if (command.equals(communication.getMessage("QUIT"))) {
                     break;
-                } else if (command.equals(print)) {
+                } else if (command.equals(communication.getMessage("PRINT"))) {
                     out.println(socketIn.nextLine());
-                } else if (command.equals("connect")) {
+                } else if (command.equals(communication.getMessage("CONNECT"))) {
                     String username = socketIn.nextLine();
                     speaker.connect(username);
-                } else if (command.equals("login")) {
+                } else if (command.equals(communication.getMessage("LOGIN"))) {
                     String user = socketIn.nextLine();
                     speaker.login(user);
                 }

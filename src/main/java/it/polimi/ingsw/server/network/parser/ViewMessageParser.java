@@ -8,6 +8,9 @@ import java.io.FileReader;
 
 import static java.lang.System.*;
 
+/**
+ * Parse messages to be displayed by the view
+ */
 public class ViewMessageParser {
 
     private static final String PATH = System.getProperty("user.dir") + "/src/main/resources/Json/ViewDictionary.json";

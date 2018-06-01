@@ -8,6 +8,9 @@ import java.io.FileReader;
 
 import static java.lang.System.*;
 
+/**
+ * Parse Game Settings
+ */
 public class GameSettingsParser {
 
     private JsonObject obj;
