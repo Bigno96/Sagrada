@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.network.rmi;
 
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
+import it.polimi.ingsw.server.network.parser.NetworkInfoParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
@@ -10,16 +12,22 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * Implementation of the remote methods of the client
+ */
 public class RmiServerSpeaker implements ServerSpeaker {
-    // realize the comm Client -> Server using rmi
+
     private String ip;
     private ServerRemote server;            // server remote interface
     private ClientRemote client;            // client remote interface passed to server
-    private ViewInterface view;
+    private final ViewInterface view;
+    private final CommunicationParser protocol;
 
     public RmiServerSpeaker(String ip, String username, ViewInterface view) {
         this.view = view;
         this.ip = ip;
+        this.protocol = new CommunicationParser();
+
         try {
             this.client = new ClientRemoteImpl(username, view);
         } catch (RemoteException e) {
@@ -41,11 +49,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
      */
     @Override
     public boolean connect(String username) {
-        view.print("Trying to connect to " + ip);
+        view.print(protocol.getMessage("USER_CONNECTING") + ip);
+
+        NetworkInfoParser parser = new NetworkInfoParser();
 
         try {
-            Registry registry = LocateRegistry.getRegistry(ip, 4500);
-            server = (ServerRemote) registry.lookup("Server_Interface");        // find remote interface
+            Registry registry = LocateRegistry.getRegistry(ip, parser.getRmiServerPort());
+            server = (ServerRemote) registry.lookup(protocol.getMessage("SERVER_REMOTE"));        // find remote interface
 
             server.connect(username, client);
 
@@ -65,26 +75,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public boolean login(String username) {
         try {
             server.login(username, client);                             // add this player to a game Lobby
-            server.tell("User " + username + " successfully logged in");
+            server.tell("User " + username + " " + protocol.getMessage("USER_LOGGED"));
             return true;
 
-        } catch (SamePlayerException e) {
-            view.print("An user with the same name already logged");
-            return false;
-
-        } catch (TooManyPlayersException e) {
-            view.print("Too many players in Lobby");
-            return false;
-
-        } catch (GameAlreadyStartedException e) {
-            view.print("Game is already started");
-            return false;
-
-        } catch (RemoteException e) {
+        } catch (SamePlayerException | TooManyPlayersException | GameAlreadyStartedException | RemoteException e) {
             view.print(e.getMessage());
             return false;
         }
-
     }
 
     @Override
@@ -127,3 +124,5 @@ public class RmiServerSpeaker implements ServerSpeaker {
         server.moveDiceFromDraftToCard(username, index, row, col);
     }
 }
+
+

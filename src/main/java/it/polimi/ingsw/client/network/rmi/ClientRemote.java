@@ -12,8 +12,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+/**
+ * Remote interface of client used by server
+ */
 public interface ClientRemote extends Remote {
-    // remote interface of client used by server
 
     /**
      * Used to print on client

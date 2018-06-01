@@ -1,0 +1,11 @@
+{
+  "CHOOSE_CONNECTION": "Choose your connection \n 'r' for RMI \n 's' for Socket \n 'd' for Default",
+  "INCORRECT_ENTRY": "Incorrect entry",
+  "INSERT_IP": "Insert IP Address",
+  "INSERT_NAME": "Insert your user Name",
+  "INSERT_NAME_AGAIN": " Please insert your user Name again",
+  "NO_SERVER_LISTENING": "\nNo server listening on given ip.\n Please insert new one",
+  "SOCKET_CHOSEN": "Socket connection chosen",
+  "RMI_CHOSEN": "RMI connection chosen",
+  "WRONG_IP": "Not a valid ip"
+}

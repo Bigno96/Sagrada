@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class Lobby {
     private HashMap<String, CheckDisconnectionDaemon> checkerDisconnection;
     private HashMap<String, RemovePlayerDaemon> checkerRemoving;
     private Game game;
+    private CommunicationParser protocol;
 
     public Lobby() {
         this.players = new HashMap<>();
@@ -28,6 +30,7 @@ public class Lobby {
         this.checkerDisconnection = new HashMap<>();
         this.checkerRemoving = new HashMap<>();
         this.game = new Game();
+        this.protocol = new CommunicationParser();
     }
 
     public void startLobby() {
@@ -42,14 +45,14 @@ public class Lobby {
             if (players.get(username).isDisconnected())
                 reconnectPlayer(username);
             else
-                throw new SamePlayerException();
+                throw new SamePlayerException(protocol.getMessage("SAME_PLAYER_MSG"));
         }
 
         else if (currentState.equals(gameState.STARTED))
-            throw new GameAlreadyStartedException();
+            throw new GameAlreadyStartedException(protocol.getMessage("GAME_ALREADY_STARTED_MSG"));
 
         else if (players.size() >= 4)
-            throw new TooManyPlayersException();
+            throw new TooManyPlayersException(protocol.getMessage("TOO_MANY_PLAYERS_MSG"));
 
         players.put(username, new Player(username));
         speakers.put(username, speaker);

@@ -67,7 +67,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     @Override
     public synchronized boolean ping() {
         try {
-            int reading = socket.getInputStream().read(new byte[1024], 0, 0);
+            int reading = socket.getInputStream().read(new byte[8], 0, 0);
             if (reading == -1)
                 return false;
 
@@ -96,19 +96,9 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         try {
             lobby.addPlayer(username, this);
 
-        } catch (SamePlayerException e) {
+        } catch (SamePlayerException | GameAlreadyStartedException | TooManyPlayersException e) {
             socketOut.println(parse);
-            socketOut.println("SamePlayerException");
-            socketOut.flush();
-
-        } catch (GameAlreadyStartedException e) {
-            socketOut.println(parse);
-            socketOut.println("GameAlreadyStartedException");
-            socketOut.flush();
-
-        } catch (TooManyPlayersException e) {
-            socketOut.println(parse);
-            socketOut.println("TooManyPlayersException");
+            socketOut.println(e.getClass().toString());
             socketOut.flush();
         }
     }
