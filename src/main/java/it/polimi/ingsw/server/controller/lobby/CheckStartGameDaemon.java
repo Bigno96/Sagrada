@@ -5,7 +5,11 @@ import it.polimi.ingsw.server.model.game.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
+/**
+ * Daemon run to check if the condition to start game timer are true.
+ */
 public class CheckStartGameDaemon extends TimerTask {
 
     private HashMap<String, Player> players;
@@ -29,13 +33,11 @@ public class CheckStartGameDaemon extends TimerTask {
      * @return true if at least 2 player are connected, false else
      */
     private synchronized boolean checkStartGame() {
-        int nConnected = 0;
-
-        for(Map.Entry<String, Player> entry : players.entrySet())
-            if (!entry.getValue().isDisconnected())
-                nConnected++;
-
-        return nConnected >= 2;
+        return players.entrySet().stream()
+                .filter(entry -> !entry.getValue().isDisconnected())
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList())
+                .size() >= 2;
     }
 }
 

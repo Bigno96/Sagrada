@@ -4,6 +4,7 @@
   "GAME_ALREADY_STARTED_MSG": "Game is already started",
   "LOGIN": "login",
   "LOGIN_SUCCESS": "loginSuccess",
+  "LOST_CONNECTION": "Lost connection with ",
   "PRINT": "print",
   "QUIT": "quit",
   "SAME_PLAYER_MSG": "An user with the same name already logged",
@@ -11,5 +12,5 @@
   "SERVER_REMOTE": "Server_Interface",
   "TOO_MANY_PLAYERS_MSG": "Too many players in Lobby",
   "USER_CONNECTING":"Trying to connect to ",
-  "USER_LOGGED": "successfully logged in"
+  "USER_LOGGED": "Successfully logged in"
 }
