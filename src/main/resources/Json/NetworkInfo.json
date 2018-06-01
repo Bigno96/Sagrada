@@ -1,0 +1,5 @@
+{
+  "socketPort": 5000,
+  "rmiServerPort": 4500,
+  "setSoTimeout": 30000
+}

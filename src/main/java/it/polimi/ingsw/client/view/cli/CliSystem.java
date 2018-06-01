@@ -22,10 +22,10 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class CliSystem implements ViewInterface {
 
-    private CliAskConnection connection;
+    private final CliAskConnection connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    private Scanner inKeyboard;
+    private final Scanner inKeyboard;
     private int numRound;
     private HashMap<String, ServerSpeaker> connParam;
     private boolean waiting;
@@ -55,15 +55,13 @@ public class CliSystem implements ViewInterface {
     public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException, RemoteException {
 
         int pick;
-        inKeyboard = new Scanner(in);
 
-        for (WindowCard w: cards)
-            printWindowCard(w);
+        cards.forEach(this::printWindowCard);
 
         print("Choose your window card (choice between 1 and 4):");
         do{
             pick = inKeyboard.nextInt();
-        }while(pick<0 || pick>4);
+        }while(pick<1 || pick>4);
 
         pick--;
 
@@ -72,23 +70,32 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void showCardPlayer(String user, WindowCard card) throws IDNotFoundException {
-        print(user + " choose the window card " + card.getName());
+    public void showCardPlayer(String user, WindowCard card) {
+        print(user + " choose window card " + card.getName());
         printWindowCard(card);
     }
 
     @Override
-    public void printWindowCard(WindowCard window) throws IDNotFoundException {
+    public void printWindowCard(WindowCard window) {
         Cell c;
+
         for (int i=0; i<window.getWindow().getCols(); i++)
             out.print("\t" + i);
         print("");
+
         for (int i=0; i<window.getWindow().getRows(); i++) {
             out.print(i + "\t");
+
             for (int j = 0; j < window.getWindow().getCols(); j++) {
                 c = window.getWindow().getCell(i, j);
-                if (c.isOccupied())
-                    out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
+
+                if (c.isOccupied()) {
+                    try {
+                        out.print(ansi().eraseScreen().bg(Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
+                    } catch (IDNotFoundException e) {
+                        out.println(e.getMessage());
+                    }
+                }
                 else
                     out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
             }
@@ -99,8 +106,7 @@ public class CliSystem implements ViewInterface {
 
     @Override
     public void printUsers(List<String> users) {
-        for(String user: users)
-            out.print(user + "\t");
+        users.forEach(user -> print(user + "\t"));
     }
 
     @Override
@@ -111,8 +117,7 @@ public class CliSystem implements ViewInterface {
     @Override
     public void printPublObj(List<PublicObjective> publObj) {
         print("The public objective are:");
-        for (PublicObjective p: publObj)
-            print("- " + p.getDescr());
+        publObj.forEach(p -> print("- " + p.getDescr()));
     }
 
     @Override
@@ -128,7 +133,7 @@ public class CliSystem implements ViewInterface {
             waiting = false;
             played = false;
             askMove();
-        }else {
+        } else {
             print("It is the turn of: " + username);
             waiting = true;
             askWaiting();
@@ -138,9 +143,9 @@ public class CliSystem implements ViewInterface {
     @Override
     public void showDraft(List<Dice> draft) {
         int i = 0;
+
         for (Dice d : draft) {
-            i++;
-            out.print("Dice n°" + i + ": " + ansi().eraseScreen().bg(Ansi.Color.valueOf(d.getColor().toString())).fg(BLACK).a(d.getValue()).reset() + "\n");
+            print("Dice n°" + i++ + ": " + ansi().eraseScreen().bg(Ansi.Color.valueOf(d.getColor().toString())).fg(BLACK).a(d.getValue()).reset() + "\n");
         }
     }
 

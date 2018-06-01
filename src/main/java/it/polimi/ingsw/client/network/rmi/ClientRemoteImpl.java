@@ -16,7 +16,7 @@ import java.util.List;
 public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote {
 
     private String username;
-    private ViewInterface view;
+    private final ViewInterface view;
 
     ClientRemoteImpl(String username, ViewInterface view) throws RemoteException {
         super();
@@ -42,6 +42,9 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
         view.print(s);
     }
 
+    /**
+     * @return true
+     */
     @Override
     public boolean ping() {
         return true;

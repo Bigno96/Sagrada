@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.network.socket;
 
+import it.polimi.ingsw.server.network.parser.CommunicationParser;
+import it.polimi.ingsw.server.network.parser.NetworkInfoParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.IDNotFoundException;
@@ -18,14 +20,17 @@ public class SocketServerSpeaker implements ServerSpeaker{
 
     private String ip;
     private Socket socket;
-    private PrintWriter socketOut;
-    private ViewInterface view;
+    private static PrintWriter socketOut;
+    private final ViewInterface view;
     private Boolean logged;
+    private final CommunicationParser protocol;
+    private final Object lock = new Object();
 
     public SocketServerSpeaker(String ip, ViewInterface view) {
         this.view = view;
         this.ip = ip;
         this.logged = null;
+        this.protocol = new CommunicationParser();
     }
 
     void interrupt() {
@@ -50,18 +55,20 @@ public class SocketServerSpeaker implements ServerSpeaker{
      */
     @Override
     public boolean connect(String username) {
-        view.print("Trying to connect to " + ip);
+        NetworkInfoParser parser = new NetworkInfoParser();
+
+        view.print(protocol.getMessage("USER_CONNECTING") + ip);
 
         try {
-            socket = new Socket(ip, 5000);
+            socket = new Socket(ip, parser.getSocketPort());
             ExecutorService executor = Executors.newCachedThreadPool();
             executor.submit(new SocketServerListener(socket, view, this));
 
-            synchronized (this) {
+            synchronized (lock) {
                 socketOut = new PrintWriter(socket.getOutputStream());
 
-                socketOut.println("connect");       // asking for connection
-                socketOut.println(username);        // username passed
+                socketOut.println(protocol.getMessage("CONNECT"));       // asking for connection
+                socketOut.println(username);                                    // username passed
                 socketOut.flush();
             }
 
@@ -80,25 +87,25 @@ public class SocketServerSpeaker implements ServerSpeaker{
     @Override
     public boolean login(String username) {
         try {
-            synchronized (this) {
+            synchronized (lock) {
                 socketOut = new PrintWriter(socket.getOutputStream());
 
-                socketOut.println("login");                 // ask for login
-                socketOut.println(username);                    // username passed
+                socketOut.println(protocol.getMessage("LOGIN"));             // ask for login
+                socketOut.println(username);                                        // username passed
                 socketOut.flush();
             }
 
             synchronized (this) {
-                while (logged == null)
+                while (logged == null)              // while server hasn't responded
                     wait(100);
             }
 
             if (!logged)
                 return false;
 
-            synchronized (this) {
-                socketOut.println("print");
-                socketOut.println("User " + username + " successfully logged in");      // inform server login was successful
+            synchronized (lock) {
+                socketOut.println(protocol.getMessage("PRINT"));
+                socketOut.println("User " + username + " " + protocol.getMessage("LOGIN_SUCCESS"));      // inform server login was successful
                 socketOut.flush();
             }
 
