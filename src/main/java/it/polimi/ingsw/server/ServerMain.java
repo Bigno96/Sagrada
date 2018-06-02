@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.parser.ParserFactory;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
-import it.polimi.ingsw.server.network.parser.CommunicationParser;
-import it.polimi.ingsw.server.network.parser.NetworkInfoParser;
+import it.polimi.ingsw.parser.CommunicationParser;
+import it.polimi.ingsw.parser.NetworkInfoParser;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 import it.polimi.ingsw.server.network.rmi.ServerRemoteImpl;
 import it.polimi.ingsw.server.network.socket.ServerSocketThreadLauncher;
@@ -29,8 +30,8 @@ public class ServerMain {
 
     private void startServer() {
         try {
-            NetworkInfoParser network = new NetworkInfoParser();
-            CommunicationParser communication = new CommunicationParser();
+            NetworkInfoParser network = (NetworkInfoParser) ParserFactory.getNetworkInfoParser();
+            CommunicationParser communication = (CommunicationParser) ParserFactory.getCommunicationParser();
             String ip = "";
 
             // find rmi ip address over the local network

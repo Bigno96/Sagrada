@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.lobby;
 
-import it.polimi.ingsw.server.network.parser.GameSettingsParser;
+import it.polimi.ingsw.parser.GameSettingsParser;
+import it.polimi.ingsw.parser.ParserFactory;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public class StartGame extends TimerTask {
     StartGame(Lobby lobby) {
         this.lobby = lobby;
         count = 0;
-        this.settings = new GameSettingsParser();
+        this.settings = (GameSettingsParser) ParserFactory.getGameSettingsParser();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.network.parser;
+package it.polimi.ingsw.parser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,16 +11,18 @@ import static java.lang.System.*;
 /**
  * Read network settings from NetworkInfo.json
  */
-public class NetworkInfoParser {
-    private static final String PATH = System.getProperty("user.dir") + "/src/main/resources/Json/NetworkInfo.json";
+public class NetworkInfoParser implements Parser {
+
+    private final String path;
+
+    NetworkInfoParser(String path) {
+        this.path = path;
+    }
+
     private static final String SOCKET_PORT = "socketPort";
     private static final String RMI_SERVER_PORT = "rmiServerPort";
     private static final String SO_TIMEOUT = "setSoTimeout";
     private static final String LOCAL_IP = "getLocalIp";
-
-    public NetworkInfoParser() {
-        // just creates the instance
-    }
 
     /**
      * @return int for port used by socket connection
@@ -28,7 +30,7 @@ public class NetworkInfoParser {
     public int getSocketPort() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return Integer.parseInt(obj.get(SOCKET_PORT).getAsString());
 
@@ -44,7 +46,7 @@ public class NetworkInfoParser {
     public int getRmiServerPort() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return Integer.parseInt(obj.get(RMI_SERVER_PORT).getAsString());
 
@@ -60,7 +62,7 @@ public class NetworkInfoParser {
     public int getSoTimeout() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return Integer.parseInt(obj.get(SO_TIMEOUT).getAsString());
 
@@ -76,7 +78,7 @@ public class NetworkInfoParser {
     public String getLocalIp() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return obj.get(LOCAL_IP).getAsString();
 

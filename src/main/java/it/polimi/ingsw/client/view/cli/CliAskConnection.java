@@ -3,7 +3,8 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
-import it.polimi.ingsw.server.network.parser.ViewMessageParser;
+import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.ViewMessageParser;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -28,7 +29,7 @@ class CliAskConnection {
         this.rmiConnection = false;
         this.inKeyboard = new Scanner(in);
         this.connParam = new HashMap<>();
-        this.dictionary = new ViewMessageParser();
+        this.dictionary = (ViewMessageParser) ParserFactory.getViewMessageParser();
         this.connectionMap = new HashMap<>();
         this.connectionAction = new HashMap<>();
         mapConnection();

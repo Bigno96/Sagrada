@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.network.parser;
+package it.polimi.ingsw.parser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,18 +11,18 @@ import static java.lang.System.*;
 /**
  * Parse messages to be displayed by the view
  */
-public class ViewMessageParser {
+public class ViewMessageParser implements Parser {
 
-    private static final String PATH = System.getProperty("user.dir") + "/src/main/resources/Json/ViewDictionary.json";
+    private final String path;
 
-    public ViewMessageParser() {
-        // just creates the instance
+    ViewMessageParser(String path) {
+        this.path = path;
     }
 
     public String getMessage(String input) {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return obj.get(input).getAsString();
 

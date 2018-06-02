@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server.controller.lobby;
 
+import it.polimi.ingsw.parser.ParserFactory;
 import it.polimi.ingsw.server.network.ClientSpeaker;
-import it.polimi.ingsw.server.network.parser.CommunicationParser;
+import it.polimi.ingsw.parser.CommunicationParser;
 
 import java.util.TimerTask;
 
@@ -23,7 +24,7 @@ public class CheckDisconnectionDaemon extends TimerTask {
         this.speaker = speaker;
         this.disconnected = false;
         this.lobby = lobby;
-        this.protocol = new CommunicationParser();
+        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
     }
 
     @Override

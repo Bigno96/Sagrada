@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.network.parser;
+package it.polimi.ingsw.parser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,12 +11,12 @@ import static java.lang.System.*;
 /**
  * Parse Connection information
  */
-public class CommunicationParser {
+public class CommunicationParser implements Parser {
 
-    private static final String PATH = System.getProperty("user.dir") + "/src/main/resources/Json/CommunicationProtocol.json";
+    private final String path;
 
-    public CommunicationParser() {
-        // just creates the instance
+    CommunicationParser(String path) {
+        this.path = path;
     }
 
     /**
@@ -26,7 +26,7 @@ public class CommunicationParser {
     public String getMessage(String input) {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return obj.get(input).getAsString();
 

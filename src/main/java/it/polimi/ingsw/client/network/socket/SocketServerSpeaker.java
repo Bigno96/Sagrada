@@ -1,12 +1,13 @@
 package it.polimi.ingsw.client.network.socket;
 
-import it.polimi.ingsw.server.network.parser.CommunicationParser;
-import it.polimi.ingsw.server.network.parser.NetworkInfoParser;
+import it.polimi.ingsw.parser.CommunicationParser;
+import it.polimi.ingsw.parser.NetworkInfoParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.ParserFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
         this.view = view;
         this.ip = ip;
         this.logged = null;
-        this.protocol = new CommunicationParser();
+        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
     }
 
     void interrupt() {
@@ -55,7 +56,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
      */
     @Override
     public boolean connect(String username) {
-        NetworkInfoParser parser = new NetworkInfoParser();
+        NetworkInfoParser parser = (NetworkInfoParser) ParserFactory.getNetworkInfoParser();
 
         view.print(protocol.getMessage("USER_CONNECTING") + ip);
 
