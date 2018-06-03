@@ -4,18 +4,21 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.objectivecard.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import static java.lang.System.out;
@@ -37,20 +40,19 @@ public class GuiSystem extends Application implements ViewInterface{
 
     @Override
     public void start(Stage primaryStage) {
-        window = primaryStage;
-        window.setTitle("Sagrada");
-        Button button = new Button("Play");
+        Platform.runLater(() -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
+                //control = new ClientMainC();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
+            primaryStage.setScene(new Scene(root, 700, 400));
+            primaryStage.show();
+        });
 
-        button.setOnAction(e -> displayAskConnection());
-
-        //Layout
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(button);
-        layout.setAlignment(Pos.CENTER);
-
-        Scene initScene = new Scene(layout, 300, 100);
-        window.setScene(initScene);
-        window.show();
     }
 
     private void displayAskConnection() {
