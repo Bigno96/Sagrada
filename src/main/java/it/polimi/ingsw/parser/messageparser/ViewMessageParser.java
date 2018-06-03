@@ -1,7 +1,8 @@
-package it.polimi.ingsw.parser;
+package it.polimi.ingsw.parser.messageparser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.parser.Parser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,20 +10,16 @@ import java.io.FileReader;
 import static java.lang.System.*;
 
 /**
- * Parse Connection information
+ * Parse messages to be displayed by the view
  */
-public class CommunicationParser implements Parser {
+public class ViewMessageParser implements Parser {
 
     private final String path;
 
-    CommunicationParser(String path) {
+    public ViewMessageParser(String path) {
         this.path = path;
     }
 
-    /**
-     * @param input codification of the information ot be found
-     * @return corresponding string
-     */
     public String getMessage(String input) {
         try {
             JsonParser parser = new JsonParser();

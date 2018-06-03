@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.controller.lobby;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
-import it.polimi.ingsw.parser.CommunicationParser;
-import it.polimi.ingsw.parser.GameSettingsParser;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +46,8 @@ public class Lobby {
         this.checkerDisconnection = new HashMap<>();
         this.checkerRemoving = new HashMap<>();
         this.game = new Game();
-        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
-        this.settings = (GameSettingsParser) ParserFactory.getGameSettingsParser();
+        this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+        this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
     }
 
     public void startLobby() {

@@ -1,11 +1,12 @@
-package it.polimi.ingsw.servertest.modeltest.windowcardtest;
+package it.polimi.ingsw.servertest.parsertest;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.ParserManager;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.server.model.windowcard.WindowFactory;
+import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,13 +15,13 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class WindowFactoryTest extends TestCase {
+public class WindowParserTest extends TestCase {
 
-    private WindowFactory winFact = new WindowFactory();
+    private WindowParser winFact = (WindowParser) ParserManager.getWindowCardParser();
     private List<WindowCard> winCards = new ArrayList<>();
     private static final Random random = new Random();
 
-    public WindowFactoryTest(String testName) {
+    public WindowParserTest(String testName) {
         super(testName);
     }
 

@@ -1,17 +1,7 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.server.controller.ChooseWindowCardObserver;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveFactory;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
-import it.polimi.ingsw.server.model.toolcard.ToolCard;
-import it.polimi.ingsw.server.model.toolcard.ToolFactory;
-import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -44,119 +34,6 @@ public class Game extends Observable {
         }
         for (Player p: playerList){
             p.setBoard(board);
-        }
-        loadPublObj();
-        loadPrivObj();
-        loadToolCard();
-        loadWindowCard();
-    }
-
-    public void loadWindowCard() {
-        int id1;
-        int id2;
-        List<Integer> vetID = new ArrayList<>();
-        List<WindowCard> cards;
-        WindowFactory winFact = new WindowFactory();
-        HashMap<Player, List<WindowCard>> poolCards = new HashMap<>();
-
-        try {
-            for (Player p : playerList) {
-                do {
-                    id1 = random.nextInt(12) + 1;
-                    id2 = random.nextInt(12) + 1;
-                } while (vetID.contains(id1) && vetID.contains(id2) && id1 != id2);
-                vetID.add(id1);
-                vetID.add(id2);
-                cards = winFact.getWindow(id1, id2);
-                poolCards.put(p, cards);
-            }
-        }catch (IDNotFoundException | FileNotFoundException | ValueException | PositionException e) {
-            logger.info(e.getMessage());
-        }
-    }
-
-    public void loadPublObj() {
-        int id;
-        int id2;
-        int id3;
-        ObjectiveCard obj1;
-        ObjectiveCard obj2;
-        ObjectiveCard obj3;
-        ObjectiveStrategy objStrat = new ObjectiveStrategy();
-        ObjectiveFactory obj = new ObjectiveFactory(objStrat);
-
-        try {
-            id = random.nextInt(10) + 1;
-            obj1 = obj.getPublCard(id);
-
-            do {
-                id2 = random.nextInt(10) + 1;
-            } while (id2 == id);
-            obj2 = obj.getPublCard(id2);
-
-            do {
-                id3 = random.nextInt(10) + 1;
-            } while (id3 == id || id3 == id2);
-            obj3 = obj.getPublCard(id3);
-
-            board.setPublObj(obj1, obj2, obj3);
-
-        }catch (IDNotFoundException | FileNotFoundException e) {
-            logger.info(e.getMessage());
-        }
-    }
-
-    public void loadPrivObj() {
-        int id;
-        List<Integer> vetID = new ArrayList<>();
-        ObjectiveCard objPriv;
-        ObjectiveStrategy objStrat = new ObjectiveStrategy();
-        ObjectiveFactory obj = new ObjectiveFactory(objStrat);
-        try{
-            for (Player p : playerList) {
-                do {
-                    id = random.nextInt(5) + 1;
-                } while (vetID.contains(id));
-                vetID.add(id);
-                objPriv = obj.getPrivCard(id);
-                p.setPrivObj(objPriv);
-            }
-        }catch (IDNotFoundException | FileNotFoundException e) {
-            logger.info(e.getMessage());
-        }
-    }
-
-    public void loadToolCard(){
-        int id;
-        int id2;
-        int id3;
-
-        ToolCard tool1;
-        ToolCard tool2;
-        ToolCard tool3;
-
-        ToolStrategy toolStrat = new ToolStrategy(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
-        ToolFactory tool = new ToolFactory(toolStrat, this);
-
-        try {
-
-            id = random.nextInt(12) + 1;
-            tool1 = tool.makeToolCard(id);
-
-            do {
-                id2 = random.nextInt(12) + 1;
-            } while (id2 == id);
-            tool2 = tool.makeToolCard(id2);
-
-            do {
-                id3 = random.nextInt(12) + 1;
-            } while (id3 == id || id3 == id2);
-            tool3 = tool.makeToolCard(id3);
-
-            board.setToolCard(tool1, tool2, tool3);
-
-        }catch (FileNotFoundException e) {
-            logger.info(e.getMessage());
         }
     }
 

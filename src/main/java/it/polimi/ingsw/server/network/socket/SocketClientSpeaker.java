@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server.network.socket;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
-import it.polimi.ingsw.parser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 
 import java.net.*;
 import java.io.*;
@@ -32,7 +32,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     SocketClientSpeaker(Socket socket, Lobby lobby) {
         this.lobby = lobby;
         this.socket = socket;
-        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
+        this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
     }
 
     @Override

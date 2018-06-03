@@ -4,12 +4,11 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Logger;
 
 public class Player extends Observable {

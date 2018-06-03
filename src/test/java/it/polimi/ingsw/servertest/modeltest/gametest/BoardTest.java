@@ -6,8 +6,7 @@ import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,25 +26,21 @@ public class BoardTest extends TestCase {
     public void testGetter() throws IDNotFoundException {
         Board board = new Board(nPlayer);
 
-        assertNotNull(board.getObjectiveStrategy());
-        assertNotNull(board.getObjectiveFactory());
         assertNotNull(board.getPublObj());
         assertEquals(nPlayer, board.getnPlayer());
         assertNotNull(board.getToolCard());
         assertNotNull(board.getDiceBag());
         assertNotNull(board.getDraft());
         assertNotNull(board.getRoundTrack());
-        assertNotNull(board.getWindowFactory());
 
     }
 
     public void testSetPublObj() throws IDNotFoundException{
         Board board = new Board(nPlayer);
         List<PublicObjective> list = new ArrayList<>();
-        ObjectiveStrategy objStrat = new ObjectiveStrategy();
-        PublicObjective obj1 = new PublicObjective(id, "Obj1", point, objStrat);
-        PublicObjective obj2 = new PublicObjective(id+1, "Obj2", point+1, objStrat);
-        PublicObjective obj3 = new PublicObjective(id+2, "Obj3", point-1, objStrat);
+        PublicObjective obj1 = new PublicObjective(id, "Obj1", point);
+        PublicObjective obj2 = new PublicObjective(id+1, "Obj2", point+1);
+        PublicObjective obj3 = new PublicObjective(id+2, "Obj3", point-1);
 
         list.add(obj1);
         list.add(obj2);

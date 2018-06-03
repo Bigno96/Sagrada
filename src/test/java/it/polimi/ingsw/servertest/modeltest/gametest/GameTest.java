@@ -1,7 +1,7 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Round;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class GameTest extends TestCase {
         super(testName);
     }
 
-    public void testGetter() throws SamePlayerException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void testGetter() throws SamePlayerException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);
@@ -54,7 +53,7 @@ public class GameTest extends TestCase {
 
     }
 
-    public void testStartGame() throws SamePlayerException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void testStartGame() throws SamePlayerException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);
@@ -74,11 +73,7 @@ public class GameTest extends TestCase {
         assertEquals(list, game.getBoard().getPublObj());
         listTool = game.getBoard().getToolCard();
         assertEquals(listTool, game.getBoard().getToolCard());
-
-        for (Player player: game.getPlayerList()){
-            assertNotNull(player.getPrivObj());
-        }
-
+        
     }
 
     public void testAddPlayer() throws SamePlayerException, EmptyException, PlayerNotFoundException {
@@ -106,7 +101,7 @@ public class GameTest extends TestCase {
         assertThrows(PlayerNotFoundException.class, () -> game.findPlayer(pDiff));
     }
 
-    public void testCurrentPlayer() throws SamePlayerException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void testCurrentPlayer() throws SamePlayerException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);

@@ -3,12 +3,9 @@ package it.polimi.ingsw.server.model.game;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveFactory;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
-import it.polimi.ingsw.server.model.windowcard.WindowFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +14,10 @@ import java.util.logging.Logger;
 public class Board {
 
     private List<ObjectiveCard> publObj;
-    private ObjectiveStrategy objectiveStrategy;
-    private ObjectiveFactory objectiveFactory;
     private List<ToolCard> toolCard;
     private DiceBag diceBag;
     private Draft draft;
     private RoundTrack roundTrack;
-    private WindowFactory windowFactory;
     private int nPlayer;
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
@@ -34,15 +28,12 @@ public class Board {
      * @throws IDNotFoundException when DiceBag throws IDNotFoundException
      */
     public Board(int nPlayer) throws IDNotFoundException {
-        objectiveStrategy = new ObjectiveStrategy();
-        objectiveFactory = new ObjectiveFactory(objectiveStrategy);
         publObj = new ArrayList<>();
         this.nPlayer = nPlayer;
         toolCard = new ArrayList<>();
         diceBag = new DiceBag();
         draft = new Draft(diceBag, (nPlayer*2)+1);
         roundTrack = new RoundTrack(draft);
-        windowFactory = new WindowFactory();
     }
 
     @Override
@@ -53,10 +44,9 @@ public class Board {
 
     public void dump()
     {
-        logger.info("PublObj: " + getPublObj() + " ObjStrat: " + getObjectiveStrategy() +
-                " ObjFact: " + getObjectiveFactory() + " ToolCard: " + getToolCard() +
+        logger.info("PublObj: " + getPublObj() + " ToolCard: " + getToolCard() +
                 " DiceBag: " + getDiceBag() + " Draft: " + getDraft() + " RoundTrack: "
-                + getRoundTrack() + " WindowFact: " + getWindowFactory() + " nPlayer: " + getnPlayer());
+                + getRoundTrack() + " nPlayer: " + getnPlayer());
     }
 
     /**
@@ -87,14 +77,6 @@ public class Board {
         return publObj;
     }
 
-    public ObjectiveStrategy getObjectiveStrategy() {
-        return objectiveStrategy;
-    }
-
-    public ObjectiveFactory getObjectiveFactory() {
-        return objectiveFactory;
-    }
-
     public List<ToolCard> getToolCard() {
         return toolCard;
     }
@@ -109,10 +91,6 @@ public class Board {
 
     public RoundTrack getRoundTrack() {
         return roundTrack;
-    }
-
-    public WindowFactory getWindowFactory() {
-        return windowFactory;
     }
 
     public int getnPlayer() {

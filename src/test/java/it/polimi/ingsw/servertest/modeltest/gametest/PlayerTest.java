@@ -3,14 +3,18 @@ package it.polimi.ingsw.servertest.modeltest.gametest;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.objectivecard.*;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.factory.ObjectiveFactory;
+import it.polimi.ingsw.server.model.objectivecard.factory.PrivateObjectiveFactory;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.server.model.windowcard.WindowFactory;
+import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -24,9 +28,7 @@ public class PlayerTest extends TestCase {
     private String id = "Test";
     private int idCard = random.nextInt(5)+2;
     private Board board = new Board(nPlayer);
-    private WindowFactory winFact = new WindowFactory();
-    private ObjectiveStrategy objStrat = new ObjectiveStrategy();
-    private ObjectiveFactory objFact = new ObjectiveFactory(objStrat);
+    private WindowParser winFact = (WindowParser) ParserManager.getWindowCardParser();
     private int fp = random.nextInt(4)+3;
 
     public PlayerTest(String testName) throws IDNotFoundException {
@@ -107,7 +109,8 @@ public class PlayerTest extends TestCase {
         p.setBoard(board);
         int n = random.nextInt(5)+1;
 
-        ObjectiveCard obj = objFact.getPrivCard(n);
+        PrivateObjectiveFactory objFact = new PrivateObjectiveFactory();
+        ObjectiveCard obj = objFact.makeCard(n, "test", 10);
 
         p.setPrivObj(obj);
         assertSame(obj, p.getPrivObj());
@@ -135,27 +138,5 @@ public class PlayerTest extends TestCase {
                 cellList.add(new Cell(val, col, i, j));
             }
         return cellList;
-    }
-
-    public void testRateScore() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-        int score = -20;
-        List<Cell> list = myCellList();
-        int id = random.nextInt(12)+1;
-        WindowCard card = new WindowCard(id, "Test", fp, list);
-        ObjectiveStrategy objStrat = new ObjectiveStrategy();
-        ObjectiveFactory obj = new ObjectiveFactory(objStrat);
-        ObjectiveCard objPriv = obj.getPrivCard(idCard-1);
-        ObjectiveCard obj1 = obj.getPublCard(idCard);
-        ObjectiveCard obj2 = obj.getPublCard(idCard+1);
-        ObjectiveCard obj3 = obj.getPublCard(idCard+2);
-        board.setPublObj(obj1, obj2, obj3);
-
-        Player p = new Player("Test");
-        p.setWindowCard(card);
-        p.setBoard(board);
-        p.setPrivObj(objPriv);
-        p.setFavorPoint(0);
-
-        assertEquals(score, p.rateScore());
     }
 }

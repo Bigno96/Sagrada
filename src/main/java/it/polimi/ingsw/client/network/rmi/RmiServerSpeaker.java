@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.network.rmi;
 
-import it.polimi.ingsw.parser.CommunicationParser;
-import it.polimi.ingsw.parser.NetworkInfoParser;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
 import java.rmi.NotBoundException;
@@ -27,7 +27,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public RmiServerSpeaker(String ip, String username, ViewInterface view) {
         this.view = view;
         this.ip = ip;
-        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
+        this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
 
         try {
             this.client = new ClientRemoteImpl(username, view);
@@ -52,7 +52,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public boolean connect(String username) {
         view.print(protocol.getMessage("USER_CONNECTING") + ip);
 
-        NetworkInfoParser parser = (NetworkInfoParser) ParserFactory.getNetworkInfoParser();
+        NetworkInfoParser parser = (NetworkInfoParser) ParserManager.getNetworkInfoParser();
 
         try {
             Registry registry = LocateRegistry.getRegistry(ip, parser.getRmiServerPort());

@@ -3,10 +3,10 @@ package it.polimi.ingsw.client.network.socket;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
-import it.polimi.ingsw.parser.CommunicationParser;
-import it.polimi.ingsw.parser.NetworkInfoParser;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
 import it.polimi.ingsw.client.view.ViewInterface;
-import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.ParserManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class SocketServerListener implements Runnable {
         this.view = view;
         this.socket = socket;
         this.speaker = speaker;
-        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
+        this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         mapException();
         mapCommand();
     }
@@ -68,7 +68,7 @@ public class SocketServerListener implements Runnable {
         try {
             BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            NetworkInfoParser parser = (NetworkInfoParser) ParserFactory.getNetworkInfoParser();
+            NetworkInfoParser parser = (NetworkInfoParser) ParserManager.getNetworkInfoParser();
             socket.setSoTimeout(parser.getSoTimeout());     // 30 seconds
 
             while (true) {

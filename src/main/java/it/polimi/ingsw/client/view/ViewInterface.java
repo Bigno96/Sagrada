@@ -5,8 +5,8 @@ import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.objectivecard.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 

@@ -1,7 +1,8 @@
-package it.polimi.ingsw.parser;
+package it.polimi.ingsw.parser.messageparser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.parser.Parser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,7 +16,7 @@ public class NetworkInfoParser implements Parser {
 
     private final String path;
 
-    NetworkInfoParser(String path) {
+    public NetworkInfoParser(String path) {
         this.path = path;
     }
 

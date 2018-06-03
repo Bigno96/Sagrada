@@ -1,7 +1,8 @@
-package it.polimi.ingsw.parser;
+package it.polimi.ingsw.parser.messageparser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.parser.Parser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,7 +22,7 @@ public class GameSettingsParser implements Parser {
     private static final String MAX_PLAYER = "MAX_PLAYER_IN_GAME";
     private static final String REMOVING_TIMER = "REMOVING_PLAYER_TIMER";
 
-    GameSettingsParser(String path) {
+    public GameSettingsParser(String path) {
         JsonParser parser = new JsonParser();
         try {
             obj = (JsonObject) parser.parse(new FileReader(path));

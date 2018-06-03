@@ -4,9 +4,9 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.GameAlreadyStartedException;
 import it.polimi.ingsw.exception.SamePlayerException;
 import it.polimi.ingsw.exception.TooManyPlayersException;
-import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
-import it.polimi.ingsw.parser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 
 import java.rmi.RemoteException;
 
@@ -18,7 +18,7 @@ public class ServerRemoteImpl implements ServerRemote {
     private CommunicationParser protocol;
 
     public ServerRemoteImpl(Lobby lobby) {
-        this.protocol = (CommunicationParser) ParserFactory.getCommunicationParser();
+        this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.lobby = lobby;
     }
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.network.socket;
 
-import it.polimi.ingsw.parser.CommunicationParser;
-import it.polimi.ingsw.parser.ParserFactory;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.ParserManager;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +27,7 @@ public class SocketClientListener implements Runnable {
     public void run() {
         try {
             Scanner socketIn = new Scanner(new InputStreamReader(socket.getInputStream()));
-            CommunicationParser communication = (CommunicationParser) ParserFactory.getCommunicationParser();
+            CommunicationParser communication = (CommunicationParser) ParserManager.getCommunicationParser();
 
             while(true) {
                 String command = socketIn.nextLine();
