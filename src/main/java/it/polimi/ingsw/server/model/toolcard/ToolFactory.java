@@ -18,7 +18,6 @@ public class ToolFactory {
     private Game game;
     private final String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/ToolCard.json";
 
-
     /**
      * Constructor
      * @param strategy != null

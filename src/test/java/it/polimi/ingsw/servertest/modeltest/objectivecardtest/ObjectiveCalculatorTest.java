@@ -7,10 +7,9 @@ import it.polimi.ingsw.exception.ValueException;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveStrategy;
-import it.polimi.ingsw.server.model.objectivecard.ObjectiveCalculator;
-import it.polimi.ingsw.server.model.objectivecard.PublicObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.strategy.ObjectiveCalculator;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.MatrixCell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -27,7 +26,6 @@ public class ObjectiveCalculatorTest extends TestCase {
     private int fp = random.nextInt(4)+3;
     private WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
     private ObjectiveCalculator pointCalc = new ObjectiveCalculator();
-    private ObjectiveStrategy objStrat = new ObjectiveStrategy();
 
     // numbers of dices with that color
     private int numYellow = 0;
@@ -152,8 +150,8 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcDifferentColumnColor() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 5, objStrat);
-        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 5);
+        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
         MatrixCell matrix = winCard.getWindow();
         List<Colors> colorsList = new ArrayList<>();
         int sum = 0;
@@ -179,8 +177,8 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcDifferentRowColor() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 6, objStrat);
-        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 6);
+        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
         MatrixCell matrix = winCard.getWindow();
         List<Colors> colorsList = new ArrayList<>();
         int sum = 0;
@@ -206,8 +204,8 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcVarietyColor() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 4, objStrat);
-        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 4);
+        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
 
         for (Cell c : cellList) {           // count number of dices per color
             countCol(c);
@@ -241,8 +239,8 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcDifferentColumnShade() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 4, objStrat);
-        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 4);
+        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
         MatrixCell matrix = winCard.getWindow();
         List<Integer> valuesList = new ArrayList<>();
         int sum = 0;
@@ -268,8 +266,8 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcDifferentRowShade() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 5, objStrat);
-        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 5);
+        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
         MatrixCell matrix = winCard.getWindow();
         List<Integer> valuesList = new ArrayList<>();
         int sum = 0;
@@ -295,8 +293,8 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcVarietyShade() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 5, objStrat);
-        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 5);
+        ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
 
         for (Cell c : cellList) {           // count number of dices per value
             countVal(c);
@@ -315,7 +313,7 @@ public class ObjectiveCalculatorTest extends TestCase {
     }
 
     public void testCalcGradationShade() throws IDNotFoundException {
-        ObjectiveCard objCard = new PublicObjective(1, "Test", 2, objStrat);
+        ObjectiveCard objCard = new PublicObjective(1, "Test", 2);
 
         for (Cell c : cellList) {           // count number of dices per value
             countVal(c);

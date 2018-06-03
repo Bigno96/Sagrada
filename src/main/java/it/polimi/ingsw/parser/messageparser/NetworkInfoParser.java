@@ -1,7 +1,8 @@
-package it.polimi.ingsw.server.network.parser;
+package it.polimi.ingsw.parser.messageparser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.parser.Parser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,15 +12,18 @@ import static java.lang.System.*;
 /**
  * Read network settings from NetworkInfo.json
  */
-public class NetworkInfoParser {
-    private static final String PATH = System.getProperty("user.dir") + "/src/main/resources/Json/NetworkInfo.json";
+public class NetworkInfoParser implements Parser {
+
+    private final String path;
+
+    public NetworkInfoParser(String path) {
+        this.path = path;
+    }
+
     private static final String SOCKET_PORT = "socketPort";
     private static final String RMI_SERVER_PORT = "rmiServerPort";
     private static final String SO_TIMEOUT = "setSoTimeout";
-
-    public NetworkInfoParser() {
-        // just creates the instance
-    }
+    private static final String LOCAL_IP = "getLocalIp";
 
     /**
      * @return int for port used by socket connection
@@ -27,7 +31,7 @@ public class NetworkInfoParser {
     public int getSocketPort() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return Integer.parseInt(obj.get(SOCKET_PORT).getAsString());
 
@@ -43,7 +47,7 @@ public class NetworkInfoParser {
     public int getRmiServerPort() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return Integer.parseInt(obj.get(RMI_SERVER_PORT).getAsString());
 
@@ -59,13 +63,29 @@ public class NetworkInfoParser {
     public int getSoTimeout() {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject obj = (JsonObject) parser.parse(new FileReader(PATH));
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
 
             return Integer.parseInt(obj.get(SO_TIMEOUT).getAsString());
 
         } catch (FileNotFoundException e) {
             out.println(e.getMessage());
             return 0;
+        }
+    }
+
+    /**
+     * @return string for ip addressing in local network
+     */
+    public String getLocalIp() {
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject obj = (JsonObject) parser.parse(new FileReader(path));
+
+            return obj.get(LOCAL_IP).getAsString();
+
+        } catch (FileNotFoundException e) {
+            out.println(e.getMessage());
+            return "";
         }
     }
 }

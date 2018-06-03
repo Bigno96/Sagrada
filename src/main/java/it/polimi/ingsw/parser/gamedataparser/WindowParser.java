@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.windowcard;
+package it.polimi.ingsw.parser.gamedataparser;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -6,24 +6,29 @@ import com.google.gson.JsonParser;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.Parser;
 import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.windowcard.Cell;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WindowFactory {
+public class WindowParser implements Parser {
 
     private JsonObject winCard1;
     private JsonObject winCard2;
+    private final String infoPath;
 
     /**
      * Constructor
      */
-    public WindowFactory() {
+    public WindowParser(String infoPath) {
         winCard1 = null;
         winCard2 = null;
+        this.infoPath = infoPath;
     }
 
     /**
@@ -39,7 +44,6 @@ public class WindowFactory {
     public List<WindowCard> getWindow(int id1, int id2) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {       // returns 2 couples of Window card (front and back) based on 2 int
         List<WindowCard> ret = new ArrayList<>();
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/WindowCard.json";
 
         JsonArray winArray = (JsonArray) parser.parse(new FileReader(infoPath));
 
@@ -66,7 +70,6 @@ public class WindowFactory {
      */
     public WindowCard getWindow(String cardName) throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {
         JsonParser parser = new JsonParser();
-        String infoPath = System.getProperty("user.dir") + "/src/main/resources/Json/WindowCard.json";
 
         JsonArray winArray = (JsonArray) parser.parse(new FileReader(infoPath));
 

@@ -35,6 +35,10 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * Check if the client is connected
+     * @return true if pong is true in return, else false
+     */
     @Override
     public synchronized boolean ping() {
         try {
@@ -44,6 +48,9 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * @param s message of success for login
+     */
     @Override
     public void loginSuccess(String s) {
         try {
