@@ -25,7 +25,7 @@ public class ObjectiveCalculatorTest extends TestCase {
     private int id = random.nextInt(100);
     private int fp = random.nextInt(4)+3;
     private WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
-    private ObjectiveCalculator pointCalc = new ObjectiveCalculator();
+    private ObjectiveCalculator pointCalc = ObjectiveCalculator.getInstance();
 
     // numbers of dices with that color
     private int numYellow = 0;

@@ -13,6 +13,18 @@ import java.util.List;
 
 public class ObjectiveCalculator {
 
+    private static ObjectiveCalculator instance = null;
+
+    public static ObjectiveCalculator getInstance() {
+        if (instance == null)
+            instance = new ObjectiveCalculator();
+        
+        return instance;
+    }
+
+    private ObjectiveCalculator() {
+    }
+
     /**
      * Calculating points from Private Objective
      * @param col != null && col >= 0 && col <= 4

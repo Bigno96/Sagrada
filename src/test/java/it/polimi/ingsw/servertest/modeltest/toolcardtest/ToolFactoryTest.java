@@ -1,16 +1,10 @@
 package it.polimi.ingsw.servertest.modeltest.toolcardtest;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.gamedataparser.ToolCardParser;
 import it.polimi.ingsw.server.model.Colors;
-import it.polimi.ingsw.server.model.dicebag.DiceBag;
-import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.game.Game;
-import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
-import it.polimi.ingsw.server.model.toolcard.ToolFactory;
-import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
@@ -18,76 +12,72 @@ import java.io.FileNotFoundException;
 public class ToolFactoryTest extends TestCase {
 
     private Game game = new Game();
-    private DiceBag diceBag = new DiceBag();
-    private Draft draft = new Draft(diceBag, 9);
-    private RoundTrack roundTrack = new RoundTrack(draft);
-    private ToolStrategy toolStrategy = new ToolStrategy(roundTrack, draft, diceBag);
-    private ToolFactory toolFactory = new ToolFactory(toolStrategy, game);
+    private ToolCardParser toolFactory = (ToolCardParser) ParserManager.getToolCardParser();
 
-    public ToolFactoryTest(String testName) throws IDNotFoundException {
+    public ToolFactoryTest(String testName) {
         super(testName);
     }
 
-    public void testMakeToolCard() throws FileNotFoundException, IDNotFoundException, ValueException, PositionException {
+    public void testMakeToolCard() throws FileNotFoundException {
         ToolCard tool;
         game.startGame();
 
-        tool = toolFactory.makeToolCard(1);
+        tool = toolFactory.makeToolCard(1, game);
         assertSame(1, tool.getId());
         assertEquals("Grozing Pliers", tool.getName());
         assertSame(Colors.MAGENTA, tool.getColor());
 
-        tool = toolFactory.makeToolCard(2);
+        tool = toolFactory.makeToolCard(2, game);
         assertSame(2, tool.getId());
         assertEquals("Eglomise Brush", tool.getName());
         assertSame(Colors.BLUE, tool.getColor());
 
-        tool = toolFactory.makeToolCard(3);
+        tool = toolFactory.makeToolCard(3, game);
         assertSame(3, tool.getId());
         assertEquals("Copper Foil Burnisher", tool.getName());
         assertSame(Colors.RED, tool.getColor());
 
-        tool = toolFactory.makeToolCard(4);
+        tool = toolFactory.makeToolCard(4, game);
         assertSame(4, tool.getId());
         assertEquals("Lathekin", tool.getName());
         assertSame(Colors.YELLOW, tool.getColor());
 
-        tool = toolFactory.makeToolCard(5);
+        tool = toolFactory.makeToolCard(5, game);
         assertSame(5, tool.getId());
         assertEquals("Lens Cutter", tool.getName());
         assertSame(Colors.GREEN, tool.getColor());
 
-        tool = toolFactory.makeToolCard(6);
+        tool = toolFactory.makeToolCard(6, game);
         assertSame(6, tool.getId());
         assertEquals("Flux Brush", tool.getName());
         assertSame(Colors.MAGENTA, tool.getColor());
 
-        tool = toolFactory.makeToolCard(7);
+        tool = toolFactory.makeToolCard(7, game);
         assertSame(7, tool.getId());
         assertEquals("Glazing Hammer", tool.getName());
         assertSame(Colors.BLUE, tool.getColor());
 
-        tool = toolFactory.makeToolCard(8);
+        tool = toolFactory.makeToolCard(8, game);
         assertSame(8, tool.getId());
         assertEquals("Running Pliers", tool.getName());
         assertSame(Colors.RED, tool.getColor());
 
-        tool = toolFactory.makeToolCard(9);
+        tool = toolFactory.makeToolCard(9, game);
         assertSame(9, tool.getId());
         assertEquals("Cork-backed Straightedge", tool.getName());
         assertSame(Colors.YELLOW, tool.getColor());
 
-        tool = toolFactory.makeToolCard(10);
+        tool = toolFactory.makeToolCard(10, game);
         assertSame(10, tool.getId());
         assertEquals("Grinding Stone", tool.getName());
         assertSame(Colors.GREEN, tool.getColor());
 
-        tool = toolFactory.makeToolCard(11);
+        tool = toolFactory.makeToolCard(11, game);
         assertSame(11, tool.getId());
         assertEquals("Flux Remover", tool.getName());
         assertSame(Colors.MAGENTA, tool.getColor());
 
-        tool = toolFactory.makeToolCard(12);
+        tool = toolFactory.makeToolCard(12, game);
         assertSame(12, tool.getId());
         assertEquals("Tap Wheel", tool.getName());
         assertSame(Colors.BLUE, tool.getColor());

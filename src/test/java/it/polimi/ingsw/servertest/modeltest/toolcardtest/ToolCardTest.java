@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
-import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
+import it.polimi.ingsw.server.model.toolcard.ToolEffectRealization;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import junit.framework.TestCase;
@@ -28,13 +28,8 @@ public class ToolCardTest extends TestCase {
     private int idDice = random.nextInt(80)+1;
     private Colors col = Colors.random();
     private int fp = random.nextInt(4)+3;
-    private DiceBag diceBag = new DiceBag();
-    private Draft draft = new Draft(diceBag, 9);
-    private RoundTrack roundTrack = new RoundTrack(draft);
-    private Board board = new Board(4);
-    private ToolStrategy strat = new ToolStrategy(roundTrack, draft, diceBag);
 
-    public ToolCardTest(String testName) throws IDNotFoundException {
+    public ToolCardTest(String testName) {
         super(testName);
     }
 
@@ -57,8 +52,11 @@ public class ToolCardTest extends TestCase {
     }
 
     // testing attribute
-    public void testAttribute() {
-        ToolCard tool = new ToolCard(id, "Test", col, strat);
+    public void testAttribute() throws IDNotFoundException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+        ToolCard tool = new ToolCard(id, "Test", col, strategy);
 
         assertSame(id, tool.getId());
         assertSame("Test", tool.getName());
@@ -69,13 +67,17 @@ public class ToolCardTest extends TestCase {
     }
 
     // testing obtaining elements (round Track, dice Bag, Draft) involved in the tool card
-    public void testGetActor() {
-        ToolCard tool = new ToolCard(id, "Test", col, strat);
+    public void testGetActor() throws IDNotFoundException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
+        ToolCard tool = new ToolCard(id, "Test", col, strategy);
         RoundTrack testTrack = null;
         Draft testDraft = null;
         DiceBag testBag = null;
 
-        tool.setActor(null, draft, diceBag);
+        tool.setActor(null, board.getDraft(), board.getDiceBag());
         List<Object> obj = tool.getActor();
 
         for (Object o : obj) {      // if it's not used, it's null at the end
@@ -88,18 +90,22 @@ public class ToolCardTest extends TestCase {
         }
 
         assertNull(testTrack);
-        assertSame(testDraft, draft);
-        assertSame(testBag, diceBag);
+        assertSame(testDraft, board.getDraft());
+        assertSame(testBag, board.getDiceBag());
     }
 
     // testing tool card 1
     public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
-        ToolCard tool1 = new ToolCard(1, "Tool1", col, strat);
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
+        ToolCard tool1 = new ToolCard(1, "Tool1", col, strategy);
         Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool1.setActor(null, draft, null);
+        tool1.setActor(null, board.getDraft(), null);
         assertTrue(tool1.checkPreCondition(p, null));
 
         List<Object> obj = tool1.askParameter();
@@ -113,7 +119,7 @@ public class ToolCardTest extends TestCase {
         assertFalse(tool1.checkTool(dices, null, 0, null));    // the dice is not in the draft
 
         Dice d = dices.get(0);
-        draft.addDice(d);        // set it
+        board.getDraft().addDice(d);        // set it
 
         d.changeValue(3);      // verify positive with value = 3
         assertTrue(tool1.useTool(dices, true, null));
@@ -134,13 +140,19 @@ public class ToolCardTest extends TestCase {
 
     // testing tool card 2 and 3
     public void testTool2_3() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, WrongPositionException, SameDiceException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
         WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
-        ToolCard tool2 = new ToolCard(2, "Tool2", col, strat);
-        ToolCard tool3 = new ToolCard(3, "Tool3", col, strat);
+        ToolCard tool2 = new ToolCard(2, "Tool2", col, strategy);
+        ToolCard tool3 = new ToolCard(3, "Tool3", col, strategy);
+
         Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
         Dice d = null;
+
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         Cell c = winCard.getWindow().getCell(0,0);
@@ -203,11 +215,17 @@ public class ToolCardTest extends TestCase {
     }
 
     public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
-        ToolCard tool4 = new ToolCard(4, "Tool4", col, strat);
+        ToolCard tool4 = new ToolCard(4, "Tool4", col, strategy);
+
         Player p = new Player(username);
         p.setBoard(board);
         p.setWindowCard(winCard);
+
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         int row = 0;
@@ -241,13 +259,18 @@ public class ToolCardTest extends TestCase {
     }
 
     public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException {
-        ToolCard tool5 = new ToolCard(5, "Tool5", col, strat);
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
+        ToolCard tool5 = new ToolCard(5, "Tool5", col, strategy);
         Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
+
         int round = random.nextInt(10);
 
-        tool5.setActor(roundTrack, draft, null);
+        tool5.setActor(board.getRoundTrack(), board.getDraft(), null);
         assertTrue(tool5.checkPreCondition(p, p.getWindowCard()));
 
         List<Object> obj = tool5.askParameter();
@@ -258,27 +281,32 @@ public class ToolCardTest extends TestCase {
             }
         }
 
-        draft.addDice(dices.get(0));
-        roundTrack.addDice(dices.get(1), round);
+        board.getDraft().addDice(dices.get(0));
+        board.getRoundTrack().addDice(dices.get(1), round);
 
         assertTrue(tool5.checkTool(dices, null, 0, null));
 
         assertTrue(tool5.useTool(dices, null, null));
-        assertThrows(IDNotFoundException.class, () -> draft.rmDice(dices.get(0)));
-        assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(dices.get(1).getID()));
-        assertSame(roundTrack.findDice(dices.get(0).getID()).getID(), idDice-2);
-        assertSame(draft.findDice(dices.get(1).getID()).getID(), idDice-1);
+        assertThrows(IDNotFoundException.class, () -> board.getDraft().rmDice(dices.get(0)));
+        assertThrows(IDNotFoundException.class, () -> board.getRoundTrack().findDice(dices.get(1).getID()));
+        assertSame(board.getRoundTrack().findDice(dices.get(0).getID()).getID(), idDice-2);
+        assertSame(board.getDraft().findDice(dices.get(1).getID()).getID(), idDice-1);
     }
 
     public void testTool6_7() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
-        ToolCard tool6 = new ToolCard(6, "Tool6", col, strat);
-        ToolCard tool7 = new ToolCard(7, "Tool7", col, strat);
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
+        ToolCard tool6 = new ToolCard(6, "Tool6", col, strategy);
+        ToolCard tool7 = new ToolCard(7, "Tool7", col, strategy);
+
         Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool6.setActor(null, draft, null);
-        tool7.setActor( null, draft, null);
+        tool6.setActor(null, board.getDraft(), null);
+        tool7.setActor( null, board.getDraft(), null);
 
         assertTrue(tool6.checkPreCondition(p, p.getWindowCard()));
         assertFalse(tool7.checkPreCondition(p, p.getWindowCard()));
@@ -296,7 +324,7 @@ public class ToolCardTest extends TestCase {
             }
         }
 
-        draft.addDice(dices.get(0));
+        board.getDraft().addDice(dices.get(0));
 
         assertTrue(tool6.checkTool(dices, null, 0, null));
         assertTrue(tool7.checkTool(null, null, 0, null));
@@ -309,7 +337,11 @@ public class ToolCardTest extends TestCase {
     }
 
     public void testTool8() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
-        ToolCard tool8 = new ToolCard(8, "Tool8", col, strat);
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
+        ToolCard tool8 = new ToolCard(8, "Tool8", col, strategy);
         Player p = new Player(username);
         p.setBoard(board);
 
@@ -334,17 +366,23 @@ public class ToolCardTest extends TestCase {
     }
 
     public void testTool9() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException, WrongPositionException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
-        ToolCard tool9 = new ToolCard(9, "Tool9", col, strat);
+        ToolCard tool9 = new ToolCard(9, "Tool9", col, strategy);
+
         Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
+
         List<Dice> dices = new ArrayList<>();
         Cell dest = winCard.getWindow().getCell(0,0);
         int val = dest.getValue();
         Colors col = dest.getColor();
 
-        tool9.setActor(null, draft, null);
+        tool9.setActor(null, board.getDraft(), null);
 
         assertTrue(tool9.checkPreCondition(p, p.getWindowCard()));
 
@@ -353,7 +391,7 @@ public class ToolCardTest extends TestCase {
             if (o instanceof Dice) {
                 Dice d = new Dice((idDice++)%90, col, val);
                 dices.add(d);
-                draft.addDice(d);
+                board.getDraft().addDice(d);
             }
         }
 
@@ -365,17 +403,21 @@ public class ToolCardTest extends TestCase {
         assertTrue(tool9.useTool(dices, null, cells));
         assertTrue(dest.isOccupied());
         assertTrue(winCard.checkFirstDice());
-        assertNull(draft.findDice(dices.get(0).getID()));
+        assertNull(board.getDraft().findDice(dices.get(0).getID()));
         assertTrue(winCard.getWindow().containsDice(dices.get(0)));
     }
 
     public void testTool10() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException {
-        ToolCard tool10 = new ToolCard(10, "Tool10", col, strat);
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
+        ToolCard tool10 = new ToolCard(10, "Tool10", col, strategy);
         Player p = new Player(username);
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool10.setActor(null, draft, null);
+        tool10.setActor(null, board.getDraft(), null);
 
         assertTrue(tool10.checkPreCondition(p, p.getWindowCard()));
 
@@ -384,7 +426,7 @@ public class ToolCardTest extends TestCase {
             if (o instanceof Dice) {
                 Dice d = new Dice((idDice++)%90, Colors.random(), random.nextInt(6)+1);
                 dices.add(d);
-                draft.addDice(d);
+                board.getDraft().addDice(d);
             }
         }
 
@@ -393,22 +435,29 @@ public class ToolCardTest extends TestCase {
         int old = dices.get(0).getValue();
 
         assertTrue(tool10.useTool(dices, null, null));
-        assertSame(7-old, draft.findDice(dices.get(0).getID()).getValue());
+        assertSame(7-old, board.getDraft().findDice(dices.get(0).getID()).getValue());
     }
 
     public void testTool11() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, WrongPositionException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
-        ToolCard tool11 = new ToolCard(11, "Tool11", col, strat);
+        ToolCard tool11 = new ToolCard(11, "Tool11", col, strategy);
+
         Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
+
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         Cell dest = winCard.getWindow().getCell(0,0);
+
         int val = dest.getValue();
         Colors col = dest.getColor();
 
-        tool11.setActor(null, draft, diceBag);
+        tool11.setActor(null, board.getDraft(), board.getDiceBag());
 
         assertTrue(tool11.checkPreCondition(p, p.getWindowCard()));
 
@@ -416,9 +465,9 @@ public class ToolCardTest extends TestCase {
         for (Object o : obj) {
             if (o instanceof Dice) {
                 Dice d = new Dice((idDice++)%90, col, val);
-                diceBag.rmDice(d);
+                board.getDiceBag().rmDice(d);
                 dices.add(d);
-                draft.addDice(d);
+                board.getDraft().addDice(d);
             }
             if (o instanceof Cell) {
                 cells.add(dest);
@@ -434,19 +483,26 @@ public class ToolCardTest extends TestCase {
     }
 
     public void testTool12() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException {
+        Board board = new Board(4);
+        ToolEffectRealization strategy =
+                new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+
         WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
-        ToolCard tool12 = new ToolCard(12, "Tool12", col, strat);
+        ToolCard tool12 = new ToolCard(12, "Tool12", col, strategy);
+
         Player p = new Player(username);
         p.setWindowCard(winCard);
         p.setBoard(board);
+
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
+
         int val = random.nextInt(6)+1;
         Colors color = Colors.GREEN;
         int row = 0;
         int col = 0;
 
-        tool12.setActor(roundTrack, null, null);
+        tool12.setActor(board.getRoundTrack(), null, null);
 
         assertTrue(tool12.checkPreCondition(p, p.getWindowCard()));
 
@@ -467,7 +523,7 @@ public class ToolCardTest extends TestCase {
 
         winCard.getWindow().getCell(3,4).setDice(dices.get(0));
         winCard.getWindow().getCell(2,3).setDice(dices.get(1));
-        roundTrack.addDice(new Dice(10, color), 1);
+        board.getRoundTrack().addDice(new Dice(10, color), 1);
 
         assertTrue(tool12.checkTool(dices, cells, 0, color));
 

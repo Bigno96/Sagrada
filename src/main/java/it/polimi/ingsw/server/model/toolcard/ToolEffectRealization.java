@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import java.util.Iterator;
 import java.util.List;
 
-public class ToolStrategy {
+public class ToolEffectRealization {
 
     private RoundTrack roundTrack;
     private Draft draft;
@@ -24,7 +24,7 @@ public class ToolStrategy {
      * @param draft != null
      * @param diceBag != null
      */
-    public ToolStrategy(RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
+    public ToolEffectRealization (RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
         this.diceBag = diceBag;
         this.roundTrack = roundTrack;
         this.draft = draft;
@@ -82,7 +82,7 @@ public class ToolStrategy {
             bool = checkDiceWinCard(dices.get(1), windowCard) && dices.get(1).getColor().equals(diceColor);
         }
 
-        return dices.size()== cells.size() && dices.size()<3 && checkDiceWinCard(dices.get(0), windowCard) && bool &&
+        return dices.size() == cells.size() && dices.size()<3 && checkDiceWinCard(dices.get(0), windowCard) && bool &&
                 roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.WHITE);
     }
 
@@ -288,7 +288,7 @@ public class ToolStrategy {
      * @throws SameDiceException when trying to add the same dice twice to the same object
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
-    public boolean moveFromDraftToBag(Dice dice, Cell dest, int diceValue, WindowCard windowCard) throws IDNotFoundException, EmptyException, ValueException, SameDiceException, NotEmptyException {
+    public boolean moveFromDraftToBagThanPlace(Dice dice, Cell dest, int diceValue, WindowCard windowCard) throws IDNotFoundException, EmptyException, ValueException, SameDiceException, NotEmptyException {
         Dice tmp = dice.copyDice();
         draft.rmDice(dice);
         diceBag.addDice(tmp);

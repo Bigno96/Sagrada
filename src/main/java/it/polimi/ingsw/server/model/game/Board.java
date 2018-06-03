@@ -42,8 +42,7 @@ public class Board {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public void dump()
-    {
+    public void dump() {
         logger.info("PublObj: " + getPublObj() + " ToolCard: " + getToolCard() +
                 " DiceBag: " + getDiceBag() + " Draft: " + getDraft() + " RoundTrack: "
                 + getRoundTrack() + " nPlayer: " + getnPlayer());

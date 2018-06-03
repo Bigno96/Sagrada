@@ -73,7 +73,7 @@ public class GameTest extends TestCase {
         assertEquals(list, game.getBoard().getPublObj());
         listTool = game.getBoard().getToolCard();
         assertEquals(listTool, game.getBoard().getToolCard());
-        
+
     }
 
     public void testAddPlayer() throws SamePlayerException, EmptyException, PlayerNotFoundException {
