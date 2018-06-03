@@ -1,290 +1,290 @@
 [
   {
     "ID": 1,
-    "name": "Virtus",
+    "NAME": "Virtus",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 2, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 2, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 1,
-    "name": "Symphony of Light",
+    "NAME": "Symphony of Light",
     "FP": 6,
-    "Cell":
+    "CELLS":
     [
-      { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" },
-      { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "RED" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 4, "color": "GREEN" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 4, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 2,
-    "name": "Via Lux",
+    "NAME": "Via Lux",
     "FP": 4,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" },
-      { "value": 3, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "RED" }
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" },
+      { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }
     ]
   },
   {
     "ID": 2,
-    "name": "Industria",
+    "NAME": "Industria",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" },
-      { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 1, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "RED" }
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" },
+      { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 1, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }
     ]
   },
   {
     "ID": 3,
-    "name": "Batllo",
+    "NAME": "Batllo",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 3, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" },
-      { "value": 1, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" }, { "value": 3, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 2, "COLOR": "WHITE" },
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 3,
-    "name": "Bellesguard",
+    "NAME": "Bellesguard",
     "FP": 3,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "BLUE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }
+      { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }
     ]
   },
   {
     "ID": 4,
-    "name": "Kaleidoscopic Dream",
+    "NAME": "Kaleidoscopic Dream",
     "FP": 4,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" },
-      { "value": 0, "color": "GREEN" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" },
-      { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" },
-      { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "YELLOW" }
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" },
+      { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" },
+      { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "YELLOW" }
     ]
   },
   {
     "ID": 4,
-    "name": "Firmitas",
+    "NAME": "Firmitas",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "MAGENTA" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" },
-      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" },
+      { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 4, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 5,
-    "name": "Aurora Sagradis",
+    "NAME": "Aurora Sagradis",
     "FP": 4,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
-      { "value": 4, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 2, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" },
+      { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 2, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 5,
-    "name": "Aurorae Magnificus",
+    "NAME": "Aurorae Magnificus",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" },
-      { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" },
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 4, "color": "WHITE" }
+      { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 2, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" },
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" },
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 4, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 6,
-    "name": "Sun Catcher",
+    "NAME": "Sun Catcher",
     "FP": 3,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "GREEN" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }
     ]
   },
   {
     "ID": 6,
-    "name": "Shadow Thief",
+    "NAME": "Shadow Thief",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" },
-      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "RED" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 3, "color": "WHITE" }
+      { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" },
+      { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 7,
-    "name": "Firelight",
+    "NAME": "Firelight",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 3, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" },
-      { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "RED" }, { "value": 6, "color": "WHITE" }
+      { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "RED" },
+      { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 6, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 7,
-    "name": "Sun's Glory",
+    "NAME": "Sun's Glory",
     "FP": 6,
-    "Cell":
+    "CELLS":
     [
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" },
-      { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" },
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 3, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 1, "color": "WHITE" }
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 8,
-    "name": "Lux Mundi",
+    "NAME": "Lux Mundi",
     "FP": 6,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 2, "color": "WHITE" },
-      { "value": 0, "color": "BLUE" }, { "value": 5, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "GREEN" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 2, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 8,
-    "name": "Lux Astram",
+    "NAME": "Lux Astram",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" },
-      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 2, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "RED" },
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 5, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 4, "COLOR": "WHITE" },
+      { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" },
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 9,
-    "name": "Gravitas",
+    "NAME": "Gravitas",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "BLUE" }, { "value": 5, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" }
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 9,
-    "name": "Water of Life",
+    "NAME": "Water of Life",
     "FP": 6,
-    "Cell":
+    "CELLS":
     [
-      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 1, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 4, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "GREEN" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }
+      { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }
     ]
   },
   {
     "ID": 10,
-    "name": "Ripples of Light",
+    "NAME": "Ripples of Light",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "BLUE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "WHITE" },
-      { "value": 0, "color": "YELLOW" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "RED" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 5, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 6, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }
     ]
   },
   {
     "ID": 10,
-    "name": "Fractal Drops",
+    "NAME": "Fractal Drops",
     "FP": 3,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 6, "color": "WHITE" },
-      { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "MAGENTA" }, { "value": 1, "color": "WHITE" },
-      { "value": 0, "color": "BLUE" }, { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 6, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 1, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 11,
-    "name": "Chromatic Splendor",
+    "NAME": "Chromatic Splendor",
     "FP": 4,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 2, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 1, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "MAGENTA" }, { "value": 0, "color": "WHITE" },
-      { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 1, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 11,
-    "name": "Comitas",
+    "NAME": "Comitas",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "YELLOW" }, { "value": 0, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 6, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "YELLOW" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 5, "color": "WHITE" },
-      { "value": 1, "color": "WHITE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 3, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 6, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 5, "COLOR": "WHITE" },
+      { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 12,
-    "name": "Fulgor del Cielo",
+    "NAME": "Fulgor del Cielo",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "RED" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 4, "color": "WHITE" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" },
-      { "value": 0, "color": "BLUE" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" },
-      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 3, "color": "WHITE" }, { "value": 1, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" },
+      { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 5, "COLOR": "WHITE" },
+      { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 3, "COLOR": "WHITE" }, { "VALUE": 1, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   },
   {
     "ID": 12,
-    "name": "Luz Celestial",
+    "NAME": "Luz Celestial",
     "FP": 5,
-    "Cell":
+    "CELLS":
     [
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "RED" }, { "value": 5, "color": "WHITE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "MAGENTA" }, { "value": 4, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "GREEN" }, { "value": 3, "color": "WHITE" },
-      { "value": 6, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "BLUE" }, { "value": 0, "color": "WHITE" },
-      { "value": 0, "color": "WHITE" }, { "value": 0, "color": "YELLOW" }, { "value": 2, "color": "WHITE" }, { "value": 0, "color": "WHITE" }, { "value": 0, "color": "WHITE" }
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "RED" }, { "VALUE": 5, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "MAGENTA" }, { "VALUE": 4, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "GREEN" }, { "VALUE": 3, "COLOR": "WHITE" },
+      { "VALUE": 6, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "BLUE" }, { "VALUE": 0, "COLOR": "WHITE" },
+      { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "YELLOW" }, { "VALUE": 2, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }, { "VALUE": 0, "COLOR": "WHITE" }
     ]
   }
 ]

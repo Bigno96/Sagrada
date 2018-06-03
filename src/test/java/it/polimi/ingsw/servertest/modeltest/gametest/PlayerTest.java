@@ -4,11 +4,9 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
 import it.polimi.ingsw.server.model.Colors;
-import it.polimi.ingsw.server.model.objectivecard.*;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.factory.ObjectiveFactory;
-import it.polimi.ingsw.server.model.objectivecard.factory.PrivateObjectiveFactory;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
@@ -26,10 +24,8 @@ public class PlayerTest extends TestCase {
     private static final Random random = new Random();
     private int nPlayer = random.nextInt(3)+2;
     private String id = "Test";
-    private int idCard = random.nextInt(5)+2;
     private Board board = new Board(nPlayer);
     private WindowParser winFact = (WindowParser) ParserManager.getWindowCardParser();
-    private int fp = random.nextInt(4)+3;
 
     public PlayerTest(String testName) throws IDNotFoundException {
         super(testName);
@@ -109,8 +105,8 @@ public class PlayerTest extends TestCase {
         p.setBoard(board);
         int n = random.nextInt(5)+1;
 
-        PrivateObjectiveFactory objFact = new PrivateObjectiveFactory();
-        ObjectiveCard obj = objFact.makeCard(n, "test", 10);
+        PrivateObjectiveCardParser privateParser = (PrivateObjectiveCardParser) ParserManager.getPrivateCardParser();
+        ObjectiveCard obj = privateParser.makeObjectiveCard(n);
 
         p.setPrivObj(obj);
         assertSame(obj, p.getPrivObj());
