@@ -18,6 +18,14 @@ public class ClientMainR extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("How do you wanna play?");
+       initRootLayout();
+
+    }
+
+
+    public void initRootLayout() {
         Platform.runLater(() -> {
             Parent root = null;
             try {
@@ -36,16 +44,15 @@ public class ClientMainR extends Application {
             //ClientMainC ctrl = loader.getController();
             //ctrl.init(table.getSelectionModel().getSelectedItem());
 
-            primaryStage.setTitle("How do you wanna play?");
             primaryStage.setScene(new Scene(root, 700, 400));
             primaryStage.show();
         });
-
-
-
     }
 
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
 
     public static void main(String[] args) {
         launch(args);
