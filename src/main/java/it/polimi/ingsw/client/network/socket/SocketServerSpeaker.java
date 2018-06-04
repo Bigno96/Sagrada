@@ -143,7 +143,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
     public void askPublObj(String username) throws RemoteException {
 
     }
-    
+
     @Override
     public void askPrivObj(String username) {
 
