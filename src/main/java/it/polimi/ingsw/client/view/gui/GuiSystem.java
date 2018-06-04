@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -89,12 +90,12 @@ public class GuiSystem extends Application implements ViewInterface{
     }
 
     @Override
-    public void printPrivObj(PrivateObjective privObj) {
+    public void printPrivObj(ObjectiveCard privObj) {
 
     }
 
     @Override
-    public void printPublObj(List<PublicObjective> publObj) {
+    public void printPublObj(List<ObjectiveCard> publObj) {
 
     }
 
