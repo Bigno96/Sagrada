@@ -1,3 +1,5 @@
+package it.polimi.ingsw.client;
+
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
