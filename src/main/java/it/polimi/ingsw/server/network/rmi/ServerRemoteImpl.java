@@ -1,14 +1,14 @@
 package it.polimi.ingsw.server.network.rmi;
 
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
-import it.polimi.ingsw.exception.GameAlreadyStartedException;
-import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.exception.TooManyPlayersException;
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static java.lang.System.*;
 
@@ -65,9 +65,35 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
+    public void askWindowCard(String userName) throws RemoteException, IDNotFoundException {
+        lobby.getSpeakers().get(userName).printWindowCard(lobby.getPlayers().get(userName).getWindowCard());
+    }
+
+    @Override
+    public void askUsers(String currUser) throws RemoteException {
+        for (String u : lobby.getPlayers().keySet())
+            if (!u.equals(currUser))
+                lobby.getSpeakers().get(currUser).print(u);
+    }
+
+    @Override
+    public void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException {
+        lobby.getSpeakers().get(username).showDraft(lobby.getGame().getBoard().getDraft());
+    }
+
+    @Override
+    public void askPublObj(String username) throws RemoteException {
+        lobby.getSpeakers().get(username).printPublObj(lobby.getGame().getBoard().getPublObj());
+    }
+
+    @Override
+    public void askPrivObj(String username) throws RemoteException {
+        lobby.getSpeakers().get(username).printPrivObj(lobby.getPlayers().get(username).getPrivObj());
+    }
+
+    @Override
     public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
 
     }
-
 
 }

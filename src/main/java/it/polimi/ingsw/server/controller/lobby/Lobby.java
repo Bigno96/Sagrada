@@ -225,6 +225,18 @@ public class Lobby {
         if (game.getNPlayer() == 1)
             notifyAllPlayers(WIN_MSG);
     }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public HashMap<String, Player> getPlayers() {
+        return players;
+    }
+
+    public HashMap<String, ClientSpeaker> getSpeakers() {
+        return speakers;
+    }
 }
 
 

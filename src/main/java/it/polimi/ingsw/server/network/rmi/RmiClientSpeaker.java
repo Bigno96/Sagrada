@@ -3,8 +3,11 @@ package it.polimi.ingsw.server.network.rmi;
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.dicebag.Draft;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -77,5 +80,30 @@ public class RmiClientSpeaker implements ClientSpeaker {
     @Override
     public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
         client.placementDice(username, dest, moved);
+    }
+
+    @Override
+    public void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException {
+        client.printWindowCard(card);
+    }
+
+    @Override
+    public void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException {
+        client.showDraft(draft);
+    }
+
+    @Override
+    public void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException {
+        client.printPublObj(pubObj);
+    }
+
+    @Override
+    public void printPrivObj(ObjectiveCard privObj) throws RemoteException {
+        client.printPrivObj(privObj);
+    }
+
+    @Override
+    public void print(String s) throws RemoteException {
+        client.print(s);
     }
 }

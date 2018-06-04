@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.network;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
 
 import java.io.FileNotFoundException;
@@ -32,15 +33,15 @@ public interface ServerSpeaker {
 
     void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException, RemoteException;
 
-    void askWindowCard(String username);
+    void askWindowCard(String username) throws RemoteException, IDNotFoundException;
 
-    void askUsers(String currUser);
+    void askUsers(String currUser) throws RemoteException;
 
-    void askDraft();
+    void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException;
 
-    void askPublObj();
+    void askPublObj(String username) throws RemoteException;
 
-    void askPrivObj(String username);
+    void askPrivObj(String username) throws RemoteException;
 
     void endTurn(String username);
 
