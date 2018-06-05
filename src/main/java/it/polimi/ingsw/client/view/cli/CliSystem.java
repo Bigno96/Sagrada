@@ -4,13 +4,13 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
 
-import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +52,11 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException, RemoteException {
+    public void chooseWindowCard(List<WindowCard> cards) {
 
         int pick;
+
+        print("These are the window cards selected for you:");
 
         cards.forEach(this::printWindowCard);
 
@@ -66,18 +68,23 @@ public class CliSystem implements ViewInterface {
         pick--;
 
         serverSpeaker.setWindowCard(userName, cards.get(pick).getName());
-
     }
 
     @Override
     public void showCardPlayer(String user, WindowCard card) {
-        print(user + " choose window card " + card.getName());
+        if (user.equals(this.userName))
+            print("You chose this window card ");
+        else
+            print(user + " choose window card ");
+
         printWindowCard(card);
     }
 
     @Override
     public void printWindowCard(WindowCard window) {
         Cell c;
+
+        out.println(window.getName());
 
         for (int i=0; i<window.getWindow().getCols(); i++)
             out.print("\t" + i);
@@ -98,6 +105,7 @@ public class CliSystem implements ViewInterface {
                 }
                 else
                     out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
+
             }
             print("");
         }
@@ -106,16 +114,16 @@ public class CliSystem implements ViewInterface {
 
     @Override
     public void printUsers(List<String> users) {
-        users.forEach(user -> print(user + "\t"));
+        users.forEach(this::print);
     }
 
     @Override
-    public void printPrivObj(PrivateObjective privObj) {
+    public void printPrivObj(ObjectiveCard privObj) {
         print("Your private objective is: " + privObj.getDescr());
     }
 
     @Override
-    public void printPublObj(List<PublicObjective> publObj) {
+    public void printPublObj(List<ObjectiveCard> publObj) {
         print("The public objective are:");
         publObj.forEach(p -> print("- " + p.getDescr()));
     }
@@ -127,7 +135,7 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void isTurn (String username) throws RemoteException {
+    public void isTurn (String username) throws RemoteException, IDNotFoundException, SameDiceException {
         if (userName.equals(username)) {
             print("It is your turn!");
             waiting = false;
@@ -154,7 +162,7 @@ public class CliSystem implements ViewInterface {
         print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
-    private void askWaiting() { // action user can do while he is waiting
+    private void askWaiting() throws RemoteException, IDNotFoundException, SameDiceException { // action user can do while he is waiting
 
         do {
             print("You are waiting, what you want to do:");
@@ -177,9 +185,9 @@ public class CliSystem implements ViewInterface {
                 String user = input.nextLine();
                 serverSpeaker.askWindowCard(user); //see window card other player
             }else if (s.equals("d")){
-                serverSpeaker.askDraft(); //see draft
+                serverSpeaker.askDraft(userName); //see draft
             }else if (s.equals("p")){
-                serverSpeaker.askPublObj(); //see public objective
+                serverSpeaker.askPublObj(userName); //see public objective
             }else if (s.equals("q")){
                 serverSpeaker.askPrivObj(userName); //see private objective
             }/*else if (s.equals("t")){
@@ -193,7 +201,7 @@ public class CliSystem implements ViewInterface {
         }while (waiting);
     }
 
-    private void askMove() throws RemoteException { // action user can do while is playing
+    private void askMove() throws RemoteException, IDNotFoundException, SameDiceException { // action user can do while is playing
         print("What move do you want to make:");
         print("p - place a dice from the draft");
         //print("t - use a tool card");
@@ -211,7 +219,7 @@ public class CliSystem implements ViewInterface {
                 //place a dice (show personal window card and draft to choose dice)
 
                 print("This is the draft, choose the dice entering the number of the dice: ");
-                serverSpeaker.askDraft();
+                serverSpeaker.askDraft(userName);
                 try{
                     index = Integer.parseInt(input.nextLine());
                     index--;

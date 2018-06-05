@@ -1,13 +1,16 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
 import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
-import it.polimi.ingsw.server.model.toolcard.ToolStrategy;
+import it.polimi.ingsw.server.model.toolcard.ToolEffectRealization;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,8 +19,8 @@ public class BoardTest extends TestCase {
 
     private int nPlayer = 2;
     private static final Random random = new Random();
-    private int id = random.nextInt(5);
-    private int point = random.nextInt(3)+3;
+    private int idPubl = random.nextInt(10)+1;
+    private int idTool = random.nextInt(12)+1;
 
     public BoardTest(String testName){
         super(testName);
@@ -35,12 +38,13 @@ public class BoardTest extends TestCase {
 
     }
 
-    public void testSetPublObj() throws IDNotFoundException{
+    public void testSetPublObj() throws IDNotFoundException, FileNotFoundException {
         Board board = new Board(nPlayer);
-        List<PublicObjective> list = new ArrayList<>();
-        PublicObjective obj1 = new PublicObjective(id, "Obj1", point);
-        PublicObjective obj2 = new PublicObjective(id+1, "Obj2", point+1);
-        PublicObjective obj3 = new PublicObjective(id+2, "Obj3", point-1);
+        List<ObjectiveCard> list = new ArrayList<>();
+        PublicObjectiveCardParser publicParser = (PublicObjectiveCardParser) ParserManager.getPublicCardParser();
+        ObjectiveCard obj1 = publicParser.makeObjectiveCard(idPubl);
+        ObjectiveCard obj2 = publicParser.makeObjectiveCard((idPubl+1)%10+1);
+        ObjectiveCard obj3 = publicParser.makeObjectiveCard((idPubl+2)%10+1);
 
         list.add(obj1);
         list.add(obj2);
@@ -53,10 +57,10 @@ public class BoardTest extends TestCase {
     public void testSetToolCard() throws IDNotFoundException{
         Board board = new Board(nPlayer);
         List<ToolCard> list = new ArrayList<>();
-        ToolStrategy objStrat = new ToolStrategy(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
-        ToolCard obj1 = new ToolCard(id, "Obj1", Colors.random(), objStrat);
-        ToolCard obj2 = new ToolCard(id+1, "Obj2", Colors.random(), objStrat);
-        ToolCard obj3 = new ToolCard(id+2, "Obj3", Colors.random(), objStrat);
+        ToolEffectRealization objStrat = new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
+        ToolCard obj1 = new ToolCard(idTool, "Obj1", Colors.random(), objStrat);
+        ToolCard obj2 = new ToolCard((idTool+1)%12+1, "Obj2", Colors.random(), objStrat);
+        ToolCard obj3 = new ToolCard((idTool+2)%12+1, "Obj3", Colors.random(), objStrat);
 
         list.add(obj1);
         list.add(obj2);

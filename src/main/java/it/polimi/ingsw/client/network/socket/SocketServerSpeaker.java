@@ -1,15 +1,13 @@
 package it.polimi.ingsw.client.network.socket;
 
+import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.parser.ParserManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -119,7 +117,7 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
-    public void setWindowCard(String username, String name) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void setWindowCard(String username, String name) {
 
     }
 
@@ -134,12 +132,12 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
-    public void askDraft() {
+    public void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException {
 
     }
 
     @Override
-    public void askPublObj() {
+    public void askPublObj(String username) throws RemoteException {
 
     }
 

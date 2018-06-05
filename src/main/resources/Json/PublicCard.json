@@ -1,92 +1,92 @@
 [
   {
     "ID": 1,
-    "descr": "Row Color Variety - Rows with no repeated colors",
-    "point": 6,
-    "type": "color",
-    "scope": "diff",
-    "grad": "null",
-    "dir": "row"
+    "DESCRIPTION": "Row Color Variety - Rows with no repeated colors",
+    "POINT": 6,
+    "TYPE": "color",
+    "SCOPE": "diff",
+    "GRADATION": "null",
+    "DIRECTION": "row"
   },
   {
     "ID": 2,
-    "descr": "Column Color Variety - Columns with no repeated colors",
-    "point": 5,
-    "type": "color",
-    "scope": "diff",
-    "grad": "null",
-    "dir": "col"
+    "DESCRIPTION": "Column Color Variety - Columns with no repeated colors",
+    "POINT": 5,
+    "TYPE": "color",
+    "SCOPE": "diff",
+    "GRADATION": "null",
+    "DIRECTION": "col"
   },
   {
     "ID": 3,
-    "descr": "Row Shade Variety - Rows with no repeated values",
-    "point": 5,
-    "type": "shade",
-    "scope": "diff",
-    "grad": "null",
-    "dir": "row"
+    "DESCRIPTION": "Row Shade Variety - Rows with no repeated values",
+    "POINT": 5,
+    "TYPE": "shade",
+    "SCOPE": "diff",
+    "GRADATION": "null",
+    "DIRECTION": "row"
   },
   {
     "ID": 4,
-    "descr": "Column Shade Variety - Columns with no repeated values",
-    "point": 4,
-    "type": "shade",
-    "scope": "diff",
-    "grad": "null",
-    "dir": "col"
+    "DESCRIPTION": "Column Shade Variety - Columns with no repeated values",
+    "POINT": 4,
+    "TYPE": "shade",
+    "SCOPE": "diff",
+    "GRADATION": "null",
+    "DIRECTION": "col"
   },
   {
     "ID": 5,
-    "descr": "Light Shade - Sets of 1 and 2 values anywhere",
-    "point": 2,
-    "type": "shade",
-    "scope": "grad",
-    "grad": "light",
-    "dir": "null"
+    "DESCRIPTION": "Light Shade - Sets of 1 and 2 values anywhere",
+    "POINT": 2,
+    "TYPE": "shade",
+    "SCOPE": "GRADATION",
+    "GRADATION": "light",
+    "DIRECTION": "null"
   },
   {
     "ID": 6,
-    "descr": "Medium Shade - Sets of 3 and 4 values anywhere",
-    "point": 2,
-    "type": "shade",
-    "scope": "grad",
-    "grad": "medium",
-    "dir": "null"
+    "DESCRIPTION": "Medium Shade - Sets of 3 and 4 values anywhere",
+    "POINT": 2,
+    "TYPE": "shade",
+    "SCOPE": "GRADATION",
+    "GRADATION": "medium",
+    "DIRECTION": "null"
   },
   {
     "ID": 7,
-    "descr": "Dark Shade - Sets of 5 and 6 values anywhere",
-    "point": 2,
-    "type": "shade",
-    "scope": "grad",
-    "grad": "dark",
-    "dir": "null"
+    "DESCRIPTION": "Dark Shade - Sets of 5 and 6 values anywhere",
+    "POINT": 2,
+    "TYPE": "shade",
+    "SCOPE": "GRADATION",
+    "GRADATION": "dark",
+    "DIRECTION": "null"
   },
   {
     "ID": 8,
-    "descr": "Shade Variety - Sets of one of each value anywhere",
-    "point": 5,
-    "type": "shade",
-    "scope": "var",
-    "grad": "null",
-    "dir": "null"
+    "DESCRIPTION": "Shade Variety - Sets of one of each value anywhere",
+    "POINT": 5,
+    "TYPE": "shade",
+    "SCOPE": "var",
+    "GRADATION": "null",
+    "DIRECTION": "null"
   },
   {
     "ID": 9,
-    "descr": "Colored Diagonal - Count of diagonally adjacent same color dice",
-    "point": 0,
-    "type": "color",
-    "scope": "diag",
-    "grad": "null",
-    "dir": "null"
+    "DESCRIPTION": "Colored Diagonal - Count of diagonally adjacent same color dice",
+    "POINT": 0,
+    "TYPE": "color",
+    "SCOPE": "diag",
+    "GRADATION": "null",
+    "DIRECTION": "null"
   },
   {
     "ID": 10,
-    "descr": "Color Variety - Sets of one of each color anywhere",
-    "point": 4,
-    "type": "color",
-    "scope": "var",
-    "grad": "null",
-    "dir": "null"
+    "DESCRIPTION": "Color Variety - Sets of one of each color anywhere",
+    "POINT": 4,
+    "TYPE": "color",
+    "SCOPE": "var",
+    "GRADATION": "null",
+    "DIRECTION": "null"
   }
 ]

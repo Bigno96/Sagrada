@@ -1,6 +1,8 @@
 package it.polimi.ingsw.servertest.modeltest.windowcardtest;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -24,27 +26,26 @@ public class WindowCardTest extends TestCase{
     }
 
     private List<Cell> myCellList() throws ValueException, PositionException {
-        Colors col;
-        int val;
+        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++) {
-                do {
-                    col = Colors.random();
-                } while (col == Colors.WHITE);
-                do {
-                    val = random.nextInt(7);
-                } while (val == 0);
-                cellList.add(new Cell(val, col, i, j));
+                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j,
+                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
             }
+
         return cellList;
     }
 
     private List<Cell> myCleanCellList() throws ValueException, PositionException {
+        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++)
-                cellList.add(new Cell(0, Colors.WHITE, i, j));
+            for (int j=0; j<5; j++) {
+                cellList.add(new Cell(0, Colors.WHITE, i, j,
+                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
+            }
+
         return cellList;
     }
 
@@ -196,8 +197,8 @@ public class WindowCardTest extends TestCase{
 
         assertThrows(EmptyException.class, card::checkOneDice);
 
-        row = random.nextInt(4);
-        col = random.nextInt(5);
+        row = random.nextInt(2)+1;
+        col = random.nextInt(3)+1;
         do {
             color = Colors.random();
         } while (color.equals(card.getWindow().getCell(row,col).getColor()));
@@ -254,12 +255,12 @@ public class WindowCardTest extends TestCase{
         assertTrue(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
         assertFalse(card.checkOrtPos(card.getWindow().getCell(0, 0)));
 
-        card.getWindow().getCell(0, 1).setIgnoreColor();
+        card.getWindow().getCell(0, 1).setIgnoreColor(true);
         assertTrue(card.checkOrtCol(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
-        card.getWindow().getCell(0, 1).resetIgnoreColor();
-        card.getWindow().getCell(0, 0).setIgnoreColor();
+        card.getWindow().getCell(0, 1).setIgnoreColor(false);
+        card.getWindow().getCell(0, 0).setIgnoreColor(true);
         assertTrue(card.checkOrtPos(card.getWindow().getCell(0, 0)));
-        card.getWindow().getCell(0, 0).resetIgnoreColor();
+        card.getWindow().getCell(0, 0).setIgnoreColor(false);
 
         card.getWindow().getCell(0,1).freeCell();
 
@@ -271,12 +272,12 @@ public class WindowCardTest extends TestCase{
         assertFalse(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
         assertFalse(card.checkOrtPos(card.getWindow().getCell(0, 0)));
 
-        card.getWindow().getCell(0, 1).setIgnoreValue();
+        card.getWindow().getCell(0, 1).setIgnoreValue(true);
         assertTrue(card.checkOrtVal(card.getWindow().getCell(0, 0), card.getWindow().retOrtogonal(0,0)));
-        card.getWindow().getCell(0, 1).resetIgnoreValue();
-        card.getWindow().getCell(0, 0).setIgnoreValue();
+        card.getWindow().getCell(0, 1).setIgnoreValue(false);
+        card.getWindow().getCell(0, 0).setIgnoreValue(true);
         assertTrue(card.checkOrtPos(card.getWindow().getCell(0, 0)));
-        card.getWindow().getCell(0, 0).resetIgnoreValue();
+        card.getWindow().getCell(0, 0).setIgnoreValue(false);
 
         card.getWindow().getCell(0,1).freeCell();
 
@@ -315,9 +316,9 @@ public class WindowCardTest extends TestCase{
 
         assertFalse(card.checkNeighbors(card.getWindow().getCell(0,0)));
 
-        card.getWindow().getCell(0,0).setIgnoreNearby();
+        card.getWindow().getCell(0,0).setIgnoreNearby(true);
         assertTrue(card.checkNeighbors(card.getWindow().getCell(0,0)));
-        card.getWindow().getCell(0,0).resetIgnoreNearby();
+        card.getWindow().getCell(0,0).setIgnoreNearby(false);
 
         row = 1;
         col = 1;
@@ -367,11 +368,12 @@ public class WindowCardTest extends TestCase{
         col = 1;
         do {
             color = Colors.random();
-        } while (color.equals(card.getWindow().getCell(row,col).getColor()));
+        } while (color.equals(card.getWindow().getCell(row,col).getColor()) || color == Colors.WHITE);
         value = card.getWindow().getCell(row,col).getValue();
         card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
 
-        assertThrows(WrongPositionException.class, card::checkPlaceCond);
+        if (!card.getWindow().getCell(row, col).getColor().equals(Colors.WHITE))
+            assertThrows(WrongPositionException.class, card::checkPlaceCond);
 
         card.getWindow().getCell(row,col).freeCell();
 
@@ -381,7 +383,8 @@ public class WindowCardTest extends TestCase{
         } while (value == card.getWindow().getCell(row,col).getValue());
         card.getWindow().getCell(row,col).setDice(new Dice(id,color,value));
 
-        assertThrows(WrongPositionException.class, card::checkPlaceCond);
+        if (card.getWindow().getCell(row, col).getValue() != 0)
+            assertThrows(WrongPositionException.class, card::checkPlaceCond);
 
         card.getWindow().getCell(row,col).freeCell();
 

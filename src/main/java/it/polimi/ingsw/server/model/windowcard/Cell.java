@@ -7,20 +7,29 @@ import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
-import java.util.logging.Logger;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Cell {
+import static java.lang.System.*;
+
+public class Cell implements Serializable {
+
+    public enum CellState { OCCUPIED, IGNORE_NEARBY, IGNORE_VALUE, IGNORE_COLOR }
+    private List<CellState> states;
+
+    private static final String WRONG_VALUE = "Illegal Value";
+    private static final String WRONG_POSITION = "Illegal Position";
+    private static final String NOT_EMPTY_CELL = "Cell not empty";
+
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 6;
+
     private int value;  // value from 0 to 6, 0 when when there aren't value restrictions
     private Colors color;
     private Dice dice;
-    private boolean isOccupied;
-    private boolean ignoreNearby;
-    private boolean ignoreValue;
-    private boolean ignoreColor;
-    private int row;            // position from 0 to 3
-    private int col;            // position from 0 to 4
-
-    private static final Logger logger = Logger.getLogger(Cell.class.getName());
+    private int row;
+    private int col;
 
     /**
      * Constructor
@@ -31,17 +40,18 @@ public class Cell {
      * @throws ValueException when invalid value
      * @throws PositionException when invalid position ( row || col)
      */
-    public Cell(int value, Colors color, int row, int col) throws ValueException, PositionException {
-        if (value < 0 || value > 6)
-            throw new ValueException("Illegal Value");
+    public Cell(int value, Colors color, int row, int col, int maxRow, int maxCol) throws ValueException, PositionException {
+        if (value < MIN_VALUE || value > MAX_VALUE)
+            throw new ValueException(WRONG_VALUE);
+
+        if (row < MIN_VALUE || row > maxRow || col < MIN_VALUE || col > maxCol)
+            throw new PositionException(WRONG_POSITION);
+
         this.value = value;
         this.color = color;
-        isOccupied = false;
-        ignoreNearby = false;
-        if (row < 0 || row > 3 || col < 0 || col > 4)
-            throw new PositionException("Illegal Position");
         this.row = row;
         this.col = col;
+        this.states = new ArrayList<>();
     }
 
     @Override
@@ -50,11 +60,22 @@ public class Cell {
     }
 
     public void dump() {
-        logger.info("Color: " + getColor() + " Val: " + getValue() + " Row: " + getRow() + " Col: " + getCol());
+        out.println("Color: " + getColor() + " Val: " + getValue() + " Row: " + getRow() + " Col: " + getCol());
     }
 
+    /**
+     * @return Color of the cell
+     */
     public Colors getColor() {
         return this.color;
+    }
+
+    /**
+     * @return value of the cell
+     */
+    public int getValue()
+    {
+        return this.value;
     }
 
     /**
@@ -66,22 +87,20 @@ public class Cell {
         this.dice.changeValue(newValue);
     }
 
-    public int getValue()
-    {
-        return this.value;
-    }
-
+    /**
+     * @return true if the cell is occupied, false else
+     */
     public boolean isOccupied() {
-        return this.isOccupied;
+        return states.contains(CellState.OCCUPIED);
     }
 
     /**
      * If the cell is occupied, free the cell
      */
     public void freeCell() {
-        if (isOccupied) {
+        if (states.contains(CellState.OCCUPIED)) {
             this.dice = null;
-            isOccupied = false;
+            states.remove(CellState.OCCUPIED);
         }
     }
 
@@ -91,18 +110,18 @@ public class Cell {
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
     public void setDice(Dice dice) throws NotEmptyException {
-        if (isOccupied)
-            throw new NotEmptyException("Cell not empty");
+        if (states.contains(CellState.OCCUPIED))
+            throw new NotEmptyException(NOT_EMPTY_CELL);
         this.dice = dice;
-        isOccupied = true;
+        states.add(CellState.OCCUPIED);
     }
 
     /**
      * Check the Dice color of the Cell
      * @return true if the Dice color is permitted, else false
      */
-    public boolean checkColor(){
-        if (ignoreColor || color.equals(Colors.WHITE))
+    public boolean checkColor() {
+        if (states.contains(CellState.IGNORE_COLOR) || color.equals(Colors.WHITE))
             return true;
         return this.color.equals(dice.getColor());
     }
@@ -111,60 +130,85 @@ public class Cell {
      * Check the Dice value of the Cell
      * @return true if the Dice value is permitted, else false
      */
-    public boolean checkValue(){
-        if (ignoreValue || value == 0)
+    public boolean checkValue() {
+        if (states.contains(CellState.IGNORE_VALUE) || value == 0)
             return true;
         return this.getValue() == dice.getValue();
     }
 
+    /**
+     * Get the dice on the cell
+     * @return copy of the dice on the cell, null if not occupied
+     * @throws IDNotFoundException if copying a wrong dice
+     */
     public Dice getDice() throws IDNotFoundException {
         if (dice == null)
             return null;
-
         return dice.copyDice();
     }
 
+    /**
+     * @return row of the cell
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * @return col of the cell
+     */
     public int getCol() {
         return col;
     }
 
+    /**
+     * @return true if the Nearby restriction is ignored on this cell, false else
+     */
     public boolean isIgnoreNearby() {
-        return ignoreNearby;
+        return states.contains(CellState.IGNORE_NEARBY);
     }
 
-    public void setIgnoreNearby() {
-        this.ignoreNearby = true;
+    /**
+     * @param ignoreNearby value of the ignoring Nearby restriction
+     */
+    public void setIgnoreNearby(Boolean ignoreNearby) {
+        if (ignoreNearby)
+            states.add(CellState.IGNORE_NEARBY);
+        else
+            states.remove(CellState.IGNORE_NEARBY);
     }
 
-    public void resetIgnoreNearby() {
-        this.ignoreNearby = false;
-    }
-
+    /**
+     * @return true if the Color restriction is ignored on this cell, false else
+     */
     public boolean isIgnoreColor() {
-        return ignoreColor;
+        return states.contains(CellState.IGNORE_COLOR);
     }
 
-    public void setIgnoreColor() {
-        this.ignoreColor = true;
+    /**
+     * @param ignoreColor value of the ignoring Color restriction
+     */
+    public void setIgnoreColor(Boolean ignoreColor) {
+        if (ignoreColor)
+            states.add(CellState.IGNORE_COLOR);
+        else
+            states.remove(CellState.IGNORE_COLOR);
     }
 
-    public void resetIgnoreColor() {
-        this.ignoreColor = false;
-    }
-
+    /**
+     * @return true if the Value restriction is ignored on this cell, false else
+     */
     public boolean isIgnoreValue() {
-        return ignoreValue;
+        return states.contains(CellState.IGNORE_VALUE);
     }
 
-    public void setIgnoreValue() {
-        this.ignoreValue = true;
-    }
-
-    public void resetIgnoreValue() {
-        this.ignoreValue = false;
+    /**
+     * @param ignoreValue value of the ignoring Value restriction
+     */
+    public void setIgnoreValue(Boolean ignoreValue) {
+        if (ignoreValue)
+            states.add(CellState.IGNORE_VALUE);
+        else
+            states.remove(CellState.IGNORE_VALUE);
     }
 }

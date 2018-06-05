@@ -7,10 +7,10 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 public class CalculatingPublicPoint implements CalculatingPoint {
 
-    private ObjectiveCalculator calculator;
+    private final ObjectiveCalculator calculator;
 
     public CalculatingPublicPoint() {
-        this.calculator = new ObjectiveCalculator();
+        this.calculator = ObjectiveCalculator.getInstance();
     }
 
     @Override

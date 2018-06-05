@@ -11,7 +11,6 @@ public class Game extends Observable {
     private List<Player> playerList;
     private int nPlayer;
     private int nRound;                 //counter from 1 to 10
-    private static final Random random = new Random();
 
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
@@ -25,16 +24,14 @@ public class Game extends Observable {
      * Initialization
      */
     public void startGame() {
-
         round = new Round(playerList);
         try {
             board = new Board(nPlayer);
         } catch (IDNotFoundException e) {
             logger.info(e.getMessage());
         }
-        for (Player p: playerList){
+        for (Player p: playerList)
             p.setBoard(board);
-        }
     }
 
     /**
@@ -68,16 +65,18 @@ public class Game extends Observable {
 
     /**
      * Find Player p to Game
-     * @param p != null
+     * @param id != null
      * @return true if Game.contain(p)
      * @throws PlayerNotFoundException when !Game.contain(p)
      * @throws EmptyException when Game have not player
      */
-    public boolean findPlayer(Player p) throws PlayerNotFoundException, EmptyException {
+    public Player findPlayer(String id) throws PlayerNotFoundException, EmptyException {
         if (playerList.isEmpty())
             throw new EmptyException("No player in game");
-        if (playerList.contains(p))
-            return true;
+        Optional<Player> ret = playerList.stream().filter(player -> player.getId().equals(id)).findFirst();
+
+        if (ret.isPresent())
+            return ret.get();
 
         throw new PlayerNotFoundException("Player not found");
     }
@@ -100,10 +99,6 @@ public class Game extends Observable {
 
     public int getNPlayer() {
         return nPlayer;
-    }
-
-    public List<Player> getPlayerList(){
-        return playerList;
     }
 
     /**

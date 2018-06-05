@@ -1,98 +1,98 @@
 [
   {
     "ID": 1,
-    "name": "Grozing Pliers",
-    "color": "MAGENTA",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Grozing Pliers",
+    "COLOR": "MAGENTA",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 2,
-    "name": "Eglomise Brush",
-    "color": "BLUE",
-    "roundTrack": "null",
-    "draft": "null",
-    "diceBag": "null"
+    "NAME": "Eglomise Brush",
+    "COLOR": "BLUE",
+    "ROUND_TRACK": "null",
+    "DRAFT": "null",
+    "DICE_BAG": "null"
   },
   {
     "ID": 3,
-    "name": "Copper Foil Burnisher",
-    "color": "RED",
-    "roundTrack": "null",
-    "draft": "null",
-    "diceBag": "null"
+    "NAME": "Copper Foil Burnisher",
+    "COLOR": "RED",
+    "ROUND_TRACK": "null",
+    "DRAFT": "null",
+    "DICE_BAG": "null"
   },
   {
     "ID": 4,
-    "name": "Lathekin",
-    "color": "YELLOW",
-    "roundTrack": "null",
-    "draft": "null",
-    "diceBag": "null"
+    "NAME": "Lathekin",
+    "COLOR": "YELLOW",
+    "ROUND_TRACK": "null",
+    "DRAFT": "null",
+    "DICE_BAG": "null"
   },
   {
     "ID": 5,
-    "name": "Lens Cutter",
-    "color": "GREEN",
-    "roundTrack": "roundTrack",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Lens Cutter",
+    "COLOR": "GREEN",
+    "ROUND_TRACK": "ROUND_TRACK",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 6,
-    "name": "Flux Brush",
-    "color": "MAGENTA",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Flux Brush",
+    "COLOR": "MAGENTA",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 7,
-    "name": "Glazing Hammer",
-    "color": "BLUE",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Glazing Hammer",
+    "COLOR": "BLUE",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 8,
-    "name": "Running Pliers",
-    "color": "RED",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Running Pliers",
+    "COLOR": "RED",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 9,
-    "name": "Cork-backed Straightedge",
-    "color": "YELLOW",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Cork-backed Straightedge",
+    "COLOR": "YELLOW",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 10,
-    "name": "Grinding Stone",
-    "color": "GREEN",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "null"
+    "NAME": "Grinding Stone",
+    "COLOR": "GREEN",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "null"
   },
   {
     "ID": 11,
-    "name": "Flux Remover",
-    "color": "MAGENTA",
-    "roundTrack": "null",
-    "draft": "draft",
-    "diceBag": "diceBag"
+    "NAME": "Flux Remover",
+    "COLOR": "MAGENTA",
+    "ROUND_TRACK": "null",
+    "DRAFT": "DRAFT",
+    "DICE_BAG": "DICE_BAG"
   },
   {
     "ID": 12,
-    "name": "Tap Wheel",
-    "color": "BLUE",
-    "roundTrack": "roundTrack",
-    "draft": "null",
-    "diceBag": "null"
+    "NAME": "Tap Wheel",
+    "COLOR": "BLUE",
+    "ROUND_TRACK": "ROUND_TRACK",
+    "DRAFT": "null",
+    "DICE_BAG": "null"
   }
 ]

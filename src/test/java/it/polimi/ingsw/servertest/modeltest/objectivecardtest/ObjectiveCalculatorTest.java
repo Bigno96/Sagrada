@@ -4,6 +4,8 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.NotEmptyException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -25,7 +27,7 @@ public class ObjectiveCalculatorTest extends TestCase {
     private int id = random.nextInt(100);
     private int fp = random.nextInt(4)+3;
     private WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
-    private ObjectiveCalculator pointCalc = new ObjectiveCalculator();
+    private ObjectiveCalculator pointCalc = ObjectiveCalculator.getInstance();
 
     // numbers of dices with that color
     private int numYellow = 0;
@@ -56,6 +58,7 @@ public class ObjectiveCalculatorTest extends TestCase {
     // fills a list of cell with 20 random cells and corresponding Dices
     private List<Cell> myCellListFilled() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         List<Cell> cellList = new ArrayList<>();
+        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         int val;
         Colors col;
         Cell c;
@@ -66,7 +69,7 @@ public class ObjectiveCalculatorTest extends TestCase {
                 val = random.nextInt(7);
                 col = Colors.random();
 
-                c = new Cell(val, col, i, j);
+                c = new Cell(val, col, i, j,  gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
 
                 // cannot set a dice with val = 0 or null color
                 val = random.nextInt(6)+1;

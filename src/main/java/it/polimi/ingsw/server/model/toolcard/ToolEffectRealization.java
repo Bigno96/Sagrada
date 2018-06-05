@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import java.util.Iterator;
 import java.util.List;
 
-public class ToolStrategy {
+public class ToolEffectRealization {
 
     private RoundTrack roundTrack;
     private Draft draft;
@@ -24,7 +24,7 @@ public class ToolStrategy {
      * @param draft != null
      * @param diceBag != null
      */
-    public ToolStrategy(RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
+    public ToolEffectRealization (RoundTrack roundTrack, Draft draft, DiceBag diceBag) {
         this.diceBag = diceBag;
         this.roundTrack = roundTrack;
         this.draft = draft;
@@ -82,7 +82,7 @@ public class ToolStrategy {
             bool = checkDiceWinCard(dices.get(1), windowCard) && dices.get(1).getColor().equals(diceColor);
         }
 
-        return dices.size()== cells.size() && dices.size()<3 && checkDiceWinCard(dices.get(0), windowCard) && bool &&
+        return dices.size() == cells.size() && dices.size()<3 && checkDiceWinCard(dices.get(0), windowCard) && bool &&
                 roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.WHITE);
     }
 
@@ -125,9 +125,9 @@ public class ToolStrategy {
         dest.setDice(d);
         try {
             if (colorBool)
-                dest.setIgnoreColor();
+                dest.setIgnoreColor(true);
             else if (valueBool)
-                dest.setIgnoreValue();
+                dest.setIgnoreValue(true);
 
             if (windowCard.numEmptyCells() == 19)
                 windowCard.checkFirstDice();
@@ -138,9 +138,9 @@ public class ToolStrategy {
             return true;
         } catch (WrongPositionException | PositionException | EmptyException e) {
             if (colorBool)
-                dest.resetIgnoreColor();
+                dest.setIgnoreColor(false);
             else if (valueBool)
-                dest.resetIgnoreValue();
+                dest.setIgnoreValue(false);
 
             c.setDice(d);
             dest.freeCell();
@@ -288,7 +288,7 @@ public class ToolStrategy {
      * @throws SameDiceException when trying to add the same dice twice to the same object
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
-    public boolean moveFromDraftToBag(Dice dice, Cell dest, int diceValue, WindowCard windowCard) throws IDNotFoundException, EmptyException, ValueException, SameDiceException, NotEmptyException {
+    public boolean moveFromDraftToBagThanPlace(Dice dice, Cell dest, int diceValue, WindowCard windowCard) throws IDNotFoundException, EmptyException, ValueException, SameDiceException, NotEmptyException {
         Dice tmp = dice.copyDice();
         draft.rmDice(dice);
         diceBag.addDice(tmp);
@@ -305,11 +305,14 @@ public class ToolStrategy {
 
             tmp.changeValue(0);
             diceBag.rmDice(tmp1);
+
             return true;
+
         } catch (WrongPositionException | PositionException | EmptyException e) {
             dest.freeCell();
             draft.addDice(tmp);
             diceBag.rmDice(tmp);
+
             return false;
         }
     }
@@ -327,14 +330,14 @@ public class ToolStrategy {
                 Cell cell = itr.next();
                 if (cell.isOccupied())
                     if (set)
-                        cell.setIgnoreNearby();
+                        cell.setIgnoreNearby(true);
                     else
-                        cell.resetIgnoreNearby();
+                        cell.setIgnoreNearby(false);
             }
         }
         else if (set)
-            dest.setIgnoreNearby();
+            dest.setIgnoreNearby(true);
         else
-            dest.resetIgnoreNearby();
+            dest.setIgnoreNearby(false);
     }
 }

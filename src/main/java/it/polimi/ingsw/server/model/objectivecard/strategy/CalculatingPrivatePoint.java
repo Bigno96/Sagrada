@@ -7,10 +7,10 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 public class CalculatingPrivatePoint implements CalculatingPoint {
 
-    private ObjectiveCalculator calculator;
+    private final ObjectiveCalculator calculator;
 
     public CalculatingPrivatePoint() {
-        this.calculator = new ObjectiveCalculator();
+        this.calculator = ObjectiveCalculator.getInstance();
     }
 
     @Override

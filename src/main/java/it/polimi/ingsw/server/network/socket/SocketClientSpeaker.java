@@ -4,6 +4,8 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.dicebag.Draft;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -115,17 +117,42 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void chooseWindowCard(List<WindowCard> cards) {
 
     }
 
     @Override
-    public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void showCardPlayer(String user, WindowCard card) {
 
     }
 
     @Override
     public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
+
+    }
+
+    @Override
+    public void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException {
+
+    }
+
+    @Override
+    public void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException {
+
+    }
+
+    @Override
+    public void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException {
+
+    }
+
+    @Override
+    public void printPrivObj(ObjectiveCard privObj) throws RemoteException {
+
+    }
+
+    @Override
+    public void print(String s) throws RemoteException {
 
     }
 

@@ -4,6 +4,8 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.NotEmptyException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -29,6 +31,9 @@ public class MatrixCellTest extends TestCase {
     private int fp = random.nextInt(4)+3;
     private int value = random.nextInt(6)+1;
     private Colors color = Colors.random();
+    private GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+    private int max_row = gameSettings.getWindowCardMaxRow();
+    private int max_col = gameSettings.getWindowCardMaxColumn();
 
     public MatrixCellTest(String testName) {
         super (testName);
@@ -38,7 +43,7 @@ public class MatrixCellTest extends TestCase {
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<rows; i++)
             for (int j=0; j<cols; j++)
-                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
+                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j, max_row, max_col));
         return cellList;
     }
 
@@ -88,22 +93,22 @@ public class MatrixCellTest extends TestCase {
 
         row = 0;
         col = random.nextInt(5);
-        Cell cTop = new Cell(value, color, row, col);
+        Cell cTop = new Cell(value, color, row, col, max_row, max_col);
         row = 3;
         col = random.nextInt(5);
-        Cell cBot = new Cell(value, color, row, col);
+        Cell cBot = new Cell(value, color, row, col, max_row, max_col);
         row = 0;
         col = 1;
-        Cell cL1 = new Cell(value, color, row, col);
+        Cell cL1 = new Cell(value, color, row, col, max_row, max_col);
         row = 0;
         col = 2;
-        Cell cL2 = new Cell(value, color, row, col);
+        Cell cL2 = new Cell(value, color, row, col, max_row, max_col);
         row = 3;
         col = 1;
-        Cell cR1 = new Cell(value, color, row, col);
+        Cell cR1 = new Cell(value, color, row, col, max_row, max_col);
         row = 3;
         col = 2;
-        Cell cR2 = new Cell(value, color, row, col);
+        Cell cR2 = new Cell(value, color, row, col, max_row, max_col);
 
         assertTrue(card.getWindow().isBorder(cTop));
         assertTrue(card.getWindow().isBorder(cBot));

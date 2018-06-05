@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public enum Colors {
+public enum Colors implements Serializable {
     YELLOW, RED, BLUE, GREEN, MAGENTA, WHITE;
 
     private static final Colors[] values = Colors.values();
