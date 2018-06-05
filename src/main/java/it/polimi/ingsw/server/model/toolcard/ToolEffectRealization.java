@@ -125,9 +125,9 @@ public class ToolEffectRealization {
         dest.setDice(d);
         try {
             if (colorBool)
-                dest.setIgnoreColor();
+                dest.setIgnoreColor(true);
             else if (valueBool)
-                dest.setIgnoreValue();
+                dest.setIgnoreValue(true);
 
             if (windowCard.numEmptyCells() == 19)
                 windowCard.checkFirstDice();
@@ -138,9 +138,9 @@ public class ToolEffectRealization {
             return true;
         } catch (WrongPositionException | PositionException | EmptyException e) {
             if (colorBool)
-                dest.resetIgnoreColor();
+                dest.setIgnoreColor(false);
             else if (valueBool)
-                dest.resetIgnoreValue();
+                dest.setIgnoreValue(false);
 
             c.setDice(d);
             dest.freeCell();
@@ -305,11 +305,14 @@ public class ToolEffectRealization {
 
             tmp.changeValue(0);
             diceBag.rmDice(tmp1);
+
             return true;
+
         } catch (WrongPositionException | PositionException | EmptyException e) {
             dest.freeCell();
             draft.addDice(tmp);
             diceBag.rmDice(tmp);
+
             return false;
         }
     }
@@ -327,14 +330,14 @@ public class ToolEffectRealization {
                 Cell cell = itr.next();
                 if (cell.isOccupied())
                     if (set)
-                        cell.setIgnoreNearby();
+                        cell.setIgnoreNearby(true);
                     else
-                        cell.resetIgnoreNearby();
+                        cell.setIgnoreNearby(false);
             }
         }
         else if (set)
-            dest.setIgnoreNearby();
+            dest.setIgnoreNearby(true);
         else
-            dest.resetIgnoreNearby();
+            dest.setIgnoreNearby(false);
     }
 }

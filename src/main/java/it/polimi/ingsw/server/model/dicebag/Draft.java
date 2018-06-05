@@ -7,9 +7,20 @@ import it.polimi.ingsw.exception.SameDiceException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Draft {
+
+    private static final String NO_DICE = "No Dice in Bag";
+    private static final String NOT_ENOUGH_DICE = "Not Enough Dices in Bag";
+    private static final String EMPTY_DRAFT = "Draft is empty";
+    private static final String ID_NOT_FOUND = "Id not found";
+    private static final String ALREADY_IN_DRAFT = "Dice is already in Draft";
+    private static final String DUMP_MSG = "contains following dices: ";
 
     private List<Dice> draftList;
     private DiceBag diceBag;
@@ -33,9 +44,8 @@ public class Draft {
     }
 
     public void dump() {
-        logger.info("contains following dices: ");
-        for (Dice d : draftList)
-            d.dump();
+        logger.info(DUMP_MSG);
+        draftList.forEach(Dice::dump);
     }
 
     /**
@@ -45,12 +55,15 @@ public class Draft {
      * @throws IDNotFoundException when try to take a Dice with invalid id
      */
     public boolean fillDraft() throws EmptyException, IDNotFoundException {
+        if (diceBag.diceRemaining() < nDice)
+            throw new EmptyException(NOT_ENOUGH_DICE);
+
         for (int i = 0; i < nDice; i++) {
-            final Dice d = diceBag.randDice();
+            Dice d = diceBag.randDice();
+
             if (d == null)
-                throw new EmptyException("No Dice in Bag");
-            if (diceBag.diceRemaining() < nDice)
-                throw new EmptyException("Not Enough Dices in Bag");
+                throw new EmptyException(NO_DICE);
+
             diceBag.rmDice(d);
             draftList.add(d);
         }
@@ -62,9 +75,7 @@ public class Draft {
      * Rolling all dices in the draft
      */
     public void rollDraft() {
-        for (final Dice d : draftList) {
-            d.rollDice();
-        }
+        draftList.forEach(Dice::rollDice);
     }
 
     /**
@@ -80,11 +91,14 @@ public class Draft {
      * @throws IDNotFoundException when copyDice throws IDNotFoundException
      */
     public Dice findDice(int id) throws IDNotFoundException {
-        for (Dice d : draftList)
-            if (d.getID() == id)
-                return d.copyDice();
+        Optional<Dice> ret = draftList.stream()
+                .filter(d -> d.getID() == id)
+                .collect(Collectors.toList()).stream().findFirst();
 
-        return null;
+        if (ret.isPresent())
+            return ret.get().copyDice();
+        else
+            return null;
     }
 
     public Iterator<Dice> itrDraft() {
@@ -103,15 +117,17 @@ public class Draft {
     }
 
     public boolean rmDice(Dice d) throws IDNotFoundException, EmptyException {
-        if (draftList.isEmpty()) {
-            throw new EmptyException("Draft is empty");
-        } else {
-            for (Dice dice : draftList)
-                if (d.getID() == dice.getID())
-                    return draftList.remove(dice);
-        }
+        if (draftList.isEmpty())
+            throw new EmptyException(EMPTY_DRAFT);
 
-        throw new IDNotFoundException("Id not found");
+        Optional<Dice> ret = draftList.stream()
+                .filter(dice -> dice.getID() == d.getID())
+                .collect(Collectors.toList()).stream().findFirst();
+
+        if (ret.isPresent())
+            return draftList.remove(ret.get());
+
+        throw new IDNotFoundException(ID_NOT_FOUND);
     }
 
     /**
@@ -121,9 +137,8 @@ public class Draft {
      * @throws SameDiceException when Dice is already in Draft
      */
     public boolean addDice(Dice d) throws SameDiceException {
-        for (Dice itr : draftList)
-            if (itr.getID() == d.getID())
-                throw new SameDiceException("Dice is already in Draft");
+        if (draftList.stream().anyMatch(dice -> dice.getID() == d.getID()))
+            throw new SameDiceException(ALREADY_IN_DRAFT);
 
         return draftList.add(d);
     }

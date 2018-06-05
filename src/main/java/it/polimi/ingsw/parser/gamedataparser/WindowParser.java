@@ -173,7 +173,9 @@ public class WindowParser implements Parser {
         int value = Integer.parseInt(obj.get(CELL_VALUE).toString());
         Colors color = Colors.parseColor(obj.get(CELL_COLOR).toString());
 
-        return new Cell(value, color, row, col);
+        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+
+        return new Cell(value, color, row, col, gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
     }
 
 }

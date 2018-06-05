@@ -1,6 +1,8 @@
 package it.polimi.ingsw.servertest.modeltest.toolcardtest;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -28,6 +30,7 @@ public class ToolCardTest extends TestCase {
     private int idDice = random.nextInt(80)+1;
     private Colors col = Colors.random();
     private int fp = random.nextInt(4)+3;
+    private GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
     public ToolCardTest(String testName) {
         super(testName);
@@ -37,8 +40,11 @@ public class ToolCardTest extends TestCase {
     private List<Cell> myCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++)
-                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j));
+            for (int j=0; j<5; j++) {
+                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j,
+                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
+            }
+
         return cellList;
     }
 
@@ -47,7 +53,8 @@ public class ToolCardTest extends TestCase {
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
-                cellList.add(new Cell(0, Colors.WHITE, i, j));
+                cellList.add(new Cell(0, Colors.WHITE, i, j,
+                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
         return cellList;
     }
 
@@ -182,8 +189,8 @@ public class ToolCardTest extends TestCase {
         assertFalse(tool2.checkTool(dices, cells, 0, null));
         assertFalse(tool3.checkTool(dices, cells, 0, null));
 
-        c.setIgnoreValue();
-        cNear.setIgnoreValue();
+        c.setIgnoreValue(true);
+        cNear.setIgnoreValue(true);
         c.setDice(d);
 
         assertTrue(tool2.useTool(dices, null, cells));
@@ -195,10 +202,10 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.checkPlaceCond());
 
         c.freeCell();
-        c.resetIgnoreValue();
-        cNear.resetIgnoreValue();
-        c.setIgnoreColor();
-        cNear.setIgnoreColor();
+        c.setIgnoreValue(false);
+        cNear.setIgnoreValue(false);
+        c.setIgnoreColor(true);
+        cNear.setIgnoreColor(true);
         if (d!=null) d.changeValue(val);
         cells.remove(cNear);
         cells.add(c);
@@ -513,7 +520,8 @@ public class ToolCardTest extends TestCase {
                 dices.add(d);
             }
             if (o instanceof Cell) {
-                cells.add(new Cell(0, Colors.WHITE, row, col));
+                cells.add(new Cell(0, Colors.WHITE, row, col,
+                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
                 row++;
                 col++;
             }

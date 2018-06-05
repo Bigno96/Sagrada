@@ -6,12 +6,17 @@ import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.Colors;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class DiceBag {
+
+    private static final String EMPTY_DRAFT = "Draft is empty";
+    private static final String ID_NOT_FOUND = "Id not found";
+    private static final String ALREADY_IN_BAG = "Dice is already in Bag";
+    private static final int NUM_DICE = 90;
+    private static final int NUM_COLOR = 5;
 
     private List<Dice> dices;
     private static final Logger logger = Logger.getLogger(Dice.class.getName());
@@ -23,9 +28,10 @@ public class DiceBag {
     public DiceBag() throws IDNotFoundException {     // dice enumerated from 0 to 89
         dices = new ArrayList<>();
         int n = 0;
-        for (final Colors c : Colors.values()) {    // loop on Dice's enum color
+
+        for (Colors c : Colors.values()) {    // loop on Dice's enum color
             if (c != Colors.WHITE)
-                for (int i = n * 18; i < (n + 1) * 18; i++) {       // 18 dices assigned per color
+                for (int i = n * NUM_DICE/NUM_COLOR; i < (n + 1) * NUM_DICE/NUM_COLOR; i++) {       // 18 dices assigned per color
                     Dice dice = new Dice(i, c);
                     dices.add(dice);
                 }
@@ -49,9 +55,7 @@ public class DiceBag {
 
     public void dump() {
         logger.info("contains following dices: ");
-        for (Dice d : dices)
-            d.dump();
-
+        dices.forEach(Dice::dump);
     }
 
     /**
@@ -59,22 +63,23 @@ public class DiceBag {
      * @param id >= 0 && <= 89
      * @return null if not found,else return Dice
      */
-    public Dice findDice(int id) {         // find and return Dice with passed id
-        for (final Dice d : dices)
-            if (d.getID() == id)
-                return d;
+    public Dice findDice(int id) {
+        Optional<Dice> ret = dices.stream()
+                .filter(d -> d.getID() == id)
+                .collect(Collectors.toList()).stream().findFirst();
 
-        return null;
+        return ret.orElse(null);
     }
 
     /**
      * Return random dice between the ones in the bag that doesn't have a value
-     * @return return null if bag is empty,else ID of a random dice of the bag
+     * @return ID of a random dice of the bag
      * @throws IDNotFoundException when try to take a Dice with invalid id
      */
     public Dice randDice() throws IDNotFoundException {
         if (dices.isEmpty())            // if bag is empty, return null
             return null;
+
         Dice d;
         do {
             Random rand = new Random();
@@ -94,15 +99,14 @@ public class DiceBag {
      * @throws IDNotFoundException when try to take a Dice with invalid id
      */
     public boolean rmDice(Dice d) throws EmptyException, IDNotFoundException {
-        if (dices.isEmpty()) {
-            throw new EmptyException("Draft is empty");
-        } else {
-            for (Dice itr : dices)
-                if (d.getID() == itr.getID())
-                    return dices.remove(itr);
-        }
+        if (dices.isEmpty())
+            throw new EmptyException(EMPTY_DRAFT);
 
-        throw new IDNotFoundException("Id not found");
+        Optional<Dice> rm = dices.stream().filter(dice -> dice.getID() == d.getID()).findFirst();
+        if (rm.isPresent())
+            return dices.remove(rm.get());
+
+        throw new IDNotFoundException(ID_NOT_FOUND);
     }
 
     /**
@@ -113,9 +117,9 @@ public class DiceBag {
      * @throws ValueException when changeValue try to put an incorrect value
      */
     public boolean addDice(Dice d) throws SameDiceException, ValueException {
-        for (Dice itr : dices)
-            if (itr.getID() == d.getID())
-                throw new SameDiceException("Dice is already in Bag");
+        if (dices.stream().anyMatch(dice -> dice.getID() == d.getID()))
+            throw new SameDiceException(ALREADY_IN_BAG);
+
         d.changeValue(0);
         return dices.add(d);
     }

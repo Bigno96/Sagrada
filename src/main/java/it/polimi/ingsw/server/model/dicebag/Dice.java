@@ -9,6 +9,12 @@ import java.util.logging.Logger;
 
 public class Dice {
 
+    private static final String WRONG_ID = "ID not allowed";
+    private static final String WRONG_VALUE = "Illegal Value";
+    private static final int MAX_DICE_VALUE = 6;
+    private static final int MIN_DICE_VALUE = 0;
+    private static final int DICE_NUMBER = 90;
+
     private int value;  //value = 0, when it has not yet been rolled
     private Colors color;
     private int id;     // id between 0 and 89
@@ -21,8 +27,8 @@ public class Dice {
      * @throws IDNotFoundException when id is < 0 || > 89
      */
     public Dice(int id, Colors color) throws IDNotFoundException {
-        if (id > 89 || id < 0)
-            throw new IDNotFoundException("ID not allowed");
+        if (id > DICE_NUMBER-1 || id < 0)
+            throw new IDNotFoundException(WRONG_ID);
         this.id = id;
         this.color = color;
         this.value = 0;
@@ -36,8 +42,8 @@ public class Dice {
      * @throws IDNotFoundException when id is < 0 || > 89
      */
     public Dice(int id, Colors color, int value) throws IDNotFoundException {
-        if (id > 89 || id < 0)
-            throw new IDNotFoundException("ID not allowed");
+        if (id > DICE_NUMBER-1 || id < 0)
+            throw new IDNotFoundException(WRONG_ID);
         this.id = id;
         this.color = color;
         this.value = value;
@@ -65,7 +71,7 @@ public class Dice {
      */
     public void rollDice() {
         Random rand = new Random();
-        value = rand.nextInt(6) + 1;
+        value = rand.nextInt(MAX_DICE_VALUE) + 1;
     }
 
     /**
@@ -74,8 +80,8 @@ public class Dice {
      * @throws ValueException when new Value < 0 || > 6
      */
     public void changeValue(int newValue) throws ValueException {
-        if (newValue < 0 || newValue > 6)
-            throw new ValueException("Illegal Value");
+        if (newValue < MIN_DICE_VALUE || newValue > MAX_DICE_VALUE)
+            throw new ValueException(WRONG_VALUE);
         this.value = newValue;
     }
 

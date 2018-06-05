@@ -117,13 +117,13 @@ public class ToolCard {
         }
         else if (id == 2 || id == 3) {
             list.add(new Dice(0, Colors.WHITE));
-            list.add(new Cell(0, Colors.WHITE, 0, 0));
+            list.add(new Cell(0, Colors.WHITE, 0, 0, 3 ,4));
         }
         else if (id == 4) {
             list.add(new Dice(0, Colors.WHITE));
             list.add(new Dice(0, Colors.WHITE));
-            list.add(new Cell(0, Colors.WHITE, 0, 0));
-            list.add(new Cell(0, Colors.WHITE, 0, 1));
+            list.add(new Cell(0, Colors.WHITE, 0, 0, 3, 4));
+            list.add(new Cell(0, Colors.WHITE, 0, 1, 3, 4));
         }
         else if (id == 5) {
             list.add(new Dice(0, Colors.WHITE));
@@ -140,14 +140,14 @@ public class ToolCard {
         }
         else if (id == 11) {
             list.add(new Dice(0, Colors.WHITE));
-            list.add(new Cell(0, Colors.WHITE, 0, 0));
+            list.add(new Cell(0, Colors.WHITE, 0, 0, 3 ,4));
             list.add(0);
         }
         else if (id == 12) {
             list.add(new Dice(0, Colors.WHITE));
             list.add(new Dice(0, Colors.WHITE));
-            list.add(new Cell(0, Colors.WHITE, 0, 0));
-            list.add(new Cell(0, Colors.WHITE, 0, 0));
+            list.add(new Cell(0, Colors.WHITE, 0, 0, 3 , 4));
+            list.add(new Cell(0, Colors.WHITE, 0, 0, 3, 4));
             list.add(Colors.WHITE);
         }
 

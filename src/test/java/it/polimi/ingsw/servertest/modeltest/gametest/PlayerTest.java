@@ -5,6 +5,7 @@ import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -122,17 +123,14 @@ public class PlayerTest extends TestCase {
     }
 
     private List<Cell> myCellList() throws ValueException, PositionException {
-        Colors col;
-        int val;
+        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++) {
-                do {
-                    col = Colors.random();
-                } while (col == Colors.WHITE);
-                val = random.nextInt(6)+1;
-                cellList.add(new Cell(val, col, i, j));
+                cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j,
+                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
             }
+
         return cellList;
     }
 }

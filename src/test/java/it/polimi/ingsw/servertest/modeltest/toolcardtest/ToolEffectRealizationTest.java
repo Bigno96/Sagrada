@@ -1,6 +1,8 @@
 package it.polimi.ingsw.servertest.modeltest.toolcardtest;
 
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.game.Board;
@@ -29,10 +31,11 @@ public class ToolEffectRealizationTest extends TestCase {
 
     // filling a list with 20 random cells with no restriction
     private List<Cell> myEmptyCellList() throws ValueException, PositionException {
+        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
-                cellList.add(new Cell(0, Colors.WHITE, i, j));
+                cellList.add(new Cell(0, Colors.WHITE, i, j, gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
         return cellList;
     }
 
@@ -229,7 +232,7 @@ public class ToolEffectRealizationTest extends TestCase {
         assertThrows(IDNotFoundException.class, () -> strategy.moveFromDraftToRound(dices));
     }
 
-    public void testMoveFromDraftToBag() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, EmptyException, SameDiceException {
+    public void testMoveFromDraftToBagThanPlace() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, EmptyException, SameDiceException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -246,7 +249,10 @@ public class ToolEffectRealizationTest extends TestCase {
         board.getDraft().addDice(d1);
 
         assertFalse(strategy.moveFromDraftToBagThanPlace(d1, c1, val, winCard));
-        assertTrue(strategy.moveFromDraftToBagThanPlace(d1, c1, (val+1)%6+1, winCard));
+        if(strategy.moveFromDraftToBagThanPlace(d1, c1, (val+1)%6+1, winCard)) {
+            assertTrue(c1.isOccupied() && !c1.getDice().getColor().equals(Colors.BLUE));
+        } else
+            assertFalse(c1.isOccupied());
     }
 
     public void testMoveFromDraftToCard() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, SameDiceException {

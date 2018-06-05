@@ -31,7 +31,7 @@ public class MatrixCell {
 
     /**
      * Set pos of Cells
-     * @param cellList
+     * @param cellList != null
      */
     public void loadMatrixCell(List<Cell> cellList){
         int pos = 0;
