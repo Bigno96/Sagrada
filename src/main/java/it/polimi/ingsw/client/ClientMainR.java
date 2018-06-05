@@ -67,11 +67,6 @@ public class ClientMainR extends Application {
         launch(args);
     }
 
-
-    public void closeWindow() {
-        primaryStage.close();
-    }
-
     public void openCLI(){
         graphic = new CliSystem();
 
@@ -85,6 +80,25 @@ public class ClientMainR extends Application {
         }
     }
 
-    
+    public void loginInit() {
+        Platform.runLater(() -> {
+            Parent root = null;
 
+            FXMLLoader loader = new FXMLLoader();
+
+            loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            primaryStage.setScene(new Scene(root));
+
+            ClientMainC ctrl = loader.getController();
+            ctrl.setClientMainR(this);
+
+            primaryStage.show();
+        });
+    }
 }
