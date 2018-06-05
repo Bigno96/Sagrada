@@ -4,23 +4,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.image.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #20120F;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.ClientMainC" fx:id="ap">
-   <children>
-       <fx:define>
-           <Image fx:id="btnCLI" url="@../img/CLIcut.jpg" />
-       </fx:define>
-       <Button fx:id="CLI" layoutY="50.0" mnemonicParsing="false" onAction="#chooseCLI" prefHeight="350.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" >
-           <graphic>
-               <ImageView image="$btnCLI" />
-           </graphic>
-       </Button>
-       <fx:define>
-           <Image fx:id="btnGUI" url="@../img/CLIcut.jpg" />
-       </fx:define>
-       <Button fx:id="GUI" layoutX="350.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseGUI" prefHeight="350.0" prefWidth="350.0" text="GUI" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" >
-           <graphic>
-               <ImageView image="$btnGUI" />
-           </graphic>
-        </Button>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="700.0" style="-fx-background-color: #20120F;" xmlns="http://javafx.com/javafx/8.0.121"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.ClientGUIController">
+    <fx:define>
+        <Image fx:id="btnCLI" url="@../img/CLIcut.jpg"/>
+    </fx:define>
+    <Button layoutY="50.0" mnemonicParsing="false" onAction="#chooseCLI" prefHeight="350.0"
+            prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+        <graphic>
+            <ImageView image="$btnCLI"/>
+        </graphic>
+    </Button>
+    <fx:define>
+        <Image fx:id="btnGUI" url="@../img/CLIcut.jpg"/>
+    </fx:define>
+    <Button layoutX="350.0" layoutY="50.0" mnemonicParsing="false" onAction="#chooseGUI" prefHeight="350.0"
+            prefWidth="350.0" text="GUI" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <graphic>
+            <ImageView image="$btnGUI"/>
+        </graphic>
+    </Button>
 </AnchorPane>

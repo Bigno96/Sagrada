@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.client.view.cli.CliSystem;
+import it.polimi.ingsw.client.view.gui.ClientGUIController;
+import it.polimi.ingsw.client.view.gui.GuiSystem;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
@@ -10,19 +12,18 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 
-public class ClientMainR extends Application {
+import static java.lang.System.*;
 
-    private BorderPane rootLayout;
+public class ClientMain extends Application {
+
     private Stage primaryStage;
-    private ClientMainC controller;
-    private ViewInterface graphic;
+    private boolean CLI;
+    private boolean GUI;
 
     @Override
     public void start(Stage primaryStage) {
@@ -33,34 +34,27 @@ public class ClientMainR extends Application {
 
     }
 
-
-    public void initRootLayout() {
-
+    private void initRootLayout() {
 
         Platform.runLater(() -> {
             Parent root = null;
 
-            FXMLLoader loader = new FXMLLoader();
-
-            loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/MainPage.fxml"));
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/MainPage.fxml"));
             try {
                 root = loader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            assert root != null;
             primaryStage.setScene(new Scene(root));
 
-            ClientMainC ctrl = loader.getController();
-            ctrl.setClientMainR(this);
+            ClientGUIController ctrl = loader.getController();
+            ctrl.setClientMain(this);
 
             primaryStage.show();
         });
-    }
 
-
-    public Stage getPrimaryStage() {
-        return primaryStage;
     }
 
     public static void main(String[] args) {
@@ -68,11 +62,11 @@ public class ClientMainR extends Application {
     }
 
     public void openCLI(){
-        graphic = new CliSystem();
+        ViewInterface graphic = new CliSystem();
 
         primaryStage.hide();
 
-        System.out.println("CLI graphic chosen");
+        out.println("CLI graphic chosen");
         try {
             graphic.startGraphic();
         } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
@@ -80,25 +74,7 @@ public class ClientMainR extends Application {
         }
     }
 
-    public void loginInit() {
-        Platform.runLater(() -> {
-            Parent root = null;
-
-            FXMLLoader loader = new FXMLLoader();
-
-            loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            primaryStage.setScene(new Scene(root));
-
-            ClientMainC ctrl = loader.getController();
-            ctrl.setClientMainR(this);
-
-            primaryStage.show();
-        });
+    public void openGUI() {
+        GuiSystem guiSystem = new GuiSystem(primaryStage);
     }
 }

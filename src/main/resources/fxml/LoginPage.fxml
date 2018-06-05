@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="400.0" style="-fx-background-color: ;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label graphicTextGap="0.0" layoutX="33.0" layoutY="181.0" prefHeight="31.0" prefWidth="133.0" text="Username" textFill="#000000f7">
-         <font>
-            <Font name="KacstArt" size="14.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../img/Sagrada-Logo-RGB.jpg" />
-         </image>
-      </ImageView>
-      <TextField layoutX="128.0" layoutY="184.0" />
-      <Label graphicTextGap="0.0" layoutX="33.0" layoutY="229.0" prefHeight="31.0" prefWidth="133.0" text="IP" textFill="#000000f7">
-         <font>
-            <Font name="KacstArt" size="14.0" />
-         </font>
-      </Label>
-      <TextField layoutX="128.0" layoutY="232.0" />
-      <RadioButton layoutX="76.0" layoutY="312.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="80.0" text="Socket" />
-      <RadioButton layoutX="275.0" layoutY="312.0" mnemonicParsing="false" text="RMI" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0"
+            prefWidth="400.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.GuiLogin">
+            <Label graphicTextGap="0.0" layoutX="35.0" layoutY="181.0" prefHeight="31.0" prefWidth="80.0"
+                   text="Username" textFill="#000000f7"/>
+            <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true"
+                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Image url="@../img/Sagrada-Logo-RGB.jpg"/>
+            </ImageView>
+            <TextField layoutX="115.0" layoutY="184.0"/>
+            <Label graphicTextGap="0.0" layoutX="32.0" layoutY="229.0" prefHeight="31.0" prefWidth="86.0"
+                   text="IP" textFill="#000000f7" />
+            <TextField layoutX="115.0" layoutY="232.0"/>
+            <RadioButton layoutX="246.0" layoutY="301.0" mnemonicParsing="false" prefHeight="18.0"
+                         prefWidth="80.0" text="Socket"/>
+            <RadioButton layoutX="91.0" layoutY="301.0" mnemonicParsing="false" text="RMI"/>
+            <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" text="Submit"/>
 </AnchorPane>
