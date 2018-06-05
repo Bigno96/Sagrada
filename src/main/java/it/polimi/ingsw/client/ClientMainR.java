@@ -1,5 +1,10 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.ViewInterface;
+import it.polimi.ingsw.client.view.cli.CliSystem;
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.ValueException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,43 +13,47 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 public class ClientMainR extends Application {
 
     private BorderPane rootLayout;
     private Stage primaryStage;
+    private ClientMainC controller;
+    private ViewInterface graphic;
 
     @Override
     public void start(Stage primaryStage) {
 
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("How do you wanna play?");
-       initRootLayout();
+        initRootLayout();
 
     }
 
 
     public void initRootLayout() {
+
+
         Platform.runLater(() -> {
             Parent root = null;
+
+            FXMLLoader loader = new FXMLLoader();
+
+            loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/MainPage.fxml"));
             try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/MainPage.fxml"));
-                //control = new ClientMainC();
-                //FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                //        "PersonEditor.fxml"));
-                //Parent root = (Parent) loader.load();
+                root = loader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            //ClientMainC controller = loader.getController();
-            //controller.setStage(this.stage);
+            primaryStage.setScene(new Scene(root));
 
-            //ClientMainC ctrl = loader.getController();
-            //ctrl.init(table.getSelectionModel().getSelectedItem());
+            ClientMainC ctrl = loader.getController();
+            ctrl.setClientMainR(this);
 
-            primaryStage.setScene(new Scene(root, 700, 400));
             primaryStage.show();
         });
     }
@@ -57,5 +66,25 @@ public class ClientMainR extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
+    public void closeWindow() {
+        primaryStage.close();
+    }
+
+    public void openCLI(){
+        graphic = new CliSystem();
+
+        primaryStage.hide();
+
+        System.out.println("CLI graphic chosen");
+        try {
+            graphic.startGraphic();
+        } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
 
 }

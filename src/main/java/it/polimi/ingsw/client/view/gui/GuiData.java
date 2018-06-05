@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import javafx.beans.Observable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;

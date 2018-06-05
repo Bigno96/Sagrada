@@ -23,6 +23,8 @@ import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.scene.layout.AnchorPane;
 
 public class ClientMainC {
@@ -30,12 +32,18 @@ public class ClientMainC {
     Button buttonCLI;
     Button buttonGUI;
     GuiLogin loginWindow;
+    ClientMainR clientMainR;
 
-    private ViewInterface graphic;
-/*
-    @FXML private AnchorPane ap;
-    Stage stage = (Stage) ap.getScene().getWindow();
-*/
+
+    public void setClientMainR(ClientMainR clientMainR) {
+        this.clientMainR = clientMainR;
+    }
+
+
+
+    //@FXML private AnchorPane ap;
+    //Stage stage = (Stage) ap.getScene().getWindow();
+
     /*public void chooseGUI(javafx.event.ActionEvent event){
      /*   //loginWindow = new GuiLogin(event.getSource().getScene().getWindow());
         Platform.runLater(() -> {
@@ -50,18 +58,14 @@ public class ClientMainC {
             stage.show();
         });*/
 
-
-
-
     public void chooseGUI(){
+        clientMainR.loginInit();
     }
 
     public void chooseCLI(javafx.event.ActionEvent event) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
 
        // ((Stage)(((Button)event.getSource()).getScene().getWindow())).hide();
-        graphic = new CliSystem();
-        System.out.println("CLI graphic chosen");
-        graphic.startGraphic();
+        clientMainR.openCLI();
 
     }
 
