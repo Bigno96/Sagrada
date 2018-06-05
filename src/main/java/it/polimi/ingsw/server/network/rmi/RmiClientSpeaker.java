@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.network.rmi;
 
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.SameDiceException;
-import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -12,7 +10,6 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
-import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -82,32 +79,48 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
-        client.placementDice(username, dest, moved);
+    public void placementDice(String username, Cell dest, Dice moved) {
+        try {
+            client.placementDice(username, dest, moved);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException {
-        client.printWindowCard(card);
+    public void printWindowCard(WindowCard card) {
+        try {
+            client.printWindowCard(card);
+        } catch (RemoteException | IDNotFoundException e) {
+            out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException {
-        client.showDraft(draft);
+    public void showDraft(Draft draft) {
+        try {
+            client.showDraft(draft);
+        } catch (RemoteException | IDNotFoundException | SameDiceException e) {
+            out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException {
-        client.printPublObj(pubObj);
+    public void printPublObj(List<ObjectiveCard> pubObj) {
+        try {
+            client.printPublObj(pubObj);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 
     @Override
-    public void printPrivObj(ObjectiveCard privObj) throws RemoteException {
-        client.printPrivObj(privObj);
+    public void printPrivObj(ObjectiveCard privObj) {
+        try {
+            client.printPrivObj(privObj);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 
-    @Override
-    public void print(String s) throws RemoteException {
-        client.print(s);
-    }
 }

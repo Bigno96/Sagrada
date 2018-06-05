@@ -63,29 +63,29 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
-    public void askWindowCard(String userName) throws RemoteException, IDNotFoundException {
+    public void askWindowCard(String userName) {
         lobby.getSpeakers().get(userName).printWindowCard(lobby.getPlayers().get(userName).getWindowCard());
     }
 
     @Override
-    public void askUsers(String currUser) throws RemoteException {
+    public void askUsers(String currUser) {
         for (String u : lobby.getPlayers().keySet())
             if (!u.equals(currUser))
-                lobby.getSpeakers().get(currUser).print(u);
+                lobby.getSpeakers().get(currUser).tell(u);
     }
 
     @Override
-    public void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException {
+    public void askDraft(String username) {
         lobby.getSpeakers().get(username).showDraft(lobby.getGame().getBoard().getDraft());
     }
 
     @Override
-    public void askPublObj(String username) throws RemoteException {
+    public void askPublObj(String username) {
         lobby.getSpeakers().get(username).printPublObj(lobby.getGame().getBoard().getPublObj());
     }
 
     @Override
-    public void askPrivObj(String username) throws RemoteException {
+    public void askPrivObj(String username) {
         lobby.getSpeakers().get(username).printPrivObj(lobby.getPlayers().get(username).getPrivObj());
     }
 

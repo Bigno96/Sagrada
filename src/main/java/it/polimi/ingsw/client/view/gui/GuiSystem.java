@@ -80,7 +80,7 @@ public class GuiSystem extends Application implements ViewInterface{
     }
 
     @Override
-    public void printWindowCard(WindowCard window) throws IDNotFoundException {
+    public void printWindowCard(WindowCard window) {
 
     }
 
@@ -110,7 +110,7 @@ public class GuiSystem extends Application implements ViewInterface{
     }
 
     @Override
-    public void showDraft(List<Dice> draft) throws IDNotFoundException, SameDiceException {
+    public void showDraft(List<Dice> draft) {
 
     }
 
@@ -125,7 +125,7 @@ public class GuiSystem extends Application implements ViewInterface{
     }
 
     @Override
-    public void startGraphic() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void startGraphic() {
 
     }
 

@@ -95,28 +95,48 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void askWindowCard(String username) throws RemoteException, IDNotFoundException {
-        server.askWindowCard(username);
+    public void askWindowCard(String username) {
+        try {
+            server.askWindowCard(username);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 
     @Override
-    public void askUsers(String currUser) throws RemoteException {
-        server.askUsers(currUser);
+    public void askUsers(String currUser) {
+        try {
+            server.askUsers(currUser);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 
     @Override
-    public void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException {
-        server.askDraft(username);
+    public void askDraft(String username) {
+        try {
+            server.askDraft(username);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 
     @Override
-    public void askPublObj(String username) throws RemoteException {
-        server.askPublObj(username);
+    public void askPublObj(String username) {
+        try {
+            server.askPublObj(username);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 
     @Override
-    public void askPrivObj(String username) throws RemoteException {
-        server.askPrivObj(username);
+    public void askPrivObj(String username) {
+        try {
+            server.askPrivObj(username);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 
     @Override
@@ -125,8 +145,12 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException {
-        server.moveDiceFromDraftToCard(username, index, row, col);
+    public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
+        try {
+            server.moveDiceFromDraftToCard(username, index, row, col);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 }
 

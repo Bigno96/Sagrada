@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.controller.observer;
 
-import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
-import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 

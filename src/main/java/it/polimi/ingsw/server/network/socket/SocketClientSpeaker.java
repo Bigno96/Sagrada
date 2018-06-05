@@ -127,33 +127,27 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     }
 
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
+    public void placementDice(String username, Cell dest, Dice moved) {
 
     }
 
     @Override
-    public void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException {
+    public void printWindowCard(WindowCard card) {
 
     }
 
     @Override
-    public void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException {
+    public void showDraft(Draft draft) {
 
     }
 
     @Override
-    public void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException {
+    public void printPublObj(List<ObjectiveCard> pubObj) {
 
     }
 
     @Override
-    public void printPrivObj(ObjectiveCard privObj) throws RemoteException {
+    public void printPrivObj(ObjectiveCard privObj) {
 
     }
-
-    @Override
-    public void print(String s) throws RemoteException {
-
-    }
-
 }

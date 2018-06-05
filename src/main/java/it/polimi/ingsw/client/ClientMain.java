@@ -29,12 +29,12 @@ public class ClientMain extends Application {
 
     }
 
-    public static void main(String[] args) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public static void main(String[] args) {
         ClientMain c = new ClientMain();
         c.startClient();
     }
 
-    private void startClient() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    private void startClient() {
         out.println("Client is working");
         askGraphic();
         graphic.startGraphic();
@@ -61,11 +61,7 @@ public class ClientMain extends Application {
                         } catch (Exception e) {
                            out.println(e.getMessage());
                         }
-                        try {
-                            graphic.startGraphic();
-                        } catch (FileNotFoundException | ValueException | PositionException | IDNotFoundException e) {
-                            out.println(e.getMessage());
-                        }
+                        graphic.startGraphic();
 
                     });
                     try {

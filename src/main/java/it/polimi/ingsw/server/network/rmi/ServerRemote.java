@@ -36,15 +36,15 @@ public interface ServerRemote extends Remote {
 
     void setWindowCard(String userName, String cardName) throws RemoteException;
 
-    void askWindowCard(String userName) throws RemoteException, IDNotFoundException;
+    void askWindowCard(String userName) throws RemoteException;
 
     void askUsers(String currUser) throws RemoteException;
 
-    void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException;
+    void askDraft(String username) throws RemoteException;
 
     void askPublObj(String username) throws RemoteException;
 
     void askPrivObj(String username) throws RemoteException;
 
-    void moveDiceFromDraftToCard(String username, int index, int row, int col) throws  RemoteException;
+    void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException;
 }
