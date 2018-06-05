@@ -1,10 +1,5 @@
 package it.polimi.ingsw.client.network;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.SameDiceException;
-
-import java.rmi.RemoteException;
-
 public interface ServerSpeaker {
     // interface to hide network difference in comm Client -> Server
 
@@ -30,19 +25,19 @@ public interface ServerSpeaker {
 
     void setWindowCard(String username, String name);
 
-    void askWindowCard(String username) throws RemoteException, IDNotFoundException;
+    void askWindowCard(String username);
 
-    void askUsers(String currUser) throws RemoteException;
+    void askUsers(String currUser);
 
-    void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException;
+    void askDraft(String username);
 
-    void askPublObj(String username) throws RemoteException;
+    void askPublObj(String username);
 
-    void askPrivObj(String username) throws RemoteException;
+    void askPrivObj(String username);
 
     void endTurn(String username);
 
-    void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException;
+    void moveDiceFromDraftToCard(String username, int index, int row, int col);
 
 }
 

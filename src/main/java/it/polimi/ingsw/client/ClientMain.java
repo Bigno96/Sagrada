@@ -5,9 +5,6 @@ import it.polimi.ingsw.client.view.cli.CliSystem;
 import it.polimi.ingsw.client.view.gui.ClientGUIController;
 import it.polimi.ingsw.client.view.gui.ClosingWindow;
 import it.polimi.ingsw.client.view.gui.GuiSystem;
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static java.lang.System.*;
@@ -70,12 +66,7 @@ public class ClientMain extends Application {
         closingWindow.start();
 
         out.println("CLI graphic chosen");
-        try {
             graphic.startGraphic();
-        } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public void openGUI() {

@@ -42,8 +42,8 @@ public class ServerMain {
                 Enumeration ee = n.getInetAddresses();
                 while (ee.hasMoreElements()) {
                     InetAddress i = (InetAddress) ee.nextElement();
-                    if (i.toString().equals(network.getLocalIp())) {
-                        ip = i.toString();
+                    if (i.toString().replace("/", "").equals(network.getLocalIp())) {
+                        ip = i.toString().replace("/", "");
                         break;
                     }
                 }

@@ -72,12 +72,12 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     }
 
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) throws RemoteException {
+    public void placementDice(String username, Cell dest, Dice moved) {
         view.placementDice(username, dest, moved);
     }
 
     @Override
-    public void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException {
+    public void printWindowCard(WindowCard card) {
        view.printWindowCard(card);
     }
 
