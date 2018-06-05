@@ -42,9 +42,9 @@ public interface ClientRemote extends Remote {
      */
     String getUsername() throws RemoteException;
 
-    void chooseWindowCard(List<WindowCard> cards) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+    void chooseWindowCard(List<WindowCard> cards) throws RemoteException;
 
-    void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+    void showCardPlayer(String user, WindowCard card) throws RemoteException;
 
     void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
 

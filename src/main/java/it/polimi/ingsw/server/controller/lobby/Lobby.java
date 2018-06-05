@@ -2,16 +2,14 @@ package it.polimi.ingsw.server.controller.lobby;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.System.*;
@@ -36,6 +34,7 @@ public class Lobby {
     private HashMap<String, CheckDisconnectionDaemon> checkerDisconnection;
     private HashMap<String, RemovePlayerDaemon> checkerRemoving;
     private Game game;
+    private GameController gameController;
 
     private final CommunicationParser protocol;
     private final GameSettingsParser settings;
@@ -197,10 +196,11 @@ public class Lobby {
     void startGame() {
         notifyAllPlayers(GAME_STARTED);
         currentState = gameState.STARTED;
-        game.startGame();
+        gameController = new GameController(this, players);
+        gameController.startGame();
 
         Timer ending = new Timer();
-        ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0,settings.getDaemonFrequency());
+        ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0, settings.getDaemonFrequency());
     }
 
     /**
@@ -210,10 +210,10 @@ public class Lobby {
         synchronized (playersLock) {
             synchronized (speakersLock) {
                 players.entrySet().stream()
-                        .filter(entry -> !entry.getValue().isDisconnected())        // filter only connected player
-                        .map(Map.Entry::getKey)
-                        .collect(Collectors.toList())
-                        .forEach(key -> speakers.get(key).tell(s));                 // tell them
+                    .filter(entry -> !entry.getValue().isDisconnected())        // filter only connected player
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList())
+                    .forEach(key -> speakers.get(key).tell(s));                 // tell them
             }
         }
     }
@@ -230,11 +230,15 @@ public class Lobby {
         return game;
     }
 
-    public HashMap<String, Player> getPlayers() {
+    public GameController getGameController() {
+        return this.gameController;
+    }
+
+    public Map<String, Player> getPlayers() {
         return players;
     }
 
-    public HashMap<String, ClientSpeaker> getSpeakers() {
+    public Map<String, ClientSpeaker> getSpeakers() {
         return speakers;
     }
 }

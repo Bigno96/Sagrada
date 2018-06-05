@@ -48,6 +48,8 @@ public class Player extends Observable {
     public void setWindowCard(WindowCard windCard) {
         this.windCard = windCard;
         this.favorPoint = windCard.getNumFavPoint();
+        setChanged();
+        notifyObservers(this.id);
     }
 
     public void setBoard(Board board) {

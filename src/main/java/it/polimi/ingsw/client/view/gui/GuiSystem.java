@@ -70,12 +70,12 @@ public class GuiSystem extends Application implements ViewInterface{
 
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void chooseWindowCard(List<WindowCard> cards) {
 
     }
 
     @Override
-    public void showCardPlayer(String user, WindowCard card) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException {
+    public void showCardPlayer(String user, WindowCard card) {
 
     }
 

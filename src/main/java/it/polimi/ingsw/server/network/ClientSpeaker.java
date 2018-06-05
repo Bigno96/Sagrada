@@ -36,9 +36,9 @@ public interface ClientSpeaker {
      */
     void loginSuccess(String s);
 
-    void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+    void chooseWindowCard(List<WindowCard> cards);
 
-    void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
+    void showCardPlayer(String user, WindowCard card);
 
     void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
 

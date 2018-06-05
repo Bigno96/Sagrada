@@ -4,10 +4,11 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.Colors;
 
+import java.io.Serializable;
 import java.util.Random;
-import java.util.logging.Logger;
+import static java.lang.System.*;
 
-public class Dice {
+public class Dice implements Serializable {
 
     private static final String WRONG_ID = "ID not allowed";
     private static final String WRONG_VALUE = "Illegal Value";
@@ -18,7 +19,6 @@ public class Dice {
     private int value;  //value = 0, when it has not yet been rolled
     private Colors color;
     private int id;     // id between 0 and 89
-    private static final Logger logger = Logger.getLogger(DiceBag.class.getName());
 
     /**
      * Constructor without value
@@ -55,7 +55,7 @@ public class Dice {
     }
 
     public void dump() {
-        logger.info("ID: " + getID() + " Col: " + getColor() + " Val: " + getValue());
+        out.println("ID: " + getID() + " Col: " + getColor() + " Val: " + getValue());
     }
 
     public int getID() {

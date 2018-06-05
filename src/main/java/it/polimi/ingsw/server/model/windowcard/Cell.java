@@ -7,11 +7,13 @@ import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
-public class Cell {
+import static java.lang.System.*;
+
+public class Cell implements Serializable {
 
     public enum CellState { OCCUPIED, IGNORE_NEARBY, IGNORE_VALUE, IGNORE_COLOR }
     private List<CellState> states;
@@ -28,8 +30,6 @@ public class Cell {
     private Dice dice;
     private int row;
     private int col;
-
-    private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
     /**
      * Constructor
@@ -60,7 +60,7 @@ public class Cell {
     }
 
     public void dump() {
-        logger.info("Color: " + getColor() + " Val: " + getValue() + " Row: " + getRow() + " Col: " + getCol());
+        out.println("Color: " + getColor() + " Val: " + getValue() + " Row: " + getRow() + " Col: " + getCol());
     }
 
     /**

@@ -4,19 +4,19 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
-public class MatrixCell {
+import static java.lang.System.*;
+
+public class MatrixCell implements Serializable {
 
     private Cell[][] matrix;
     private int rows;
     private int cols;
     private static String illegalMsg = "Illegal Position";
-
-    private static final Logger logger = Logger.getLogger(MatrixCell.class.getName());
 
     /**
      * Constructor
@@ -98,7 +98,7 @@ public class MatrixCell {
     }
 
     public void dump() {
-        logger.info("Rows: " + getRows() + " Cols: " + getCols());
+        out.println("Rows: " + getRows() + " Cols: " + getCols());
     }
 
     public boolean isBorder(Cell c){

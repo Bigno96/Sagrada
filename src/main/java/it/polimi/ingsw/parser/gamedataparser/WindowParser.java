@@ -171,7 +171,7 @@ public class WindowParser implements Parser {
      */
     private Cell makeCell (JsonObject obj, int row, int col) throws ValueException, PositionException {
         int value = Integer.parseInt(obj.get(CELL_VALUE).toString());
-        Colors color = Colors.parseColor(obj.get(CELL_COLOR).toString());
+        Colors color = Colors.parseColor(obj.get(CELL_COLOR).getAsString());
 
         GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 

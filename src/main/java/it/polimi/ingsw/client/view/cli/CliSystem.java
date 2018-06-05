@@ -11,7 +11,6 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
 
-import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +52,11 @@ public class CliSystem implements ViewInterface {
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws IDNotFoundException, FileNotFoundException, PositionException, ValueException, RemoteException {
+    public void chooseWindowCard(List<WindowCard> cards) {
 
         int pick;
+
+        print("These are the window cards selected for you:");
 
         cards.forEach(this::printWindowCard);
 
@@ -67,18 +68,23 @@ public class CliSystem implements ViewInterface {
         pick--;
 
         serverSpeaker.setWindowCard(userName, cards.get(pick).getName());
-
     }
 
     @Override
     public void showCardPlayer(String user, WindowCard card) {
-        print(user + " choose window card " + card.getName());
+        if (user.equals(this.userName))
+            print("You chose this window card ");
+        else
+            print(user + " choose window card ");
+
         printWindowCard(card);
     }
 
     @Override
     public void printWindowCard(WindowCard window) {
         Cell c;
+
+        out.println(window.getName());
 
         for (int i=0; i<window.getWindow().getCols(); i++)
             out.print("\t" + i);
@@ -99,6 +105,7 @@ public class CliSystem implements ViewInterface {
                 }
                 else
                     out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
+
             }
             print("");
         }
@@ -107,7 +114,7 @@ public class CliSystem implements ViewInterface {
 
     @Override
     public void printUsers(List<String> users) {
-        users.forEach(user -> print(user));
+        users.forEach(this::print);
     }
 
     @Override

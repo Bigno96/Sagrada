@@ -1,14 +1,16 @@
 package it.polimi.ingsw.server.model.windowcard;
 
+import java.io.Serializable;
 import java.util.*;
-import java.util.logging.Logger;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.WrongPositionException;
 import it.polimi.ingsw.exception.EmptyException;
 
-public class WindowCard {
+import static java.lang.System.*;
+
+public class WindowCard implements Serializable {
 
     private MatrixCell window;
     private int id;                 // id it's the same for 2 window card that represents front and behind of a real Window Card
@@ -16,8 +18,6 @@ public class WindowCard {
     private String name;
     private static String colorMsg = "Color not correct on cell: ";
     private static String valueMsg = "Value not correct on cell: ";
-
-    private static final Logger logger = Logger.getLogger(WindowCard.class.getName());
 
     /**
      * Constructor
@@ -58,7 +58,7 @@ public class WindowCard {
     }
 
     public void dump() {
-        logger.info("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
+        out.println("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
         Iterator<Cell> itr = window.itrOrizz();
         while (itr.hasNext())
             itr.next().dump();

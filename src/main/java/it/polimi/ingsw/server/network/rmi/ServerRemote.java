@@ -34,7 +34,7 @@ public interface ServerRemote extends Remote {
      */
     void login(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
-    void setWindowCard(String userName, String name) throws RemoteException;
+    void setWindowCard(String userName, String cardName) throws RemoteException;
 
     void askWindowCard(String userName) throws RemoteException, IDNotFoundException;
 

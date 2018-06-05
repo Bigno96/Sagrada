@@ -64,7 +64,7 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public void chooseWindowCard(List<WindowCard> cards) {
         try {
             client.chooseWindowCard(cards);
         } catch (RemoteException e) {
@@ -73,8 +73,12 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     @Override
-    public void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException {
-        client.showCardPlayer(user, card);
+    public void showCardPlayer(String user, WindowCard card) {
+        try {
+            client.showCardPlayer(user, card);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 
     @Override

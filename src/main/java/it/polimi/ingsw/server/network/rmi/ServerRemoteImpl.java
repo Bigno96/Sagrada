@@ -5,10 +5,8 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 import static java.lang.System.*;
 
@@ -60,8 +58,8 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
-    public void setWindowCard(String userName, String name) {
-
+    public void setWindowCard(String userName, String cardName) {
+        lobby.getGameController().setWindow(userName, cardName);
     }
 
     @Override
