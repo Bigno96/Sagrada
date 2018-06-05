@@ -75,6 +75,6 @@ public class ClientMain extends Application {
     }
 
     public void openGUI() {
-        GuiSystem guiSystem = new GuiSystem(primaryStage);
+       // GuiSystem guiSystem = new GuiSystem(primaryStage);
     }
 }
