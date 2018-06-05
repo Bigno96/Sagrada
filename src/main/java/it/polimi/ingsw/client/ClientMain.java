@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.client.view.cli.CliSystem;
 import it.polimi.ingsw.client.view.gui.ClientGUIController;
+import it.polimi.ingsw.client.view.gui.ClosingWindow;
 import it.polimi.ingsw.client.view.gui.GuiSystem;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
@@ -21,6 +22,7 @@ import static java.lang.System.*;
 
 public class ClientMain extends Application {
 
+    GuiSystem guiSystem;
     private Stage primaryStage;
     private boolean CLI;
     private boolean GUI;
@@ -64,7 +66,8 @@ public class ClientMain extends Application {
     public void openCLI(){
         ViewInterface graphic = new CliSystem();
 
-        primaryStage.hide();
+        ClosingWindow closingWindow = new ClosingWindow(primaryStage);
+        closingWindow.start();
 
         out.println("CLI graphic chosen");
         try {
@@ -72,9 +75,11 @@ public class ClientMain extends Application {
         } catch (FileNotFoundException | IDNotFoundException | PositionException | ValueException e) {
             e.printStackTrace();
         }
+
     }
 
     public void openGUI() {
-       // GuiSystem guiSystem = new GuiSystem(primaryStage);
+        guiSystem = new GuiSystem(primaryStage);
+        guiSystem.start();
     }
 }

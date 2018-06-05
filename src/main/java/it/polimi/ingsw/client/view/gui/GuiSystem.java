@@ -24,23 +24,22 @@ import java.util.HashMap;
 import java.util.List;
 import static java.lang.System.out;
 
-public class GuiSystem extends Application implements ViewInterface{
+public class GuiSystem implements ViewInterface{
 
-    private Stage window;
+    private Stage primaryStage;
     private GuiAskConnection connectionWindow;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     //private Scene userNameScene;
     private HashMap<String, ServerSpeaker> connParam;
 
-    public GuiSystem(){
+    public GuiSystem(Stage primaryStage){
         connParam = new HashMap<>();
         connectionWindow = new GuiAskConnection();
-        window = new Stage();
+        this.primaryStage = primaryStage;
     }
 
-    @Override
-    public void start(Stage primaryStage) {
+    public void start() {
         Platform.runLater(() -> {
             Parent root = null;
             try {
@@ -50,7 +49,7 @@ public class GuiSystem extends Application implements ViewInterface{
                 e.printStackTrace();
             }
             primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
-            primaryStage.setScene(new Scene(root, 700, 400));
+            primaryStage.setScene(new Scene(root));
             primaryStage.show();
         });
 
@@ -69,7 +68,6 @@ public class GuiSystem extends Application implements ViewInterface{
             }
         });
     }
-
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
