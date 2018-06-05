@@ -2,8 +2,12 @@ package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.dicebag.Draft;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
@@ -43,4 +47,14 @@ public interface ClientRemote extends Remote {
     void showCardPlayer(String user, WindowCard card) throws RemoteException, FileNotFoundException, IDNotFoundException, PositionException, ValueException;
 
     void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
+
+    void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException;
+
+    void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException;
+
+    void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException;
+
+    void printPrivObj(ObjectiveCard privObj) throws RemoteException;
+
+    void print(String s) throws RemoteException;
 }

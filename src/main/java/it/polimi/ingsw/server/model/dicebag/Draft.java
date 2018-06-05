@@ -151,4 +151,7 @@ public class Draft {
         return this.nDice;
     }
 
+    public List<Dice> getDraftList() {
+        return draftList;
+    }
 }

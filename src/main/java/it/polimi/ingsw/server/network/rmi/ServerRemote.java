@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.network.rmi;
 
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
-import it.polimi.ingsw.exception.GameAlreadyStartedException;
-import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.exception.TooManyPlayersException;
+import it.polimi.ingsw.exception.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -37,6 +35,16 @@ public interface ServerRemote extends Remote {
     void login(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
     void setWindowCard(String userName, String name) throws RemoteException;
+
+    void askWindowCard(String userName) throws RemoteException, IDNotFoundException;
+
+    void askUsers(String currUser) throws RemoteException;
+
+    void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException;
+
+    void askPublObj(String username) throws RemoteException;
+
+    void askPrivObj(String username) throws RemoteException;
 
     void moveDiceFromDraftToCard(String username, int index, int row, int col) throws  RemoteException;
 }

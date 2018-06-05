@@ -91,28 +91,28 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void askWindowCard(String username) {
-
+    public void askWindowCard(String username) throws RemoteException, IDNotFoundException {
+        server.askWindowCard(username);
     }
 
     @Override
-    public void askUsers(String currUser) {
-
+    public void askUsers(String currUser) throws RemoteException {
+        server.askUsers(currUser);
     }
 
     @Override
-    public void askDraft() {
-
+    public void askDraft(String username) throws RemoteException, IDNotFoundException, SameDiceException {
+        server.askDraft(username);
     }
 
     @Override
-    public void askPublObj() {
-
+    public void askPublObj(String username) throws RemoteException {
+        server.askPublObj(username);
     }
 
     @Override
-    public void askPrivObj(String username) {
-
+    public void askPrivObj(String username) throws RemoteException {
+        server.askPrivObj(username);
     }
 
     @Override
