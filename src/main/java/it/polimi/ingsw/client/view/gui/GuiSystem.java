@@ -35,7 +35,7 @@ public class GuiSystem implements ViewInterface{
     public void start() {
         Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WaitingPage.fxml"));
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
             try {
                 root = loader.load();
             } catch (IOException e) {
@@ -52,9 +52,9 @@ public class GuiSystem implements ViewInterface{
 
     private void displayAskConnection() {
         Platform.runLater(() -> {
-            Stage loginWindow = new Stage();
+            Stage systemStage = new Stage();
             try{
-                connParam = connectionWindow.display(this, loginWindow);
+                connParam = connectionWindow.display(this, systemStage);
                 userName = connParam.keySet().iterator().next();
                 serverSpeaker = connParam.get(userName);
             }catch (Exception e) {

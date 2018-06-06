@@ -22,6 +22,9 @@ import static java.lang.System.out;
 
 public class LoginPageController {
 
+    String username;
+    String IP;
+    /*
     private boolean socketConnection;
     private boolean rmiConnection;
     private boolean connect = false;
@@ -121,6 +124,16 @@ public class LoginPageController {
             closeWindow();
     }
 
+        private void closeWindow(){
+        loginWindow.close();
+    }
+
+    public void setGuiSystem(GuiSystem guiSystem) {
+        this.guiSystem = guiSystem;
+    }
+
+*/
+
     private boolean validIP(String ip) {
         if (ip.isEmpty())
             return false;
@@ -139,14 +152,8 @@ public class LoginPageController {
         return !ip.endsWith(".");
     }
 
-    private void closeWindow(){
-        loginWindow.close();
-    }
 
-    public void setGuiSystem(GuiSystem guiSystem) {
-        this.guiSystem = guiSystem;
-    }
+    public void Submit() {
 
-    public void Submit(ActionEvent event) {
     }
 }
