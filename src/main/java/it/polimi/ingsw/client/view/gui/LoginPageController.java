@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 
 import static java.lang.System.out;
 
-public class GuiAskConnection{
+public class LoginPageController {
 
     private boolean socketConnection;
     private boolean rmiConnection;
@@ -31,7 +32,7 @@ public class GuiAskConnection{
     private HashMap<String, ServerSpeaker> connParam;
     private GuiSystem guiSystem;
 
-    public GuiAskConnection(){
+    public LoginPageController(){
         socketConnection = false;
         rmiConnection = false;
         connParam = new HashMap<>();
@@ -88,7 +89,7 @@ public class GuiAskConnection{
 
             while (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
                 Platform.runLater(() -> {
-                    GuiAskConnection connectionWindows = new GuiAskConnection();
+                    LoginPageController connectionWindows = new LoginPageController();
                     Stage window = new Stage();
                     try {
                         connectionWindows.display(guiSystem, window);
@@ -142,4 +143,10 @@ public class GuiAskConnection{
         loginWindow.close();
     }
 
+    public void setGuiSystem(GuiSystem guiSystem) {
+        this.guiSystem = guiSystem;
+    }
+
+    public void Submit(ActionEvent event) {
+    }
 }

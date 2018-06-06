@@ -18,10 +18,7 @@ import static java.lang.System.*;
 
 public class ClientMain extends Application {
 
-    GuiSystem guiSystem;
     private Stage primaryStage;
-    private boolean CLI;
-    private boolean GUI;
 
     @Override
     public void start(Stage primaryStage) {
@@ -70,7 +67,7 @@ public class ClientMain extends Application {
     }
 
     public void openGUI() {
-        guiSystem = new GuiSystem(primaryStage);
+        GuiSystem guiSystem = new GuiSystem(primaryStage);
         guiSystem.start();
     }
 }

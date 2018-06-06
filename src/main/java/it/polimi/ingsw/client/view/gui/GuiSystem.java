@@ -2,57 +2,52 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
-import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
 import static java.lang.System.out;
 
 public class GuiSystem implements ViewInterface{
 
     private Stage primaryStage;
-    private GuiAskConnection connectionWindow;
+    private LoginPageController connectionWindow;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    //private Scene userNameScene;
     private HashMap<String, ServerSpeaker> connParam;
 
     public GuiSystem(Stage primaryStage){
         connParam = new HashMap<>();
-        connectionWindow = new GuiAskConnection();
+        connectionWindow = new LoginPageController();
         this.primaryStage = primaryStage;
     }
 
     public void start() {
         Platform.runLater(() -> {
             Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WaitingPage.fxml"));
             try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
-                //control = new ClientMainC();
+                root = loader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
+
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         });
 
+        displayAskConnection();
     }
 
     private void displayAskConnection() {
@@ -64,7 +59,7 @@ public class GuiSystem implements ViewInterface{
                 serverSpeaker = connParam.get(userName);
             }catch (Exception e) {
                 out.println(e.getMessage());
-                System.out.println("Exception");
+                out.println("Exception");
             }
         });
     }

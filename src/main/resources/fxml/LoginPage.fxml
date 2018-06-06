@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0"
             prefWidth="400.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.GuiLogin">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.LoginPageController">
             <Label graphicTextGap="0.0" layoutX="35.0" layoutY="181.0" prefHeight="31.0" prefWidth="80.0"
                    text="Username" textFill="#000000f7"/>
             <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true"
@@ -20,5 +20,5 @@
             <RadioButton layoutX="246.0" layoutY="301.0" mnemonicParsing="false" prefHeight="18.0"
                          prefWidth="80.0" text="Socket"/>
             <RadioButton layoutX="91.0" layoutY="301.0" mnemonicParsing="false" text="RMI"/>
-            <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" text="Submit"/>
+            <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" onAction="#Submit" text="Submit"/>
 </AnchorPane>
