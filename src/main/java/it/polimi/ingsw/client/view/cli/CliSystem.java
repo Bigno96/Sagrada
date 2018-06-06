@@ -7,8 +7,6 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
@@ -17,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import static java.lang.System.*;
 import static org.fusesource.jansi.Ansi.Color;
@@ -34,11 +31,14 @@ public class CliSystem implements ViewInterface {
     private HashMap<String, ServerSpeaker> connParam;
     private boolean waiting;
     private boolean played;
+    private boolean moved;
+    private boolean used;
 
     private static final String INSERT_NUMBER = "Insert a number";
 
     private final ViewMessageParser dictionary;
-    private final HashMap<String, Consumer<String>> connectionAction;
+    private final HashMap<String, Consumer<String>> waitingAction;
+    private final HashMap<String, Consumer<Boolean>> playingAction;
 
     public CliSystem() {
         connection = new CliAskConnection();
@@ -47,14 +47,16 @@ public class CliSystem implements ViewInterface {
         numRound = 0;
 
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
-        this.connectionAction = new HashMap<>();
-        mapConnection();
+        waitingAction = new HashMap<>();
+        mapWaiting();
+        playingAction = new HashMap<>();
+        mapPlaying();
     }
 
-    private void mapConnection() {
+    private void mapWaiting() {
         Consumer<String> window = username -> serverSpeaker.askWindowCard(username); //see personal window card
         Consumer<String> other = username -> {
-            print("Insert the name of the user whom you want to see the window card between these:");
+            print(dictionary.getMessage("ASK_USER"));
             serverSpeaker.askUsers(username);
             String user = inKeyboard.nextLine();
             serverSpeaker.askWindowCard(user); //see window card other player
@@ -65,13 +67,40 @@ public class CliSystem implements ViewInterface {
         Consumer<String> tool = username -> serverSpeaker.askToolCards(username); //see tool card
         Consumer<String> favor = username -> serverSpeaker.askFavorPoints(username); //see favor points
 
-        connectionAction.put("w", window);
-        connectionAction.put("o", other);
-        connectionAction.put("d", draft);
-        connectionAction.put("p", publicObj);
-        connectionAction.put("q", privateObj);
-        connectionAction.put("t", tool);
-        connectionAction.put("f", favor);
+        waitingAction.put("w", window);
+        waitingAction.put("o", other);
+        waitingAction.put("d", draft);
+        waitingAction.put("p", publicObj);
+        waitingAction.put("q", privateObj);
+        waitingAction.put("t", tool);
+        waitingAction.put("f", favor);
+    }
+
+    private void mapPlaying(){
+        Consumer<Boolean> move = playing -> {
+            if (playing && !moved) {
+                moveDice();
+                moved = true;
+            }else{
+                print(dictionary.getMessage("ALREADY_DONE"));
+            }
+        };
+        Consumer<Boolean> use = playing-> {
+            if (playing && !used) {
+                useToolCard();
+                used = true;
+            }else{
+                print(dictionary.getMessage("ALREADY_DONE"));
+            }
+        };
+        Consumer<Boolean> pass = playing -> {
+            print(dictionary.getMessage("PASSED"));
+            played = true;
+        };
+
+        playingAction.put("p", move);
+        playingAction.put("t", use);
+        playingAction.put("q", pass);
     }
 
     public void startGraphic() {
@@ -209,41 +238,28 @@ public class CliSystem implements ViewInterface {
 
             String s = inKeyboard.nextLine();
 
-            if (!connectionAction.containsKey(s))
+            if (!waitingAction.containsKey(s))
                 print(dictionary.getMessage("INCORRECT_ENTRY"));
             else
-                connectionAction.get(s).accept(userName);
+                waitingAction.get(s).accept(userName);
 
         } while (waiting);
 
     }
 
     private void askMove() { // action user can do while is playing
-        boolean moved = false;
-        boolean used = false;
+        moved = false;
+        used = false;
 
         do {
             print(dictionary.getMessage("MENU_PLAYING"));
 
             String s = inKeyboard.nextLine();
 
-            if (s.equals("p")) {
-                if (!moved) {
-                    moveDice();
-                    moved = true;
-                }
-            }else if (s.equals("t")){
-                //use tool card (show tool cards and choose which one use)
-                if (!used) {
-                    useToolCard();
-                    used = true;
-                }
-            }else if (s.equals("q")){
-                print(dictionary.getMessage("PASSED"));
-                played = true;
-            } else {
+            if (!playingAction.containsKey(s)){
                 print(dictionary.getMessage("INCORRECT_ENTRY"));
-            }
+            }else
+                playingAction.get(s).accept(!played);
 
         } while (!played);
 
@@ -289,7 +305,7 @@ public class CliSystem implements ViewInterface {
 
     }
 
-    private void useToolCard(){}
+    private void useToolCard(){} //use tool card (show tool cards and choose which one use)
 
 }
 

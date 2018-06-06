@@ -9,6 +9,8 @@
   "RMI_CHOSEN": "RMI connection chosen",
   "WRONG_IP": "Not a valid ip",
   "MENU_WAITING": "You are waiting, what you want to do: \n w - see your window card \n o - see window card of another player \n d - see draft \n p - see public objectives \n q - see your private objective \n t - see tool cards \n f - see how many favor points you have left",
+  "ASK_USER": "Insert the name of the user whom you want to see the window card between these:",
   "MENU_PLAYING": "What move do you want to make: \n p - place a dice from the draft \n t - use a tool card \n q - pass turn",
+  "ALREADY_DONE": "You have already done this action",
   "PASSED": "You passed!"
 }
