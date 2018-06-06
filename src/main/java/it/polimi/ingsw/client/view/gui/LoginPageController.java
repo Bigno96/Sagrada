@@ -3,34 +3,30 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import it.polimi.ingsw.client.network.ServerSpeaker;
-
-import java.util.HashMap;
 
 import static java.lang.System.out;
 
 public class LoginPageController {
 
-    String username;
-    String IP;
+    @FXML
+    private TextField username;
+    @FXML
+    private TextField ip;
+    @FXML
+    private RadioButton socket;
+    @FXML
+    private RadioButton rmi;
+    private GuiSystem guiSystem;
+
     /*
     private boolean socketConnection;
     private boolean rmiConnection;
     private boolean connect = false;
     private Stage loginWindow;
-    private TextField userName = new TextField();
-    private TextField ip = new TextField();
+
     private ServerSpeaker serverSpeaker;
     private HashMap<String, ServerSpeaker> connParam;
     private GuiSystem guiSystem;
@@ -154,6 +150,37 @@ public class LoginPageController {
 
 
     public void Submit() {
+        if (rmi.isSelected()) {
+            guiSystem.setRMIConnection();
+            guiSystem.setServerSpeaker(new SocketServerSpeaker(ip.getText(), guiSystem));
+        } else {
+            guiSystem.setSocketConnection();
+            guiSystem.setServerSpeaker(new RmiServerSpeaker(ip.getText(), username.getText(), guiSystem));
+        }
+        boolean connect;
+        do{
+        while (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
+            Platform.runLater(() -> {
+                IncorrectIP incorrectIPWindow = new IncorrectIP();
+                Stage window = new Stage();
+                try {
+                    incorrectIPWindow.display(window);
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
+
+            });
+        }
+        guiSystem.getServerSpeaker().setIp(ip.getText());
+        guiSystem.getServerSpeaker().connect(username.getText());
+        connect = guiSystem.getServerSpeaker().login(username.getText());
+    }while(!connect);
+        //changeStage
 
     }
+
+    public void setGuiSystem(GuiSystem guiSystem) {
+        this.guiSystem = guiSystem;
+    }
+
 }

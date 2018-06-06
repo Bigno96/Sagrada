@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
+import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -13,22 +15,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-
-import static java.lang.System.out;
 
 public class GuiSystem implements ViewInterface{
 
     private Stage primaryStage;
-    private LoginPageController connectionWindow;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    private HashMap<String, ServerSpeaker> connParam;
+    private Boolean socketConnection = false;
+    private Boolean rmiConnection = false;
 
     public GuiSystem(Stage primaryStage){
-        connParam = new HashMap<>();
-        connectionWindow = new LoginPageController();
         this.primaryStage = primaryStage;
     }
 
@@ -36,32 +33,20 @@ public class GuiSystem implements ViewInterface{
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
+            LoginPageController ctrl = loader.getController();
+            //ctrl.setGuiSystem(this);
             try {
                 root = loader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
 
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         });
 
-        displayAskConnection();
-    }
-
-    private void displayAskConnection() {
-        Platform.runLater(() -> {
-            Stage systemStage = new Stage();
-            try{
-                connParam = connectionWindow.display(this, systemStage);
-                userName = connParam.keySet().iterator().next();
-                serverSpeaker = connParam.get(userName);
-            }catch (Exception e) {
-                out.println(e.getMessage());
-                out.println("Exception");
-            }
-        });
     }
 
     @Override
@@ -131,4 +116,25 @@ public class GuiSystem implements ViewInterface{
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public void setSocketConnection() {
+        this.socketConnection = true;
+    }
+
+    public void setRMIConnection(){
+        this.rmiConnection = true;
+    }
+
+    public void setServerSpeaker(SocketServerSpeaker serverSpeaker) {
+        this.serverSpeaker = serverSpeaker;
+    }
+
+    public void setServerSpeaker(RmiServerSpeaker rmiServerSpeaker) {
+        this.serverSpeaker = rmiServerSpeaker;
+    }
+
+    public ServerSpeaker getServerSpeaker() {
+        return serverSpeaker;
+    }
+
 }
