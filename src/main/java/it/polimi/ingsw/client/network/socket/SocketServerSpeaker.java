@@ -144,6 +144,16 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
+    public void askToolCards(String username) {
+
+    }
+
+    @Override
+    public void askFavorPoints(String username) {
+
+    }
+
+    @Override
     public void endTurn(String username) {
 
     }

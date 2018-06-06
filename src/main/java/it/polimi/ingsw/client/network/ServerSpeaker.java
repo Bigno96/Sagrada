@@ -35,6 +35,10 @@ public interface ServerSpeaker {
 
     void askPrivObj(String username);
 
+    void askToolCards(String username);
+
+    void askFavorPoints(String username);
+
     void endTurn(String username);
 
     void moveDiceFromDraftToCard(String username, int index, int row, int col);
