@@ -103,20 +103,20 @@ public class GameTest extends TestCase {
 
         game.startGame();
 
-        assertEquals(p, game.currentPlayer());
-        assertEquals(p1, game.currentPlayer());
-        assertEquals(p1, game.currentPlayer());
-        assertEquals(p, game.currentPlayer());
+        assertEquals(p, game.nextPlayer());
+        assertEquals(p1, game.nextPlayer());
+        assertEquals(p1, game.nextPlayer());
+        assertEquals(p, game.nextPlayer());
 
         game.getRound().nextRound();
 
-        assertEquals(p1, game.currentPlayer());
-        assertEquals(p, game.currentPlayer());
-        assertEquals(p, game.currentPlayer());
-        assertEquals(p1, game.currentPlayer());
+        assertEquals(p1, game.nextPlayer());
+        assertEquals(p, game.nextPlayer());
+        assertEquals(p, game.nextPlayer());
+        assertEquals(p1, game.nextPlayer());
 
         game.setnRound(9);
-        assertNull(game.currentPlayer());
+        assertNull(game.nextPlayer());
     }
 
     public void testRmPlayer() throws SamePlayerException, EmptyException {

@@ -59,10 +59,13 @@ public class CliSystem implements ViewInterface {
 
         cards.forEach(this::printWindowCard);
 
-        print("Choose your window card (choice between 1 and 4):");
-        do{
+        Boolean exit;
+        do {
+            print("Choose your window card (choice between 1 and 4):");
             pick = inKeyboard.nextInt();
-        }while(pick<1 || pick>4);
+            exit = pick<1 || pick>4;
+
+        } while(exit);
 
         pick--;
 
@@ -72,9 +75,9 @@ public class CliSystem implements ViewInterface {
     @Override
     public void showCardPlayer(String user, WindowCard card) {
         if (user.equals(this.userName))
-            print("You chose this window card ");
+            print("\nYou chose this window card ");
         else
-            print(user + " choose window card ");
+            print("\n" + user + " choose window card ");
 
         printWindowCard(card);
     }
@@ -201,10 +204,11 @@ public class CliSystem implements ViewInterface {
     }
 
     private void askMove() { // action user can do while is playing
-        do{
+        do {
             print("What move do you want to make:");
             print("p - place a dice from the draft");
             //print("t - use a tool card");
+            print("q - pass turn");
 
             Scanner input = new Scanner(System.in);
             String s;
@@ -251,7 +255,9 @@ public class CliSystem implements ViewInterface {
             }/*else if (s.equals("t")){
             //use tool card (show tool cards and choose which one use)
             played = true;
-            }*/ else {
+            }*/ else if (s.equals("q")){
+                played = true;
+            } else {
                 print("Incorrect choice!");
             }
 

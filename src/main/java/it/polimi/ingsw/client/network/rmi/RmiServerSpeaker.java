@@ -141,7 +141,11 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
     @Override
     public void endTurn(String username) {
-
+        try {
+            server.endTurn(username);
+        } catch (RemoteException e) {
+            view.print("Server is not responding");
+        }
     }
 
     @Override

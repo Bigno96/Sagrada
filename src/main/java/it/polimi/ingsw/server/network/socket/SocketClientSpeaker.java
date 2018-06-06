@@ -127,6 +127,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     }
 
     @Override
+    public void nextTurn(String user) {
+
+    }
+
+    @Override
     public void placementDice(String username, Cell dest, Dice moved) {
 
     }
