@@ -15,39 +15,23 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class GuiSystem implements ViewInterface{
 
+    private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
+
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    private Boolean socketConnection = false;
-    private Boolean rmiConnection = false;
+    private LoginPageController ctrl;
 
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
+        this.connParam = new HashMap<>();
     }
 
-    public void start() {
-        Platform.runLater(() -> {
-            Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
-            LoginPageController ctrl = loader.getController();
-            //ctrl.setGuiSystem(this);
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
-
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        });
-
-    }
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
@@ -106,35 +90,26 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void startGraphic() {
+        Platform.runLater(() -> {
+            Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-    }
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
 
-    public String getUserName() {
-        return userName;
-    }
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+            primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
 
-    public void setSocketConnection() {
-        this.socketConnection = true;
-    }
+            primaryStage.show();
+        });
 
-    public void setRMIConnection(){
-        this.rmiConnection = true;
-    }
-
-    public void setServerSpeaker(SocketServerSpeaker serverSpeaker) {
-        this.serverSpeaker = serverSpeaker;
-    }
-
-    public void setServerSpeaker(RmiServerSpeaker rmiServerSpeaker) {
-        this.serverSpeaker = rmiServerSpeaker;
-    }
-
-    public ServerSpeaker getServerSpeaker() {
-        return serverSpeaker;
     }
 
 }

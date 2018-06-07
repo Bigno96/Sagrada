@@ -24,6 +24,7 @@ public class ClientMain extends Application {
     public void start(Stage primaryStage) {
 
         this.primaryStage = primaryStage;
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
         this.primaryStage.setTitle("How do you wanna play?");
         initRootLayout();
 
@@ -68,6 +69,6 @@ public class ClientMain extends Application {
 
     public void openGUI() {
         GuiSystem guiSystem = new GuiSystem(primaryStage);
-        guiSystem.start();
+        guiSystem.startGraphic();
     }
 }

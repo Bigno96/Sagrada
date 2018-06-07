@@ -1,12 +1,22 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
+import it.polimi.ingsw.client.view.cli.CliSystem;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import static java.lang.System.in;
 import static java.lang.System.out;
 
 public class LoginPageController {
@@ -21,23 +31,84 @@ public class LoginPageController {
     private RadioButton rmi;
     private GuiSystem guiSystem;
 
-    /*
+
     private boolean socketConnection;
     private boolean rmiConnection;
-    private boolean connect = false;
     private Stage loginWindow;
 
     private ServerSpeaker serverSpeaker;
-    private HashMap<String, ServerSpeaker> connParam;
-    private GuiSystem guiSystem;
+    private final HashMap<String, ServerSpeaker> connParam;
 
     public LoginPageController(){
-        socketConnection = false;
-        rmiConnection = false;
-        connParam = new HashMap<>();
+        this.socketConnection = false;
+        this.rmiConnection = false;
+        this.connParam = new HashMap<>();
     }
 
-    HashMap<String, ServerSpeaker> display(GuiSystem guiSystem, Stage window){
+    public void setGuiSystem(GuiSystem guiSystem) {
+        this.guiSystem = guiSystem;
+    }
+
+    private boolean validIP(String ip) {
+        if (ip.isEmpty())
+            return false;
+
+        String[] parts = ip.split("\\.");
+
+        if (parts.length != 4 && parts.length != 6)
+            return false;
+
+        for (String s : parts) {
+            int i = Integer.parseInt(s);
+            if (i < 0 || i > 255)
+                return false;
+        }
+
+        return !ip.endsWith(".");
+    }
+
+    public void Submit() {
+        startConnection(guiSystem);
+        //call change scene
+
+    }
+
+    HashMap<String, ServerSpeaker> startConnection(GuiSystem guiSystem) {
+
+        String userName = username.getText();
+        String ipText = ip.getText();
+        if (rmi.isSelected()) {
+            //if rmi RadioButton is selected return HashMap(username, ServerSpeaker)
+            serverSpeaker = new SocketServerSpeaker(ip.getText(), guiSystem);
+        } else {
+            serverSpeaker = new RmiServerSpeaker(ip.getText(), username.getText(), guiSystem);
+        }
+
+        while (!serverSpeaker.connect(userName)){
+            //Alert ip wrong
+            //clean ip
+            System.out.println("rename");
+        }
+
+        while (!serverSpeaker.login(userName)) {
+            //Alert username già connesso
+            //clean username
+            System.out.println("ip");
+        }
+
+        connParam.put(userName, serverSpeaker);
+
+        return connParam;
+
+    }
+
+
+
+
+
+
+
+    /*HashMap<String, ServerSpeaker> display(GuiSystem guiSystem, Stage window){
 
         this.guiSystem = guiSystem;
         loginWindow = window;
@@ -73,8 +144,8 @@ public class LoginPageController {
 
         return connParam;
 
-    }
-
+    }*/
+/*
     //Set Connection
     private void getChoice(ChoiceBox<String> choiceBox){
         do {
@@ -83,7 +154,7 @@ public class LoginPageController {
                 serverSpeaker = new SocketServerSpeaker(ip.getText(), guiSystem);
             } else {
                 socketConnection = true;
-                serverSpeaker = new RmiServerSpeaker(ip.getText(), userName.getText(), guiSystem);
+                serverSpeaker = new RmiServerSpeaker(ip.getText(), username.getText(), guiSystem);
             }
 
             while (!validIP(ip.getText())) {               //If IP is incorrect open IncorrectIPWindow and ConnectionWinodow
@@ -111,10 +182,10 @@ public class LoginPageController {
             //If IP is correct try to connect
 
             serverSpeaker.setIp(ip.getText());
-            serverSpeaker.connect(userName.getText());
-            connect = serverSpeaker.login(userName.getText());
+            serverSpeaker.connect(username.getText());
+            connect = serverSpeaker.login(username.getText());
 
-            connParam.put(userName.getText(), serverSpeaker);
+            connParam.put(username.getText(), serverSpeaker);
 
         }while (!connect);
             closeWindow();
@@ -122,35 +193,13 @@ public class LoginPageController {
 
         private void closeWindow(){
         loginWindow.close();
-    }
-
-    public void setGuiSystem(GuiSystem guiSystem) {
-        this.guiSystem = guiSystem;
-    }
-
-*/
-
-    private boolean validIP(String ip) {
-        if (ip.isEmpty())
-            return false;
-
-        String[] parts = ip.split("\\.");
-
-        if (parts.length != 4 && parts.length != 6)
-            return false;
-
-        for (String s : parts) {
-            int i = Integer.parseInt(s);
-            if (i < 0 || i > 255)
-                return false;
-        }
-
-        return !ip.endsWith(".");
-    }
+    }*/
 
 
+/*
     public void Submit() {
         if (rmi.isSelected()) {
+            //if rmi RadioButton is selected return HashMap(username, ServerSpeaker)
             guiSystem.setRMIConnection();
             guiSystem.setServerSpeaker(new SocketServerSpeaker(ip.getText(), guiSystem));
         } else {
@@ -175,12 +224,8 @@ public class LoginPageController {
         guiSystem.getServerSpeaker().connect(username.getText());
         connect = guiSystem.getServerSpeaker().login(username.getText());
     }while(!connect);
-        //changeStage
+       System.out.println("Ok");
 
     }
-
-    public void setGuiSystem(GuiSystem guiSystem) {
-        this.guiSystem = guiSystem;
-    }
-
+*/
 }
