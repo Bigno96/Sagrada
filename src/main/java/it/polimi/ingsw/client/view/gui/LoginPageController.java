@@ -11,14 +11,11 @@ import java.util.HashMap;
 
 public class LoginPageController {
 
-    @FXML
-    private TextField usernameText;
-    @FXML
-    private TextField ipText;
-    @FXML
-    private RadioButton socket;
-    @FXML
-    private RadioButton rmi;
+    public TextField usernameText;
+    public TextField ipText;
+    public RadioButton socket;
+    public RadioButton rmi;
+    public Button submit;
     private String username;
     private String ip;
     private GuiSystem guiSystem;
@@ -58,7 +55,7 @@ public class LoginPageController {
         return !ip.endsWith(".");
     }
 
-    public void submit() {
+    public void submitAction() {
         startConnection(guiSystem);
         //call change scene
 

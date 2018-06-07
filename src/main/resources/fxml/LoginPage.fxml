@@ -32,8 +32,12 @@
        </font>
        </Label>
        <TextField fx:id="ipText" layoutX="115.0" layoutY="232.0" />
-       <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
-      <RadioButton layoutX="85.0" layoutY="301.0" mnemonicParsing="false" text="Socket" />
-      <RadioButton layoutX="262.0" layoutY="301.0" mnemonicParsing="false" text="RMI" />
+       <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false"  fx:id="submit" onAction="#submitAction" text="Submit" />
+
+       <fx:define>
+           <ToggleGroup fx:id="toggleGroup"/>
+       </fx:define>
+      <RadioButton layoutX="85.0" layoutY="301.0" mnemonicParsing="false" fx:id="socket" text="Socket" toggleGroup="$toggleGroup"/>
+      <RadioButton layoutX="262.0" layoutY="301.0" mnemonicParsing="false" fx:id="rmi" text="RMI" toggleGroup="$toggleGroup"/>
    </children>
 </AnchorPane>
