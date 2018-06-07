@@ -23,7 +23,6 @@ public class LoginPageController {
     private String ip;
     private GuiSystem guiSystem;
 
-
     private boolean socketConnection;
     private boolean rmiConnection;
     private Stage loginWindow;
