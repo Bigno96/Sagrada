@@ -18,7 +18,7 @@
                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Image url="@../img/Sagrada-Logo-RGB.jpg"/>
     </ImageView>
-    <TextField fx:id="username" layoutX="115.0" layoutY="184.0" text="Diego">
+    <TextField fx:id="usernameText" layoutX="115.0" layoutY="184.0">
         <font>
  <Font name="System Italic" size="14.0"/>
         </font>
@@ -29,7 +29,7 @@
  <Font size="15.0"/>
         </font>
     </Label>
-    <TextField fx:id="ip" layoutX="115.0" layoutY="232.0" text="192.168.0.1">
+    <TextField fx:id="ipText" layoutX="115.0" layoutY="232.0">
         <font>
  <Font size="14.0"/>
         </font>
@@ -41,5 +41,5 @@
                  fx:id="socket" text="Socket" toggleGroup="$toggleGroup"/>
     <RadioButton layoutX="91.0" layoutY="301.0" mnemonicParsing="false" text="RMI" fx:id="rmi"
                  toggleGroup="$toggleGroup"/>
-    <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" onAction="#Submit" text="Submit"/>
+    <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" onAction="#submit" text="Submit"/>
 </AnchorPane>

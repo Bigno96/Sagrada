@@ -98,6 +98,7 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -105,11 +106,11 @@ public class GuiSystem implements ViewInterface{
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
 
-            primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
+            connParam = ctrl.startConnection(this);
+            serverSpeaker = connParam.get(userName);
 
             primaryStage.show();
         });
-
     }
 
 }
