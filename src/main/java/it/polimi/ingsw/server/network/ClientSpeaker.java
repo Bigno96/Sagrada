@@ -34,6 +34,8 @@ public interface ClientSpeaker {
 
     void showCardPlayer(String user, WindowCard card);
 
+    void nextTurn(String user);
+
     void placementDice(String username, Cell dest, Dice moved);
 
     void printWindowCard(WindowCard card);

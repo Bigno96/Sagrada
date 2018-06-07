@@ -79,6 +79,15 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     @Override
+    public void nextTurn(String user) {
+        try {
+            client.nextTurn(user);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    @Override
     public void placementDice(String username, Cell dest, Dice moved) {
         try {
             client.placementDice(username, dest, moved);

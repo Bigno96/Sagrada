@@ -42,6 +42,8 @@ public interface ServerRemote extends Remote {
 
     void askDraft(String username) throws RemoteException;
 
+    void endTurn(String username) throws RemoteException;
+
     void askPublObj(String username) throws RemoteException;
 
     void askPrivObj(String username) throws RemoteException;

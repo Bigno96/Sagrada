@@ -46,6 +46,8 @@ public interface ClientRemote extends Remote {
 
     void showCardPlayer(String user, WindowCard card) throws RemoteException;
 
+    void nextTurn(String user) throws RemoteException;
+
     void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
 
     void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException;

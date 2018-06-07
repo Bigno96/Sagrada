@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.lobby;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.controller.RoundController;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -33,8 +34,10 @@ public class Lobby {
     private HashMap<String, ClientSpeaker> speakers;
     private HashMap<String, CheckDisconnectionDaemon> checkerDisconnection;
     private HashMap<String, RemovePlayerDaemon> checkerRemoving;
+
     private Game game;
     private GameController gameController;
+    private RoundController roundController;
 
     private final CommunicationParser protocol;
     private final GameSettingsParser settings;
@@ -203,6 +206,11 @@ public class Lobby {
         ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0, settings.getDaemonFrequency());
     }
 
+    public void startCountingRound() {
+        roundController = new RoundController(game);
+        roundController.nextTurn();
+    }
+
     /**
      * @param s String to be printed to all player not disconnected
      */
@@ -232,6 +240,10 @@ public class Lobby {
 
     public GameController getGameController() {
         return this.gameController;
+    }
+
+    public RoundController getRoundController() {
+        return this.roundController;
     }
 
     public Map<String, Player> getPlayers() {

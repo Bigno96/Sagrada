@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 public class Game extends Observable {
     private Round round;
     private Board board;
+    private Player currentPlayer;
     private List<Player> playerList;
     private int nPlayer;
     private int nRound;                 //counter from 1 to 10
@@ -30,8 +31,7 @@ public class Game extends Observable {
         } catch (IDNotFoundException e) {
             logger.info(e.getMessage());
         }
-        for (Player p: playerList)
-            p.setBoard(board);
+        playerList.forEach(p -> p.setBoard(board));
     }
 
     /**
@@ -105,15 +105,19 @@ public class Game extends Observable {
      * Return the Current Player of the Turn
      * @return return the current Player, null if the game is finished
      */
-    public Player currentPlayer(){
+    public Player nextPlayer(){
         Player p = round.nextPlayer();
-        while( p == null ){
-                nRound++;
-                if (nRound > 9)
-                    return null;                //if currentPlayer -> null  the game is finished
-                round.nextRound();
-                p = round.nextPlayer();
-            }
+        if (p == null) {
+            nRound++;
+            if (nRound > 9)
+                return null;                //if currentPlayer -> null  the game is finished
+            round.nextRound();
+            p = round.nextPlayer();
+            p.getBoard().getDraft().rollDraft();        // roll draft
+        }
+        currentPlayer = p;
+        //setChanged();
+        //notifyObservers("nextTurn");
         return p;
     }
 
@@ -128,4 +132,9 @@ public class Game extends Observable {
         logger.info("Board: " + getBoard() + " Board: " + getBoard() +
                 " nRound: " + getNRound() + " nPlayer: " + getNPlayer());
     }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
 }

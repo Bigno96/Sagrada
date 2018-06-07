@@ -60,9 +60,6 @@ public class ClientMain extends Application {
     public void openCLI(){
         ViewInterface graphic = new CliSystem();
 
-        ClosingWindow closingWindow = new ClosingWindow(primaryStage);
-        closingWindow.start();
-
         out.println("CLI graphic chosen");
             graphic.startGraphic();
     }

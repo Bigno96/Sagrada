@@ -63,12 +63,17 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-       view.chooseWindowCard(cards);
+        view.chooseWindowCard(cards);
     }
 
     @Override
     public void showCardPlayer(String user, WindowCard card) {
-       view.showCardPlayer(user, card);
+        view.showCardPlayer(user, card);
+    }
+
+    @Override
+    public void nextTurn(String user) {
+        view.isTurn(user);
     }
 
     @Override
@@ -78,7 +83,7 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
 
     @Override
     public void printWindowCard(WindowCard card) {
-       view.printWindowCard(card);
+        view.printWindowCard(card);
     }
 
     @Override

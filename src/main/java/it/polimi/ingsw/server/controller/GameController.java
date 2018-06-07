@@ -5,6 +5,7 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.controller.observer.ChoiceWindowCardObserver;
+import it.polimi.ingsw.server.controller.observer.GameObserver;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -45,6 +46,8 @@ public class GameController {
         setObserver();
         getWindow(used);
         chooseCard();
+
+        lobby.startCountingRound();
     }
 
     private List<Integer> createNRandom(int n, List<Integer> used, int minBoundInclusive, int maxBoundExclusive) {
@@ -60,10 +63,12 @@ public class GameController {
     }
 
     private void setObserver() {
-        Consumer<Map.Entry<String, Player>> chooseCard = entry ->
-                entry.getValue().addObserver(new ChoiceWindowCardObserver(lobby));
+        Consumer<Map.Entry<String, Player>> attachObserver = entry -> {
+            //game.addObserver(new ChoiceWindowCardObserver(lobby));
+            entry.getValue().addObserver(new GameObserver(lobby));
+        };
 
-        players.entrySet().parallelStream().forEach(chooseCard);
+        players.entrySet().parallelStream().forEach(attachObserver);
     }
 
     private void chooseCard() {

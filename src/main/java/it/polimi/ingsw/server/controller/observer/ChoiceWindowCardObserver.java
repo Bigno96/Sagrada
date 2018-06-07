@@ -19,11 +19,13 @@ public class ChoiceWindowCardObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        WindowCard card = lobby.getPlayers().get(arg.toString()).getWindowCard();
+        if (!arg.equals("nextTurn")) {
+            WindowCard card = lobby.getPlayers().get(arg.toString()).getWindowCard();
 
-        Consumer<Map.Entry<String, ClientSpeaker>> notifyCard = entry ->
-                entry.getValue().showCardPlayer(arg.toString(), card);
+            Consumer<Map.Entry<String, ClientSpeaker>> notifyCard = entry ->
+                    entry.getValue().showCardPlayer(arg.toString(), card);
 
-        lobby.getSpeakers().entrySet().parallelStream().forEach(notifyCard);
+            lobby.getSpeakers().entrySet().parallelStream().forEach(notifyCard);
+        }
     }
 }

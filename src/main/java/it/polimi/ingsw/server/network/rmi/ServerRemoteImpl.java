@@ -80,6 +80,11 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
+    public void endTurn(String username) {
+        lobby.getRoundController().nextTurn();
+    }
+
+    @Override
     public void askPublObj(String username) {
         lobby.getSpeakers().get(username).printPublObj(lobby.getGame().getBoard().getPublObj());
     }
