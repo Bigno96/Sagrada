@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
 import java.rmi.NotBoundException;
@@ -14,20 +15,27 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 /**
- * Implementation of the remote methods of the client
+ * Implementation of Rmi version of server speaker
  */
 public class RmiServerSpeaker implements ServerSpeaker {
+
+    private static final String USER_CONNECTING_KEYWORD = "USER_CONNECTING";
+    private static final String SERVER_REMOTE_KEYWORD = "SERVER_REMOTE";
+    private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
+    private static final String SERVER_NOT_RESPONDING_KEYWORD = "SERVER_NOT_RESPONDING";
 
     private String ip;
     private ServerRemote server;            // server remote interface
     private ClientRemote client;            // client remote interface passed to server
     private final ViewInterface view;
     private final CommunicationParser protocol;
+    private final ViewMessageParser dictionary;
 
     public RmiServerSpeaker(String ip, String username, ViewInterface view) {
         this.view = view;
         this.ip = ip;
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
 
         try {
             this.client = new ClientRemoteImpl(username, view);
@@ -50,13 +58,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
      */
     @Override
     public boolean connect(String username) {
-        view.print(protocol.getMessage("USER_CONNECTING") + ip);
+        view.print(dictionary.getMessage(USER_CONNECTING_KEYWORD) + ip);
 
         NetworkInfoParser parser = (NetworkInfoParser) ParserManager.getNetworkInfoParser();
 
         try {
             Registry registry = LocateRegistry.getRegistry(ip, parser.getRmiServerPort());
-            server = (ServerRemote) registry.lookup(protocol.getMessage("SERVER_REMOTE"));        // find remote interface
+            server = (ServerRemote) registry.lookup(protocol.getMessage(SERVER_REMOTE_KEYWORD));        // find remote interface
 
             server.connect(username, client);
 
@@ -76,7 +84,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public boolean login(String username) {
         try {
             server.login(username, client);                             // add this player to a game Lobby
-            server.tell("User " + username + " " + protocol.getMessage("USER_LOGGED"));
+            server.tell("User " + username + " " + protocol.getMessage(LOGIN_SUCCESS_KEYWORD));
             return true;
 
         } catch (SamePlayerException | TooManyPlayersException | GameAlreadyStartedException | RemoteException e) {
@@ -85,57 +93,77 @@ public class RmiServerSpeaker implements ServerSpeaker {
         }
     }
 
+    /**
+     * @param username = Player.getId()
+     * @param cardName = Player.getWindowCard().getName()
+     */
     @Override
     public void setWindowCard(String username, String cardName) {
         try {
             server.setWindowCard(username, cardName);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
+    /**
+     * @param usernameWanted = Player.getId()
+    * @param me username of player that requested
+     */
     @Override
     public void askWindowCard(String usernameWanted, String me) {
         try {
             server.getWindowCard(usernameWanted, me);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
+    /**
+     * @param currentUser username of player that requested
+     */
     @Override
-    public void getAllUsername(String currUser) {
+    public void getAllUsername(String currentUser) {
         try {
-            server.getAllUsername(currUser);
+            server.getAllUsername(currentUser);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
+    /**
+     * @param username of player that requested
+     */
     @Override
     public void askDraft(String username) {
         try {
             server.getDraft(username);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
+    /**
+     * @param username of player that requested
+     */
     @Override
-    public void askPublObj(String username) {
+    public void askPublicObj(String username) {
         try {
-            server.getPublObj(username);
+            server.getPublicObj(username);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
+    /**
+     * @param username = Player.getId() && Player.getPrivateObj()
+     */
     @Override
-    public void askPrivObj(String username) {
+    public void askPrivateObj(String username) {
         try {
-            server.getPrivObj(username);
+            server.getPrivateObj(username);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
@@ -149,12 +177,15 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
     }
 
+    /**
+     * @param username of Player that wants to end his turn
+     */
     @Override
     public void endTurn(String username) {
         try {
             server.endTurn(username);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 
@@ -163,7 +194,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
         try {
             server.moveDiceFromDraftToCard(username, index, row, col);
         } catch (RemoteException e) {
-            view.print("Server is not responding");
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
         }
     }
 }

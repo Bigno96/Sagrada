@@ -53,8 +53,8 @@ public class WaitingMenuTask implements Runnable {
             serverSpeaker.askWindowCard(userWanted, username); //see window card other player
         };
         Consumer<String> draft = username -> serverSpeaker.askDraft(username); //see draft
-        Consumer<String> publicObj = username -> serverSpeaker.askPublObj(username); //see public objective
-        Consumer<String> privateObj = username -> serverSpeaker.askPrivObj(username); //see private objective
+        Consumer<String> publicObj = username -> serverSpeaker.askPublicObj(username); //see public objective
+        Consumer<String> privateObj = username -> serverSpeaker.askPrivateObj(username); //see private objective
         Consumer<String> tool = username -> serverSpeaker.askToolCards(username); //see tool card
         Consumer<String> favor = username -> serverSpeaker.askFavorPoints(username); //see favor points
 

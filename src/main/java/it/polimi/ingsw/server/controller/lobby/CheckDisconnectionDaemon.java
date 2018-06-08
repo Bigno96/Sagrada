@@ -13,10 +13,13 @@ import static java.lang.System.*;
  */
 public class CheckDisconnectionDaemon extends TimerTask {
 
-    private final ClientSpeaker speaker;
+    private static final String LOST_CONNECTION_KEYWORD = "LOST_CONNECTION";
+
     private Boolean disconnected;
     private final Lobby lobby;
     private final String username;
+
+    private final ClientSpeaker speaker;
     private final CommunicationParser protocol;
 
     CheckDisconnectionDaemon(ClientSpeaker speaker, Lobby lobby, String username) {
@@ -31,7 +34,7 @@ public class CheckDisconnectionDaemon extends TimerTask {
     public synchronized void run() {
         Boolean pinged = speaker.ping();                // try to ping speaker
         if (!pinged && !disconnected) {                 // failed to ping and user is not yet disconnected
-            out.println(protocol.getMessage("LOST_CONNECTION") + username);
+            out.println(protocol.getMessage(LOST_CONNECTION_KEYWORD) + username);
             disconnected = true;
             lobby.disconnectPlayer(username);
         }

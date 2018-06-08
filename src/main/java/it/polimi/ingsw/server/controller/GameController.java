@@ -101,7 +101,7 @@ public class GameController {
 
     private void chooseCard() {
         Consumer<Map.Entry<String, ClientSpeaker>> chooseCard = entry ->
-            entry.getValue().chooseWindowCard(windowAlternatives.get(entry.getKey()));
+            entry.getValue().sendWindowCard(windowAlternatives.get(entry.getKey()));
 
         lobby.getSpeakers().entrySet().parallelStream().forEach(chooseCard);
     }
@@ -129,7 +129,7 @@ public class GameController {
     public void setWindowCard(String username, String cardName) {
         if (!isCardValidForPlayer(username, cardName)) {
             lobby.getSpeakers().get(username).tell(INVALID_WINDOW_CARD);
-            lobby.getSpeakers().get(username).chooseWindowCard(windowAlternatives.get(username));
+            lobby.getSpeakers().get(username).sendWindowCard(windowAlternatives.get(username));
         }
 
         try {

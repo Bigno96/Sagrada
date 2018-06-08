@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.network.socket;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
@@ -13,7 +14,6 @@ import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 
 import java.net.*;
 import java.io.*;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutorService;
@@ -22,19 +22,29 @@ import java.util.concurrent.Executors;
 import static java.lang.System.*;
 
 /**
- * Send messages towards the client via socket
+ * Implementation of Socket version of client speaker
  */
 public class SocketClientSpeaker implements Runnable, ClientSpeaker {
+
+    private static final String SOCKET_CONNECTION_KEYWORD = "CONNECTION_WITH_SOCKET";
+    private static final String PRINT_KEYWORD = "PRINT";
+    private static final String PING_KEYWORD = "PING";
+    private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
+    private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
+    private static final String EXCEPTION_KEYWORD = "EXCEPTION";
 
     private Socket socket;
     private PrintWriter socketOut;
     private Lobby lobby;
-    private CommunicationParser protocol;
+
+    private final CommunicationParser protocol;
+    private final ViewMessageParser dictionary;
 
     SocketClientSpeaker(Socket socket, Lobby lobby) {
         this.lobby = lobby;
         this.socket = socket;
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
     @Override
@@ -54,10 +64,10 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      * @param username to be connected
      */
     synchronized void connect(String username) {
-        out.println(username + protocol.getMessage("CONNECTION_WITH_SOCKET"));
+        out.println(username + protocol.getMessage(SOCKET_CONNECTION_KEYWORD));
 
-        socketOut.println(protocol.getMessage("PRINT"));
-        socketOut.println(protocol.getMessage("CONNECTION_SUCCESS"));            // notify client the connection
+        socketOut.println(protocol.getMessage(PRINT_KEYWORD));
+        socketOut.println(dictionary.getMessage(CONNECTION_SUCCESS_KEYWORD));            // notify client the connection
         socketOut.flush();
     }
 
@@ -66,7 +76,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public synchronized void tell(String s) {
-        socketOut.println(protocol.getMessage("PRINT"));
+        socketOut.println(protocol.getMessage(PRINT_KEYWORD));
         socketOut.println(s);
         socketOut.flush();
     }
@@ -81,7 +91,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             if (reading == -1)
                 return false;
 
-            socketOut.println(protocol.getMessage("PING"));
+            socketOut.println(protocol.getMessage(PING_KEYWORD));
             socketOut.flush();
 
             return true;
@@ -96,7 +106,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public synchronized void loginSuccess(String s) {
-        socketOut.println(protocol.getMessage("LOGIN_SUCCESS"));
+        socketOut.println(protocol.getMessage(LOGIN_SUCCESS_KEYWORD));
         socketOut.println(s);
         socketOut.flush();
     }
@@ -110,22 +120,32 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             lobby.addPlayer(username, this);
 
         } catch (SamePlayerException | GameAlreadyStartedException | TooManyPlayersException e) {
-            socketOut.println(protocol.getMessage("EXCEPTION"));
+            socketOut.println(protocol.getMessage(EXCEPTION_KEYWORD));
             socketOut.println(e.getClass().toString());
             socketOut.flush();
         }
     }
 
+    /**
+     * @param cards cards.size() = 4
+     */
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) {
+    public void sendWindowCard(List<WindowCard> cards) {
 
     }
 
+    /**
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard()
+     */
     @Override
     public void showCardPlayer(String user, WindowCard card) {
 
     }
 
+    /**
+     * @param user = game.getCurrentPlayer().getId()
+     */
     @Override
     public void nextTurn(String user) {
 
@@ -136,23 +156,35 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     }
 
+    /**
+     * @param card to be printed
+     */
     @Override
     public void printWindowCard(WindowCard card) {
 
     }
 
+    /**
+     * @param draft of the current round
+     */
     @Override
     public void showDraft(Draft draft) {
 
     }
 
+    /**
+     * @param publicObj publicObj.size() = 3
+     */
     @Override
-    public void printPublObj(List<ObjectiveCard> pubObj) {
+    public void printPublicObj(List<ObjectiveCard> publicObj) {
 
     }
 
+    /**
+     * @param privateObj = Player.getPrivateObjective()
+     */
     @Override
-    public void printPrivObj(ObjectiveCard privObj) {
+    public void printPrivateObj(ObjectiveCard privateObj) {
 
     }
 }

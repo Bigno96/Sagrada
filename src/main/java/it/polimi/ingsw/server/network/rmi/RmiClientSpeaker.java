@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.network.rmi;
 
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -15,6 +13,9 @@ import java.util.List;
 
 import static java.lang.System.*;
 
+/**
+ * Implementation of Rmi version of client speaker
+ */
 public class RmiClientSpeaker implements ClientSpeaker {
 
     private ClientRemote client;
@@ -60,8 +61,11 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * @param cards cards.size() = 4
+     */
     @Override
-    public void chooseWindowCard(List<WindowCard> cards) {
+    public void sendWindowCard(List<WindowCard> cards) {
         try {
             client.chooseWindowCard(cards);
         } catch (RemoteException e) {
@@ -69,6 +73,10 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard()
+     */
     @Override
     public void showCardPlayer(String user, WindowCard card) {
         try {
@@ -78,6 +86,9 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * @param user = game.getCurrentPlayer().getId()
+     */
     @Override
     public void nextTurn(String user) {
         try {
@@ -96,37 +107,49 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * @param card to be printed
+     */
     @Override
     public void printWindowCard(WindowCard card) {
         try {
             client.printWindowCard(card);
-        } catch (RemoteException | IDNotFoundException e) {
-            out.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void showDraft(Draft draft) {
-        try {
-            client.showDraft(draft);
-        } catch (RemoteException | IDNotFoundException | SameDiceException e) {
-            out.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void printPublObj(List<ObjectiveCard> pubObj) {
-        try {
-            client.printPublObj(pubObj);
         } catch (RemoteException e) {
             out.println(e.getMessage());
         }
     }
 
+    /**
+     * @param draft of the current round
+     */
     @Override
-    public void printPrivObj(ObjectiveCard priObj) {
+    public void showDraft(Draft draft) {
         try {
-            client.printPrivObj(priObj);
+            client.showDraft(draft);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * @param publicObj publicObj.size() = 3
+     */
+    @Override
+    public void printPublicObj(List<ObjectiveCard> publicObj) {
+        try {
+            client.printPublicObj(publicObj);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * @param privateObj = Player.getPrivateObjective()
+     */
+    @Override
+    public void printPrivateObj(ObjectiveCard privateObj) {
+        try {
+            client.printPrivateObj(privateObj);
         } catch (RemoteException e) {
             out.println(e.getMessage());
         }

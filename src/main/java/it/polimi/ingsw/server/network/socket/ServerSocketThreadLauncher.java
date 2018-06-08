@@ -28,11 +28,10 @@ public class ServerSocketThreadLauncher {
     }
 
     public void serverListening() {
-        Boolean exit = true;
         ExecutorService executor = Executors.newCachedThreadPool();
 
         try {
-            while (exit) {
+            while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 executor.submit(new SocketClientSpeaker(socket, lobby));
             }

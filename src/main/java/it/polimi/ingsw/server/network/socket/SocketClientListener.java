@@ -15,6 +15,11 @@ import static java.lang.System.*;
  */
 public class SocketClientListener implements Runnable {
 
+    private static final String QUIT_KEYWORD = "QUIT";
+    private static final String PRINT_KEYWORD = "PRINT";
+    private static final String CONNECT_KEYWORD = "CONNECT";
+    private static final String LOGIN_KEYWORD = "LOGIN";
+
     private Socket socket;
     private SocketClientSpeaker speaker;
 
@@ -32,14 +37,14 @@ public class SocketClientListener implements Runnable {
             while(true) {
                 String command = socketIn.nextLine();
 
-                if (command.equals(communication.getMessage("QUIT"))) {
+                if (command.equals(communication.getMessage(QUIT_KEYWORD))) {
                     break;
-                } else if (command.equals(communication.getMessage("PRINT"))) {
+                } else if (command.equals(communication.getMessage(PRINT_KEYWORD))) {
                     out.println(socketIn.nextLine());
-                } else if (command.equals(communication.getMessage("CONNECT"))) {
+                } else if (command.equals(communication.getMessage(CONNECT_KEYWORD))) {
                     String username = socketIn.nextLine();
                     speaker.connect(username);
-                } else if (command.equals(communication.getMessage("LOGIN"))) {
+                } else if (command.equals(communication.getMessage(LOGIN_KEYWORD))) {
                     String user = socketIn.nextLine();
                     speaker.login(user);
                 }

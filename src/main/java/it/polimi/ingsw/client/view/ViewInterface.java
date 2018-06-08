@@ -1,11 +1,7 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 

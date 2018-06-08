@@ -1,17 +1,11 @@
 package it.polimi.ingsw.client.network.rmi;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.SameDiceException;
-import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-import java.io.FileNotFoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -42,21 +36,50 @@ public interface ClientRemote extends Remote {
      */
     String getUsername() throws RemoteException;
 
+    /**
+     * Used to ask user what card does he want from the 4 selected for him
+     * @param cards cards.size() = 4
+     * @throws RemoteException default
+     */
     void chooseWindowCard(List<WindowCard> cards) throws RemoteException;
 
+    /**
+     * Used to tell which card a certain player has chosen
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard()
+     * @throws RemoteException default
+     */
     void showCardPlayer(String user, WindowCard card) throws RemoteException;
 
+    /**
+     * Used to notify whose turn is
+     * @param user = game.getCurrentPlayer()
+     * @throws RemoteException default
+     */
     void nextTurn(String user) throws RemoteException;
 
     void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
 
-    void printWindowCard(WindowCard card) throws RemoteException, IDNotFoundException;
+    void printWindowCard(WindowCard card) throws RemoteException;
 
-    void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException;
+    /**
+     * Used to show current round draft pool
+     * @param draft draft.size() > 0 && draft.size() <= game.getNumberPlayer() * 2 +1
+     * @throws RemoteException default
+     */
+    void showDraft(Draft draft) throws RemoteException;
 
-    void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException;
+    /**
+     * Used to show public objective cards
+     * @param publicObj publicObj.size() = 3
+     * @throws RemoteException default
+     */
+    void printPublicObj(List<ObjectiveCard> publicObj) throws RemoteException;
 
-    void printPrivObj(ObjectiveCard privObj) throws RemoteException;
-
-    void print(String s) throws RemoteException;
+    /**
+     * Used to show private card to player owner
+     * @param privateObj = Player.getPrivateObj()
+     * @throws RemoteException default
+     */
+    void printPrivateObj(ObjectiveCard privateObj) throws RemoteException;
 }

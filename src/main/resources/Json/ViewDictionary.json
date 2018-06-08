@@ -2,15 +2,33 @@
   "CHOOSE_CONNECTION": "Choose your connection \n 'r' for RMI \n 's' for Socket \n 'd' for Default",
   "INCORRECT_ENTRY": "Incorrect entry",
   "INSERT_IP": "Insert IP Address",
+  "WRONG_IP": "Not a valid ip",
   "INSERT_NAME": "Insert your user Name",
   "INSERT_NAME_AGAIN": " Please insert your user Name again",
   "NO_SERVER_LISTENING": "\nNo server listening on given ip.\n Please insert new one",
+
   "SOCKET_CHOSEN": "Socket connection chosen",
   "RMI_CHOSEN": "RMI connection chosen",
-  "WRONG_IP": "Not a valid ip",
+  "USER_CONNECTING": "Trying to connect to ",
+  "SERVER_NOT_RESPONDING": "Server is not responding",
+
+  "WELCOME_USER": "Welcome ",
+  "WELCOME_BACK": "Welcome back ",
+  "CONNECTION_SUCCESS": "Connection Established",
+
+  "GAME_WILL_START": "Game will start when enough players are connected",
+  "TIMER_ON": "Timer is on: ",
+  "SECONDS_COUNTDOWN": " seconds before game starts",
+  "GAME_STARTED": "Game is started",
+
   "MENU_WAITING": "You are waiting, what you want to do: \n w - see your window card \n o - see window card of another player \n d - see draft \n p - see public objectives \n q - see your private objective \n t - see tool cards \n f - see how many favor points you have left",
   "ASK_USER": "Insert the name of the user whom you want to see the window card between these:",
   "MENU_PLAYING": "What move do you want to make: \n p - place a dice from the draft \n t - use a tool card \n q - pass turn",
   "ALREADY_DONE": "You have already done this action",
-  "PASSED": "You passed!"
+  "PASSED": "You passed!",
+  "WIN_MSG": "Congratulations! You won!",
+
+  "SAME_PLAYER_MSG": "An user with the same name already logged",
+  "TOO_MANY_PLAYERS_MSG": "Too many players in Lobby",
+  "GAME_ALREADY_STARTED_MSG": "Game is already started"
 }

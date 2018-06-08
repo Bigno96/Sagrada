@@ -2,12 +2,13 @@ package it.polimi.ingsw.server.controller.lobby;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.RoundController;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
-import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 
 import java.util.*;
@@ -19,12 +20,16 @@ public class Lobby {
     enum gameState { WAITING, STARTING, STARTED }
     private gameState currentState;
 
-    private static final String WELCOME_USER = "Welcome ";
-    private static final String WELCOME_BACK_USER = "Welcome back ";
-    private static final String GAME_WILL_START = "Game will start when enough players are connected";
-    private static final String REMOVED_USER = "Removed ";
-    private static final String GAME_STARTED = "Game is started";
-    private static final String WIN_MSG = "Congratulations! You won!";
+    private static final String WELCOME_USER_KEYWORD = "WELCOME_USER";
+    private static final String WELCOME_BACK_KEYWORD = "WELCOME_BACK";
+    private static final String GAME_WILL_START_KEYWORD = "GAME_WILL_START";
+    private static final String REMOVED_USER_KEYWORD = "REMOVED_USER";
+    private static final String GAME_STARTED_KEYWORD = "GAME_STARTED";
+    private static final String WIN_MSG_KEYWORD = "WIN_MSG";
+
+    private static final String SAME_PLAYER_KEYWORD = "SAME_PLAYER_MSG";
+    private static final String GAME_ALREADY_STARTED_KEYWORD = "GAME_ALREADY_STARTED_MSG";
+    private static final String TOO_MANY_PLAYERS_KEYWORD = "TOO_MANY_PLAYERS_MSG";
 
     private final Object playersLock = new Object();
     private final Object speakersLock = new Object();
@@ -41,6 +46,7 @@ public class Lobby {
 
     private final CommunicationParser protocol;
     private final GameSettingsParser settings;
+    private final ViewMessageParser dictionary;
 
     public Lobby() {
         this.players = new HashMap<>();
@@ -50,6 +56,7 @@ public class Lobby {
         this.game = new Game();
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
     public void startLobby() {
@@ -74,13 +81,13 @@ public class Lobby {
                 if (players.get(username).isDisconnected())
                     reconnectPlayer(username);
                 else
-                    throw new SamePlayerException(protocol.getMessage("SAME_PLAYER_MSG"));
+                    throw new SamePlayerException(dictionary.getMessage(SAME_PLAYER_KEYWORD));
 
             else if (currentState.equals(gameState.STARTED))
-                throw new GameAlreadyStartedException(protocol.getMessage("GAME_ALREADY_STARTED_MSG"));
+                throw new GameAlreadyStartedException(dictionary.getMessage(GAME_ALREADY_STARTED_KEYWORD));
 
             else if (players.size() >= settings.getMaxPlayer())
-                throw new TooManyPlayersException(protocol.getMessage("TOO_MANY_PLAYERS_MSG"));
+                throw new TooManyPlayersException(dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
 
             players.put(username, new Player(username));
             speakers.put(username, speaker);
@@ -90,8 +97,8 @@ public class Lobby {
             disconnection.scheduleAtFixedRate(daemon, 0, settings.getDaemonFrequency());
             checkerDisconnection.put(username, daemon);
 
-            speaker.loginSuccess(WELCOME_USER + username);
-            speaker.tell(GAME_WILL_START);
+            speaker.loginSuccess(dictionary.getMessage(WELCOME_USER_KEYWORD) + username);
+            speaker.tell(dictionary.getMessage(GAME_WILL_START_KEYWORD));
         }
     }
 
@@ -116,7 +123,7 @@ public class Lobby {
      */
     public void reconnectPlayer(String username) {
         players.get(username).setDisconnected(false);
-        speakers.get(username).tell(WELCOME_BACK_USER + username);
+        speakers.get(username).tell(dictionary.getMessage(WELCOME_BACK_KEYWORD) + username);
     }
 
     /**
@@ -152,7 +159,7 @@ public class Lobby {
         speakers.remove(username);
         players.remove(username);
 
-        out.println(REMOVED_USER + username);
+        out.println(protocol.getMessage(REMOVED_USER_KEYWORD) + username);
     }
 
     /**
@@ -197,7 +204,7 @@ public class Lobby {
      * Notify all players that game is started. Then invokes method startGame of game and sets up the check end game daemon.
      */
     void startGame() {
-        notifyAllPlayers(GAME_STARTED);
+        notifyAllPlayers(dictionary.getMessage(GAME_STARTED_KEYWORD));
         currentState = gameState.STARTED;
         gameController = new GameController(this, players);
         gameController.startGame();
@@ -232,7 +239,7 @@ public class Lobby {
      */
     public void endGame() {
         if (game.getNPlayer() == 1)
-            notifyAllPlayers(WIN_MSG);
+            notifyAllPlayers(dictionary.getMessage(WIN_MSG_KEYWORD));
     }
 
     public Game getGame() {

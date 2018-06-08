@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.network;
 
+/**
+ * Interface to hide network difference in comm Client -> Server
+ */
 public interface ServerSpeaker {
-    // interface to hide network difference in comm Client -> Server
 
     /**
      * Used locally to change ip after a failed connection toward server
@@ -23,22 +25,52 @@ public interface ServerSpeaker {
      */
     boolean login(String username);
 
-    void setWindowCard(String username, String name);
+    /**
+     * Used to set the window card chosen by passed player
+     * @param username = Player.getId()
+     * @param cardName = Player.getWindowCard().getName()
+     */
+    void setWindowCard(String username, String cardName);
 
+    /**
+     * Used to get which window card has the passed player
+     * @param usernameWanted = Player.getId()
+     * @param me username of player that requested
+     */
     void askWindowCard(String usernameWanted, String me);
 
-    void getAllUsername(String currUser);
+    /**
+     * Used to get username of all Players in the game
+     * @param currentUser username of player that requested
+     */
+    void getAllUsername(String currentUser);
 
+    /**
+     * Used to get Draft of current round
+     * @param username of player that requested
+     */
     void askDraft(String username);
 
-    void askPublObj(String username);
+    /**
+     * Used to get public objectives of the game
+     * @param username of player that requested
+     */
+    void askPublicObj(String username);
 
-    void askPrivObj(String username);
+    /**
+     * Used to get private objective of the passed player. Only works for owner private objective.
+     * @param username = Player.getId() && Player.getPrivateObj()
+     */
+    void askPrivateObj(String username);
 
     void askToolCards(String username);
 
     void askFavorPoints(String username);
 
+    /**
+     * Used to pass the current player
+     * @param username of Player that wants to end his turn
+     */
     void endTurn(String username);
 
     void moveDiceFromDraftToCard(String username, int index, int row, int col);
