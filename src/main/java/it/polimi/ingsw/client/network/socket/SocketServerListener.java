@@ -7,6 +7,7 @@ import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,10 +22,20 @@ import java.util.function.Supplier;
  */
 public class SocketServerListener implements Runnable {
 
+    private static final String GAME_ALREADY_STARTED_KEYWORD = "GAME_ALREADY_STARTED_MSG";
+    private static final String SAME_PLAYER_LOGGED_KEYWORD = "SAME_PLAYER_MSG";
+    private static final String TOO_MANY_PLAYERS_KEYWORD = "TOO_MANY_PLAYERS_MSG";
+    private static final String PRINT_KEYWORD = "PRINT";
+    private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
+    private static final String EXCEPTION_KEYWORD = "EXCEPTION";
+    private static final String QUIT_KEYWORD = "QUIT";
+    private static final String SERVER_NOT_RESPONDING_KEYWORD = "SERVER_NOT_RESPONDING";
+
     private final ViewInterface view;
     private final Socket socket;
     private final SocketServerSpeaker speaker;
     private final CommunicationParser protocol;
+    private final ViewMessageParser dictionary;
 
     private final HashMap<String, Supplier<String>> exceptionMap = new HashMap<>();
     private final HashMap<String, Consumer<String>> commandMap = new HashMap<>();
@@ -34,6 +45,7 @@ public class SocketServerListener implements Runnable {
         this.socket = socket;
         this.speaker = speaker;
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         mapException();
         mapCommand();
     }
@@ -42,9 +54,9 @@ public class SocketServerListener implements Runnable {
      * Maps exception with their error code to be printed
      */
     private void mapException() {
-        exceptionMap.put(GameAlreadyStartedException.class.toString(), () -> protocol.getMessage("GAME_ALREADY_STARTED_MSG"));
-        exceptionMap.put(SamePlayerException.class.toString(), () -> protocol.getMessage("SAME_PLAYER_MSG"));
-        exceptionMap.put(TooManyPlayersException.class.toString(), () -> protocol.getMessage("TOO_MANY_PLAYERS_MSG"));
+        exceptionMap.put(GameAlreadyStartedException.class.toString(), () -> dictionary.getMessage(GAME_ALREADY_STARTED_KEYWORD));
+        exceptionMap.put(SamePlayerException.class.toString(), () -> dictionary.getMessage(SAME_PLAYER_LOGGED_KEYWORD));
+        exceptionMap.put(TooManyPlayersException.class.toString(), () -> dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
     }
 
     /**
@@ -55,9 +67,9 @@ public class SocketServerListener implements Runnable {
         Consumer<String> login = string -> speaker.setLogged(parseException(string));
         Consumer<String> exception = string -> speaker.setLogged(parseException(string));
 
-        commandMap.put(protocol.getMessage("PRINT"), print);
-        commandMap.put(protocol.getMessage("LOGIN_SUCCESS"), login);
-        commandMap.put(protocol.getMessage("EXCEPTION"), exception);
+        commandMap.put(protocol.getMessage(PRINT_KEYWORD), print);
+        commandMap.put(protocol.getMessage(LOGIN_SUCCESS_KEYWORD), login);
+        commandMap.put(protocol.getMessage(EXCEPTION_KEYWORD), exception);
     }
 
     /**
@@ -74,7 +86,7 @@ public class SocketServerListener implements Runnable {
             while (true) {
                 String command = socketIn.readLine();
 
-                if (command.equals(protocol.getMessage("QUIT")))
+                if (command.equals(protocol.getMessage(QUIT_KEYWORD)))
                     break;
 
                 else if (commandMap.containsKey(command))       // if it's a known command
@@ -83,7 +95,7 @@ public class SocketServerListener implements Runnable {
 
         } catch (IOException e) {
             view.print(e.getMessage());
-            view.print(protocol.getMessage("SERVER_NOT_RESPONDING"));
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
             speaker.interrupt();
         }
     }

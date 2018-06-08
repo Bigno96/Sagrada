@@ -1,0 +1,18 @@
+{
+  "SERVER_UP": "Server is up",
+
+  "CONNECT": "connect",
+  "CONNECTION_WITH_SOCKET": " is connecting with Socket",
+  "CONNECTION_WITH_RMI": " is connecting with RMI",
+  "SERVER_REMOTE": "Server_Interface",
+
+  "LOGIN": "login",
+  "LOGIN_SUCCESS": "successfully logged in",
+  "LOST_CONNECTION": "Lost connection with ",
+  "REMOVED_USER": "Removed ",
+
+  "EXCEPTION": "parseException",
+  "PING": "ping",
+  "PRINT": "print",
+  "QUIT": "quit"
+}

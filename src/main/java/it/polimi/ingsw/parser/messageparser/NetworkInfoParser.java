@@ -14,16 +14,25 @@ import static java.lang.System.*;
  */
 public class NetworkInfoParser implements Parser {
 
-    private final String path;
+    private static NetworkInfoParser ourInstance = null;
 
-    public NetworkInfoParser(String path) {
-        this.path = path;
-    }
+    private final String path;
 
     private static final String SOCKET_PORT = "socketPort";
     private static final String RMI_SERVER_PORT = "rmiServerPort";
     private static final String SO_TIMEOUT = "setSoTimeout";
     private static final String LOCAL_IP = "getLocalIp";
+
+    private NetworkInfoParser(String path) {
+        this.path = path;
+    }
+
+    public static NetworkInfoParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new NetworkInfoParser(infoPath);
+
+        return ourInstance;
+    }
 
     /**
      * @return int for port used by socket connection

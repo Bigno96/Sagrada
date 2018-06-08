@@ -48,6 +48,7 @@ public class Player extends Observable {
     public void setWindowCard(WindowCard windCard) {
         this.windCard = windCard;
         this.favorPoint = windCard.getNumFavPoint();
+
         setChanged();
         notifyObservers(this.id);
     }
@@ -94,6 +95,9 @@ public class Player extends Observable {
 
     public void setPrivObj(ObjectiveCard privObj) {
         this.privObj = privObj;
+
+        setChanged();
+        notifyObservers("PrivateObjective");
     }
 
     public ObjectiveCard getPrivObj() {

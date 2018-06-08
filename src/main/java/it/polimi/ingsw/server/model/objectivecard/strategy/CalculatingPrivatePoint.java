@@ -5,7 +5,9 @@ import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-public class CalculatingPrivatePoint implements CalculatingPoint {
+import java.io.Serializable;
+
+public class CalculatingPrivatePoint implements CalculatingPoint, Serializable {
 
     private final ObjectiveCalculator calculator;
 

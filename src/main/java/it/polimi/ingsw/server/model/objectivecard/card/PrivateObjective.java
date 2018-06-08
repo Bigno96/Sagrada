@@ -7,9 +7,10 @@ import it.polimi.ingsw.server.model.objectivecard.strategy.CalculatingPrivatePoi
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
+import java.io.Serializable;
 import java.util.logging.Logger;
 
-public class PrivateObjective implements ObjectiveCard {
+public class PrivateObjective implements ObjectiveCard, Serializable {
 
     private int id;
     private String descr;

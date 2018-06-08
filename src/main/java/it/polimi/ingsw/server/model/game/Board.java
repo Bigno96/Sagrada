@@ -9,9 +9,10 @@ import it.polimi.ingsw.server.model.toolcard.ToolCard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.logging.Logger;
 
-public class Board {
+public class Board extends Observable {
 
     private List<ObjectiveCard> publObj;
     private List<ToolCard> toolCard;
@@ -58,6 +59,9 @@ public class Board {
         this.publObj.add(obj1);
         this.publObj.add(obj2);
         this.publObj.add(obj3);
+
+        setChanged();
+        notifyObservers("PublicObjective");
     }
 
     /**

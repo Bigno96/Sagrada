@@ -5,7 +5,9 @@ import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-public class CalculatingPublicPoint implements CalculatingPoint {
+import java.io.Serializable;
+
+public class CalculatingPublicPoint implements CalculatingPoint, Serializable {
 
     private final ObjectiveCalculator calculator;
 

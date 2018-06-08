@@ -40,7 +40,7 @@
     "DESCRIPTION": "Light Shade - Sets of 1 and 2 values anywhere",
     "POINT": 2,
     "TYPE": "shade",
-    "SCOPE": "GRADATION",
+    "SCOPE": "grad",
     "GRADATION": "light",
     "DIRECTION": "null"
   },
@@ -49,7 +49,7 @@
     "DESCRIPTION": "Medium Shade - Sets of 3 and 4 values anywhere",
     "POINT": 2,
     "TYPE": "shade",
-    "SCOPE": "GRADATION",
+    "SCOPE": "grad",
     "GRADATION": "medium",
     "DIRECTION": "null"
   },
@@ -58,7 +58,7 @@
     "DESCRIPTION": "Dark Shade - Sets of 5 and 6 values anywhere",
     "POINT": 2,
     "TYPE": "shade",
-    "SCOPE": "GRADATION",
+    "SCOPE": "grad",
     "GRADATION": "dark",
     "DIRECTION": "null"
   },

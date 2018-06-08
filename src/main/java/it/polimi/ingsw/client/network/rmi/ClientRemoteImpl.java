@@ -1,29 +1,25 @@
 package it.polimi.ingsw.client.network.rmi;
 
 import it.polimi.ingsw.client.view.ViewInterface;
-import it.polimi.ingsw.exception.IDNotFoundException;
-import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.SameDiceException;
-import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote {
 
     private String username;
-    private final ViewInterface view;
+    private final AtomicReference<ViewInterface> view = new AtomicReference<>();
 
     ClientRemoteImpl(String username, ViewInterface view) throws RemoteException {
         super();
-        this.view = view;
+        this.view.set(view);
         this.username = username;
     }
 
@@ -42,7 +38,7 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
      */
     @Override
     public void tell(String s) {
-        view.print(s);
+        view.get().print(s);
     }
 
     /**
@@ -61,48 +57,62 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
         return this.username;
     }
 
+    /**
+     * @param cards cards.size() = 4
+     */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-        view.chooseWindowCard(cards);
+        view.get().chooseWindowCard(cards);
     }
 
+    /**
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard()
+     */
     @Override
     public void showCardPlayer(String user, WindowCard card) {
-        view.showCardPlayer(user, card);
+        view.get().showCardPlayer(user, card);
     }
 
+    /**
+     * @param user = game.getCurrentPlayer()
+     */
     @Override
     public void nextTurn(String user) {
-        view.isTurn(user);
+        view.get().isTurn(user);
     }
 
     @Override
     public void placementDice(String username, Cell dest, Dice moved) {
-        view.placementDice(username, dest, moved);
+        view.get().placementDice(username, dest, moved);
     }
 
     @Override
     public void printWindowCard(WindowCard card) {
-        view.printWindowCard(card);
+        view.get().printWindowCard(card);
     }
 
+    /**
+     * @param draft draft.size() > 0 && draft.size() <= game.getNumberPlayer() * 2 +1
+     */
     @Override
-    public void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException {
-        view.showDraft(draft.getDraftList());
+    public void showDraft(Draft draft) {
+        view.get().showDraft(draft.getDraftList());
     }
 
+    /**
+     * @param publicObj publicObj.size() = 3
+     */
     @Override
-    public void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException {
-        view.printPublObj(pubObj);
+    public void printPublicObj(List<ObjectiveCard> publicObj) {
+        view.get().printPublObj(publicObj);
     }
 
+    /**
+     * @param privateObj = Player.getPrivateObj()
+     */
     @Override
-    public void printPrivObj(ObjectiveCard privObj) throws RemoteException {
-        view.printPrivObj(privObj);
-    }
-
-    @Override
-    public void print(String s) throws RemoteException {
-        view.print(s);
+    public void printPrivateObj(ObjectiveCard privateObj) {
+        view.get().printPrivObj(privateObj);
     }
 }

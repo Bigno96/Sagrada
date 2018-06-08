@@ -21,6 +21,10 @@ import static java.lang.System.*;
 
 public class ServerMain {
 
+    private static final String RMI_HOSTNAME = "java.rmi.server.hostname";
+    private static final String SERVER_REMOTE_KEYWORD = "SERVER_REMOTE";
+    private static final String SERVER_UP_KEYWORD = "SERVER_UP";
+
     public static void main(String[] args) {
         ServerMain server = new ServerMain();
         server.startServer();
@@ -53,14 +57,14 @@ public class ServerMain {
             lobby.startLobby();
 
             ServerSocketThreadLauncher listener = new ServerSocketThreadLauncher(network.getSocketPort(), lobby);         // create the listener for socket connection
-            System.setProperty("java.rmi.server.hostname", ip);
+            System.setProperty(RMI_HOSTNAME, ip);
 
             ServerRemote server = new ServerRemoteImpl(lobby);                                       // export to port 4500 rmi remote server interface
             ServerRemote remote = (ServerRemote) UnicastRemoteObject.exportObject(server, network.getRmiServerPort());
             Registry registry = LocateRegistry.createRegistry(network.getRmiServerPort());
-            registry.bind(communication.getMessage("SERVER_REMOTE"), remote);
+            registry.bind(communication.getMessage(SERVER_REMOTE_KEYWORD), remote);
 
-            out.println("Server is up");
+            out.println(communication.getMessage(SERVER_UP_KEYWORD));
 
             listener.serverListening();             // start listening for socket connection
 

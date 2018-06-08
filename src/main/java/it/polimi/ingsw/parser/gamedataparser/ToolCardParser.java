@@ -20,6 +20,8 @@ import java.io.FileReader;
  */
 public class ToolCardParser implements Parser {
 
+    private static ToolCardParser ourInstance = null;
+
     private static final String ID = "ID";
     private static final String NAME = "NAME";
     private static final String COLOR = "COLOR";
@@ -29,8 +31,15 @@ public class ToolCardParser implements Parser {
 
     private final String infoPath;
 
-    public ToolCardParser(String infoPath) {
+    private ToolCardParser(String infoPath) {
         this.infoPath = infoPath;
+    }
+
+    public static ToolCardParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new ToolCardParser(infoPath);
+
+        return ourInstance;
     }
 
     /**

@@ -3,10 +3,10 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
@@ -14,6 +14,7 @@ import org.fusesource.jansi.Ansi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+
 import static java.lang.System.*;
 import static org.fusesource.jansi.Ansi.Color;
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -27,14 +28,21 @@ public class CliSystem implements ViewInterface {
     private final Scanner inKeyboard;
     private int numRound;
     private HashMap<String, ServerSpeaker> connParam;
-    private boolean waiting;
-    private boolean played;
+
+    private Thread moveThread;
+    private Thread waitingThread;
+
+    private static final String INSERT_NUMBER = "Insert a number";
+
+    private final ViewMessageParser dictionary;
 
     public CliSystem() {
         connection = new CliAskConnection();
         connParam = new HashMap<>();
-        inKeyboard = new Scanner(in);
+        inKeyboard = new Scanner(System.in);
         numRound = 0;
+
+        dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
     public void startGraphic() {
@@ -43,6 +51,12 @@ public class CliSystem implements ViewInterface {
         userName = connParam.keySet().iterator().next();
 
         serverSpeaker = connParam.get(userName);
+
+        MoveMenuTask taskMove = new MoveMenuTask(this);
+        moveThread = new Thread(taskMove);
+
+        WaitingMenuTask taskWaiting = new WaitingMenuTask(this);
+        waitingThread = new Thread(taskWaiting);
     }
 
     @Override
@@ -50,31 +64,34 @@ public class CliSystem implements ViewInterface {
         out.println(s);
     }
 
+    String getUserName() {
+        return this.userName;
+    }
+
+    ServerSpeaker getServerSpeaker() {
+        return this.serverSpeaker;
+    }
+
+    ViewMessageParser getDictionary() {
+        return this.dictionary;
+    }
+
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-
-        int pick;
-
         print("These are the window cards selected for you:");
 
         cards.forEach(this::printWindowCard);
 
-        print("Choose your window card (choice between 1 and 4):");
-        do{
-            pick = inKeyboard.nextInt();
-        }while(pick<1 || pick>4);
-
-        pick--;
-
-        serverSpeaker.setWindowCard(userName, cards.get(pick).getName());
+        ChooseWindowCardTask task = new ChooseWindowCardTask(this, cards);
+        new Thread(task).start();
     }
 
     @Override
     public void showCardPlayer(String user, WindowCard card) {
         if (user.equals(this.userName))
-            print("You chose this window card ");
+            print("\nYou chose this window card ");
         else
-            print(user + " choose window card ");
+            print("\n" + user + " choose window card ");
 
         printWindowCard(card);
     }
@@ -124,8 +141,8 @@ public class CliSystem implements ViewInterface {
 
     @Override
     public void printPublObj(List<ObjectiveCard> publObj) {
-        print("The public objective are:");
-        publObj.forEach(p -> print("- " + p.getDescr()));
+        print("Public objectives are:");
+        publObj.forEach(p -> print("- " + p.getDescr() + "/ points: " + p.getPoint()));
     }
 
     @Override
@@ -138,23 +155,19 @@ public class CliSystem implements ViewInterface {
     public void isTurn (String username) {
         if (userName.equals(username)) {
             print("It is your turn!");
-            waiting = false;
-            played = false;
-            askMove();
+            waitingThread.interrupt();
+            moveThread.start();
+
         } else {
             print("It is the turn of: " + username);
-            waiting = true;
-            askWaiting();
+            waitingThread.start();
         }
     }
 
     @Override
     public void showDraft(List<Dice> draft) {
-        int i = 0;
-
-        for (Dice d : draft) {
-            print("Dice n°" + i++ + ": " + ansi().eraseScreen().bg(Ansi.Color.valueOf(d.getColor().toString())).fg(BLACK).a(d.getValue()).reset() + "\n");
-        }
+        draft.forEach(dice ->
+                print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
     }
 
     @Override
@@ -162,103 +175,45 @@ public class CliSystem implements ViewInterface {
         print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
-    private void askWaiting() { // action user can do while he is waiting
-        do {
-            print("You are waiting, what you want to do:");
-            print("w - see your window card");
-            print("o - see window card of another player");
-            print("d - see draft");
-            print("p - see public objectives");
-            print("q - see your private objective");
-            /*print("t - see tool cards");
-            print("f - see how many favor points you have left");*/
+    void moveDice(){
+        int index;
+        int row;
+        int col;
 
-            Scanner input = new Scanner(System.in);
-            String s = input.nextLine();
+        //place a dice (show personal window card and draft to choose dice)
 
-            if (s.equals("w")) {
-                serverSpeaker.askWindowCard(userName); //see personal window card
-            } else if (s.equals("o")) {
-                print("Insert the name of the user whom you want to see the window card between these:");
-                serverSpeaker.askUsers(userName);
-                String user = input.nextLine();
-                serverSpeaker.askWindowCard(user); //see window card other player
-            } else if (s.equals("d")) {
-                serverSpeaker.askDraft(userName); //see draft
-            } else if (s.equals("p")) {
-                serverSpeaker.askPublObj(userName); //see public objective
-            } else if (s.equals("q")) {
-                serverSpeaker.askPrivObj(userName); //see private objective
-            }/*else if (s.equals("t")){
-            serverSpeaker.askToolCards(); //see tool card
-            }else if (s.equals("f")){
-            serverSpeaker.askFavorPoints(); //see favor points
-            }*/ else {
-                print("Incorrect choice!");
-            }
-        } while (waiting);
+        print("This is the draft, choose the dice entering the number of the dice: ");
+        serverSpeaker.askDraft(userName);
+        try {
+            index = Integer.parseInt(inKeyboard.nextLine());
+            index--;
+        } catch (NumberFormatException e) {
+            print(INSERT_NUMBER);
+            index = Integer.parseInt(inKeyboard.nextLine());
+            index--;
+        }
+
+        print("This is your window card, choose the position where do you want to place the dice: ");
+        serverSpeaker.askWindowCard(userName, userName);
+        print("Row: ");
+        try {
+            row = Integer.parseInt(inKeyboard.nextLine());
+        } catch (NumberFormatException e) {
+            print(INSERT_NUMBER);
+            row = Integer.parseInt(inKeyboard.nextLine());
+        }
+        print("Column: ");
+        try {
+            col = Integer.parseInt(inKeyboard.nextLine());
+        } catch (NumberFormatException e) {
+            print(INSERT_NUMBER);
+            col = Integer.parseInt(inKeyboard.nextLine());
+        }
+
+        serverSpeaker.moveDiceFromDraftToCard(userName, index, row, col);
 
     }
 
-    private void askMove() { // action user can do while is playing
-        do{
-            print("What move do you want to make:");
-            print("p - place a dice from the draft");
-            //print("t - use a tool card");
-
-            Scanner input = new Scanner(System.in);
-            String s;
-            s = input.nextLine();
-
-            if (s.equals("p")) {
-                int index;
-                int row;
-                int col;
-
-                //place a dice (show personal window card and draft to choose dice)
-
-                print("This is the draft, choose the dice entering the number of the dice: ");
-                serverSpeaker.askDraft(userName);
-                try {
-                    index = Integer.parseInt(input.nextLine());
-                    index--;
-                } catch (NumberFormatException e) {
-                    print("Insert a number!");
-                    index = Integer.parseInt(input.nextLine());
-                    index--;
-                }
-
-                print("This is your window card, choose the position where do you want to place the dice: ");
-                serverSpeaker.askWindowCard(userName);
-                print("Row: ");
-                try {
-                    row = Integer.parseInt(input.nextLine());
-                } catch (NumberFormatException e) {
-                    print("Insert a number!");
-                    row = Integer.parseInt(input.nextLine());
-                }
-                print("Column: ");
-                try {
-                    col = Integer.parseInt(input.nextLine());
-                } catch (NumberFormatException e) {
-                    print("Insert a number!");
-                    col = Integer.parseInt(input.nextLine());
-                }
-
-                serverSpeaker.moveDiceFromDraftToCard(userName, index, row, col);
-
-                played = true;
-            }/*else if (s.equals("t")){
-            //use tool card (show tool cards and choose which one use)
-            played = true;
-            }*/ else {
-                print("Incorrect choice!");
-            }
-
-        } while (!played);
-
-        serverSpeaker.endTurn(userName);
-    }
+    void useToolCard(){} //use tool card (show tool cards and choose which one use)
 
 }
-

@@ -16,7 +16,7 @@ public class ParserManager {
     private static final String PRIVATE_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/PrivateCard.json";
     private static final String PUBLIC_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/PublicCard.json";
     private static final String TOOL_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/ToolCard.json";
-    private static final String COMMUNICATION_PROTOCOL_PATH = SYSTEM_DIR + "/src/main/resources/Json/CommunicationProtocol.json";
+    private static final String COMMUNICATION_PROTOCOL_PATH = SYSTEM_DIR + "/src/main/resources/Json/ServerDictionary.json";
     private static final String GAME_SETTINGS_PATH = SYSTEM_DIR + "/src/main/resources/Json/GameSettings.json";
     private static final String NETWORK_INFO_PATH = SYSTEM_DIR + "/src/main/resources/Json/NetworkInfo.json";
     private static final String VIEW_DICTIONARY_PATH = SYSTEM_DIR + "/src/main/resources/Json/ViewDictionary.json";
@@ -26,34 +26,34 @@ public class ParserManager {
     }
 
     public static Parser getWindowCardParser() {
-        return new WindowParser(WINDOW_CARD_PATH);
+        return WindowParser.getInstance(WINDOW_CARD_PATH);
     }
 
     public static Parser getPublicCardParser() {
-        return new PublicObjectiveCardParser(PUBLIC_CARD_PATH);
+        return PublicObjectiveCardParser.getInstance(PUBLIC_CARD_PATH);
     }
 
     public static Parser getPrivateCardParser() {
-        return new PrivateObjectiveCardParser(PRIVATE_CARD_PATH);
+        return PrivateObjectiveCardParser.getInstance(PRIVATE_CARD_PATH);
     }
 
     public static Parser getToolCardParser() {
-        return new ToolCardParser(TOOL_CARD_PATH);
+        return ToolCardParser.getInstance(TOOL_CARD_PATH);
     }
 
     public static Parser getCommunicationParser() {
-        return new CommunicationParser(COMMUNICATION_PROTOCOL_PATH);
+        return CommunicationParser.getInstance(COMMUNICATION_PROTOCOL_PATH);
     }
 
     public static Parser getGameSettingsParser() {
-        return new GameSettingsParser(GAME_SETTINGS_PATH);
+        return GameSettingsParser.getInstance(GAME_SETTINGS_PATH);
     }
 
     public static Parser getNetworkInfoParser() {
-        return new NetworkInfoParser(NETWORK_INFO_PATH);
+        return NetworkInfoParser.getInstance(NETWORK_INFO_PATH);
     }
 
     public static Parser getViewMessageParser() {
-        return new ViewMessageParser(VIEW_DICTIONARY_PATH);
+        return ViewMessageParser.getInstance(VIEW_DICTIONARY_PATH);
     }
 }

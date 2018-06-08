@@ -23,6 +23,8 @@ import java.util.List;
  */
 public class WindowParser implements Parser {
 
+    private static WindowParser ourInstance = null;
+
     private static final String ID = "ID";
     private static final String NAME = "NAME";
     private static final String FP = "FP";
@@ -35,13 +37,17 @@ public class WindowParser implements Parser {
     private JsonObject winCard2;
     private final String infoPath;
 
-    /**
-     * Constructor
-     */
-    public WindowParser(String infoPath) {
+    private WindowParser(String infoPath) {
         winCard1 = null;
         winCard2 = null;
         this.infoPath = infoPath;
+    }
+
+    public static WindowParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new WindowParser(infoPath);
+
+        return ourInstance;
     }
 
     /**

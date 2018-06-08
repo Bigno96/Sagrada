@@ -25,7 +25,7 @@ public class Game extends Observable {
      * Initialization
      */
     public void startGame() {
-        round = new Round(playerList);
+        round = new Round(playerList, this);
         try {
             board = new Board(nPlayer);
         } catch (IDNotFoundException e) {
@@ -116,8 +116,10 @@ public class Game extends Observable {
             p.getBoard().getDraft().rollDraft();        // roll draft
         }
         currentPlayer = p;
-        //setChanged();
-        //notifyObservers("nextTurn");
+
+        setChanged();
+        notifyObservers("nextTurn");
+
         return p;
     }
 

@@ -14,6 +14,8 @@ import static java.lang.System.*;
  */
 public class GameSettingsParser implements Parser {
 
+    private static GameSettingsParser ourInstance = null;
+
     private JsonObject obj;
 
     private static final String GAME_NOTIFY = "GAME_COUNTDOWN_NOTIFY_INTERVAL";
@@ -24,13 +26,20 @@ public class GameSettingsParser implements Parser {
     private static final String MAX_COL = "MAX_WINDOW_CARD_COLUMN";
     private static final String MAX_ROW = "MAX_WINDOW_CARD_ROW";
 
-    public GameSettingsParser(String path) {
+    private GameSettingsParser(String path) {
         JsonParser parser = new JsonParser();
         try {
             obj = (JsonObject) parser.parse(new FileReader(path));
         } catch (FileNotFoundException e) {
             out.println(e.getMessage());
         }
+    }
+
+    public static GameSettingsParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new GameSettingsParser(infoPath);
+
+        return ourInstance;
     }
 
     public int getGameNotifyInterval() {

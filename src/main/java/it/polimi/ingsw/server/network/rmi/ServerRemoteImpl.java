@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.network.rmi;
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 
@@ -12,11 +13,16 @@ import static java.lang.System.*;
 
 public class ServerRemoteImpl implements ServerRemote {
 
+    private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
+    private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
+
     private Lobby lobby;
     private CommunicationParser protocol;
+    private ViewMessageParser dictionary;
 
     public ServerRemoteImpl(Lobby lobby) {
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         this.lobby = lobby;
     }
 
@@ -27,9 +33,9 @@ public class ServerRemoteImpl implements ServerRemote {
     @Override
     public synchronized void connect(String username, ClientRemote client) {
         try {
-            out.println(client.getUsername() + protocol.getMessage("CONNECTION_WITH_RMI"));
+            out.println(client.getUsername() + protocol.getMessage(RMI_CONNECTION_KEYWORD));
 
-            client.tell(protocol.getMessage("CONNECTION_SUCCESS"));
+            client.tell(dictionary.getMessage(CONNECTION_SUCCESS_KEYWORD));
 
         } catch (RemoteException e) {
             out.println(e.getMessage());
@@ -57,41 +63,65 @@ public class ServerRemoteImpl implements ServerRemote {
         lobby.addPlayer(username, speaker);
     }
 
+    /**
+     * @param username of Player that requested
+     * @param cardName of card to be set
+     */
     @Override
-    public void setWindowCard(String userName, String cardName) {
-        lobby.getGameController().setWindow(userName, cardName);
+    public void setWindowCard(String username, String cardName) {
+        lobby.getGameController().setWindowCard(username, cardName);
     }
 
+
+    /**
+     * @param usernameWanted = Player.getId() && Player.getWindowCard()
+     * @param me             = Player.getId() of who requested
+     */
     @Override
-    public void askWindowCard(String userName) {
-        lobby.getSpeakers().get(userName).printWindowCard(lobby.getPlayers().get(userName).getWindowCard());
+    public void getWindowCard(String usernameWanted, String me) {
+        lobby.getSpeakers().get(me).printWindowCard(lobby.getPlayers().get(usernameWanted).getWindowCard());
     }
 
+    /**
+     * @param currentUser = Player.getId() of who requested
+     */
     @Override
-    public void askUsers(String currUser) {
-        for (String u : lobby.getPlayers().keySet())
-            if (!u.equals(currUser))
-                lobby.getSpeakers().get(currUser).tell(u);
+    public void getAllUsername(String currentUser) {
+        for (String user : lobby.getPlayers().keySet())
+            if (!user.equals(currentUser))
+                lobby.getSpeakers().get(currentUser).tell(user);
     }
 
+    /**
+     * @param username = Player.getId() of who requested
+     */
     @Override
-    public void askDraft(String username) {
+    public void getDraft(String username) {
         lobby.getSpeakers().get(username).showDraft(lobby.getGame().getBoard().getDraft());
     }
 
+    /**
+     * @param username = Player.getId() of who ended turn
+     */
     @Override
     public void endTurn(String username) {
         lobby.getRoundController().nextTurn();
     }
 
+    /**
+     * @param username = Player.getId() of who requested
+     */
     @Override
-    public void askPublObj(String username) {
-        lobby.getSpeakers().get(username).printPublObj(lobby.getGame().getBoard().getPublObj());
+    public void getPublicObj(String username) {
+        lobby.getSpeakers().get(username).printPublicObj(lobby.getGame().getBoard().getPublObj());
     }
 
+    /**
+     * @param username = Player.getId() of who requested
+     */
     @Override
-    public void askPrivObj(String username) {
-        lobby.getSpeakers().get(username).printPrivObj(lobby.getPlayers().get(username).getPrivObj());
+    public void getPrivateObj(String username) {
+        lobby.getSpeakers().get(username).printPrivateObj(lobby.getPlayers().get(username).getPrivObj());
     }
 
     @Override

@@ -6,8 +6,10 @@ import it.polimi.ingsw.exception.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Remote interface of server used by client
+ */
 public interface ServerRemote extends Remote {
-    // remote interface of server used by client
 
     /**
      * Used to connect a client to the server.
@@ -34,19 +36,56 @@ public interface ServerRemote extends Remote {
      */
     void login(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
-    void setWindowCard(String userName, String cardName) throws RemoteException;
+    /**
+     * Used to set Window Card chosen as Player's window card
+     * @param username of Player that requested
+     * @param cardName of card to be set
+     * @throws RemoteException default
+     */
+    void setWindowCard(String username, String cardName) throws RemoteException;
 
-    void askWindowCard(String userName) throws RemoteException;
+    /**
+     * Used to obtain Window Card of usernameWanted player and show it to me player
+     * @param usernameWanted = Player.getId() && Player.getWindowCard()
+     * @param me = Player.getId() of who requested
+     * @throws RemoteException default
+     */
+    void getWindowCard(String usernameWanted, String me) throws RemoteException;
 
-    void askUsers(String currUser) throws RemoteException;
+    /**
+     * Used to get all username of Player in the game
+     * @param currentUser = Player.getId() of who requested
+     * @throws RemoteException default
+     */
+    void getAllUsername(String currentUser) throws RemoteException;
 
-    void askDraft(String username) throws RemoteException;
+    /**
+     * Used to get draft for current round
+     * @param username = Player.getId() of who requested
+     * @throws RemoteException default
+     */
+    void getDraft(String username) throws RemoteException;
 
+    /**
+     * Used to end the turn
+     * @param username = Player.getId() of who ended turn
+     * @throws RemoteException default
+     */
     void endTurn(String username) throws RemoteException;
 
-    void askPublObj(String username) throws RemoteException;
+    /**
+     * Used to get Public Objectives selected for current game
+     * @param username = Player.getId() of who requested
+     * @throws RemoteException default
+     */
+    void getPublicObj(String username) throws RemoteException;
 
-    void askPrivObj(String username) throws RemoteException;
+    /**
+     * Used to get Private Objective of a Player. Only works if requested by the Objective's owner
+     * @param username = Player.getId() of who requested
+     * @throws RemoteException default
+     */
+    void getPrivateObj(String username) throws RemoteException;
 
     void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException;
 }

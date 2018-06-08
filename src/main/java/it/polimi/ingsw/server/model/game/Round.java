@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 public class Round {
 
     private List<Player> playerList;
+    private Game game;
     private static final Logger logger = Logger.getLogger(Player.class.getName());
     private boolean firstTurn;      //false if all player finished the first round
 
@@ -18,7 +19,8 @@ public class Round {
      * Constructor
      * @param playerList list of player ordered by turn order
      */
-    public Round(List<Player> playerList) {
+    public Round(List<Player> playerList, Game game) {
+        this.game = game;
         this.playerList = playerList;
         firstTurn = true;
     }
@@ -88,6 +90,7 @@ public class Round {
         }
 
         firstTurn = true;
+        game.getBoard().getDraft().rollDraft();
     }
 
     /**
