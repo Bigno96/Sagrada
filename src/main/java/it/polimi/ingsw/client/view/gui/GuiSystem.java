@@ -106,8 +106,8 @@ public class GuiSystem implements ViewInterface{
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
 
-            connParam = ctrl.startConnection(this);
-            serverSpeaker = connParam.get(userName);
+            //connParam = ctrl.startConnection(this);
+            //serverSpeaker = connParam.get(userName);
 
             primaryStage.show();
         });

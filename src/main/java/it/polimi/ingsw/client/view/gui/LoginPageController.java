@@ -56,7 +56,7 @@ public class LoginPageController {
     }
 
     public void submitAction() {
-        startConnection(guiSystem);
+        startConnection(guiSystem); // niente return setter per string e serverSpeaker
         //call change scene
 
     }
@@ -72,13 +72,13 @@ public class LoginPageController {
             serverSpeaker = new RmiServerSpeaker(ipText.getText(), usernameText.getText(), guiSystem);
         }
 
-        while (!serverSpeaker.connect(username)){
+        if (!serverSpeaker.connect(username)){
             //Alert ip wrong
             //clean ip
             System.out.println("rename");
         }
 
-        while (!serverSpeaker.login(username)) {
+        if (!serverSpeaker.login(username)) {
             //Alert username già connesso
             //clean username
             System.out.println("ip");
