@@ -2,6 +2,7 @@ package it.polimi.ingsw.servertest.modeltest.gametest;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
+import it.polimi.ingsw.server.model.game.Game;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Player;
@@ -20,7 +21,7 @@ public class RoundTest extends TestCase {
         super(testName);
     }
 
-    private List<Player> myCellList() {
+    private List<Player> myPlayerList() {
         List<Player> playerList = new ArrayList<>();
         for (int i=0; i<nPlayer; i++) {
             Player p = new Player("test"+i);
@@ -31,8 +32,8 @@ public class RoundTest extends TestCase {
     }
 
     public void testNextPlayer() throws PlayerNotFoundException {
-        List<Player> list = myCellList();
-        Round round = new Round(list);
+        List<Player> list = myPlayerList();
+        Round round = new Round(list, new Game());
 
         assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertSame(round.getPlayer("test"+1), round.nextPlayer());
@@ -43,8 +44,8 @@ public class RoundTest extends TestCase {
 
 
     public void testNextRound() throws PlayerNotFoundException {
-        List<Player> list = myCellList();
-        Round round = new Round(list);
+        List<Player> list = myPlayerList();
+        Round round = new Round(list, new Game());
 
         assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertSame(round.getPlayer("test"+1), round.nextPlayer());
@@ -64,15 +65,15 @@ public class RoundTest extends TestCase {
     }
 
     public void testGetPlayer() throws PlayerNotFoundException{
-        List<Player> list = myCellList();
-        Round round = new Round(list);
+        List<Player> list = myPlayerList();
+        Round round = new Round(list, new Game());
         Player player = round.getPlayer("test"+0);
         assertEquals(player, round.getPlayer("test"+0));
     }
 
     public void testGetPlayerException(){
-        List<Player> list = myCellList();
-        Round round = new Round(list);
+        List<Player> list = myPlayerList();
+        Round round = new Round(list, new Game());
 
         assertThrows(PlayerNotFoundException.class, () -> round.getPlayer("test"+10));
     }

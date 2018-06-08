@@ -86,27 +86,27 @@ public class RmiServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public void setWindowCard(String username, String name) {
+    public void setWindowCard(String username, String cardName) {
         try {
-            server.setWindowCard(username, name);
+            server.setWindowCard(username, cardName);
         } catch (RemoteException e) {
             view.print("Server is not responding");
         }
     }
 
     @Override
-    public void askWindowCard(String username) {
+    public void askWindowCard(String usernameWanted, String me) {
         try {
-            server.askWindowCard(username);
+            server.getWindowCard(usernameWanted, me);
         } catch (RemoteException e) {
             view.print("Server is not responding");
         }
     }
 
     @Override
-    public void askUsers(String currUser) {
+    public void getAllUsername(String currUser) {
         try {
-            server.askUsers(currUser);
+            server.getAllUsername(currUser);
         } catch (RemoteException e) {
             view.print("Server is not responding");
         }
@@ -115,7 +115,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     @Override
     public void askDraft(String username) {
         try {
-            server.askDraft(username);
+            server.getDraft(username);
         } catch (RemoteException e) {
             view.print("Server is not responding");
         }
@@ -124,7 +124,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     @Override
     public void askPublObj(String username) {
         try {
-            server.askPublObj(username);
+            server.getPublObj(username);
         } catch (RemoteException e) {
             view.print("Server is not responding");
         }
@@ -133,7 +133,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     @Override
     public void askPrivObj(String username) {
         try {
-            server.askPrivObj(username);
+            server.getPrivObj(username);
         } catch (RemoteException e) {
             view.print("Server is not responding");
         }

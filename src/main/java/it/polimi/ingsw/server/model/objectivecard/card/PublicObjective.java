@@ -2,16 +2,15 @@ package it.polimi.ingsw.server.model.objectivecard.card;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.objectivecard.strategy.CalculatingPoint;
 import it.polimi.ingsw.server.model.objectivecard.strategy.CalculatingPublicPoint;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
-public class PublicObjective implements ObjectiveCard {
+public class PublicObjective implements ObjectiveCard, Serializable {
 
     private int id;
     private String descr;

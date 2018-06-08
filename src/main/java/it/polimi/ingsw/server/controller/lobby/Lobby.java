@@ -208,6 +208,7 @@ public class Lobby {
 
     public void startCountingRound() {
         roundController = new RoundController(game);
+        game.getBoard().getDraft().rollDraft();
         roundController.nextTurn();
     }
 
@@ -227,7 +228,7 @@ public class Lobby {
     }
 
     /**
-     * End the game notifying victory.
+     * Ends the game notifying victory.
      */
     public void endGame() {
         if (game.getNPlayer() == 1)

@@ -6,11 +6,12 @@ import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.Colors;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class DiceBag {
+public class DiceBag implements Serializable {
 
     private static final String EMPTY_DRAFT = "Draft is empty";
     private static final String ID_NOT_FOUND = "Id not found";

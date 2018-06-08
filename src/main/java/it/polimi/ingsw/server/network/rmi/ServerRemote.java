@@ -34,19 +34,19 @@ public interface ServerRemote extends Remote {
      */
     void login(String username, ClientRemote client) throws RemoteException, TooManyPlayersException, GameAlreadyStartedException, SamePlayerException;
 
-    void setWindowCard(String userName, String cardName) throws RemoteException;
+    void setWindowCard(String username, String cardName) throws RemoteException;
 
-    void askWindowCard(String userName) throws RemoteException;
+    void getWindowCard(String usernameWanted, String me) throws RemoteException;
 
-    void askUsers(String currUser) throws RemoteException;
+    void getAllUsername(String currUser) throws RemoteException;
 
-    void askDraft(String username) throws RemoteException;
+    void getDraft(String username) throws RemoteException;
 
     void endTurn(String username) throws RemoteException;
 
-    void askPublObj(String username) throws RemoteException;
+    void getPublObj(String username) throws RemoteException;
 
-    void askPrivObj(String username) throws RemoteException;
+    void getPrivObj(String username) throws RemoteException;
 
     void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException;
 }

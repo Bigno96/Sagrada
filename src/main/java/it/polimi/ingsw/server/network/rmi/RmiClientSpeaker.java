@@ -124,9 +124,9 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     @Override
-    public void printPrivObj(ObjectiveCard privObj) {
+    public void printPrivObj(ObjectiveCard priObj) {
         try {
-            client.printPrivObj(privObj);
+            client.printPrivObj(priObj);
         } catch (RemoteException e) {
             out.println(e.getMessage());
         }

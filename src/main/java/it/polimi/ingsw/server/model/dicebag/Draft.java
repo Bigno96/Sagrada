@@ -4,16 +4,15 @@ import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class Draft {
+public class Draft implements Serializable {
 
     private static final String NO_DICE = "No Dice in Bag";
     private static final String NOT_ENOUGH_DICE = "Not Enough Dices in Bag";

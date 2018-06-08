@@ -58,24 +58,24 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
-    public void setWindowCard(String userName, String cardName) {
-        lobby.getGameController().setWindow(userName, cardName);
+    public void setWindowCard(String username, String cardName) {
+        lobby.getGameController().setWindowCard(username, cardName);
     }
 
     @Override
-    public void askWindowCard(String userName) {
-        lobby.getSpeakers().get(userName).printWindowCard(lobby.getPlayers().get(userName).getWindowCard());
+    public void getWindowCard(String username, String me) {
+        lobby.getSpeakers().get(me).printWindowCard(lobby.getPlayers().get(username).getWindowCard());
     }
 
     @Override
-    public void askUsers(String currUser) {
-        for (String u : lobby.getPlayers().keySet())
-            if (!u.equals(currUser))
-                lobby.getSpeakers().get(currUser).tell(u);
+    public void getAllUsername(String currUser) {
+        for (String user : lobby.getPlayers().keySet())
+            if (!user.equals(currUser))
+                lobby.getSpeakers().get(currUser).tell(user);
     }
 
     @Override
-    public void askDraft(String username) {
+    public void getDraft(String username) {
         lobby.getSpeakers().get(username).showDraft(lobby.getGame().getBoard().getDraft());
     }
 
@@ -85,12 +85,12 @@ public class ServerRemoteImpl implements ServerRemote {
     }
 
     @Override
-    public void askPublObj(String username) {
+    public void getPublObj(String username) {
         lobby.getSpeakers().get(username).printPublObj(lobby.getGame().getBoard().getPublObj());
     }
 
     @Override
-    public void askPrivObj(String username) {
+    public void getPrivObj(String username) {
         lobby.getSpeakers().get(username).printPrivObj(lobby.getPlayers().get(username).getPrivObj());
     }
 

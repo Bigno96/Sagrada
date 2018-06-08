@@ -87,22 +87,22 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     }
 
     @Override
-    public void showDraft(Draft draft) throws RemoteException, IDNotFoundException, SameDiceException {
+    public void showDraft(Draft draft) {
         view.showDraft(draft.getDraftList());
     }
 
     @Override
-    public void printPublObj(List<ObjectiveCard> pubObj) throws RemoteException {
+    public void printPublObj(List<ObjectiveCard> pubObj) {
         view.printPublObj(pubObj);
     }
 
     @Override
-    public void printPrivObj(ObjectiveCard privObj) throws RemoteException {
+    public void printPrivObj(ObjectiveCard privObj) {
         view.printPrivObj(privObj);
     }
 
     @Override
-    public void print(String s) throws RemoteException {
+    public void print(String s) {
         view.print(s);
     }
 }

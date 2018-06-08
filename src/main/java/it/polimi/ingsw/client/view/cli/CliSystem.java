@@ -14,7 +14,6 @@ import org.fusesource.jansi.Ansi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 import static java.lang.System.*;
 import static org.fusesource.jansi.Ansi.Color;
@@ -29,16 +28,13 @@ public class CliSystem implements ViewInterface {
     private final Scanner inKeyboard;
     private int numRound;
     private HashMap<String, ServerSpeaker> connParam;
-    private boolean waiting;
-    private boolean played;
-    private boolean moved;
-    private boolean used;
+
+    private Thread moveThread;
+    private Thread waitingThread;
 
     private static final String INSERT_NUMBER = "Insert a number";
 
     private final ViewMessageParser dictionary;
-    private final HashMap<String, Consumer<String>> waitingAction;
-    private final HashMap<String, Consumer<Boolean>> playingAction;
 
     public CliSystem() {
         connection = new CliAskConnection();
@@ -47,60 +43,6 @@ public class CliSystem implements ViewInterface {
         numRound = 0;
 
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
-        waitingAction = new HashMap<>();
-        mapWaiting();
-        playingAction = new HashMap<>();
-        mapPlaying();
-    }
-
-    private void mapWaiting() {
-        Consumer<String> window = username -> serverSpeaker.askWindowCard(username); //see personal window card
-        Consumer<String> other = username -> {
-            print(dictionary.getMessage("ASK_USER"));
-            serverSpeaker.askUsers(username);
-            String user = inKeyboard.nextLine();
-            serverSpeaker.askWindowCard(user); //see window card other player
-        };
-        Consumer<String> draft = username -> serverSpeaker.askDraft(username); //see draft
-        Consumer<String> publicObj = username -> serverSpeaker.askPublObj(username); //see public objective
-        Consumer<String> privateObj = username -> serverSpeaker.askPrivObj(username); //see private objective
-        Consumer<String> tool = username -> serverSpeaker.askToolCards(username); //see tool card
-        Consumer<String> favor = username -> serverSpeaker.askFavorPoints(username); //see favor points
-
-        waitingAction.put("w", window);
-        waitingAction.put("o", other);
-        waitingAction.put("d", draft);
-        waitingAction.put("p", publicObj);
-        waitingAction.put("q", privateObj);
-        waitingAction.put("t", tool);
-        waitingAction.put("f", favor);
-    }
-
-    private void mapPlaying(){
-        Consumer<Boolean> move = playing -> {
-            if (playing && !moved) {
-                moveDice();
-                moved = true;
-            }else{
-                print(dictionary.getMessage("ALREADY_DONE"));
-            }
-        };
-        Consumer<Boolean> use = playing-> {
-            if (playing && !used) {
-                useToolCard();
-                used = true;
-            }else{
-                print(dictionary.getMessage("ALREADY_DONE"));
-            }
-        };
-        Consumer<Boolean> pass = playing -> {
-            print(dictionary.getMessage("PASSED"));
-            played = true;
-        };
-
-        playingAction.put("p", move);
-        playingAction.put("t", use);
-        playingAction.put("q", pass);
     }
 
     public void startGraphic() {
@@ -109,6 +51,12 @@ public class CliSystem implements ViewInterface {
         userName = connParam.keySet().iterator().next();
 
         serverSpeaker = connParam.get(userName);
+
+        MoveMenuTask taskMove = new MoveMenuTask(this);
+        moveThread = new Thread(taskMove);
+
+        WaitingMenuTask taskWaiting = new WaitingMenuTask(this);
+        waitingThread = new Thread(taskWaiting);
     }
 
     @Override
@@ -116,26 +64,26 @@ public class CliSystem implements ViewInterface {
         out.println(s);
     }
 
+    String getUserName() {
+        return this.userName;
+    }
+
+    ServerSpeaker getServerSpeaker() {
+        return this.serverSpeaker;
+    }
+
+    ViewMessageParser getDictionary() {
+        return this.dictionary;
+    }
+
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-
-        int pick;
-
         print("These are the window cards selected for you:");
 
         cards.forEach(this::printWindowCard);
 
-        Boolean exit;
-        do {
-            print("Choose your window card (choice between 1 and 4):");
-            pick = inKeyboard.nextInt();
-            exit = pick<1 || pick>4;
-
-        } while(exit);
-
-        pick--;
-
-        serverSpeaker.setWindowCard(userName, cards.get(pick).getName());
+        ChooseWindowCardTask task = new ChooseWindowCardTask(this, cards);
+        new Thread(task).start();
     }
 
     @Override
@@ -193,8 +141,8 @@ public class CliSystem implements ViewInterface {
 
     @Override
     public void printPublObj(List<ObjectiveCard> publObj) {
-        print("The public objective are:");
-        publObj.forEach(p -> print("- " + p.getDescr()));
+        print("Public objectives are:");
+        publObj.forEach(p -> print("- " + p.getDescr() + "/ points: " + p.getPoint()));
     }
 
     @Override
@@ -207,23 +155,19 @@ public class CliSystem implements ViewInterface {
     public void isTurn (String username) {
         if (userName.equals(username)) {
             print("It is your turn!");
-            waiting = false;
-            played = false;
-            askMove();
+            waitingThread.interrupt();
+            moveThread.start();
+
         } else {
             print("It is the turn of: " + username);
-            waiting = true;
-            askWaiting();
+            waitingThread.start();
         }
     }
 
     @Override
     public void showDraft(List<Dice> draft) {
-        int i = 0;
-
-        for (Dice d : draft) {
-            print("Dice n°" + i++ + ": " + ansi().eraseScreen().bg(Ansi.Color.valueOf(d.getColor().toString())).fg(BLACK).a(d.getValue()).reset() + "\n");
-        }
+        draft.forEach(dice ->
+            print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
     }
 
     @Override
@@ -231,42 +175,7 @@ public class CliSystem implements ViewInterface {
         print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
-    private void askWaiting() { // action user can do while he is waiting
-        do {
-
-            print(dictionary.getMessage("MENU_WAITING")); //menu waiting
-
-            String s = inKeyboard.nextLine();
-
-            if (!waitingAction.containsKey(s))
-                print(dictionary.getMessage("INCORRECT_ENTRY"));
-            else
-                waitingAction.get(s).accept(userName);
-
-        } while (waiting);
-
-    }
-
-    private void askMove() { // action user can do while is playing
-        moved = false;
-        used = false;
-
-        do {
-            print(dictionary.getMessage("MENU_PLAYING"));
-
-            String s = inKeyboard.nextLine();
-
-            if (!playingAction.containsKey(s)){
-                print(dictionary.getMessage("INCORRECT_ENTRY"));
-            }else
-                playingAction.get(s).accept(!played);
-
-        } while (!played);
-
-        serverSpeaker.endTurn(userName);
-    }
-
-    private void moveDice(){
+    void moveDice(){
         int index;
         int row;
         int col;
@@ -285,7 +194,7 @@ public class CliSystem implements ViewInterface {
         }
 
         print("This is your window card, choose the position where do you want to place the dice: ");
-        serverSpeaker.askWindowCard(userName);
+        serverSpeaker.askWindowCard(userName, userName);
         print("Row: ");
         try {
             row = Integer.parseInt(inKeyboard.nextLine());
@@ -305,7 +214,7 @@ public class CliSystem implements ViewInterface {
 
     }
 
-    private void useToolCard(){} //use tool card (show tool cards and choose which one use)
+    void useToolCard(){} //use tool card (show tool cards and choose which one use)
 
 }
 

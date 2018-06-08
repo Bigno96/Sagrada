@@ -119,12 +119,12 @@ public class SocketServerSpeaker implements ServerSpeaker{
     }
 
     @Override
-    public void askWindowCard(String username) {
+    public void askWindowCard(String usernameWanted, String me) {
 
     }
 
     @Override
-    public void askUsers(String currUser) {
+    public void getAllUsername(String currUser) {
 
     }
 

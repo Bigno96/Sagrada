@@ -17,7 +17,7 @@ public class RoundController {
     }
 
     public void nextTurn() {
-       currentPlayer = game.nextPlayer();
+        currentPlayer = game.nextPlayer();
     }
 
 }

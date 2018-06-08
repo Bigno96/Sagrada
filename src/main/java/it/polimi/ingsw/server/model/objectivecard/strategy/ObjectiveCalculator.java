@@ -7,11 +7,12 @@ import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class ObjectiveCalculator {
+public class ObjectiveCalculator implements Serializable {
 
     private static ObjectiveCalculator instance = null;
 

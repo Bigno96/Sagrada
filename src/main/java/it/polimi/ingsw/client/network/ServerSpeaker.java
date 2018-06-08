@@ -25,9 +25,9 @@ public interface ServerSpeaker {
 
     void setWindowCard(String username, String name);
 
-    void askWindowCard(String username);
+    void askWindowCard(String usernameWanted, String me);
 
-    void askUsers(String currUser);
+    void getAllUsername(String currUser);
 
     void askDraft(String username);
 
