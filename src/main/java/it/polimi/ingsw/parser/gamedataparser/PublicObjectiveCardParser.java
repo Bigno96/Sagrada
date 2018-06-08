@@ -17,6 +17,8 @@ import java.io.FileReader;
  */
 public class PublicObjectiveCardParser extends ObjectiveCardParser implements Parser {
 
+    private static PublicObjectiveCardParser ourInstance = null;
+
     private static final String ID = "ID";
     private static final String TYPE = "TYPE";
     private static final String SCOPE = "SCOPE";
@@ -26,9 +28,16 @@ public class PublicObjectiveCardParser extends ObjectiveCardParser implements Pa
     private final String infoPath;
     private final ObjectiveFactory factory;
 
-    public PublicObjectiveCardParser(String infoPath) {
+    private PublicObjectiveCardParser(String infoPath) {
         this.infoPath = infoPath;
         this.factory = new PublicObjectiveFactory();
+    }
+
+    public static PublicObjectiveCardParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new PublicObjectiveCardParser(infoPath);
+
+        return ourInstance;
     }
 
     /**

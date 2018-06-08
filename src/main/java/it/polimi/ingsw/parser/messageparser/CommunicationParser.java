@@ -14,10 +14,19 @@ import static java.lang.System.*;
  */
 public class CommunicationParser implements Parser {
 
+    private static CommunicationParser ourInstance = null;
+
     private final String path;
 
-    public CommunicationParser(String path) {
+    private CommunicationParser(String path) {
         this.path = path;
+    }
+
+    public static CommunicationParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new CommunicationParser(infoPath);
+
+        return ourInstance;
     }
 
     /**

@@ -14,10 +14,19 @@ import static java.lang.System.*;
  */
 public class ViewMessageParser implements Parser {
 
+    private static ViewMessageParser ourInstance = null;
+
     private final String path;
 
-    public ViewMessageParser(String path) {
+    private ViewMessageParser(String path) {
         this.path = path;
+    }
+
+    public static ViewMessageParser getInstance(String infoPath) {
+        if (ourInstance == null)
+            ourInstance = new ViewMessageParser(infoPath);
+
+        return ourInstance;
     }
 
     public String getMessage(String input) {

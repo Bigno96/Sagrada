@@ -1,7 +1,6 @@
 package it.polimi.ingsw.parser.gamedataparser;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.parser.Parser;
