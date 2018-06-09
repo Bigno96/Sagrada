@@ -18,15 +18,13 @@ import static java.lang.System.*;
 
 public class ClientMain extends Application {
 
-    GuiSystem guiSystem;
     private Stage primaryStage;
-    private boolean CLI;
-    private boolean GUI;
 
     @Override
     public void start(Stage primaryStage) {
 
         this.primaryStage = primaryStage;
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
         this.primaryStage.setTitle("How do you wanna play?");
         initRootLayout();
 
@@ -67,7 +65,7 @@ public class ClientMain extends Application {
     }
 
     public void openGUI() {
-        guiSystem = new GuiSystem(primaryStage);
-        guiSystem.start();
+        GuiSystem guiSystem = new GuiSystem(primaryStage);
+        guiSystem.startGraphic();
     }
 }

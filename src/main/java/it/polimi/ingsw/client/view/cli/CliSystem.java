@@ -194,7 +194,7 @@ public class CliSystem implements ViewInterface {
     @Override
     public void showDraft(List<Dice> draft) {
         draft.forEach(dice ->
-            print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
+                print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
     }
 
     @Override
@@ -244,4 +244,3 @@ public class CliSystem implements ViewInterface {
     void useToolCard(){} //use tool card (show tool cards and choose which one use)
 
 }
-
