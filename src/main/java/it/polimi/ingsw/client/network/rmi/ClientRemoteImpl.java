@@ -105,7 +105,7 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
      */
     @Override
     public void printPublicObj(List<ObjectiveCard> publicObj) {
-        view.get().printPublObj(publicObj);
+        view.get().printPublicObj(publicObj);
     }
 
     /**
@@ -113,6 +113,6 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
      */
     @Override
     public void printPrivateObj(ObjectiveCard privateObj) {
-        view.get().printPrivObj(privateObj);
+        view.get().printPrivateObj(privateObj);
     }
 }

@@ -1,11 +1,10 @@
 {
-  "CHOOSE_CONNECTION": "Choose your connection \n 'r' for RMI \n 's' for Socket \n 'd' for Default",
-  "INCORRECT_ENTRY": "Incorrect entry",
+  "CHOOSE_CONNECTION": "Choose your connection \n- 'r' for RMI \n- 's' for Socket \n- 'd' for Default",
   "INSERT_IP": "Insert IP Address",
   "WRONG_IP": "Not a valid ip",
   "INSERT_NAME": "Insert your user Name",
   "INSERT_NAME_AGAIN": " Please insert your user Name again",
-  "NO_SERVER_LISTENING": "\nNo server listening on given ip.\n Please insert new one",
+  "NO_SERVER_LISTENING": "No server listening on given ip.\n Please insert new one",
 
   "SOCKET_CHOSEN": "Socket connection chosen",
   "RMI_CHOSEN": "RMI connection chosen",
@@ -16,19 +15,47 @@
   "WELCOME_BACK": "Welcome back ",
   "CONNECTION_SUCCESS": "Connection Established",
 
+  "SAME_PLAYER_MSG": "An user with the same name already logged",
+  "TOO_MANY_PLAYERS_MSG": "Too many players in Lobby",
+  "GAME_ALREADY_STARTED_MSG": "Game is already started",
+
   "GAME_WILL_START": "Game will start when enough players are connected",
   "TIMER_ON": "Timer is on: ",
   "SECONDS_COUNTDOWN": " seconds before game starts",
   "GAME_STARTED": "Game is started",
 
-  "MENU_WAITING": "You are waiting, what you want to do: \n w - see your window card \n o - see window card of another player \n d - see draft \n p - see public objectives \n q - see your private objective \n t - see tool cards \n f - see how many favor points you have left",
+  "WINDOW_CARD_SELECTED": "These are the window cards selected for you:",
+  "WINDOW_CARD_CHOSEN": "You chose this window card ",
+  "PLAYER_CARD_CHOSEN": " choose window card",
+  "FAVOR_POINT": "Favor Point: ",
+  "PRIVATE_OBJECTIVE_CHOSEN": "Your private objective is: ",
+  "PUBLIC_OBJECTIVE": "Public objectives are:",
+  "OBJECTIVE_POINT": "/ points: ",
+
+  "MENU_WAITING_MESSAGE": "You are waiting, what you want to do:",
+  "OWN_WINDOW_CARD_ENTRY": "my-window",
+  "OWN_WINDOW_CARD_MESSAGE": "- see your window card",
+  "ANOTHER_WINDOW_CARD_ENTRY": "other-window",
+  "ANOTHER_WINDOW_CARD_MESSAGE": "- see window card of another player",
   "ASK_USER": "Insert the name of the user whom you want to see the window card between these:",
+  "DRAFT_ENTRY": "draft",
+  "DRAFT_MESSAGE": "- see draft",
+  "PUBLIC_OBJECTIVE_ENTRY": "public-obj",
+  "PUBLIC_OBJECTIVE_MESSAGE": "- see public objectives",
+  "PRIVATE_OBJECTIVE_ENTRY": "private-obj",
+  "PRIVATE_OBJECTIVE_MESSAGE": "- see your private objective",
+  "TOOL_CARD_ENTRY": "tool",
+  "TOOL_CARD_MESSAGE": "- see tool cards",
+  "FAVOR_POINT_ENTRY": "favor-point",
+  "FAVOR_POINT_MESSAGE": "- see how many favor points you have left",
+  "INCORRECT_MESSAGE": "Incorrect entry",
+
+  "OTHER_PLAYER_TURN": "It is the turn of: ",
+
   "MENU_PLAYING": "What move do you want to make: \n p - place a dice from the draft \n t - use a tool card \n q - pass turn",
+  "YOUR_TURN": "It is your turn!",
   "ALREADY_DONE": "You have already done this action",
   "PASSED": "You passed!",
   "WIN_MSG": "Congratulations! You won!",
-
-  "SAME_PLAYER_MSG": "An user with the same name already logged",
-  "TOO_MANY_PLAYERS_MSG": "Too many players in Lobby",
-  "GAME_ALREADY_STARTED_MSG": "Game is already started"
+  "INSERT_NUMBER": "Insert a number"
 }

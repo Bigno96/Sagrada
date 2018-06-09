@@ -112,7 +112,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
                 socketOut.flush();
             }
 
-            synchronized (lock) {
+            synchronized (this) {
                 while (logged == null)              // while server hasn't responded
                     wait(100);
             }

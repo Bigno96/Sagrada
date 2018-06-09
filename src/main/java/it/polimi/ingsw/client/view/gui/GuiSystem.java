@@ -85,22 +85,12 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
-    public void printUsers(List<String> users) {
+    public void printPrivateObj(ObjectiveCard privObj) {
 
     }
 
     @Override
-    public void printPrivObj(ObjectiveCard privObj) {
-
-    }
-
-    @Override
-    public void printPublObj(List<ObjectiveCard> publObj) {
-
-    }
-
-    @Override
-    public void setRound() {
+    public void printPublicObj(List<ObjectiveCard> publObj) {
 
     }
 

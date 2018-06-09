@@ -22,17 +22,27 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class CliSystem implements ViewInterface {
 
+    private static final String INSERT_NUMBER_KEYWORD = "INSERT_NUMBER";
+    private static final String WINDOW_CARD_SELECTED_KEYWORD = "WINDOW_CARD_SELECTED";
+    private static final String WINDOW_CARD_CHOSEN_KEYWORD = "WINDOW_CARD_CHOSEN";
+    private static final String PLAYER_CARD_CHOSEN_KEYWORD = "PLAYER_CARD_CHOSEN";
+    private static final String FAVOR_POINT_KEYWORD = "FAVOR_POINT";
+
+    private static final String PRIVATE_OBJECTIVE_KEYWORD = "PRIVATE_OBJECTIVE_CHOSEN";
+    private static final String PUBLIC_OBJECTIVE_KEYWORD = "PUBLIC_OBJECTIVE";
+    private static final String OBJECTIVE_POINT_KEYWORD = "OBJECTIVE_POINT";
+
+    private static final String OTHER_PLAYER_TURN_KEYWORD = "OTHER_PLAYER_TURN";
+    private static final String YOUR_TURN_KEYWORD = "YOUR_TURN";
+
     private final CliAskConnection connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
-    private String userName;
     private final Scanner inKeyboard;
-    private int numRound;
+    private String userName;
     private HashMap<String, ServerSpeaker> connParam;
 
     private Thread moveThread;
     private Thread waitingThread;
-
-    private static final String INSERT_NUMBER = "Insert a number";
 
     private final ViewMessageParser dictionary;
 
@@ -40,11 +50,14 @@ public class CliSystem implements ViewInterface {
         connection = new CliAskConnection();
         connParam = new HashMap<>();
         inKeyboard = new Scanner(System.in);
-        numRound = 0;
 
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
+    /**
+     * Starts the graphic setting up connection parameters
+     */
+    @Override
     public void startGraphic() {
         connParam = connection.startConnection(this);
 
@@ -59,6 +72,9 @@ public class CliSystem implements ViewInterface {
         waitingThread = new Thread(taskWaiting);
     }
 
+    /**
+     * @param s to be printed
+     */
     @Override
     public void print(String s) {
         out.println(s);
@@ -76,9 +92,12 @@ public class CliSystem implements ViewInterface {
         return this.dictionary;
     }
 
+    /**
+     * @param cards cards.size() = 4
+     */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-        print("These are the window cards selected for you:");
+        print(dictionary.getMessage(WINDOW_CARD_SELECTED_KEYWORD));
 
         cards.forEach(this::printWindowCard);
 
@@ -86,22 +105,29 @@ public class CliSystem implements ViewInterface {
         new Thread(task).start();
     }
 
+    /**
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard().getName()
+     */
     @Override
     public void showCardPlayer(String user, WindowCard card) {
         if (user.equals(this.userName))
-            print("\nYou chose this window card ");
+            print(dictionary.getMessage(WINDOW_CARD_CHOSEN_KEYWORD));
         else
-            print("\n" + user + " choose window card ");
+            print("\n" + user + dictionary.getMessage(PLAYER_CARD_CHOSEN_KEYWORD));
 
         printWindowCard(card);
     }
 
+    /**
+     * @param window window card to be printed
+     */
     @Override
     public void printWindowCard(WindowCard window) {
         Cell c;
 
         out.println(window.getName());
-        out.println("Favor Point: " + window.getNumFavPoint());
+        out.println(dictionary.getMessage(FAVOR_POINT_KEYWORD) + window.getNumFavPoint());
 
         for (int i=0; i<window.getWindow().getCols(); i++)
             out.print("\t" + i);
@@ -129,41 +155,42 @@ public class CliSystem implements ViewInterface {
         print("");
     }
 
+    /**
+     * @param privateObj = Player.getPrivateObjective()
+     */
     @Override
-    public void printUsers(List<String> users) {
-        users.forEach(this::print);
+    public void printPrivateObj(ObjectiveCard privateObj) {
+        print(dictionary.getMessage(PRIVATE_OBJECTIVE_KEYWORD) + privateObj.getDescr());
     }
 
+    /**
+     * @param publicObj publicObj.size() = 3
+     */
     @Override
-    public void printPrivObj(ObjectiveCard privObj) {
-        print("Your private objective is: " + privObj.getDescr());
+    public void printPublicObj(List<ObjectiveCard> publicObj) {
+        print(dictionary.getMessage(PUBLIC_OBJECTIVE_KEYWORD));
+        publicObj.forEach(p -> print("- " + p.getDescr() + dictionary.getMessage(OBJECTIVE_POINT_KEYWORD) + p.getPoint()));
     }
 
-    @Override
-    public void printPublObj(List<ObjectiveCard> publObj) {
-        print("Public objectives are:");
-        publObj.forEach(p -> print("- " + p.getDescr() + "/ points: " + p.getPoint()));
-    }
-
-    @Override
-    public void setRound() {
-        numRound++;
-        print("Round number: " + numRound);
-    }
-
+    /**
+     * @param username = game.getCurrentPlayer().getId()
+     */
     @Override
     public void isTurn (String username) {
         if (userName.equals(username)) {
-            print("It is your turn!");
+            print(dictionary.getMessage(YOUR_TURN_KEYWORD));
             waitingThread.interrupt();
             moveThread.start();
 
         } else {
-            print("It is the turn of: " + username);
+            print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
             waitingThread.start();
         }
     }
 
+    /**
+     * @param draft = game.getBoard().getDraft()
+     */
     @Override
     public void showDraft(List<Dice> draft) {
         draft.forEach(dice ->
@@ -188,7 +215,7 @@ public class CliSystem implements ViewInterface {
             index = Integer.parseInt(inKeyboard.nextLine());
             index--;
         } catch (NumberFormatException e) {
-            print(INSERT_NUMBER);
+            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
             index = Integer.parseInt(inKeyboard.nextLine());
             index--;
         }
@@ -199,14 +226,14 @@ public class CliSystem implements ViewInterface {
         try {
             row = Integer.parseInt(inKeyboard.nextLine());
         } catch (NumberFormatException e) {
-            print(INSERT_NUMBER);
+            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
             row = Integer.parseInt(inKeyboard.nextLine());
         }
         print("Column: ");
         try {
             col = Integer.parseInt(inKeyboard.nextLine());
         } catch (NumberFormatException e) {
-            print(INSERT_NUMBER);
+            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
             col = Integer.parseInt(inKeyboard.nextLine());
         }
 
