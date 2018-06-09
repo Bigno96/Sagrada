@@ -61,9 +61,12 @@ public class LoginPageController {
 
     public void submitAction() {
         startConnection(guiSystem);
+
+        guiSystem.setUsername(usernameText.getText());
+        guiSystem.setServerSpeaker(serverSpeaker);
         // niente return setter per string e serverSpeaker
         //call change scene
-
+        guiSystem.waitingPage();
     }
 
     HashMap<String, ServerSpeaker> startConnection(GuiSystem guiSystem) {

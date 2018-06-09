@@ -113,4 +113,15 @@ public class GuiSystem implements ViewInterface{
         });
     }
 
+    public void setUsername(String userName){
+        this.userName = userName;
+    }
+
+    public void setServerSpeaker(ServerSpeaker serverSpeaker){
+        this.serverSpeaker = serverSpeaker;
+    }
+
+    public void waitingPage(){
+        System.out.println("waiting");
+    }
 }
