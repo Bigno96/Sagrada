@@ -214,6 +214,8 @@ public class CliSystem implements ViewInterface {
 
     }
 
-    void useToolCard(){} //use tool card (show tool cards and choose which one use)
+    void useToolCard(){
+
+    } //use tool card (show tool cards and choose which one use)
 
 }

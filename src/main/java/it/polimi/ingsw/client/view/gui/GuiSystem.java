@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
-import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
-import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -10,11 +8,17 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +30,7 @@ public class GuiSystem implements ViewInterface{
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private LoginPageController ctrl;
+    private int nRound = 0;
 
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -35,7 +40,7 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-
+        chooseCard();
     }
 
     @Override
@@ -65,12 +70,17 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void setRound() {
-
+        nRound++;
     }
 
     @Override
     public void isTurn(String username) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Your Turn");
+        alert.setHeaderText("E' il tuo turno!");
+        alert.setContentText("Fa la tua mossa");
 
+        alert.showAndWait();
     }
 
     @Override
@@ -106,9 +116,6 @@ public class GuiSystem implements ViewInterface{
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
 
-            //connParam = ctrl.startConnection(this);
-            //serverSpeaker = connParam.get(userName);
-
             primaryStage.show();
         });
     }
@@ -122,6 +129,92 @@ public class GuiSystem implements ViewInterface{
     }
 
     public void waitingPage(){
-        System.out.println("waiting");
+
+        Platform.runLater(() -> {
+            Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WaitingPage.fxml"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle("Sagrada");
+
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
+
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
+
+            primaryStage.show();
+        });
+    }
+
+    public void inizializeBoard() {
+        Platform.runLater(() -> {
+            Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/Board.fxml"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle("Sagrada");
+
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
+
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
+
+            primaryStage.show();
+        });
+    }
+
+    public boolean chooseCard() {
+/*
+        Platform.runLater(() -> {
+            Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle("Sagrada");
+
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
+
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
+
+            HBox hBoxImage = new HBox(8);
+            hBoxImage.setAlignment( Pos.CENTER );
+            hBoxImage.setStyle( "-fx-border-color: black;" );
+
+            InputStream is = loader.getResource( "fxml/img/PublicCard.jpg").getString();
+
+            Image imageEarthRise = new Image( is );
+
+            ImageView imageView = new ImageView();
+            imageView.setImage( imageEarthRise );
+            imageView.setCache( true );
+            //imageView.setOpacity( .9 );
+            imageView.setSmooth( true );
+            imageView.setPreserveRatio( true );
+            imageView.setFitHeight( 200 );
+            imageView.setFitWidth( 200 );
+
+            hBoxImage.getChildren().add(  imageView );
+
+            primaryStage.show();
+        });
+*/
+        return true;
+    }
+
+    public int getnRound(){
+        return  nRound;
     }
 }
