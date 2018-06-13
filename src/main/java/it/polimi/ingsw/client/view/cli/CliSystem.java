@@ -160,7 +160,8 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void printPrivateObj(ObjectiveCard privateObj) {
-        print(dictionary.getMessage(PRIVATE_OBJECTIVE_KEYWORD) + privateObj.getDescr());
+        print(dictionary.getMessage(PRIVATE_OBJECTIVE_KEYWORD));
+        print(privateObj.getDescr());
     }
 
     /**
@@ -194,7 +195,7 @@ public class CliSystem implements ViewInterface {
     @Override
     public void showDraft(List<Dice> draft) {
         draft.forEach(dice ->
-                print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
+                out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
     }
 
     @Override

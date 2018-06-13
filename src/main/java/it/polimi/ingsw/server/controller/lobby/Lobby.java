@@ -213,9 +213,22 @@ public class Lobby {
         ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0, settings.getDaemonFrequency());
     }
 
+    /**
+     * Start first round of the game
+     */
     public void startCountingRound() {
         roundController = new RoundController(game);
-        game.getBoard().getDraft().rollDraft();
+
+        try {
+            game.getBoard().getDraft().fillDraft();
+            game.getBoard().getDraft().rollDraft();
+
+        } catch (EmptyException | IDNotFoundException e) {
+            out.println(e.getMessage());
+        }
+
+        System.out.println("Stampo draft");
+        game.getBoard().getDraft().getDraftList().forEach(dice -> dice.dump());
         roundController.nextTurn();
     }
 

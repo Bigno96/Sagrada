@@ -9,6 +9,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.function.Consumer;
 
+/**
+ * Notify all players about someone choosing a window card
+ */
 public class ChoiceWindowCardObserver implements Observer {
 
     private Lobby lobby;

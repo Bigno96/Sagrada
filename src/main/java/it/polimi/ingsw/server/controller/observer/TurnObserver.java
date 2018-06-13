@@ -8,6 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.function.Consumer;
 
+/**
+ * Notify all whose player turn is
+ */
 public class TurnObserver implements Observer {
 
    private Lobby lobby;

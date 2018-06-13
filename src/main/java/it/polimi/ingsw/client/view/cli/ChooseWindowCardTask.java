@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Run to execute the choice of window card
+ */
 public class ChooseWindowCardTask implements Runnable {
 
     private CliSystem cliSystem;

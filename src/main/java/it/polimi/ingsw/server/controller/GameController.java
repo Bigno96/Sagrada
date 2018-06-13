@@ -23,6 +23,9 @@ import java.util.stream.Collectors;
 
 import static java.lang.System.*;
 
+/**
+ * Controls game aspects
+ */
 public class GameController {
 
     private static final String INVALID_WINDOW_CARD = "Card selected is not valid, please select a valid one: ";
@@ -44,6 +47,9 @@ public class GameController {
         this.windowParser = (WindowParser) ParserManager.getWindowCardParser();
     }
 
+    /**
+     * Starts game setting up window cards, objective cards and tool cards
+     */
     public void startGame() {
         List<Integer> used = new ArrayList<>();
 
@@ -71,11 +77,21 @@ public class GameController {
         lobby.startCountingRound();
     }
 
+    /**
+     * @return true if all player have selected their window card, false else
+     */
     private Boolean allCardsAreSelected() {
         return lobby.getPlayers().entrySet().stream()
                 .noneMatch(entry -> entry.getValue().getWindowCard() == null);
     }
 
+    /**
+     * Used to generate a random int pool of various length n and with a determined range, excluding already used member
+     * @param n length of int pool to be returned
+     * @param used collections of integer to exclude from returning pool
+     * @param maxBoundExclusive upper limit to random generation pool. Lower limit always set to 1 included.
+     * @return List<Integer> of random in with specified parameter. All member different.
+     */
     private List<Integer> createNRandom(int n, List<Integer> used, int maxBoundExclusive) {
         List<Integer> ret = new ArrayList<>();
         do {
@@ -88,6 +104,9 @@ public class GameController {
         return ret;
     }
 
+    /**
+     * Attach observers where needed
+     */
     private void setObserver() {
         Consumer<Map.Entry<String, Player>> attachObserver = entry -> {
             entry.getValue().addObserver(new ChoiceWindowCardObserver(lobby));
@@ -99,6 +118,9 @@ public class GameController {
         game.getBoard().addObserver(new SetObjectiveObserver(lobby));
     }
 
+    /**
+     * Send each player a pool of 4 window cards selected for him
+     */
     private void chooseCard() {
         Consumer<Map.Entry<String, ClientSpeaker>> chooseCard = entry ->
             entry.getValue().sendWindowCard(windowAlternatives.get(entry.getKey()));
@@ -106,6 +128,10 @@ public class GameController {
         lobby.getSpeakers().entrySet().parallelStream().forEach(chooseCard);
     }
 
+    /**
+     * Generate pool of 4 different window card for each player. No cards repetition.
+     * @param used list of cards id already used to avoid duplicating
+     */
     private void getListWindowCard(List<Integer> used) {
         BiConsumer<String, Player> getWindows = (name, player) -> {
             try{
@@ -122,10 +148,21 @@ public class GameController {
         players.forEach(getWindows);
     }
 
+    /**
+     * Checks if window card selected by player was from his selection's pool
+     * @param username = Player.getId()
+     * @param cardName of the card chosen by player
+     * @return true if windowAlternatives.get(username).contains(cardName), false else
+     */
     private boolean isCardValidForPlayer(String username, String cardName) {
         return windowAlternatives.get(username).stream().map(WindowCard::getName).collect(Collectors.toList()).contains(cardName);
     }
 
+    /**
+     * Set window card of a specific player
+     * @param username of player who wants to set his window card
+     * @param cardName of card to be set
+     */
     public void setWindowCard(String username, String cardName) {
         if (!isCardValidForPlayer(username, cardName)) {
             lobby.getSpeakers().get(username).tell(INVALID_WINDOW_CARD);
@@ -148,6 +185,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Set game's public objective generating 3 random id and informs all players
+     * @param used list of integer to avoid duplicating
+     */
     private void setPublicObjective(List<Integer> used) {
         PublicObjectiveCardParser cardParser = (PublicObjectiveCardParser) ParserManager.getPublicCardParser();
 
@@ -166,6 +207,10 @@ public class GameController {
         game.getBoard().setPublObj(cards.get(0), cards.get(1), cards.get(2));
     }
 
+    /**
+     * Set each player's private objective and inform his owner.
+     * @param used list of integer to avoid duplicating
+     */
     private void setPrivateObjective(List<Integer> used) {
         PrivateObjectiveCardParser cardParser = (PrivateObjectiveCardParser) ParserManager.getPrivateCardParser();
 

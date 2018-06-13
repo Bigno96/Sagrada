@@ -12,15 +12,32 @@ import java.util.function.Supplier;
 
 import static java.lang.System.*;
 
+/**
+ * Used by Cli System to ask and set connection parameter
+ */
 class CliAskConnection {
+
+    private static final String CHOOSE_CONNECTION_KEYWORD = "CHOOSE_CONNECTION";
+    private static final String INCORRECT_ENTRY_KEYWORD = "INCORRECT_ENTRY";
+    private static final String SOCKET_CHOSEN_KEYWORD = "SOCKET_CHOSEN";
+    private static final String RMI_CHOSEN_KEYWORD = "RMI_CHOSEN";
+
+    private static final String INSERT_IP_KEYWORD = "INSERT_IP";
+    private static final String WRONG_IP_KEYWORD = "WRONG_IP";
+    private static final String NO_SERVER_LISTENING_KEYWORD = "NO_SERVER_LISTENING";
+
+    private static final String INSERT_NAME_KEYWORD = "INSERT_NAME";
+    private static final String INSERT_NAME_AGAIN_KEYWORD = "INSERT_NAME_AGAIN";
+
 
     private Boolean socketConnection;
     private Boolean rmiConnection;
     private ServerSpeaker serverSpeaker;
-    private final Scanner inKeyboard;
-    private final HashMap<String, ServerSpeaker> connParam;
 
+    private final Scanner inKeyboard;
     private final ViewMessageParser dictionary;
+
+    private final HashMap<String, ServerSpeaker> connParam;
     private final HashMap<String, Supplier<String>> connectionMap;
     private final HashMap<String, Consumer<Boolean>> connectionAction;
 
@@ -39,9 +56,9 @@ class CliAskConnection {
      * Maps exception with their error code to be printed
      */
     private void mapConnection() {
-        connectionMap.put("s", () -> dictionary.getMessage("SOCKET_CHOSEN"));
-        connectionMap.put("d", () -> dictionary.getMessage("SOCKET_CHOSEN"));
-        connectionMap.put("r", () -> dictionary.getMessage("RMI_CHOSEN"));
+        connectionMap.put("s", () -> dictionary.getMessage(SOCKET_CHOSEN_KEYWORD));
+        connectionMap.put("d", () -> dictionary.getMessage(SOCKET_CHOSEN_KEYWORD));
+        connectionMap.put("r", () -> dictionary.getMessage(RMI_CHOSEN_KEYWORD));
 
         Consumer<Boolean> socket = this::setSocketConnection;
         Consumer<Boolean> rmi = this::setRmiConnection;
@@ -66,7 +83,7 @@ class CliAskConnection {
      */
     HashMap<String, ServerSpeaker> startConnection(CliSystem cli) {
 
-        out.println(dictionary.getMessage("INSERT_NAME"));           // ask name of the user
+        out.println(dictionary.getMessage(INSERT_NAME_KEYWORD));           // ask name of the user
         String userName = inKeyboard.nextLine();
 
         askConnection();            // ask type of connection wanted
@@ -79,13 +96,13 @@ class CliAskConnection {
         }
 
         while (!serverSpeaker.connect(userName)) {
-            out.println(dictionary.getMessage("NO_SERVER_LISTENING"));  // ip didn't connected
+            out.println(dictionary.getMessage(NO_SERVER_LISTENING_KEYWORD));  // ip didn't connected
             ip = requestIp();
             serverSpeaker.setIp(ip);
         }
 
         while (!serverSpeaker.login(userName)) {
-            out.println(dictionary.getMessage("INSERT_NAME_AGAIN"));
+            out.println(dictionary.getMessage(INSERT_NAME_AGAIN_KEYWORD));
             userName = inKeyboard.nextLine();
         }
 
@@ -99,13 +116,13 @@ class CliAskConnection {
      */
     private void askConnection() {
         do {
-            out.println(dictionary.getMessage("CHOOSE_CONNECTION"));
+            out.println(dictionary.getMessage(CHOOSE_CONNECTION_KEYWORD));
 
             Scanner input = new Scanner(System.in);
             String s = input.nextLine();
 
             if (!connectionMap.containsKey(s))
-                out.println(dictionary.getMessage("INCORRECT_ENTRY"));
+                out.println(dictionary.getMessage(INCORRECT_ENTRY_KEYWORD));
             else {
                 connectionMap.get(s).get();
                 connectionAction.get(s).accept(true);
@@ -123,14 +140,14 @@ class CliAskConnection {
         String ret = "";
 
         while(!ok) {
-            out.println(dictionary.getMessage("INSERT_IP"));
+            out.println(dictionary.getMessage(INSERT_IP_KEYWORD));
             Scanner input = new Scanner(System.in);
             ret = input.nextLine();
 
             ok = validIP(ret);                   // verify if ip is a valid address
 
             if(!ok)
-                out.println(dictionary.getMessage("WRONG_IP"));
+                out.println(dictionary.getMessage(WRONG_IP_KEYWORD));
         }
 
         return ret;

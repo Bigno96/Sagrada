@@ -27,7 +27,6 @@ public class ClientMain extends Application {
         primaryStage.resizableProperty().setValue(Boolean.FALSE);
         this.primaryStage.setTitle("How do you wanna play?");
         initRootLayout();
-
     }
 
     private void initRootLayout() {

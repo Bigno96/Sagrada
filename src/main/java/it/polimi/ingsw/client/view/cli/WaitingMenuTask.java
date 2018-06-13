@@ -57,6 +57,9 @@ public class WaitingMenuTask implements Runnable {
         mapWaiting();
     }
 
+    /**
+     * Ask and shows which actions user can make
+     */
     @Override
     public void run() {
         while (waiting) {
@@ -92,19 +95,27 @@ public class WaitingMenuTask implements Runnable {
         }
     }
 
-
+    /**
+     * Maps hash map for waiting choices
+     */
     private void mapWaiting() {
         Consumer<String> window = username -> serverSpeaker.askWindowCard(username, username); //see personal window card
-        Consumer<String> other = username -> {
+
+        Consumer<String> other = username -> {                                             //see other player window card
             cliSystem.print(dictionary.getMessage(dictionary.getMessage(ASK_USER_KEYWORD)));
             serverSpeaker.getAllUsername(username);
             String userWanted = inKeyboard.nextLine();
-            serverSpeaker.askWindowCard(userWanted, username);          //see other player window card
+            serverSpeaker.askWindowCard(userWanted, username);
         };
+
         Consumer<String> draft = serverSpeaker::askDraft;               //see draft
+
         Consumer<String> publicObj = serverSpeaker::askPublicObj;       //see public objective
+
         Consumer<String> privateObj = serverSpeaker::askPrivateObj;     //see private objective
+
         Consumer<String> tool = serverSpeaker::askToolCards;            //see tool card
+
         Consumer<String> favor = serverSpeaker::askFavorPoints;         //see favor points
 
         waitingAction.put(dictionary.getMessage(OWN_WINDOW_CARD_ENTRY_KEYWORD), window);

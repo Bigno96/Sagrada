@@ -6,6 +6,9 @@ import it.polimi.ingsw.server.model.game.Player;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Notify players about which objective cards are chosen for the game
+ */
 public class SetObjectiveObserver implements Observer {
 
     private Lobby lobby;
@@ -18,11 +21,11 @@ public class SetObjectiveObserver implements Observer {
     public void update(Observable o, Object arg) {
         Player p;
 
-        if (arg.equals("PublicObjective"))
+        if (arg.equals("PublicObjective"))      // tell public obj to everyone
             lobby.getSpeakers().forEach((user, speaker) ->
                 speaker.printPublicObj(lobby.getGame().getBoard().getPublObj()));
 
-        else if (arg.equals("PrivateObjective")) {
+        else if (arg.equals("PrivateObjective")) {      // tell private obj only to the owner
             p = (Player) o;
             lobby.getSpeakers().get(p.getId()).printPrivateObj(p.getPrivObj());
         }
