@@ -1,7 +1,7 @@
 [
   {
     "ID": 1,
-    "NAME": "Grozing Pliers",
+    "NAME": "Pinza Sgrossatrice - Dopo aver scelto un dado, aumenta o diminuisci il valore del dado scelto di 1. Non puoi cambiare un 6 in 1 o un 1 in 6.",
     "COLOR": "MAGENTA",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -9,7 +9,7 @@
   },
   {
     "ID": 2,
-    "NAME": "Eglomise Brush",
+    "NAME": "Pennello per Eglomise - Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore. Devi rispettare tutte le altre restrizioni di piazzamento.",
     "COLOR": "BLUE",
     "ROUND_TRACK": "null",
     "DRAFT": "null",
@@ -17,7 +17,7 @@
   },
   {
     "ID": 3,
-    "NAME": "Copper Foil Burnisher",
+    "NAME": "Alesatore per lamina di rame - Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di valore. Devi rispettare tutte le altre restrizioni di piazzamento.",
     "COLOR": "RED",
     "ROUND_TRACK": "null",
     "DRAFT": "null",
@@ -25,7 +25,7 @@
   },
   {
     "ID": 4,
-    "NAME": "Lathekin",
+    "NAME": "Lathekin - Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento.",
     "COLOR": "YELLOW",
     "ROUND_TRACK": "null",
     "DRAFT": "null",
@@ -33,7 +33,7 @@
   },
   {
     "ID": 5,
-    "NAME": "Lens Cutter",
+    "NAME": "Taglierina circolare - Dopo aver scelto un dado, scambia quel dado con un dado sul Tracciato dei Round.",
     "COLOR": "GREEN",
     "ROUND_TRACK": "ROUND_TRACK",
     "DRAFT": "DRAFT",
@@ -41,7 +41,7 @@
   },
   {
     "ID": 6,
-    "NAME": "Flux Brush",
+    "NAME": "Pennello per Pasta Salda - Dopo aver scelto un dado, tira nuovamente quel dado. Se non puoi piazzarlo, riponilo nella Riserva.",
     "COLOR": "MAGENTA",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -49,7 +49,7 @@
   },
   {
     "ID": 7,
-    "NAME": "Glazing Hammer",
+    "NAME": "Martelletto - Tira nuovamente tutti i dadi della Riserva. Questa carta puo' essere usata solo durante il tuo secondo turno, prima di scegliere il secondo dado.",
     "COLOR": "BLUE",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -57,7 +57,7 @@
   },
   {
     "ID": 8,
-    "NAME": "Running Pliers",
+    "NAME": "Tenaglia a Rotelle - Dopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turno in questo round.",
     "COLOR": "RED",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -65,7 +65,7 @@
   },
   {
     "ID": 9,
-    "NAME": "Cork-backed Straightedge",
+    "NAME": "Riga in Sughero - Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente a un altro dado. Devi rispettare tutte le restrizioni di piazzamento.",
     "COLOR": "YELLOW",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -73,7 +73,7 @@
   },
   {
     "ID": 10,
-    "NAME": "Grinding Stone",
+    "NAME": "Tampone Diamantato - Dopo avere scelto un dado, giralo sulla faccia opposta. 6 diventa 1, 5 diventa 2, 4 diventa 3,  ecc.",
     "COLOR": "GREEN",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -81,7 +81,7 @@
   },
   {
     "ID": 11,
-    "NAME": "Flux Remover",
+    "NAME": "Diluente per Pasta Salda - Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane uno dal Sacchetto. Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni di piazzamento.",
     "COLOR": "MAGENTA",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
@@ -89,7 +89,7 @@
   },
   {
     "ID": 12,
-    "NAME": "Tap Wheel",
+    "NAME": "Taglierina Manuale - Muovi fino a due dadi dello stesso colore di un solo dado sul Tracciato dei Round. Devi rispettare tutte le restrizioni di piazzamento.",
     "COLOR": "BLUE",
     "ROUND_TRACK": "ROUND_TRACK",
     "DRAFT": "null",
