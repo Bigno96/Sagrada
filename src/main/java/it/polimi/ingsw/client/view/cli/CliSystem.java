@@ -35,6 +35,11 @@ public class CliSystem implements ViewInterface {
     private static final String OTHER_PLAYER_TURN_KEYWORD = "OTHER_PLAYER_TURN";
     private static final String YOUR_TURN_KEYWORD = "YOUR_TURN";
 
+    private static final String SHOW_DRAFT_KEYWORD = "SHOW_DRAFT";
+    private static final String SHOW_YOUR_WINDOW_CARD_TO_CHOOSE_KEYWORD = "SHOW_YOUR_WINDOW_CARD_TO_CHOOSE";
+    private static final String ASK_ROW_KEYWORD = "ASK_ROW";
+    private static final String ASK_COLUMN_KEYWORD = "ASK_COLUMN";
+
     private final CliAskConnection connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private final Scanner inKeyboard;
@@ -210,7 +215,7 @@ public class CliSystem implements ViewInterface {
 
         //place a dice (show personal window card and draft to choose dice)
 
-        print("This is the draft, choose the dice entering the number of the dice: ");
+        print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
         serverSpeaker.askDraft(userName);
         try {
             index = Integer.parseInt(inKeyboard.nextLine());
@@ -221,16 +226,16 @@ public class CliSystem implements ViewInterface {
             index--;
         }
 
-        print("This is your window card, choose the position where do you want to place the dice: ");
+        print(dictionary.getMessage(SHOW_YOUR_WINDOW_CARD_TO_CHOOSE_KEYWORD));
         serverSpeaker.askWindowCard(userName, userName);
-        print("Row: ");
+        print(dictionary.getMessage(ASK_ROW_KEYWORD));
         try {
             row = Integer.parseInt(inKeyboard.nextLine());
         } catch (NumberFormatException e) {
             print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
             row = Integer.parseInt(inKeyboard.nextLine());
         }
-        print("Column: ");
+        print(dictionary.getMessage(ASK_COLUMN_KEYWORD));
         try {
             col = Integer.parseInt(inKeyboard.nextLine());
         } catch (NumberFormatException e) {
