@@ -1,7 +1,7 @@
 [
   {
     "ID": 1,
-    "DESCRIPTION": "Row Color Variety - Rows with no repeated colors",
+    "DESCRIPTION": "Colori diversi Riga - Righe senza colori ripetuti.",
     "POINT": 6,
     "TYPE": "color",
     "SCOPE": "diff",
@@ -10,7 +10,7 @@
   },
   {
     "ID": 2,
-    "DESCRIPTION": "Column Color Variety - Columns with no repeated colors",
+    "DESCRIPTION": "Colori diversi Colonna - Colonne senza colori ripetuti.",
     "POINT": 5,
     "TYPE": "color",
     "SCOPE": "diff",
@@ -19,7 +19,7 @@
   },
   {
     "ID": 3,
-    "DESCRIPTION": "Row Shade Variety - Rows with no repeated values",
+    "DESCRIPTION": "Sfumature diverse Riga - Righe senza sfumature ripetute.",
     "POINT": 5,
     "TYPE": "shade",
     "SCOPE": "diff",
@@ -28,7 +28,7 @@
   },
   {
     "ID": 4,
-    "DESCRIPTION": "Column Shade Variety - Columns with no repeated values",
+    "DESCRIPTION": "Sfumature diverse Colonna - Colonne senza sfumature ripetute.",
     "POINT": 4,
     "TYPE": "shade",
     "SCOPE": "diff",
@@ -37,7 +37,7 @@
   },
   {
     "ID": 5,
-    "DESCRIPTION": "Light Shade - Sets of 1 and 2 values anywhere",
+    "DESCRIPTION": "Sfumature Chiare - Set di 1 e 2 ovunque.",
     "POINT": 2,
     "TYPE": "shade",
     "SCOPE": "grad",
@@ -46,7 +46,7 @@
   },
   {
     "ID": 6,
-    "DESCRIPTION": "Medium Shade - Sets of 3 and 4 values anywhere",
+    "DESCRIPTION": "Sfumature Medie - Set di 3 e 4 ovunque.",
     "POINT": 2,
     "TYPE": "shade",
     "SCOPE": "grad",
@@ -55,7 +55,7 @@
   },
   {
     "ID": 7,
-    "DESCRIPTION": "Dark Shade - Sets of 5 and 6 values anywhere",
+    "DESCRIPTION": "Sfumature Scure - Set di 5 e 6 ovunque.",
     "POINT": 2,
     "TYPE": "shade",
     "SCOPE": "grad",
@@ -64,7 +64,7 @@
   },
   {
     "ID": 8,
-    "DESCRIPTION": "Shade Variety - Sets of one of each value anywhere",
+    "DESCRIPTION": "Sfumature Diverse - Set di dadi di ogni valore ovunque.",
     "POINT": 5,
     "TYPE": "shade",
     "SCOPE": "var",
@@ -73,7 +73,7 @@
   },
   {
     "ID": 9,
-    "DESCRIPTION": "Colored Diagonal - Count of diagonally adjacent same color dice",
+    "DESCRIPTION": "Diagonali Colorate - Numero di dadi dello stesso colore diagonalmente adiacenti.",
     "POINT": 0,
     "TYPE": "color",
     "SCOPE": "diag",
@@ -82,7 +82,7 @@
   },
   {
     "ID": 10,
-    "DESCRIPTION": "Color Variety - Sets of one of each color anywhere",
+    "DESCRIPTION": "Varietà di Colore - Set di dadi di ogni colore ovunque.",
     "POINT": 4,
     "TYPE": "color",
     "SCOPE": "var",

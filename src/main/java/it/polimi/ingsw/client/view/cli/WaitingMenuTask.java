@@ -101,8 +101,9 @@ public class WaitingMenuTask implements Runnable {
     private void mapWaiting() {
         Consumer<String> window = username -> serverSpeaker.askWindowCard(username, username); //see personal window card
 
-        Consumer<String> other = username -> {                                             //see other player window card
-            cliSystem.print(dictionary.getMessage(dictionary.getMessage(ASK_USER_KEYWORD)));
+        Consumer<String> other = username -> {
+            //see other player window card
+            cliSystem.print(dictionary.getMessage(ASK_USER_KEYWORD));
             serverSpeaker.getAllUsername(username);
             String userWanted = inKeyboard.nextLine();
             serverSpeaker.askWindowCard(userWanted, username);
