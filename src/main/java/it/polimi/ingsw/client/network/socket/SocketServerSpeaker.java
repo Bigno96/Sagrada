@@ -24,6 +24,9 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String PRINT_KEYWORD = "PRINT";
 
+    private static final String SET_CARD_KEYWORD = "SET_CARD";
+    private static final String USER_NAME_KEYWORD = "USER_NAME";
+
     private String ip;
     private Socket socket;
     private static PrintWriter socketOut;
@@ -33,7 +36,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private final CommunicationParser protocol;
     private final ViewMessageParser dictionary;
 
-    private final Object lock = new Object();
+    private final Object lock;
 
     public SocketServerSpeaker(String ip, ViewInterface view) {
         this.view = view;
@@ -41,6 +44,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
         this.logged = null;
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.lock = new Object();
     }
 
     /**
@@ -140,7 +144,15 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void setWindowCard(String username, String cardName) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(USER_NAME_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.println(protocol.getMessage(SET_CARD_KEYWORD));
+            socketOut.println(cardName);
+
+            socketOut.flush();
+        }
     }
 
     /**

@@ -1,0 +1,37 @@
+{
+  "SERVER_UP": "Server is up",
+
+  "CONNECT": "connect",
+  "CONNECTION_WITH_SOCKET": " is connecting with Socket",
+  "CONNECTION_WITH_RMI": " is connecting with RMI",
+  "SERVER_REMOTE": "Server_Interface",
+
+  "LOGIN": "login",
+  "LOGIN_SUCCESS": "successfully logged in",
+  "LOST_CONNECTION": "Lost connection with ",
+  "REMOVED_USER": "Removed ",
+
+  "CARD": "card",
+  "LIST_CARD": "list_card",
+  "CARD_NAME": "card_name",
+  "CARD_ID": "card_id",
+  "CARD_FAVOR_POINT": "card_favor_point",
+  "CARD_CELL_LIST": "card_cell_list",
+
+  "CELL": "cell",
+  "CELL_VALUE": "cell_value",
+  "CELL_COLOR": "cell_color",
+  "CELL_ROW": "cell_row",
+  "CELL_COL": "cell_col",
+
+  "OTHER_USER_NAME": "other_user",
+  "USER_NAME": "username",
+
+  "EXCEPTION": "parseException",
+  "PING": "ping",
+  "PRINT": "print",
+  "SEND_LIST_CARD": "send_list_card",
+  "SHOW_USER_CARD": "show_user_card",
+  "SET_CARD": "set_card",
+  "QUIT": "quit"
+}

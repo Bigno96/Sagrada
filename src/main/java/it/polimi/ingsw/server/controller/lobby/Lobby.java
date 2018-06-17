@@ -227,8 +227,6 @@ public class Lobby {
             out.println(e.getMessage());
         }
 
-        System.out.println("Stampo draft");
-        game.getBoard().getDraft().getDraftList().forEach(dice -> dice.dump());
         roundController.nextTurn();
     }
 
@@ -237,13 +235,13 @@ public class Lobby {
      */
     void notifyAllPlayers(String s) {
         synchronized (playersLock) {
-            synchronized (speakersLock) {
+           synchronized (speakersLock) {
                 players.entrySet().stream()
                     .filter(entry -> !entry.getValue().isDisconnected())        // filter only connected player
                     .map(Map.Entry::getKey)
                     .collect(Collectors.toList())
                     .forEach(key -> speakers.get(key).tell(s));                 // tell them
-            }
+           }
         }
     }
 
