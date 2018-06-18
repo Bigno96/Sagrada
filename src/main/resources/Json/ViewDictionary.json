@@ -11,8 +11,8 @@
   "USER_CONNECTING": "Cerco di connettermi a ",
   "SERVER_NOT_RESPONDING": "Server non risponde",
 
-  "WELCOME_USER": "\nBenvenuto ",
-  "WELCOME_BACK": "Benvenuto di nuovo ",
+  "WELCOME_USER": "Benvenuto ",
+  "WELCOME_BACK": "Bentornato ",
   "CONNECTION_SUCCESS": "Connessione stabilita",
 
   "SAME_PLAYER_MSG": "Un user con lo stesso nome è già connesso",
@@ -22,7 +22,7 @@
   "GAME_WILL_START": "Partita inizierà quando ci saranno abbastanza giocatori connessi",
   "TIMER_ON": "Timer partito: ",
   "SECONDS_COUNTDOWN": " secondi prima dell'inizio della partita",
-  "GAME_STARTED": "\nPartita iniziata",
+  "GAME_STARTED": "La partita è iniziata",
 
   "WINDOW_CARD_SELECTED": "\nQueste sono le carte schema selezionate per te:",
   "WINDOW_CARD_CHOSEN": "\nHai scelto la carta schema:",
@@ -40,9 +40,9 @@
   "ASK_USER": "\nInserisci il nome dell'user di cui vuoi vedere la carta schema, sceglilo fra questi:",
   "DRAFT_ENTRY": "riserva",
   "DRAFT_MESSAGE": "- guarda la riserva di dadi",
-  "PUBLIC_OBJECTIVE_ENTRY": "ob-pubblico",
+  "PUBLIC_OBJECTIVE_ENTRY": "obb-pubblico",
   "PUBLIC_OBJECTIVE_MESSAGE": "- guarda gli obiettivi pubblici",
-  "PRIVATE_OBJECTIVE_ENTRY": "ob-privato",
+  "PRIVATE_OBJECTIVE_ENTRY": "obb-privato",
   "PRIVATE_OBJECTIVE_MESSAGE": "- guarda il tuo obiettivo privato",
   "TOOL_CARD_ENTRY": "strumenti",
   "TOOL_CARD_MESSAGE": "- guarda le carte strumento",
@@ -69,6 +69,7 @@
   "PASS_TURN_ENTRY": "passo",
   "PASS_TURN_MESSAGE": "- passa il turno",
   "PASSED": "Hai passato!",
+  "TURN_PASSED": " ha passato il turno",
 
   "ALREADY_DONE": "Hai gia' effettuato questa azione",
 

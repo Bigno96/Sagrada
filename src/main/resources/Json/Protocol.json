@@ -11,6 +11,11 @@
   "LOST_CONNECTION": "Lost connection with ",
   "REMOVED_USER": "Removed ",
 
+  "EXCEPTION": "parseException",
+  "PING": "ping",
+  "PRINT": "print",
+  "QUIT": "quit",
+
   "CARD": "card",
   "LIST_CARD": "list_card",
   "CARD_NAME": "card_name",
@@ -24,14 +29,37 @@
   "CELL_ROW": "cell_row",
   "CELL_COL": "cell_col",
 
+  "DICE": "dice",
+  "DRAFT_DICE": "draft_dice",
+  "MAKE_DRAFT": "make_draft",
+  "DICE_ID": "dice_id",
+  "DICE_COLOR": "dice_color",
+  "DICE_VALUE": "dice_value",
+
+  "OBJ_ID": "obj_id",
+  "OBJ_DESCRIPTION": "obj_description",
+  "OBJ_POINT": "obj_point",
+  "MAKE_PUBLIC_LIST": "make_public_list",
+  "MAKE_PUBLIC_OBJ": "make_public_obj",
+
   "OTHER_USER_NAME": "other_user",
   "USER_NAME": "username",
+  "GET_ALL_USER": "get_all_user",
 
-  "EXCEPTION": "parseException",
-  "PING": "ping",
-  "PRINT": "print",
+  "NEXT_TURN": "next_turn",
+  "END_TURN": "end_turn",
+
   "SEND_LIST_CARD": "send_list_card",
   "SHOW_USER_CARD": "show_user_card",
+  "SHOW_DRAFT": "show_draft",
+  "PRINT_CARD": "print_card",
   "SET_CARD": "set_card",
-  "QUIT": "quit"
+  "GET_CARD": "get_card",
+  "SHOW_PUBLIC_OBJ": "show_public_obj",
+  "SHOW_PRIVATE_OBJ": "show_private_obj",
+
+  "ASK_DRAFT": "ask_draft",
+  "ASK_PUBLIC_OBJ": "ask_public_obj",
+  "ASK_PRIVATE_OBJ": "ask_private_obj"
+
 }

@@ -233,7 +233,7 @@ public class Lobby {
     /**
      * @param s String to be printed to all player not disconnected
      */
-    void notifyAllPlayers(String s) {
+    public void notifyAllPlayers(String s) {
         synchronized (playersLock) {
            synchronized (speakersLock) {
                 players.entrySet().stream()

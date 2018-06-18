@@ -32,7 +32,15 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String EXCEPTION_KEYWORD = "EXCEPTION";
+
     private static final String SEND_LIST_CARD_KEYWORD = "SEND_LIST_CARD";
+    private static final String SHOW_USER_CARD_KEYWORD = "SHOW_USER_CARD";
+    private static final String SHOW_DRAFT_KEYWORD = "SHOW_DRAFT";
+    private static final String MAKE_DRAFT_KEYWORD = "MAKE_DRAFT";
+    private static final String PRINT_CARD_KEYWORD = "PRINT_CARD";
+    private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
+    private static final String SHOW_PUBLIC_OBJ_KEYWORD = "SHOW_PUBLIC_OBJ";
+    private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
     private static final String CARD_ID_KEYWORD = "CARD_ID";
@@ -47,8 +55,19 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String CELL_COL_KEYWORD = "CELL_COL";
     private static final String CELL_KEYWORD = "CELL";
 
+    private static final String DICE_ID_KEYWORD = "DICE_ID";
+    private static final String DICE_COLOR_KEYWORD = "DICE_COLOR";
+    private static final String DICE_VALUE_KEYWORD = "DICE_VALUE";
+    private static final String DICE_DRAFT_KEYWORD = "DICE_DRAFT";
+    private static final String DICE_KEYWORD = "DICE";
+
+    private static final String OBJ_ID_KEYWORD = "OBJ_ID";
+    private static final String OBJ_DESCRIPTION_KEYWORD = "OBJ_DESCRIPTION";
+    private static final String OBJ_POINT_KEYWORD = "OBJ_POINT";
+    private static final String MAKE_PUBLIC_LIST_KEYWORD = "MAKE_PUBLIC_LIST";
+    private static final String MAKE_PUBLIC_OBJ_KEYWORD = "MAKE_PUBLIC_OBJ";
+
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
-    private static final String SHOW_USER_CARD_KEYWORD = "SHOW_USER_CARD";
 
     private Socket socket;
     private PrintWriter socketOut;
@@ -62,6 +81,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         this.lobby = lobby;
         this.socket = socket;
         this.lock = new Object();
+
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
@@ -226,7 +246,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void nextTurn(String user) {
-
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(NEXT_TURN_KEYWORD));
+            socketOut.println(user);
+            socketOut.flush();
+        }
     }
 
     @Override
@@ -239,7 +263,28 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void printWindowCard(WindowCard card) {
+        synchronized (lock) {
+            deconstructCard(card, CARD_KEYWORD);
 
+            socketOut.println(protocol.getMessage(PRINT_CARD_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    private void deconstructDice(Dice dice, String type) {
+        socketOut.println(protocol.getMessage(DICE_ID_KEYWORD));
+        socketOut.println(dice.getID());
+
+        socketOut.println(protocol.getMessage(DICE_VALUE_KEYWORD));
+        socketOut.println(dice.getValue());
+
+        socketOut.println(protocol.getMessage(DICE_COLOR_KEYWORD));
+        socketOut.println(dice.getColor());
+
+        socketOut.println(protocol.getMessage(type));
+        socketOut.println(" ");
     }
 
     /**
@@ -247,7 +292,17 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void showDraft(Draft draft) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(MAKE_DRAFT_KEYWORD));
+            socketOut.println(" ");
 
+            draft.getDraftList().forEach(dice -> deconstructDice(dice, DICE_DRAFT_KEYWORD));
+
+            socketOut.println(protocol.getMessage(SHOW_DRAFT_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
     }
 
     /**
@@ -255,7 +310,29 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void printPublicObj(List<ObjectiveCard> publicObj) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(MAKE_PUBLIC_LIST_KEYWORD));
+            socketOut.println(" ");
 
+            publicObj.forEach(obj -> {
+                socketOut.println(protocol.getMessage(OBJ_ID_KEYWORD));
+                socketOut.println(obj.getId());
+
+                socketOut.println(protocol.getMessage(OBJ_DESCRIPTION_KEYWORD));
+                socketOut.println(obj.getDescr());
+
+                socketOut.println(protocol.getMessage(OBJ_POINT_KEYWORD));
+                socketOut.println(obj.getPoint());
+
+                socketOut.println(protocol.getMessage(MAKE_PUBLIC_OBJ_KEYWORD));
+                socketOut.println(" ");
+            });
+
+            socketOut.println(protocol.getMessage(SHOW_PUBLIC_OBJ_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
     }
 
     /**
@@ -263,6 +340,17 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void printPrivateObj(ObjectiveCard privateObj) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(OBJ_ID_KEYWORD));
+            socketOut.println(privateObj.getId());
 
+            socketOut.println(protocol.getMessage(OBJ_DESCRIPTION_KEYWORD));
+            socketOut.println(privateObj.getDescr());
+
+            socketOut.println(protocol.getMessage(SHOW_PRIVATE_OBJ_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
     }
 }

@@ -100,11 +100,7 @@ public class RmiClientSpeaker implements ClientSpeaker {
 
     @Override
     public void placementDice(String username, Cell dest, Dice moved) {
-        try {
-            client.placementDice(username, dest, moved);
-        } catch (RemoteException e) {
-            out.println(e.getMessage());
-        }
+
     }
 
     /**
