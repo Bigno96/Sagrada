@@ -23,7 +23,7 @@
 * **testEmptyException**: testing reaction of fillDraft when DiceBag is empty
 * **testRollDraft**: testing rolling dices of draft
 * **testModifyingDraft**: testing adding and removing
-* **testSetnDice**: testing setter of nDice of draft
+* **testSetNumberDice**: testing setter of numberDice of draft
 
 ## game
 

@@ -42586,7 +42586,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-nDice: Int",
+											"text": "-numberDice: Int",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -73202,7 +73202,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFjJTKRiHZj+es="
 							},
-							"name": "nDice",
+							"name": "numberDice",
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,

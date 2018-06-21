@@ -21,76 +21,104 @@ public class DiceBagTest extends TestCase {
         super(testName);
     }
 
-    public void testDiceBagEmpty() throws IDNotFoundException {
+    /**
+     * Testing constructing an empty dice bag
+     */
+    public void testDiceBagEmpty() {
         DiceBag db = new DiceBag(true);
-        DiceBag db1 = new DiceBag();
 
         assertNull(db.findDice(id));
-        assertNotSame(db.toString(), db1.toString());
     }
 
-    public void testFindDice() throws IDNotFoundException {            // testing finding a Dice based on his id
-        DiceBag db1 = new DiceBag();
+    /**
+     * Testing finding a Dice based on his id
+     * @throws IDNotFoundException thrown by dice constructor
+     */
+    public void testFindDice() throws IDNotFoundException {
+        DiceBag db = new DiceBag();
         int idOver = random.nextInt()+90;
 
-        assertEquals(id, db1.findDice(id).getID());
-        assertNull(db1.findDice(idOver));
+        assertEquals(id, db.findDice(id).getID());
+        assertNull(db.findDice(idOver));
     }
 
-    public void testRandDice() throws IDNotFoundException {            // testing the extraction of a random Dice, without removing it from Bag
-        DiceBag db1 = new DiceBag();
-        Dice d = db1.randDice();
+    /**
+     * Testing finding of a random Dice, without removing it from Bag
+     * @throws IDNotFoundException thrown by dice constructor
+     */
+    public void testRandDice() throws IDNotFoundException {
+        DiceBag db = new DiceBag();
+        Dice d = db.randDice();
 
-        assertEquals(0, db1.randDice().getValue());
+        assertEquals(0, db.randDice().getValue());
 
-        db1.findDice(d.getID()).rollDice();
+        db.findDice(d.getID()).rollDice();
 
-        assertNotSame(d.getID(), db1.randDice().getID());
-        assertEquals(90, db1.diceRemaining());
+        assertNotSame(d.getID(), db.randDice().getID());
+        assertEquals(90, db.diceRemaining());
     }
 
+    /**
+     * Testing number of dices remaining in the bag
+     * @throws IDNotFoundException thrown by dice constructor
+     * @throws EmptyException thrown by remove dice
+     */
     public void testDiceRemaining() throws IDNotFoundException, EmptyException {
-        DiceBag db1 = new DiceBag();
+        DiceBag db = new DiceBag();
 
         for (int i=0; i<90; i++) {
-            db1.rmDice(db1.findDice(i));
+            db.rmDice(db.findDice(i));
 
-            assertEquals(89-i, db1.diceRemaining());
+            assertEquals(89-i, db.diceRemaining());
         }
     }
 
-    public void testDiceAdding() throws IDNotFoundException, EmptyException, SameDiceException, ValueException {          // testing addDice
-        DiceBag db1 = new DiceBag();
-        Dice d = db1.findDice(random.nextInt(90));
+    /**
+     * Testing adding dices in the bag
+     * @throws IDNotFoundException thrown by dice constructor
+     * @throws EmptyException thrown by remove dice
+     * @throws SameDiceException when trying to add a dice with the same id already present in the bag
+     * @throws ValueException thrown by adding dice
+     */
+    public void testDiceAdding() throws IDNotFoundException, EmptyException, SameDiceException, ValueException {
+        DiceBag db = new DiceBag();
+        Dice d = db.findDice(random.nextInt(90));
 
-        db1.rmDice(d);
+        db.rmDice(d);
 
-        assertNull(db1.findDice(d.getID()));
-        assertThrows(IDNotFoundException.class, () -> db1.rmDice(d));
+        assertNull(db.findDice(d.getID()));
+        assertEquals(89, db.diceRemaining());
+        assertThrows(IDNotFoundException.class, () -> db.rmDice(d));
 
-        db1.addDice(d);
+        db.addDice(d);
 
-        assertSame(d.getID(), db1.findDice(d.getID()).getID());
-        assertThrows(SameDiceException.class, () -> db1.addDice(d));
+        assertSame(d.getID(), db.findDice(d.getID()).getID());
+        assertEquals(90, db.diceRemaining());
+        assertThrows(SameDiceException.class, () -> db.addDice(d));
     }
 
+    /**
+     * Testing removing dice from the bag
+     * @throws IDNotFoundException thrown by dice constructor
+     * @throws EmptyException thrown by remove dice
+     */
     public void testDiceRemoving() throws IDNotFoundException, EmptyException {       // test removeDice
-        DiceBag db1 = new DiceBag();
+        DiceBag db = new DiceBag();
 
-        assertEquals(90, db1.diceRemaining());
+        assertEquals(90, db.diceRemaining());
 
-        Dice d = db1.findDice(random.nextInt(90));
+        Dice d = db.findDice(random.nextInt(90));
 
         for (int i = 0; i < 90; i++) {
-            Dice itr = db1.findDice(i);
-            db1.rmDice(itr);
+            Dice itr = db.findDice(i);
+            db.rmDice(itr);
 
-            assertNull(db1.findDice(itr.getID()));
+            assertNull(db.findDice(itr.getID()));
         }
 
-        assertEquals(0, db1.diceRemaining());
-        assertThrows(EmptyException.class, () -> db1.rmDice(d));
-        assertNull(db1.randDice());
+        assertEquals(0, db.diceRemaining());
+        assertThrows(EmptyException.class, () -> db.rmDice(d));
+        assertNull(db.randDice());
     }
 
 }
