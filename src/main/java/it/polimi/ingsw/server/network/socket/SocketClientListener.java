@@ -78,8 +78,8 @@ public class SocketClientListener implements Runnable {
         };
 
         Consumer<String> askDraft = me -> lobby.getSpeakers().get(me).showDraft(lobby.getGame().getBoard().getDraft());
-        Consumer<String> askPublicObj = me -> lobby.getSpeakers().get(me).printPublicObj(lobby.getGame().getBoard().getPublObj());
-        Consumer<String> askPrivateObj = me -> lobby.getSpeakers().get(me).printPrivateObj(lobby.getPlayers().get(username).getPrivObj());
+        Consumer<String> askPublicObj = me -> lobby.getSpeakers().get(me).printPublicObj(lobby.getGame().getBoard().getPublicObj());
+        Consumer<String> askPrivateObj = me -> lobby.getSpeakers().get(me).printPrivateObj(lobby.getPlayers().get(username).getPrivateObj());
 
         Consumer<String> endTurn = me -> {
             lobby.notifyAllPlayers(me + dictionary.getMessage(TURN_PASSED_KEYWORD));

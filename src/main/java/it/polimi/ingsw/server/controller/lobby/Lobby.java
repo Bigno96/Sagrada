@@ -249,7 +249,7 @@ public class Lobby {
      * Ends the game notifying victory.
      */
     public void endGame() {
-        if (game.getNPlayer() == 1)
+        if (game.getNumPlayer() == 1)
             notifyAllPlayers(dictionary.getMessage(WIN_MSG_KEYWORD));
     }
 

@@ -115,7 +115,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public void getPublicObj(String username) {
-        lobby.getSpeakers().get(username).printPublicObj(lobby.getGame().getBoard().getPublObj());
+        lobby.getSpeakers().get(username).printPublicObj(lobby.getGame().getBoard().getPublicObj());
     }
 
     /**
@@ -123,7 +123,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public void getPrivateObj(String username) {
-        lobby.getSpeakers().get(username).printPrivateObj(lobby.getPlayers().get(username).getPrivObj());
+        lobby.getSpeakers().get(username).printPrivateObj(lobby.getPlayers().get(username).getPrivateObj());
     }
 
     @Override

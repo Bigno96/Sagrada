@@ -319,7 +319,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
                 socketOut.println(obj.getId());
 
                 socketOut.println(protocol.getMessage(OBJ_DESCRIPTION_KEYWORD));
-                socketOut.println(obj.getDescr());
+                socketOut.println(obj.getDescription());
 
                 socketOut.println(protocol.getMessage(OBJ_POINT_KEYWORD));
                 socketOut.println(obj.getPoint());
@@ -345,7 +345,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             socketOut.println(privateObj.getId());
 
             socketOut.println(protocol.getMessage(OBJ_DESCRIPTION_KEYWORD));
-            socketOut.println(privateObj.getDescr());
+            socketOut.println(privateObj.getDescription());
 
             socketOut.println(protocol.getMessage(SHOW_PRIVATE_OBJ_KEYWORD));
             socketOut.println(" ");

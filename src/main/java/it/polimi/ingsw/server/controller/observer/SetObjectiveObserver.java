@@ -23,11 +23,11 @@ public class SetObjectiveObserver implements Observer {
 
         if (arg.equals("PublicObjective"))      // tell public obj to everyone
             lobby.getSpeakers().forEach((user, speaker) ->
-                speaker.printPublicObj(lobby.getGame().getBoard().getPublObj()));
+                speaker.printPublicObj(lobby.getGame().getBoard().getPublicObj()));
 
         else if (arg.equals("PrivateObjective")) {      // tell private obj only to the owner
             p = (Player) o;
-            lobby.getSpeakers().get(p.getId()).printPrivateObj(p.getPrivObj());
+            lobby.getSpeakers().get(p.getId()).printPrivateObj(p.getPrivateObj());
         }
     }
 }

@@ -14,7 +14,14 @@ import java.util.logging.Logger;
 
 public class Board extends Observable {
 
-    private List<ObjectiveCard> publObj;
+    private static final String DUMP_PUBLIC_MSG = "PublicObj: ";
+    private static final String DUMP_TOOL_MSG = " ToolCard: ";
+    private static final String DUMP_DICE_BAG_MSG = " DiceBag: ";
+    private static final String DUMP_DRAFT_MSG = " Draft: ";
+    private static final String DUMP_ROUND_TRACK_MSG = " RoundTrack: ";
+    private static final String DUMP_N_PLAYER_MSG = " nPlayer: ";
+
+    private List<ObjectiveCard> publicObj;
     private List<ToolCard> toolCard;
     private DiceBag diceBag;
     private Draft draft;
@@ -29,12 +36,12 @@ public class Board extends Observable {
      * @throws IDNotFoundException when DiceBag throws IDNotFoundException
      */
     public Board(int nPlayer) throws IDNotFoundException {
-        publObj = new ArrayList<>();
+        this.publicObj = new ArrayList<>();
         this.nPlayer = nPlayer;
-        toolCard = new ArrayList<>();
-        diceBag = new DiceBag();
-        draft = new Draft(diceBag, (nPlayer*2)+1);
-        roundTrack = new RoundTrack(draft);
+        this.toolCard = new ArrayList<>();
+        this.diceBag = new DiceBag();
+        this.draft = new Draft(diceBag, (nPlayer*2)+1);
+        this.roundTrack = new RoundTrack(draft);
     }
 
     @Override
@@ -44,9 +51,9 @@ public class Board extends Observable {
     }
 
     public void dump() {
-        logger.info("PublObj: " + getPublObj() + " ToolCard: " + getToolCard() +
-                " DiceBag: " + getDiceBag() + " Draft: " + getDraft() + " RoundTrack: "
-                + getRoundTrack() + " nPlayer: " + getnPlayer());
+        logger.info(DUMP_PUBLIC_MSG + getPublicObj() + DUMP_TOOL_MSG + getToolCard() +
+                DUMP_DICE_BAG_MSG + getDiceBag() + DUMP_DRAFT_MSG + getDraft() + DUMP_ROUND_TRACK_MSG
+                + getRoundTrack() + DUMP_N_PLAYER_MSG + getNumberPlayer());
     }
 
     /**
@@ -55,10 +62,10 @@ public class Board extends Observable {
      * @param obj2 != null && obj2 != obj1 && obj2 != obj3 && obj2 > 0 && obj < 11
      * @param obj3 != null && obj3 != obj1 && obj3 != obj2 && obj3 > 0 && obj < 11
      */
-    public void setPublObj(ObjectiveCard obj1, ObjectiveCard obj2, ObjectiveCard obj3) {
-        this.publObj.add(obj1);
-        this.publObj.add(obj2);
-        this.publObj.add(obj3);
+    public void setPublicObj(ObjectiveCard obj1, ObjectiveCard obj2, ObjectiveCard obj3) {
+        this.publicObj.add(obj1);
+        this.publicObj.add(obj2);
+        this.publicObj.add(obj3);
 
         setChanged();
         notifyObservers("PublicObjective");
@@ -76,27 +83,53 @@ public class Board extends Observable {
         this.toolCard.add(obj3);
     }
 
-    public List<ObjectiveCard> getPublObj() {
-        return publObj;
+    /**
+     * @return copy of list of public objective
+     */
+    public List<ObjectiveCard> getPublicObj() {
+        List<ObjectiveCard> ret = new ArrayList<>();
+
+        publicObj.forEach(obj -> ret.add(obj.copy()));
+
+        return ret;
     }
 
+    /**
+     * @return copy of list of tool card
+     */
     public List<ToolCard> getToolCard() {
-        return toolCard;
+        List<ToolCard> ret = new ArrayList<>();
+
+        toolCard.forEach(card -> ret.add(card.copy()));
+
+        return ret;
     }
 
+    /**
+     * @return dice bag of the current game
+     */
     public DiceBag getDiceBag() {
         return diceBag;
     }
 
+    /**
+     * @return draft of the current game
+     */
     public Draft getDraft() {
         return draft;
     }
 
+    /**
+     * @return round track of the current game
+     */
     public RoundTrack getRoundTrack() {
         return roundTrack;
     }
 
-    public int getnPlayer() {
+    /**
+     * @return number of player in the current game
+     */
+    public int getNumberPlayer() {
         return nPlayer;
     }
 }

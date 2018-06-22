@@ -77,8 +77,8 @@ public class ObjectiveCardTest extends TestCase {
     }
 
     public void testDescr() {
-        assertSame("test1", privObj.getDescr());
-        assertSame("test2", publObj.getDescr());
+        assertSame("test1", privObj.getDescription());
+        assertSame("test2", publObj.getDescription());
     }
 
 }

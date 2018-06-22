@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class PublicObjective implements ObjectiveCard, Serializable {
 
     private int id;
-    private String descr;
+    private String description;
     private int point;
     private String type;
     private String scope;
@@ -22,9 +22,9 @@ public class PublicObjective implements ObjectiveCard, Serializable {
     private CalculatingPoint strategy;
     private static final Logger logger = Logger.getLogger(Cell.class.getName());
 
-    public PublicObjective(int id, String descr, int point) {
+    public PublicObjective(int id, String description, int point) {
         this.id = id;
-        this.descr = descr;
+        this.description = description;
         this.point = point;
         this.strategy = new CalculatingPublicPoint();
     }
@@ -43,8 +43,8 @@ public class PublicObjective implements ObjectiveCard, Serializable {
     }
 
     @Override
-    public String getDescr() {
-        return this.descr;
+    public String getDescription() {
+        return this.description;
     }
 
     @Override
@@ -79,8 +79,15 @@ public class PublicObjective implements ObjectiveCard, Serializable {
 
     @Override
     public void dump() {
-        final String logMsg = String.format("id = [%d] descr = [%s] point = [%d]", getId(), getDescr(), getPoint());
+        final String logMsg = String.format("id = [%d] description = [%s] point = [%d]", getId(), getDescription(), getPoint());
         logger.info(logMsg);
+    }
+
+    @Override
+    public ObjectiveCard copy() {
+        PublicObjective ret = new PublicObjective(this.id, this.description, this.point);
+        ret.setParameter(this.type, this.scope, this.grad, this.dir);
+        return ret;
     }
 
     @Override

@@ -20,7 +20,7 @@ public class CheckEndGameDaemon extends TimerTask {
 
     @Override
     public void run() {
-        if (game.getNPlayer()<2)
+        if (game.getNumPlayer()<2)
             lobby.endGame();
     }
 }

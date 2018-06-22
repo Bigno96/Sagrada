@@ -24,6 +24,7 @@ public class Draft implements Serializable {
     private List<Dice> draftList;
     private DiceBag diceBag;
     private int numberDice;
+
     private static final Logger logger = Logger.getLogger(Draft.class.getName());
 
     /**

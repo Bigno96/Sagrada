@@ -11,7 +11,7 @@ public interface ObjectiveCard {
 
     void setParameter(String type, String scope, String grad, String dir);
     int getId();
-    String getDescr();
+    String getDescription();
     int getPoint();
     String getType();
     String getScope();
@@ -19,4 +19,5 @@ public interface ObjectiveCard {
     String getDir();
     int calcPoint(WindowCard windowCard) throws FileNotFoundException, IDNotFoundException, PositionException, ValueException;
     void dump();
+    ObjectiveCard copy();
 }

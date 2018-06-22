@@ -204,7 +204,7 @@ public class GameController {
             }
         });
 
-        game.getBoard().setPublObj(cards.get(0), cards.get(1), cards.get(2));
+        game.getBoard().setPublicObj(cards.get(0), cards.get(1), cards.get(2));
     }
 
     /**
@@ -214,7 +214,7 @@ public class GameController {
     private void setPrivateObjective(List<Integer> used) {
         PrivateObjectiveCardParser cardParser = (PrivateObjectiveCardParser) ParserManager.getPrivateCardParser();
 
-        List<Integer> nRand = createNRandom(game.getNPlayer(), used, 6);
+        List<Integer> nRand = createNRandom(game.getNumPlayer(), used, 6);
 
         HashMap<Integer, String> mapPrivateCard = new HashMap<>();
         nRand.forEach(integer ->
@@ -225,7 +225,7 @@ public class GameController {
 
         mapPrivateCard.forEach((integer, user) -> {
             try {
-                game.findPlayer(user).setPrivObj(cardParser.makeObjectiveCard(integer));
+                game.findPlayer(user).setPrivateObj(cardParser.makeObjectiveCard(integer));
             } catch (PlayerNotFoundException | EmptyException | FileNotFoundException | IDNotFoundException e) {
                 out.println(e.getMessage());
             }

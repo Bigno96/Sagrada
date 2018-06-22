@@ -29,12 +29,12 @@
 
 ### Board
 * **testGetter**: testing all the "get-methods" in Board
-* **testSetPublObj**: testing if all the public objective are instantiated
+* **testSetPublicObj**: testing if all the public objective are instantiated
 * **testSetToolCard**: testing if all the tool card are instantiated
 
 ### Game
 * **testGetter**: testing all the "get-methods" in Game
-* **testStartGame**: testing the correct start of the game
+* **testStartGame**: testing the correct start of the game and correct finding of the player
 * **testAddPlayer**: testing the correct addition of a player
 * **testSamePlayerException**: test if there is already the same player in the game
 * **testPlayerNotFoundException**: test if there isn't a player in the game
@@ -45,20 +45,20 @@
 * **testWindowCard**: test the correct pick of the window card by a player
 * **testGetID**: test getID
 * **testGetBoard**: test getBoard
-* **testTurn**: test the correct progress of the turn in the game
-* **testPlayDice**: test the correct placing of the dice
-* **testUseTool**: test the correct usage of the tool card
-* **testPrivObj**: test the correct setting of the private objective
+* **testTurn**: test the correct setting and resetting of turn indicator in player
+* **testPlayDice**: test the correct setting and resetting of placing dice indicator in player
+* **testUseTool**: test the correct setting and resetting of using tool indicator in player
+* **testPrivateObj**: test the correct setting of the private objective
 * **testFavorPoint**: test the correct number of favor point
 * **testRateScore**: test the calculation of the score of the player
 
 ### Round
-* **testNextPlayer**: test the correct player who has to play after the current player
-* **testNextRound**: test the correct round after the current
+* **testNextPlayer**: test the correct player who has to play
+* **testNextRound**: test the correct round sequence
 * **testGetPlayer**: test getPlayer
 * **testGetPlayerException**: test tha call of the exception if the id of the player does not exist
 
-## objectivecard
+## objectiveCard
 
 ### ObjectiveCalculator
 * **testCalcPointPriv**: testing calculating private objective point

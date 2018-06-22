@@ -166,7 +166,7 @@ public class CliSystem implements ViewInterface {
     @Override
     public void printPrivateObj(ObjectiveCard privateObj) {
         print(dictionary.getMessage(PRIVATE_OBJECTIVE_KEYWORD));
-        print(privateObj.getDescr());
+        print(privateObj.getDescription());
     }
 
     /**
@@ -175,7 +175,7 @@ public class CliSystem implements ViewInterface {
     @Override
     public void printPublicObj(List<ObjectiveCard> publicObj) {
         print(dictionary.getMessage(PUBLIC_OBJECTIVE_KEYWORD));
-        publicObj.forEach(p -> print("- " + p.getDescr() + dictionary.getMessage(OBJECTIVE_POINT_KEYWORD) + p.getPoint()));
+        publicObj.forEach(p -> print("- " + p.getDescription() + dictionary.getMessage(OBJECTIVE_POINT_KEYWORD) + p.getPoint()));
     }
 
     /**

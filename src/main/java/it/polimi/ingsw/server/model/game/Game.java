@@ -6,6 +6,18 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class Game extends Observable {
+
+    private static final String DUMP_BOARD_MSG = "Board: ";
+    private static final String DUMP_N_PLAYER_MSG = " nPlayer: ";
+    private static final String DUMP_N_ROUND_MSG = " nRound: ";
+
+    private static final String PLAYER_ALREADY_GAME_MSG = "Player already in game";
+    private static final String ROUND_EMPTY_MSG = "Round List is empty";
+    private static final String NO_PLAYER_MSG = "No player in game";
+    private static final String PLAYER_NOT_FOUND_MSG = "Player not found";
+
+    private static final String NOTIFY_NEXT_TURN = "nextTurn";
+
     private Round round;
     private Board board;
     private Player currentPlayer;
@@ -42,7 +54,7 @@ public class Game extends Observable {
      */
     public boolean addPlayer(Player p) throws SamePlayerException {
         if (playerList.contains(p))
-            throw new SamePlayerException("Player already in game");
+            throw new SamePlayerException(PLAYER_ALREADY_GAME_MSG);
 
         nPlayer++;
         return playerList.add(p);
@@ -56,7 +68,7 @@ public class Game extends Observable {
      */
     public boolean rmPlayer(Player p) throws EmptyException {
         if (playerList.isEmpty())
-            throw new EmptyException("Round List is empty");
+            throw new EmptyException(ROUND_EMPTY_MSG);
         else {
             nPlayer--;
             return playerList.remove(p);
@@ -72,32 +84,47 @@ public class Game extends Observable {
      */
     public Player findPlayer(String id) throws PlayerNotFoundException, EmptyException {
         if (playerList.isEmpty())
-            throw new EmptyException("No player in game");
+            throw new EmptyException(NO_PLAYER_MSG);
         Optional<Player> ret = playerList.stream().filter(player -> player.getId().equals(id)).findFirst();
 
         if (ret.isPresent())
             return ret.get();
 
-        throw new PlayerNotFoundException("Player not found");
+        throw new PlayerNotFoundException(PLAYER_NOT_FOUND_MSG);
     }
 
-    public void setnRound(int nRound) {
+    /**
+     * @param nRound to be set as current round number
+     */
+    public void setNumRound(int nRound) {
         this.nRound = nRound;
     }
 
-    public int getNRound() {
+    /**
+     * @return current round number
+     */
+    public int getNumRound() {
         return nRound;
     }
 
+    /**
+     * @return current board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * @return current round
+     */
     public Round getRound() {
         return round;
     }
 
-    public int getNPlayer() {
+    /**
+     * @return current number of players in the game
+     */
+    public int getNumPlayer() {
         return nPlayer;
     }
 
@@ -107,20 +134,31 @@ public class Game extends Observable {
      */
     public Player nextPlayer(){
         Player p = round.nextPlayer();
+
         if (p == null) {
             nRound++;
+
             if (nRound > 9)
                 return null;                //if currentPlayer -> null  the game is finished
+
             round.nextRound();
             p = round.nextPlayer();
-            p.getBoard().getDraft().rollDraft();        // roll draft
+            board.getDraft().rollDraft();        // roll draft
         }
+
         currentPlayer = p;
 
         setChanged();
-        notifyObservers("nextTurn");
+        notifyObservers(NOTIFY_NEXT_TURN);
 
         return p;
+    }
+
+    /**
+     * @return player whose current turn is
+     */
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     @Override
@@ -129,14 +167,7 @@ public class Game extends Observable {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
-    public void dump()
-    {
-        logger.info("Board: " + getBoard() + " Board: " + getBoard() +
-                " nRound: " + getNRound() + " nPlayer: " + getNPlayer());
+    public void dump() {
+        logger.info(DUMP_BOARD_MSG + getBoard() + DUMP_N_ROUND_MSG + getNumRound() + DUMP_N_PLAYER_MSG + getNumPlayer());
     }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
 }

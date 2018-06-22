@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class DiceBag implements Serializable {
 
@@ -18,6 +17,7 @@ public class DiceBag implements Serializable {
     private static final String ID_NOT_FOUND = "Id not found";
     private static final String ALREADY_IN_BAG = "Dice is already in Bag";
     private static final String DUMP_MSG = "contains following dices: ";
+
     private static final int NUM_DICE = 90;
     private static final int NUM_COLOR = 5;
 
