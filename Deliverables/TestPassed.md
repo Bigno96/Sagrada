@@ -61,33 +61,22 @@
 ## objectiveCard
 
 ### ObjectiveCalculator
-* **testCalcPointPriv**: testing calculating private objective point
-* **testCalcDifferentColumnColor**: testing calculating point from different colors columns
-* **testCalcDifferentRowColor**: testing calculating point from different colors rows
+* **testCalcPointPrivate**: testing calculating private objective point
+* **testCalcDifferentColumnColor**: testing calculating point from different colors in columns
+* **testCalcDifferentRowColor**: testing calculating point from different colors in rows
 * **testCalcVarietyColor**: testing calculating point from different sets of colors
 * **testCalcDiagonalColor**: testing calculating point from diagonal adjacent colors
-* **testCalcDifferentColumnShade**: testing calculating point from different shade columns
-* **testCalcDifferentRowShade**: testing calculating point from different shade rows
+* **testCalcDifferentColumnShade**: testing calculating point from different shade in columns
+* **testCalcDifferentRowShade**: testing calculating point from different shade in rows
 * **testCalcVarietyShade**: testing calculating point from different sets of shades
 * **testCalcGradationShade**: testing calculating point from couples of shades
 
 ### ObjectiveCard 
 * **testId**: testing getId
 * **testPoint**: testing getPoint
-* **testDescr**: testing getting Description
-* **testCalcPointPrivate**: testing calculating point of private objective over a window card
-* **testCalcPointPublic**: testing calculating point of public objective over a window card
-
-### ObjectiveFactory
-* **testGetPrivCard**: testing getting a private Objective with a specific id
-* **testGetPublCard**: testing getting a public Objective with a specific id
-* **testExceptionPriv**: testing reaction when getting a private Objective with an incorrect id
-* **testExceptionPubl**: testing reaction when getting a public Objective with an incorrect id
-
-### ObjectiveStrategy
-* **testPrivateObjectiveCard**: testing the call to Objective Strategy to calc point from private objective
-* **testPublicObjectiveCard**: testing the call to Objective Strategy to calc point from public objective
-* **testException**: testing bad id or bad objective
+* **testDescription**: testing getting Description
+* **testSetParameter**: testing setting parameter used by objective calculator
+* **testCopy**: testing method for copying objective card
 
 ## roundtrack
 
@@ -138,17 +127,17 @@
 * **testMoveFromDraftToCard**: test the place of a Dice from draft into window Card
 * **testFindSetNearby**: test if two dices are on window Card, so ignore or set nearby restriction of both of their Cells. Else, ignore or set nearby restriction only for dest
 
-## windowcard
+## windowCard
 
 ### Cell
 * **testGetter**: testing getValue, getColor, getCol, getRow
-* **testChangeDiceValue**: changing value of dice in the cell
-* **testIsOccupied**: testing if cell is already occupied is impossible to insert a Dice
+* **testChangeDiceValue**: testing changing value of dice in the cell
+* **testIsOccupied**: testing of method is occupied
 * **testCheck**: testing control over value and color restrictions
 * **testValueException**: testing reaction to impossible value of cell
-* **testNotEmptyException**: testing reaction to an addition of dice in an occupied cell
+* **testNotEmptyException**: testing that if cell is already occupied is impossible to insert a Dice
 * **testFreeCell**: testing freeing a cell of its Dice
-* **testIgnoreRestriction**: test if the cells, nearby the current, have ignoring restriction setted 
+* **testIgnoreRestriction**: test if the cells, nearby the current, have ignoring restriction set
 
 ### MatrixCell
 * **testGetter**: testing getRows, getCols, getMatrix, getCell
@@ -181,3 +170,20 @@
 ### Colors
 * **testRandomColors**: test if the result of RandomColors is different from null
 * **testParseColors**: test the correct correspondence between the enum value and the name (string)
+
+## parser
+
+### ObjectiveParserTest
+* **testPrivateCards**: test if private cards are built correctly
+* **testPublic1**: test if parameter of public card 1 are built correctly
+* **testPublic2**: test if parameter of public card 2 are built correctly
+* **testPublic3**: test if parameter of public card 3 are built correctly
+* **testPublic4**: test if parameter of public card 4 are built correctly
+* **testPublic5**: test if parameter of public card 5 are built correctly
+* **testPublic6**: test if parameter of public card 6 are built correctly
+* **testPublic7**: test if parameter of public card 7 are built correctly
+* **testPublic8**: test if parameter of public card 8 are built correctly
+* **testPublic9**: test if parameter of public card 9 are built correctly
+* **testPublic10**: test if parameter of public card 10 are built correctly
+
+

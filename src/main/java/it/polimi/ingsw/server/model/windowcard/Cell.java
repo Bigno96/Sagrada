@@ -18,6 +18,11 @@ public class Cell implements Serializable {
     public enum CellState { OCCUPIED, IGNORE_NEARBY, IGNORE_VALUE, IGNORE_COLOR }
     private List<CellState> states;
 
+    private static final String DUMP_COLOR_MSG = "Color: ";
+    private static final String DUMP_VALUE_MSG =  " Val: ";
+    private static final String DUMP_ROW_MSG = " Row: ";
+    private static final String DUMP_COL_MSG = " Col: ";
+
     private static final String WRONG_VALUE = "Illegal Value";
     private static final String WRONG_POSITION = "Illegal Position";
     private static final String NOT_EMPTY_CELL = "Cell not empty";
@@ -60,7 +65,7 @@ public class Cell implements Serializable {
     }
 
     public void dump() {
-        out.println("Color: " + getColor() + " Val: " + getValue() + " Row: " + getRow() + " Col: " + getCol());
+        out.println(DUMP_COLOR_MSG + getColor() + DUMP_VALUE_MSG + getValue() + DUMP_ROW_MSG + getRow() + DUMP_COL_MSG + getCol());
     }
 
     /**

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.network.socket;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.parser.ParserManager;
@@ -80,6 +81,7 @@ public class SocketServerListener implements Runnable {
     private final SocketServerSpeaker speaker;
     private final CommunicationParser protocol;
     private final ViewMessageParser dictionary;
+    private final GameSettingsParser settings;
 
     private final HashMap<String, Supplier<String>> exceptionMap = new HashMap<>();
     private final HashMap<String, Consumer<String>> commandMap = new HashMap<>();
@@ -95,8 +97,6 @@ public class SocketServerListener implements Runnable {
     private Colors cellColor;
     private int row;
     private int col;
-    private static final int MAX_ROW = 3;
-    private static final int MAX_COL = 4;
 
     private List<Dice> draft;
     private int diceId;
@@ -117,6 +117,7 @@ public class SocketServerListener implements Runnable {
 
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
         this.cards = new ArrayList<>();
         this.cellList = new ArrayList<>();
@@ -162,7 +163,8 @@ public class SocketServerListener implements Runnable {
         Consumer<String> setCol = colValue -> col = Integer.parseInt(colValue);
         Consumer<String> makeCell = string -> {
             try {
-                cellList.add(new Cell(cellValue, cellColor, row, col, MAX_ROW, MAX_COL));
+                cellList.add(new Cell(cellValue, cellColor, row, col,
+                        settings.getWindowCardMaxRow(), settings.getWindowCardMaxColumn()));
             } catch (ValueException | PositionException e) {
                 view.print(e.getMessage());
             }

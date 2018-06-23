@@ -18,19 +18,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CellTest extends TestCase{
 
     private static final Random random = new Random();
-    private int id = random.nextInt(90);
-    private int value = random.nextInt(6)+1;
-    private Colors color = Colors.random();
-    private int row = random.nextInt(4);
-    private int col = random.nextInt(5);
+    private final int id = random.nextInt(90);
+    private final int value = random.nextInt(6)+1;
+
+    private final Colors color = Colors.random();
+
     private GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
-    private int max_row = gameSettings.getWindowCardMaxRow();
-    private int max_col = gameSettings.getWindowCardMaxColumn();
+    private final int max_row = gameSettings.getWindowCardMaxRow();
+    private final int max_col = gameSettings.getWindowCardMaxColumn();
+    private final int row = random.nextInt(max_row);
+    private final int col = random.nextInt(max_col);
 
     public CellTest(String testName) {
         super (testName);
     }
 
+    /**
+     * Testing getter of value, color, row and column
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws ValueException when trying to assign wrong value to dices
+     */
     public void testGetter() throws PositionException, ValueException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
 
@@ -40,15 +47,30 @@ public class CellTest extends TestCase{
         assertSame(col, c.getCol());
     }
 
+    /**
+     * Testing changing value of dice in the cell
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws ValueException when trying to assign wrong value to dices
+     * @throws IDNotFoundException when wrong id are searched
+     * @throws NotEmptyException when trying to set a dice on an already occupied cell
+     */
     public void testChangeDiceValue() throws PositionException, ValueException, IDNotFoundException, NotEmptyException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
-        int rand = random.nextInt(7);
         c.setDice(new Dice(id, color));
+
+        int rand = random.nextInt(7);
         c.changeDiceValue(rand);
 
         assertEquals(rand, c.getDice().getValue());
     }
 
+    /**
+     * Testing of method is occupied
+     * @throws IDNotFoundException when wrong id are searched
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws NotEmptyException  when trying to set a dice on an already occupied cell
+     * @throws ValueException when trying to assign wrong value to dices
+     */
     public void testIsOccupied() throws IDNotFoundException, PositionException, NotEmptyException, ValueException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
         Dice d = new Dice(id, color);
@@ -67,11 +89,17 @@ public class CellTest extends TestCase{
         assertNull(c.getDice());
     }
 
+    /**
+     * Testing control over value and color restrictions
+     * @throws ValueException when trying to assign wrong value to dices
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws IDNotFoundException when wrong id are searched
+     * @throws NotEmptyException when trying to set a dice on an already occupied cell
+     */
     public void testCheck() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
         int wrongVal;
         Colors wrongCol;
-
 
         wrongVal = (value+1)%5;
 
@@ -99,6 +127,13 @@ public class CellTest extends TestCase{
         assertTrue(c.checkColor());
     }
 
+    /**
+     * Testing reaction to impossible value of cell
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws ValueException when trying to assign wrong value to dices
+     * @throws IDNotFoundException when wrong id are searched
+     * @throws NotEmptyException when trying to set a dice on an already occupied cell
+     */
     public void testValueException() throws PositionException, ValueException, IDNotFoundException, NotEmptyException {
         final int valueNeg = random.nextInt(7) - (random.nextInt()+7);
         final int valuePos = random.nextInt() + 7;
@@ -111,6 +146,13 @@ public class CellTest extends TestCase{
         assertThrows(ValueException.class, () -> c.changeDiceValue(valuePos));
     }
 
+    /**
+     * Testing that if cell is already occupied is impossible to insert a Dice
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws IDNotFoundException when wrong id are searched
+     * @throws NotEmptyException when trying to set a dice on an already occupied cell
+     * @throws ValueException when trying to assign wrong value to dices
+     */
     public void testNotEmptyException() throws PositionException, IDNotFoundException, NotEmptyException, ValueException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
         Dice d = new Dice(id, color);
@@ -119,6 +161,13 @@ public class CellTest extends TestCase{
         assertThrows(NotEmptyException.class, () -> c.setDice(d));
     }
 
+    /**
+     * Testing freeing a cell of its Dice
+     * @throws ValueException when trying to assign wrong value to dices
+     * @throws PositionException when trying to assign wrong position to cells
+     * @throws IDNotFoundException when wrong id are searched
+     * @throws NotEmptyException when trying to set a dice on an already occupied cell
+     */
     public void testFreeCell() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
         Dice d = new Dice(id, color);
@@ -129,6 +178,11 @@ public class CellTest extends TestCase{
         assertFalse(c.isOccupied());
     }
 
+    /**
+     * Test if the cells, nearby the current, have ignoring restriction set
+     * @throws ValueException when trying to assign wrong value to dices
+     * @throws PositionException when trying to assign wrong position to cells
+     */
     public void testIgnoreRestriction() throws ValueException, PositionException {
         Cell c = new Cell(value, color, row, col, max_row, max_col);
 

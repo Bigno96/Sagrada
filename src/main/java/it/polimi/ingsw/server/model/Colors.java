@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public enum Colors implements Serializable {
     YELLOW, RED, BLUE, GREEN, MAGENTA, WHITE;
@@ -14,18 +17,25 @@ public enum Colors implements Serializable {
     }
 
     public static Colors parseColor(String string) {
-        if (string.equals("YELLOW"))
-            return Colors.YELLOW;
-        else if (string.equals("RED"))
-            return Colors.RED;
-        else if (string.equals("BLUE"))
-            return Colors.BLUE;
-        else if (string.equals("GREEN"))
-            return Colors.GREEN;
-        else if (string.equals("MAGENTA"))
-            return Colors.MAGENTA;
+        HashMap<String, Supplier<Colors>> mapColor = new HashMap<>();
 
-        return Colors.WHITE;
+        Supplier<Colors> yellow = () -> Colors.YELLOW;
+        Supplier<Colors> red = () -> Colors.RED;
+        Supplier<Colors> blue = () -> Colors.BLUE;
+        Supplier<Colors> green = () -> Colors.GREEN;
+        Supplier<Colors> magenta = () -> Colors.MAGENTA;
+        Supplier<Colors> white = () -> Colors.WHITE;
+
+        mapColor.put("YELLOW", yellow);
+        mapColor.put("RED", red);
+        mapColor.put("BLUE", blue);
+        mapColor.put("GREEN", green);
+        mapColor.put("MAGENTA", magenta);
+
+        if (mapColor.containsKey(string))
+            return mapColor.get(string).get();
+
+        return white.get();
     }
 
 }

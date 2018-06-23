@@ -191,12 +191,10 @@ public class Player extends Observable {
     /**
      * Score Calculation
      * @return sum of points
-     * @throws FileNotFoundException PublicObjCard throw FileNotFoundException
      * @throws IDNotFoundException PublicObjCard throw IDNotFoundException
      * @throws PositionException PublicObjCard throw PositionException
-     * @throws ValueException PublicObjCard throw ValueException
      */
-    public int rateScore() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public int rateScore() throws IDNotFoundException, PositionException {
         int sum = 0;
 
         List<ObjectiveCard> publicObj = board.getPublicObj();

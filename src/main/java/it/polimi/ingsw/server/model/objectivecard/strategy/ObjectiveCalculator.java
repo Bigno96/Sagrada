@@ -2,19 +2,28 @@ package it.polimi.ingsw.server.model.objectivecard.strategy;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
 public class ObjectiveCalculator implements Serializable {
 
+    private static final GameSettingsParser settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+    private static final int MIN = 0;
+    private static final int MAX_ROW = settings.getWindowCardMaxRow();
+    private static final int MAX_COL = settings.getWindowCardMaxColumn();
+
     private static ObjectiveCalculator instance = null;
+
 
     public static ObjectiveCalculator getInstance() {
         if (instance == null)
@@ -31,20 +40,22 @@ public class ObjectiveCalculator implements Serializable {
      * @param col != null && col >= 0 && col <= 4
      * @param winCard != null
      * @return sum points of PrivateObjective
-     * @throws IDNotFoundException when getDice throw exception
      */
-    public int calcPointPriv(Colors col, WindowCard winCard) throws IDNotFoundException {
+    public int calcPointPrivate(Colors col, WindowCard winCard) throws IDNotFoundException {
         int sum = 0;
+        List<Cell> occupiedCellList = new ArrayList<>();
 
-        for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {          // iterates on cells of Window Card
-            Cell c = itr.next();
-            if(c.isOccupied()) {
-               if (c.getDice().getColor() == col) {         // if dice on cell has same color of the one of the Private Objective
-                    sum += c.getDice().getValue();          // sum the value of the dice
-                }
+        winCard.getOrizzItr().forEachRemaining(cell -> {
+            if (cell.isOccupied())
+                occupiedCellList.add(cell);
+        });
+
+        for (Cell c : occupiedCellList) {
+            if (c.getDice().getColor() == col) {         // if dice on cell has same color of the one of the Private Objective
+                sum += c.getDice().getValue();          // sum the value of the dice
             }
         }
-        
+
         return sum;
     }
 
@@ -60,8 +71,8 @@ public class ObjectiveCalculator implements Serializable {
         int sum = 0;
         HashSet<Colors> colorFound = new HashSet<>();           // set of color found on the row
 
-        for (int i=0; i < 4; i++) {                             // iterates on rows of Window Card
-            for (int j=0; j < 5; j++) {
+        for (int i = MIN; i < MAX_ROW; i++) {                             // iterates on rows of Window Card
+            for (int j = MIN; j < MAX_COL; j++) {
                 c = winCard.getWindow().getCell(i ,j);
                 if (c.isOccupied())                                          // if the cell is occupied
                     if (colorFound.contains(c.getDice().getColor()))         // and it's not a new color in the row
@@ -90,8 +101,8 @@ public class ObjectiveCalculator implements Serializable {
         int sum = 0;
         HashSet<Colors> colorFound = new HashSet<>();           // set of color found on the column
 
-        for (int j=0; j < 5; j++) {                             // iterates on columns of Window Card
-            for (int i=0; i < 4; i++) {
+        for (int j = MIN; j < MAX_COL; j++) {                             // iterates on columns of Window Card
+            for (int i = MIN; i < MAX_ROW; i++) {
                 c = winCard.getWindow().getCell(i ,j);
                 if (c.isOccupied())                                             // if the cell is occupied
                     if (colorFound.contains(c.getDice().getColor()))            // and it's not new color in the column
@@ -121,8 +132,8 @@ public class ObjectiveCalculator implements Serializable {
         int sum = 0;
         HashSet<Integer> valueFound = new HashSet<>();              // set of shade found on the row
 
-        for (int i=0; i < 4; i++) {                                 // iterates on rows of Window Card
-            for (int j=0; j < 5; j++) {
+        for (int i = MIN; i < MAX_ROW; i++) {                                 // iterates on rows of Window Card
+            for (int j = MIN; j < MAX_COL; j++) {
                 c = winCard.getWindow().getCell(i ,j);
                 if (c.isOccupied())                                         // if the cell is occupied
                     if (valueFound.contains(c.getDice().getValue()))        // and it's not a new shade in the row
@@ -152,8 +163,8 @@ public class ObjectiveCalculator implements Serializable {
         int sum = 0;
         HashSet<Integer> valueFound = new HashSet<>();              // set of shade found on the column
 
-        for (int j=0; j < 5; j++) {                                 // iterates on columns of Window Card
-            for (int i=0; i < 4; i++) {
+        for (int j = MIN; j < MAX_COL; j++) {                                 // iterates on columns of Window Card
+            for (int i = MIN; i < MAX_ROW; i++) {
                 c = winCard.getWindow().getCell(i ,j);
                 if (c.isOccupied())                                         // if the cell is occupied
                     if (valueFound.contains(c.getDice().getValue()))        // and it's not a new shade in the column
@@ -214,7 +225,7 @@ public class ObjectiveCalculator implements Serializable {
             Cell c = itr.next();
             if (c.isOccupied()) {                           // if cell is occupied
                 int val = c.getDice().getValue();           // get shade of the Dice in the cell
-                // add it to the set that doesn't contain it already
+                // add it to the set that doesn't contain it alreadY
                 if (!var1.contains(val))
                     var1.add(val);
                 else if (!var2.contains(val))

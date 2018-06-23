@@ -20,25 +20,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.System.*;
+
 public class ObjectiveCalculatorTest extends TestCase {
 
-    private Random random = new Random();
-    private List<Cell> cellList = myCellListFilled();
-    private int id = random.nextInt(100);
-    private int fp = random.nextInt(4)+3;
-    private WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
-    private ObjectiveCalculator pointCalc = ObjectiveCalculator.getInstance();
+    private static final GameSettingsParser settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+    private static final int MIN = 0;
+    private static final int MAX_ROW = settings.getWindowCardMaxRow();
+    private static final int MAX_COL = settings.getWindowCardMaxColumn();
+
+    private static final Random random = new Random();
+    private final int id = random.nextInt(100);
+    private final int fp = random.nextInt(4)+3;
+
+    private final List<Cell> cellList = myCellListFilled();
+    private final WindowCard winCard = new WindowCard(id, "Test", fp, cellList);
+    private static final ObjectiveCalculator pointCalc = ObjectiveCalculator.getInstance();
 
     // numbers of dices with that color
     private int numYellow = 0;
-    private int numMAGENTA = 0;
+    private int numMagenta = 0;
     private int numRed = 0;
     private int numGreen= 0;
     private int numBlue = 0;
 
     // sums of values of dices with that color
     private int sumYellow = 0;
-    private int sumMAGENTA = 0;
+    private int sumMagenta = 0;
     private int sumRed = 0;
     private int sumGreen= 0;
     private int sumBlue = 0;
@@ -55,7 +63,14 @@ public class ObjectiveCalculatorTest extends TestCase {
         super(testName);
     }
 
-    // fills a list of cell with 20 random cells and corresponding Dices
+    /**
+     * Fills a list of cell with 20 random cells and corresponding Dices
+     * @return List<Cell> list, list.size() = 20
+     * @throws ValueException thrown when creating dices
+     * @throws PositionException thrown when creating cells
+     * @throws IDNotFoundException when wrong id are passed
+     * @throws NotEmptyException when trying to set a dice on a cell already occupied
+     */
     private List<Cell> myCellListFilled() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         List<Cell> cellList = new ArrayList<>();
         GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
@@ -64,8 +79,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         Cell c;
         Dice d;
 
-        for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++) {
+        for (int i=MIN; i<MAX_ROW; i++)
+            for (int j=MIN; j<MAX_COL; j++) {
                 val = random.nextInt(7);
                 col = Colors.random();
 
@@ -74,9 +89,9 @@ public class ObjectiveCalculatorTest extends TestCase {
                 // cannot set a dice with val = 0 or null color
                 val = random.nextInt(6)+1;
 
-                while (col.equals(Colors.WHITE)) {
+                while (col.equals(Colors.WHITE))
                     col = Colors.random();
-                }
+
                 d = new Dice(i+j, col, val);
 
                 cellList.add(c);
@@ -86,72 +101,92 @@ public class ObjectiveCalculatorTest extends TestCase {
         return cellList;
     }
 
-    // update count of dices per color
-    private void countCol(Cell c) throws IDNotFoundException {
-        if (c.getDice().getColor().equals(Colors.YELLOW)) {
-            numYellow++;
-        }
-        if (c.getDice().getColor().equals(Colors.RED)) {
-            numRed++;
-        }
-        if (c.getDice().getColor().equals(Colors.GREEN)) {
-            numGreen++;
-        }
-        if (c.getDice().getColor().equals(Colors.BLUE)) {
-            numBlue++;
-        }
-        if (c.getDice().getColor().equals(Colors.MAGENTA)) {
-            numMAGENTA++;
+    /**
+     * Update count of dices per color
+     * @param c cell whose color determine which counter increments
+     */
+    private void countCol(Cell c) {
+        try {
+            if (c.getDice().getColor().equals(Colors.YELLOW))
+                numYellow++;
+            if (c.getDice().getColor().equals(Colors.RED))
+                numRed++;
+            if (c.getDice().getColor().equals(Colors.GREEN))
+                numGreen++;
+            if (c.getDice().getColor().equals(Colors.BLUE))
+                numBlue++;
+            if (c.getDice().getColor().equals(Colors.MAGENTA))
+                numMagenta++;
+
+        } catch (IDNotFoundException e) {
+            out.println(e.getMessage());
         }
     }
 
-    // update sum of values of dices per color
-    private void countSumCol(Cell c) throws IDNotFoundException {
-        if (c.getDice().getColor().equals(Colors.YELLOW)) {
-            sumYellow += c.getDice().getValue();
-        }
-        if (c.getDice().getColor().equals(Colors.RED)) {
-            sumRed += c.getDice().getValue();
-        }
-        if (c.getDice().getColor().equals(Colors.GREEN)) {
-            sumGreen += c.getDice().getValue();
-        }
-        if (c.getDice().getColor().equals(Colors.BLUE)) {
-            sumBlue += c.getDice().getValue();
-        }
-        if (c.getDice().getColor().equals(Colors.MAGENTA)) {
-            sumMAGENTA += c.getDice().getValue();
+    /**
+     * Update sum of values of dices per color
+     * @param c cell whose color determine which counter increments
+     */
+    private void countSumCol(Cell c) {
+        try {
+            if (c.getDice().getColor().equals(Colors.YELLOW))
+                sumYellow += c.getDice().getValue();
+            if (c.getDice().getColor().equals(Colors.RED))
+                sumRed += c.getDice().getValue();
+            if (c.getDice().getColor().equals(Colors.GREEN))
+                sumGreen += c.getDice().getValue();
+            if (c.getDice().getColor().equals(Colors.BLUE))
+                sumBlue += c.getDice().getValue();
+            if (c.getDice().getColor().equals(Colors.MAGENTA))
+                sumMagenta += c.getDice().getValue();
+
+        } catch (IDNotFoundException e) {
+            out.println(e.getMessage());
         }
     }
 
-    // update count of dices per shade
-    private void countVal(Cell c) throws IDNotFoundException {
-        if (c.getDice().getValue() == 1)
-            num1++;
-        if (c.getDice().getValue() == 2)
-            num2++;
-        if (c.getDice().getValue() == 3)
-            num3++;
-        if (c.getDice().getValue() == 4)
-            num4++;
-        if (c.getDice().getValue() == 5)
-            num5++;
-        if (c.getDice().getValue() == 6)
-            num6++;
-    }
+    /**
+     * Update count of dices per shade
+     * @param c cell whose shade determine which counter increments
+     */
+    private void countVal(Cell c) {
+        try {
+            if (c.getDice().getValue() == 1)
+                num1++;
+            if (c.getDice().getValue() == 2)
+                num2++;
+            if (c.getDice().getValue() == 3)
+                num3++;
+            if (c.getDice().getValue() == 4)
+                num4++;
+            if (c.getDice().getValue() == 5)
+                num5++;
+            if (c.getDice().getValue() == 6)
+                num6++;
 
-    public void testCalcPointPriv() throws IDNotFoundException {
-        for (Cell c : cellList) {               // update sums of Values per Color
-            countSumCol(c);
+        } catch (IDNotFoundException e) {
+            out.println(e.getMessage());
         }
-
-        assertSame(sumYellow, pointCalc.calcPointPriv(Colors.YELLOW, winCard));
-        assertSame(sumRed, pointCalc.calcPointPriv(Colors.RED, winCard));
-        assertSame(sumGreen, pointCalc.calcPointPriv(Colors.GREEN, winCard));
-        assertSame(sumBlue, pointCalc.calcPointPriv(Colors.BLUE, winCard));
-        assertSame(sumMAGENTA, pointCalc.calcPointPriv(Colors.MAGENTA, winCard));
     }
 
+    /**
+     * Testing calculating private objective point
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
+    public void testCalcPointPrivate() throws IDNotFoundException {
+        cellList.forEach(this::countSumCol);
+
+        assertSame(sumYellow, pointCalc.calcPointPrivate(Colors.YELLOW, winCard));
+        assertSame(sumRed, pointCalc.calcPointPrivate(Colors.RED, winCard));
+        assertSame(sumGreen, pointCalc.calcPointPrivate(Colors.GREEN, winCard));
+        assertSame(sumBlue, pointCalc.calcPointPrivate(Colors.BLUE, winCard));
+        assertSame(sumMagenta, pointCalc.calcPointPrivate(Colors.MAGENTA, winCard));
+    }
+
+    /**
+     * Testing calculating point from different colors in columns
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
     public void testCalcDifferentColumnColor() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 5);
         ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
@@ -159,8 +194,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         List<Colors> colorsList = new ArrayList<>();
         int sum = 0;
 
-        for (int j=0; j<5; j++) {               // iterates on columns of window Card
-            for (int i=0; i<4; i++) {
+        for (int j=MIN; j<MAX_COL; j++) {               // iterates on columns of window Card
+            for (int i=MIN; i<MAX_ROW; i++) {
                 Colors col = matrix.getCell(i, j).getDice().getColor();
                 if (!colorsList.contains(col))              // add color to the colors found in the column
                     colorsList.add(col);
@@ -179,6 +214,10 @@ public class ObjectiveCalculatorTest extends TestCase {
             assertNotSame(sum, pointCalc.calcDifferentColumnColor(winCard, wrongObjCard));
     }
 
+    /**
+     * Testing calculating point from different colors in rows
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
     public void testCalcDifferentRowColor() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 6);
         ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
@@ -186,8 +225,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         List<Colors> colorsList = new ArrayList<>();
         int sum = 0;
 
-        for (int i=0; i<4; i++) {               // iterates on rows of window Card
-            for (int j=0; j<5; j++) {
+        for (int i=MIN; i<MAX_ROW; i++) {               // iterates on rows of window Card
+            for (int j=MIN; j<MAX_COL; j++) {
                 Colors col = matrix.getCell(i, j).getDice().getColor();
                 if (!colorsList.contains(col))              // add color to the colors found in the row
                     colorsList.add(col);
@@ -206,17 +245,19 @@ public class ObjectiveCalculatorTest extends TestCase {
             assertNotSame(sum, pointCalc.calcDifferentRowColor(winCard, wrongObjCard));
     }
 
+    /**
+     * Testing calculating point from different sets of colors
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
     public void testCalcVarietyColor() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 4);
         ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
 
-        for (Cell c : cellList) {           // count number of dices per color
-            countCol(c);
-        }
+        cellList.forEach(this::countCol);
 
-        // find minimun of all values counted
+        // find minimum of all values counted
         int min1 = Math.min(numBlue, numGreen);
-        int min2 = Math.min(numRed, numMAGENTA);
+        int min2 = Math.min(numRed, numMagenta);
         int min3 = Math.min(min1, min2);
         int min = Math.min(min3, numYellow);
 
@@ -225,6 +266,11 @@ public class ObjectiveCalculatorTest extends TestCase {
             assertNotSame(min*4, pointCalc.calcVarietyColor(winCard, wrongObjCard));
     }
 
+    /**
+     * Testing calculating point from diagonal adjacent colors
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     * @throws PositionException thrown when creating cells
+     */
     public void testCalcDiagonalColor() throws IDNotFoundException, PositionException {
         int sum = 0;
 
@@ -241,6 +287,10 @@ public class ObjectiveCalculatorTest extends TestCase {
         assertSame(sum, pointCalc.calcDiagonalColor(winCard));
     }
 
+    /**
+     * Testing calculating point from different shade in columns
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
     public void testCalcDifferentColumnShade() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 4);
         ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
@@ -248,8 +298,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         List<Integer> valuesList = new ArrayList<>();
         int sum = 0;
 
-        for (int j=0; j<5; j++) {                   // iterates on columns of window Card
-            for (int i=0; i<4; i++) {
+        for (int j=MIN; j<MAX_COL; j++) {                   // iterates on columns of window Card
+            for (int i=MIN; i<MAX_ROW; i++) {
                 int val = matrix.getCell(i, j).getDice().getValue();
                 if (!valuesList.contains(val))              // add shade to the values found in the column
                     valuesList.add(val);
@@ -268,6 +318,10 @@ public class ObjectiveCalculatorTest extends TestCase {
             assertNotSame(sum, pointCalc.calcDifferentColumnShade(winCard, wrongObjCard));
     }
 
+    /**
+     * testing calculating point from different shade in rows
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
     public void testCalcDifferentRowShade() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 5);
         ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
@@ -275,8 +329,8 @@ public class ObjectiveCalculatorTest extends TestCase {
         List<Integer> valuesList = new ArrayList<>();
         int sum = 0;
 
-        for (int i=0; i<4; i++) {                   // iterates on rows of window Card
-            for (int j=0; j<5; j++) {
+        for (int i=MIN; i<MAX_ROW; i++) {                   // iterates on rows of window Card
+            for (int j=MIN; j<MAX_COL; j++) {
                 int val = matrix.getCell(i, j).getDice().getValue();
                 if (!valuesList.contains(val))      // add shade to the values found in the row
                     valuesList.add(val);
@@ -295,15 +349,17 @@ public class ObjectiveCalculatorTest extends TestCase {
             assertNotSame(sum, pointCalc.calcDifferentRowShade(winCard, wrongObjCard));
     }
 
+    /**
+     * testing calculating point from different sets of shades
+     * @throws IDNotFoundException when trouble finding dice on the cell
+     */
     public void testCalcVarietyShade() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 5);
         ObjectiveCard wrongObjCard = new PublicObjective(2, "Test", 10);
 
-        for (Cell c : cellList) {           // count number of dices per value
-            countVal(c);
-        }
+        cellList.forEach(this::countVal);
 
-        // find minimun of all values counted
+        // find minimum of all values counted
         int min1 = Math.min(num1, num2);
         int min2 = Math.min(num3, num4);
         int min3 = Math.min(num5, num6);
@@ -315,12 +371,14 @@ public class ObjectiveCalculatorTest extends TestCase {
             assertNotSame(min*5, pointCalc.calcVarietyShade(winCard, wrongObjCard));
     }
 
+    /**
+     * Testing calculating point from couples of shades
+     * @throws IDNotFoundException  when trouble finding dice on the cell
+     */
     public void testCalcGradationShade() throws IDNotFoundException {
         ObjectiveCard objCard = new PublicObjective(1, "Test", 2);
 
-        for (Cell c : cellList) {           // count number of dices per value
-            countVal(c);
-        }
+        cellList.forEach(this::countVal);
 
         assertSame(Math.min(num1, num2)*2, pointCalc.calcGradationShade(1, 2, winCard, objCard));
         assertSame(Math.min(num3, num4)*2, pointCalc.calcGradationShade(3, 4, winCard, objCard));
