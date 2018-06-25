@@ -164,6 +164,9 @@ public class GuiSystem implements ViewInterface{
             assert root != null;
             primaryStage.setScene(new Scene(root));
 
+            // ImageView img = new ImageView(this);  setWindowCard
+            // img.setImageResource(R.drawable.my_image);
+
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
 
