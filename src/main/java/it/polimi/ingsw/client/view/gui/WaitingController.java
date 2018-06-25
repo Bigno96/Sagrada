@@ -15,6 +15,23 @@ public class WaitingController {
 
     //set players
 
+
+    public void setFirstPlayer(Text firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
+    public void setSecondPlayer(Text secondPlayer) {
+        this.secondPlayer = secondPlayer;
+    }
+
+    public Text getThirdPlayer() {
+        return thirdPlayer;
+    }
+
+    public Text getFourthPlayer() {
+        return fourthPlayer;
+    }
+
     public WaitingController(GuiSystem guiSystem){
         while(true) {
             /*if(new PlayerLogged){
@@ -27,5 +44,8 @@ public class WaitingController {
         }
         guiSystem.chooseCard();
     }
+
+    //Wait Start game
+
 
 }

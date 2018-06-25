@@ -1,13 +1,13 @@
 package it.polimi.ingsw.client.view.gui;
 
-public class ChooseWindowCardController {
+public class ChooseWinCardController {
 
     GuiSystem guiSystem;
 
     //on Click set Window Card
     //guiSystem.boardInit();
 
-    ChooseWindowCardController(GuiSystem guiSystem){
+    ChooseWinCardController(GuiSystem guiSystem){
         this.guiSystem = guiSystem;
     }
 

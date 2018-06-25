@@ -10,18 +10,33 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
+
 public class GuiSystem implements ViewInterface{
+
+    private static final String ALERT_TITLE_ISTURN = "E' il tuo turno";
+    private static final String ALERT_HEADER_ISTURN = "E' il tuo turno";
+    private static final String ALERT_CONTENT_ISTURN = "Fa la tua mossa";
+    private static final String TITLE = "Sagrada";
 
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
+    private ViewMessageParser dictionary;
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
@@ -60,11 +75,6 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
-    public void isTurn(String username) {
-
-    }
-
-    @Override
     public void showDraft(List<Dice> draft) {
 
     }
@@ -76,26 +86,32 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void print(String s) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Server message");
+        alert.setHeaderText("Message");
+        alert.setContentText(serverSpeaker.toString());
 
+        alert.showAndWait();
     }
 
     public void setRound() {
             nRound++;
     }
 
-/*
     @Override
     public void isTurn(String username) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Your Turn");
-        alert.setHeaderText("E' il tuo turno!");
-        alert.setContentText("Fa la tua mossa");
+        alert.setTitle(dictionary.getMessage(ALERT_TITLE_ISTURN));
+        alert.setHeaderText(dictionary.getMessage(ALERT_HEADER_ISTURN));
+        alert.setContentText(dictionary.getMessage(ALERT_CONTENT_ISTURN));
 
         alert.showAndWait();
-    }*/
+    }
 
     @Override
     public void startGraphic() {
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));
@@ -104,7 +120,7 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle("Welcome to Sagrada! Choose your connection");
+            primaryStage.setTitle(TITLE);
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -120,11 +136,11 @@ public class GuiSystem implements ViewInterface{
         this.userName = userName;
     }
 
-    public void setServerSpeaker(ServerSpeaker serverSpeaker){
+    void setServerSpeaker(ServerSpeaker serverSpeaker){
         this.serverSpeaker = serverSpeaker;
     }
 
-    public void waitingPage(){
+    void waitingPage(){
 
         Platform.runLater(() -> {
             Parent root = null;
@@ -134,7 +150,7 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle("Sagrada");
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -155,13 +171,13 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle("Sagrada");
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
 
-            // ImageView img = new ImageView(this);  setWindowCard
-            // img.setImageResource(R.drawable.my_image);
+             //ImageView img = new ImageView(this);
+             //img.setImageResource(R.drawable.my_image);
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
@@ -170,8 +186,8 @@ public class GuiSystem implements ViewInterface{
         });
     }
 
-    public boolean chooseCard() {
-/*
+    boolean chooseCard() {
+
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
@@ -180,7 +196,7 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle("Sagrada");
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -192,14 +208,14 @@ public class GuiSystem implements ViewInterface{
             hBoxImage.setAlignment( Pos.CENTER );
             hBoxImage.setStyle( "-fx-border-color: black;" );
 
-            InputStream is = loader.getResource( "fxml/img/PublicCard.jpg").getString();
+            InputStream is = loader.getClassLoader().getResourceAsStream("fxml/PublicCard.fxml");
 
             Image imageEarthRise = new Image( is );
 
             ImageView imageView = new ImageView();
             imageView.setImage( imageEarthRise );
             imageView.setCache( true );
-            //imageView.setOpacity( .9 );
+            imageView.setOpacity( .9 );
             imageView.setSmooth( true );
             imageView.setPreserveRatio( true );
             imageView.setFitHeight( 200 );
@@ -209,7 +225,7 @@ public class GuiSystem implements ViewInterface{
 
             primaryStage.show();
         });
-*/
+
         return true;
     }
 
