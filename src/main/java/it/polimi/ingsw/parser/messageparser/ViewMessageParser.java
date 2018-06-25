@@ -4,10 +4,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import it.polimi.ingsw.parser.Parser;
 
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import static java.lang.System.*;
+
 
 /**
  * Parse messages to be displayed by the view

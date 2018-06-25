@@ -24,6 +24,19 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String PRINT_KEYWORD = "PRINT";
 
+    private static final String SET_CARD_KEYWORD = "SET_CARD";
+    private static final String GET_CARD_KEYWORD = "GET_CARD";
+
+    private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
+    private static final String USER_NAME_KEYWORD = "USER_NAME";
+    private static final String GET_ALL_USER_KEYWORD = "GET_ALL_USER";
+
+    private static final String ASK_DRAFT_KEYWORD = "ASK_DRAFT";
+    private static final String ASK_PUBLIC_OBJ_KEYWORD = "ASK_PUBLIC_OBJ";
+    private static final String ASK_PRIVATE_OBJ_KEYWORD = "ASK_PRIVATE_OBJ";
+
+    private static final String END_TURN_KEYWORD = "END_TURN";
+
     private String ip;
     private Socket socket;
     private static PrintWriter socketOut;
@@ -33,7 +46,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private final CommunicationParser protocol;
     private final ViewMessageParser dictionary;
 
-    private final Object lock = new Object();
+    private final Object lock;
 
     public SocketServerSpeaker(String ip, ViewInterface view) {
         this.view = view;
@@ -41,6 +54,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
         this.logged = null;
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.lock = new Object();
     }
 
     /**
@@ -112,7 +126,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
                 socketOut.flush();
             }
 
-            synchronized (lock) {
+            synchronized (this) {
                 while (logged == null)              // while server hasn't responded
                     wait(100);
             }
@@ -140,7 +154,15 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void setWindowCard(String username, String cardName) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(USER_NAME_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.println(protocol.getMessage(SET_CARD_KEYWORD));
+            socketOut.println(cardName);
+
+            socketOut.flush();
+        }
     }
 
     /**
@@ -149,7 +171,15 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void askWindowCard(String usernameWanted, String me) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(OTHER_USER_NAME_KEYWORD));
+            socketOut.println(usernameWanted);
 
+            socketOut.println(protocol.getMessage(GET_CARD_KEYWORD));
+            socketOut.println(me);
+
+            socketOut.flush();
+        }
     }
 
     /**
@@ -157,7 +187,12 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void getAllUsername(String currentUser) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(GET_ALL_USER_KEYWORD));
+            socketOut.println(currentUser);
 
+            socketOut.flush();
+        }
     }
 
     /**
@@ -165,7 +200,12 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void askDraft(String username) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(ASK_DRAFT_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.flush();
+        }
     }
 
     /**
@@ -173,7 +213,12 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void askPublicObj(String username) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(ASK_PUBLIC_OBJ_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.flush();
+        }
     }
 
     /**
@@ -181,7 +226,12 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void askPrivateObj(String username) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(ASK_PRIVATE_OBJ_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.flush();
+        }
     }
 
     @Override
@@ -199,7 +249,12 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void endTurn(String username) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(END_TURN_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.flush();
+        }
     }
 
     @Override

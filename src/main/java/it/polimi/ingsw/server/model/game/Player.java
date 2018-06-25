@@ -7,22 +7,29 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
 
 public class Player extends Observable {
 
+    private static final String NOTIFY_PRIVATE_OBJ = "PrivateObjective";
+
+    private static final String DUMP_ID_MSG = "ID: ";
+    private static final String DUMP_PRIVATE_MSG = " PrivateObj: ";
+    private static final String DUMP_WINDOW_CARD_MSG = " WinCard: ";
+    private static final String DUMP_FAVOR_POINT_MSG = "FavorPoint: ";
+
+    private enum playerState { DISCONNECTED, FIRST_TURN, SECOND_TURN, PLAYED_DICE, USED_TOOL }
+
+    private List<playerState> currentState;
     private String id;
-    private boolean disconnected;
-    private boolean firstTurn;
-    private boolean secondTurn;
-    private ObjectiveCard privObj;
+    private ObjectiveCard privateObj;
     private Board board;
     private WindowCard windCard;
     private int favorPoint;
-    private boolean playedDice;     //true if player play a Dice in this turn
-    private boolean usedTool;       //true if player used a ToolCard in this turn
+
     private static final Logger logger = Logger.getLogger(Player.class.getName());
 
     /**
@@ -32,13 +39,13 @@ public class Player extends Observable {
     public Player(String id) {
         this.id = id;
         this.favorPoint = 0;
-        this.firstTurn = true;      //first turn of round
-        this.secondTurn = true;     //second turn of round
-        this.privObj = null;
+        this.currentState = new ArrayList<>();
+        this.privateObj = null;
         this.windCard = null;
         this.board = null;
-        this.playedDice = false;
-        this.disconnected = false;
+
+        currentState.add(playerState.FIRST_TURN);
+        currentState.add(playerState.SECOND_TURN);
     }
 
     /**
@@ -53,106 +60,151 @@ public class Player extends Observable {
         notifyObservers(this.id);
     }
 
+    /**
+     * @param board to be set for the player
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
-    public WindowCard getWindowCard() {
-        return windCard;
-    }
-
-    public String getId() {
-        return id;
-    }
-
+    /**
+     * @return board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * @return window card of the player
+     */
+    public WindowCard getWindowCard() {
+        return windCard;
+    }
+
+    /**
+     * @return String id of the player
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @return true if is player's first turn
+     */
     public boolean isFirstTurn() {
-        return this.firstTurn;
+        return currentState.contains(playerState.FIRST_TURN);
     }
 
-    public void resetFirstTurn() {
-        this.firstTurn = true;
+    /**
+     * @param firstTurn to determine if first turn has to be set or removed
+     */
+    public void setFirstTurn(Boolean firstTurn) {
+        if (firstTurn)
+            currentState.add(playerState.FIRST_TURN);
+        else
+            currentState.remove(playerState.FIRST_TURN);
     }
 
-    public void endFirstTurn() {
-        this.firstTurn = false;
-    }   //when first turn (of the round) of the player finished
-
+    /**
+     * @return true if is player's second turn
+     */
     public boolean isSecondTurn() {
-        return this.secondTurn;
+        return currentState.contains(playerState.SECOND_TURN);
     }
 
-    public void resetSecondTurn() {
-        this.secondTurn = true;
+    /**
+     * @param secondTurn to determine if second turn has to be set or removed
+     */
+    public void setSecondTurn(Boolean secondTurn) {
+        if (secondTurn)
+            currentState.add(playerState.SECOND_TURN);
+        else
+            currentState.remove(playerState.SECOND_TURN);
     }
 
-    public void endSecondTurn() {
-        this.secondTurn = false;
-    }   //when second turn (of the round) of the player finished
-
-    public void setPrivObj(ObjectiveCard privObj) {
-        this.privObj = privObj;
+    /**
+     * @param privateObj to be set for this player
+     */
+    public void setPrivateObj(ObjectiveCard privateObj) {
+        this.privateObj = privateObj;
 
         setChanged();
-        notifyObservers("PrivateObjective");
+        notifyObservers(NOTIFY_PRIVATE_OBJ);
     }
 
-    public ObjectiveCard getPrivObj() {
-        return privObj;
+    /**
+     * @return private objective of this player
+     */
+    public ObjectiveCard getPrivateObj() {
+        return privateObj.copy();
     }
 
+    /**
+     * @param favorPoint to be set for this player
+     */
     public void setFavorPoint(int favorPoint) {
         this.favorPoint = favorPoint;
     }
 
+    /**
+     * @return number of favor point of this player
+     */
     public int getFavorPoint() {
         return favorPoint;
     }
 
+    /**
+     * @return true if player already played a dice
+     */
     public boolean isPlayedDice() {
-        return playedDice;
+        return currentState.contains(playerState.PLAYED_DICE);
     }
 
-    public void resetPlayedDice() {
-        this.playedDice = false;
+    /**
+     * @param playedDice to determine if played Dice has to be set or reset
+     */
+    public void setPlayedDice(Boolean playedDice) {
+        if (playedDice)
+            currentState.add(playerState.PLAYED_DICE);
+        else
+            currentState.remove(playerState.PLAYED_DICE);
     }
 
-    public void playDice() {
-        this.playedDice = true;
-    }
-
+    /**
+     * @return true if player already used a tool card
+     */
     public boolean isUsedTool() {
-        return this.usedTool;
+        return currentState.contains(playerState.USED_TOOL);
     }
 
-    public void useTool() {
-        this.usedTool = true;
+    /**
+     * @param usedTool to determine if used Tool has to be set or reset
+     */
+    public void setUsedTool(Boolean usedTool) {
+        if (usedTool)
+            currentState.add(playerState.USED_TOOL);
+        else
+            currentState.remove(playerState.USED_TOOL);
     }
 
-    public void resetUsedTool() {
-        this.usedTool = false;
-    }
 
     /**
      * Score Calculation
      * @return sum of points
-     * @throws FileNotFoundException PublObjCard throw FileNotFoundException
-     * @throws IDNotFoundException PublObjCard throw IDNotFoundException
-     * @throws PositionException PublObjCard throw PositionException
-     * @throws ValueException PublObjCard throw ValueException
+     * @throws IDNotFoundException PublicObjCard throw IDNotFoundException
+     * @throws PositionException PublicObjCard throw PositionException
      */
-    public int rateScore() throws FileNotFoundException, IDNotFoundException, PositionException, ValueException {
+    public int rateScore() throws IDNotFoundException, PositionException {
         int sum = 0;
-        List<ObjectiveCard> publObj = board.getPublObj();
-        for (ObjectiveCard obj : publObj) {
+
+        List<ObjectiveCard> publicObj = board.getPublicObj();
+        for (ObjectiveCard obj : publicObj)
             sum += obj.calcPoint(windCard);
-        }
-        sum += privObj.calcPoint(windCard);
+
+        sum += privateObj.calcPoint(windCard);
         sum += favorPoint;
         sum -= windCard.numEmptyCells();
+
         return sum;
     }
 
@@ -162,15 +214,24 @@ public class Player extends Observable {
     }
 
     public void dump() {
-        logger.info("ID: " + getId() + " PrivObj: " + getPrivObj() + " WinCard: " + getWindowCard()+ "FavorPoint: "
-                + getFavorPoint());
+        logger.info(DUMP_ID_MSG + getId() + DUMP_PRIVATE_MSG + getPrivateObj() + DUMP_WINDOW_CARD_MSG + getWindowCard()
+                + DUMP_FAVOR_POINT_MSG + getFavorPoint());
     }
 
+    /**
+     * @return true if player is disconnected
+     */
     public boolean isDisconnected() {
-        return disconnected;
+        return currentState.contains(playerState.DISCONNECTED);
     }
 
+    /**
+     * @param disconnected to determine if disconnected has to be set or reset
+     */
     public void setDisconnected(boolean disconnected) {
-        this.disconnected = disconnected;
+        if (disconnected)
+            currentState.add(playerState.DISCONNECTED);
+        else
+            currentState.remove(playerState.DISCONNECTED);
     }
 }

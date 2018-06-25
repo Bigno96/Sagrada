@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.game.Round;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class RoundTest extends TestCase {
 
@@ -21,16 +22,25 @@ public class RoundTest extends TestCase {
         super(testName);
     }
 
+    /**
+     * @return List of nPlayer different Player
+     */
     private List<Player> myPlayerList() {
         List<Player> playerList = new ArrayList<>();
-        for (int i=0; i<nPlayer; i++) {
+
+        IntStream.range(0, nPlayer).forEach(i -> {
             Player p = new Player("test"+i);
             p.setBoard(board);
             playerList.add(p);
-        }
+        });
+
         return playerList;
     }
 
+    /**
+     * Testing the correct player who has to play
+     * @throws PlayerNotFoundException thrown by getPlayer when player is not found
+     */
     public void testNextPlayer() throws PlayerNotFoundException {
         List<Player> list = myPlayerList();
         Round round = new Round(list, new Game());
@@ -42,10 +52,15 @@ public class RoundTest extends TestCase {
         assertNull(round.nextPlayer());
     }
 
-
+    /**
+     * Testing the correct round sequence
+     * @throws PlayerNotFoundException thrown by getPlayer when player is not found
+     */
     public void testNextRound() throws PlayerNotFoundException {
         List<Player> list = myPlayerList();
-        Round round = new Round(list, new Game());
+        Game game = new Game();
+        game.startGame();
+        Round round = new Round(list, game);
 
         assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertSame(round.getPlayer("test"+1), round.nextPlayer());
@@ -60,18 +75,25 @@ public class RoundTest extends TestCase {
         assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertSame(round.getPlayer("test"+1), round.nextPlayer());
         assertNull(round.nextPlayer());
-
-        assertNotSame(round.toString(), round.getPlayer("test"+0).toString());
     }
 
-    public void testGetPlayer() throws PlayerNotFoundException{
-        List<Player> list = myPlayerList();
+    /**
+     * Testing getter for player
+     * @throws PlayerNotFoundException thrown by getPlayer when player is not found
+     */
+    public void testGetPlayer() throws PlayerNotFoundException {
+        Player player = new Player("test");
+        List<Player> list = new ArrayList<>();
+        list.add(player);
         Round round = new Round(list, new Game());
-        Player player = round.getPlayer("test"+0);
-        assertEquals(player, round.getPlayer("test"+0));
+
+        assertEquals(player, round.getPlayer("test"));
     }
 
-    public void testGetPlayerException(){
+    /**
+     * Testing throws by getPlayer when player is not found
+     */
+    public void testGetPlayerException() {
         List<Player> list = myPlayerList();
         Round round = new Round(list, new Game());
 

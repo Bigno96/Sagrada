@@ -55,7 +55,7 @@ public class PrivateObjectiveCardParser extends ObjectiveCardParser implements P
 
         String type = parseType(objArray, id);
 
-        factory.setParameter(ret, type, null, null, null);
+        factory.setParameter(ret, type, "null", "null", "null");
 
         return ret;
     }
@@ -74,6 +74,6 @@ public class PrivateObjectiveCardParser extends ObjectiveCardParser implements P
             }
         }
 
-        return null;
+        return "null";
     }
 }

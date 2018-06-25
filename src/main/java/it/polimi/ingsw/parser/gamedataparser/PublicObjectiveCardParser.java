@@ -81,7 +81,7 @@ public class PublicObjectiveCardParser extends ObjectiveCardParser implements Pa
             }
         }
 
-        return null;
+        return "null";
     }
 
     /**
@@ -98,7 +98,7 @@ public class PublicObjectiveCardParser extends ObjectiveCardParser implements Pa
             }
         }
 
-        return null;
+        return "null";
     }
 
     /**
@@ -115,7 +115,7 @@ public class PublicObjectiveCardParser extends ObjectiveCardParser implements Pa
             }
         }
 
-        return null;
+        return "null";
     }
 
     /**
@@ -132,6 +132,6 @@ public class PublicObjectiveCardParser extends ObjectiveCardParser implements Pa
             }
         }
 
-        return null;
+        return "null";
     }
 }

@@ -6,17 +6,22 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.System.*;
 
 public class MatrixCell implements Serializable {
 
+    private static final String ILLEGAL_MSG = "Illegal Position";
+    private static final String DUMP_ROW_MSG = "Rows: ";
+    private static final String DUMP_COL_MSG = " Cols: ";
+
     private Cell[][] matrix;
     private int rows;
     private int cols;
-    private static String illegalMsg = "Illegal Position";
 
     /**
      * Constructor
@@ -43,18 +48,32 @@ public class MatrixCell implements Serializable {
         }
     }
 
+    /**
+     * @return number of columns
+     */
     public int getCols() {
         return cols;
     }
 
+    /**
+     * @return number of rows
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * @return matrix of cells
+     */
     public Cell[][] getMatrix() {
         return matrix;
     }
 
+    /**
+     * @param row of cell to find
+     * @param col of cell to find
+     * @return cell searched with passed coordinates
+     */
     public Cell getCell(int row, int col) {
         if (matrix[row][col] != null)
             return matrix[row][col];
@@ -62,13 +81,20 @@ public class MatrixCell implements Serializable {
         return null;
     }
 
+    /**
+     * @param d Dice of the cell needed
+     * @return Cell that contains Dice d
+     * @throws IDNotFoundException when trouble finding dice's id
+     */
     public Cell getCell(Dice d) throws IDNotFoundException {
         for (int i=0; i<rows; i++){
             for (int j=0; j<cols; j++){
-                if (matrix[i][j].isOccupied() && matrix[i][j].getDice().getID() == d.getID())
-                    return matrix[i][j];
+                if (matrix[i][j].isOccupied())
+                    if (matrix[i][j].getDice().getID() == d.getID())
+                        return matrix[i][j];
             }
         }
+
         return null;
     }
 
@@ -98,9 +124,14 @@ public class MatrixCell implements Serializable {
     }
 
     public void dump() {
-        out.println("Rows: " + getRows() + " Cols: " + getCols());
+        out.println(DUMP_ROW_MSG + getRows() + DUMP_COL_MSG + getCols());
     }
 
+    /**
+     * Used to verify if cell is on border
+     * @param c Cell to be verified
+     * @return true if the cell is on the border, false else
+     */
     public boolean isBorder(Cell c){
         if (c == null)
             return false;
@@ -118,7 +149,7 @@ public class MatrixCell implements Serializable {
 
     public List<Cell> retOrtogonal (int row, int col) throws PositionException {
         if (row < 0 || row > 3 || col < 0 || col > 4)
-            throw new PositionException(illegalMsg);
+            throw new PositionException(ILLEGAL_MSG);
 
         List<Cell> ort = new ArrayList<>();
 
@@ -140,7 +171,7 @@ public class MatrixCell implements Serializable {
 
     public List<Cell> retDiagonal (int row, int col) throws PositionException {
         if (row < 0 || row > 3 || col < 0 || col > 4)
-            throw new PositionException(illegalMsg);
+            throw new PositionException(ILLEGAL_MSG);
 
         List<Cell> diag = new ArrayList<>();
 
@@ -163,7 +194,7 @@ public class MatrixCell implements Serializable {
 
     public List<Cell> retNeighbors (int row, int col) throws PositionException {
         if (row < 0 || row > 3 || col < 0 || col > 4)
-            throw new PositionException(illegalMsg);
+            throw new PositionException(ILLEGAL_MSG);
 
         List<Cell> neig = new ArrayList<>();
 

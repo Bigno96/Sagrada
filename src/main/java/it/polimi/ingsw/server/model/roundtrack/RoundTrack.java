@@ -80,7 +80,7 @@ public class RoundTrack {
      * @throws SameDiceException
      */
     public void moveDraft(int round) throws SameDiceException {
-        List<Dice> copy = draft.copyDraft();
+        List<Dice> copy = draft.getDraftList();
         draft.freeDraft();
         trackList.get(round).addDice(copy);
     }

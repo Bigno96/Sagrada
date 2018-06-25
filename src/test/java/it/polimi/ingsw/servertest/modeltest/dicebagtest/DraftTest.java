@@ -26,11 +26,15 @@ public class DraftTest extends TestCase {
         super(testName);
     }
 
-    public void testFillDraft() throws IDNotFoundException, EmptyException {           // testing fillDraft with size of diceBag before and after and with size of draft
+    /**
+     * Testing fillDraft with size of diceBag before and after and with size of draft
+     * @throws IDNotFoundException when creating dices with wrong ids
+     * @throws EmptyException when trying to fill draft from an empty bag
+     */
+    public void testFillDraft() throws IDNotFoundException, EmptyException {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
 
-        assertNotSame(db.toString(), draft.toString());
         assertEquals(90, db.diceRemaining());
 
         assertTrue(draft.fillDraft());
@@ -38,11 +42,15 @@ public class DraftTest extends TestCase {
         assertEquals(90-nDice, db.diceRemaining());
         assertEquals(nDice, draft.diceRemaining());
 
-        for (Dice d : draft.copyDraft()) {
-            assertNull(db.findDice(d.getID()));
-        }
+        draft.getDraftList().forEach(dice -> assertNull(db.findDice(dice.getID())));
     }
 
+    /**
+     * Testing throwing empty exception
+     * @throws IDNotFoundException when creating dices with wrong ids
+     * @throws SameDiceException when trying to add same dice when is already in the bag
+     * @throws ValueException when trying to add a dice with an invalid id
+     */
     public void testEmptyException() throws IDNotFoundException, SameDiceException, ValueException {
         DiceBag db = new DiceBag(true);
         Draft draft = new Draft(db, nDice);
@@ -56,7 +64,12 @@ public class DraftTest extends TestCase {
         assertThrows(EmptyException.class, draft::fillDraft);
     }
 
-    public void testRollDraft() throws IDNotFoundException, EmptyException {           // testing rolling dices of draft
+    /**
+     * Testing rolling value of all dices in the draft
+     * @throws IDNotFoundException when creating dices with wrong ids
+     * @throws EmptyException when trying to fill draft from an empty bag
+     */
+    public void testRollDraft() throws IDNotFoundException, EmptyException {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
 
@@ -70,13 +83,20 @@ public class DraftTest extends TestCase {
         }
     }
 
-    public void testModifyingDraft() throws IDNotFoundException, SameDiceException, EmptyException {          // testing adding and removing
+    /**
+     * Testing adding and removing dices in the draft
+     * @throws IDNotFoundException when creating dices with wrong ids
+     * @throws SameDiceException when trying to add same dice when is already in the bag
+     * @throws EmptyException when trying to fill draft from an empty bag
+     */
+    public void testModifyingDraft() throws IDNotFoundException, SameDiceException, EmptyException {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
+
         int length = draft.diceRemaining();
         int wrongId = (id+1)%90;
-        Dice d = new Dice(id, col);
 
+        Dice d = new Dice(id, col);
         Dice dWrong = new Dice(wrongId, col);
 
         assertTrue(draft.addDice(d));
@@ -91,14 +111,18 @@ public class DraftTest extends TestCase {
         assertNull(draft.findDice(d.getID()));
     }
 
-    public void testSetnDice() throws IDNotFoundException {
+    /**
+     * Testing setter of numberDice of draft
+     * @throws IDNotFoundException when creating dices with wrong ids
+     */
+    public void testSetNumberDice() throws IDNotFoundException {
         DiceBag db = new DiceBag();
         Draft draft = new Draft(db, nDice);
         int n = random.nextInt(9);
 
-        assertSame(nDice, draft.getnDice());
-        draft.setnDice(n);
-        assertSame(n, draft.getnDice());
+        assertSame(nDice, draft.getNumberDice());
+        draft.setNumberDice(n);
+        assertSame(n, draft.getNumberDice());
     }
 
 }

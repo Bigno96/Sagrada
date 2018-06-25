@@ -16,7 +16,7 @@ public class ParserManager {
     private static final String PRIVATE_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/PrivateCard.json";
     private static final String PUBLIC_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/PublicCard.json";
     private static final String TOOL_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/ToolCard.json";
-    private static final String COMMUNICATION_PROTOCOL_PATH = SYSTEM_DIR + "/src/main/resources/Json/ServerDictionary.json";
+    private static final String COMMUNICATION_PROTOCOL_PATH = SYSTEM_DIR + "/src/main/resources/Json/Protocol.json";
     private static final String GAME_SETTINGS_PATH = SYSTEM_DIR + "/src/main/resources/Json/GameSettings.json";
     private static final String NETWORK_INFO_PATH = SYSTEM_DIR + "/src/main/resources/Json/NetworkInfo.json";
     private static final String VIEW_DICTIONARY_PATH = SYSTEM_DIR + "/src/main/resources/Json/ViewDictionary.json";

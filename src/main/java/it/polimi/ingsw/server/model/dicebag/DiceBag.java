@@ -16,6 +16,8 @@ public class DiceBag implements Serializable {
     private static final String EMPTY_DRAFT = "Draft is empty";
     private static final String ID_NOT_FOUND = "Id not found";
     private static final String ALREADY_IN_BAG = "Dice is already in Bag";
+    private static final String DUMP_MSG = "contains following dices: ";
+
     private static final int NUM_DICE = 90;
     private static final int NUM_COLOR = 5;
 
@@ -55,7 +57,7 @@ public class DiceBag implements Serializable {
     }
 
     public void dump() {
-        logger.info("contains following dices: ");
+        logger.info(DUMP_MSG);
         dices.forEach(Dice::dump);
     }
 
@@ -90,6 +92,9 @@ public class DiceBag implements Serializable {
         return d.copyDice();
     }
 
+    /**
+     * @return number of dices remaining in the bag
+     */
     public int diceRemaining() { return this.dices.size(); }
 
     /**

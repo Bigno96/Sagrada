@@ -1,27 +1,27 @@
 [
   {
     "ID": 1,
-    "DESCRIPTION": "Shades of Yellow - Sum of values on yellow dice",
+    "DESCRIPTION": "Sfumature Gialle - Somma dei valori su tutti i dadi gialli.",
     "TYPE": "YELLOW"
   },
   {
     "ID": 2,
-    "DESCRIPTION": "Shades of Red - Sum of values on red dice",
+    "DESCRIPTION": "Sfumature Rosse - Somma dei valori su tutti i dadi rossi.",
     "TYPE": "RED"
   },
   {
     "ID": 3,
-    "DESCRIPTION": "Shades of Blue - Sum of values on blue dice",
+    "DESCRIPTION": "Sfumature Blu - Somma dei valori su tutti i dadi blu.",
     "TYPE": "BLUE"
   },
   {
     "ID": 4,
-    "DESCRIPTION": "Shades of Green - Sum of values on green dice",
+    "DESCRIPTION": "Sfumature Verdi - Somma dei valori su tutti i dadi verdi.",
     "TYPE": "GREEN"
   },
   {
     "ID": 5,
-    "DESCRIPTION": "Shades of Purple - Sum of values on purple dice",
+    "DESCRIPTION": "Sfumature Viola - Somma dei valori su tutti i dadi viola.",
     "TYPE": "MAGENTA"
   }
 ]

@@ -6,9 +6,13 @@ import it.polimi.ingsw.server.model.Colors;
 
 import java.io.Serializable;
 import java.util.Random;
-import static java.lang.System.*;
+import java.util.logging.Logger;
 
 public class Dice implements Serializable {
+
+    private static final String DUMP_ID_MSG = "ID: ";
+    private static final String DUMP_COL_MSG = " Col: ";
+    private static final String DUMP_VAL_MSG = " Val: ";
 
     private static final String WRONG_ID = "ID not allowed";
     private static final String WRONG_VALUE = "Illegal Value";
@@ -19,6 +23,8 @@ public class Dice implements Serializable {
     private int value;  //value = 0, when it has not yet been rolled
     private Colors color;
     private int id;     // id between 0 and 89
+
+    private static final Logger logger = Logger.getLogger(Dice.class.getName());
 
     /**
      * Constructor without value
@@ -55,7 +61,7 @@ public class Dice implements Serializable {
     }
 
     public void dump() {
-        out.println("ID: " + getID() + " Col: " + getColor() + " Val: " + getValue());
+        logger.info(DUMP_ID_MSG + getID() + DUMP_COL_MSG + getColor() + DUMP_VAL_MSG + getValue());
     }
 
     public int getID() {

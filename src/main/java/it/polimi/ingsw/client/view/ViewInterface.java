@@ -7,20 +7,65 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.util.List;
 
+/**
+ * Methods used to access view
+ */
 public interface ViewInterface {
-    void print(String s); // s -> general message
-    void startGraphic(); // method used for asking connection
-    void chooseWindowCard(List<WindowCard> cards); // cards -> list of windowCards from which the user has to choose
-    // saves in the hashmap the choice of the window card made by the user who is passed. user -> username player who has picked the window card. card -> the window card that has been chosen by the user passed
+
+    /**
+     * Used to print on screen a message s
+     * @param s to be printed
+     */
+    void print(String s);
+
+    /**
+     * Starts the graphic setting up connection parameters
+     */
+    void startGraphic();
+
+    /**
+     * Used to choose which window card the user want to choose from a presented list
+     * @param cards cards.size() = 4
+     */
+    void chooseWindowCard(List<WindowCard> cards);
+
+
+    /**
+     * Used to show on screen a player's window card
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard().getName()
+     */
     void showCardPlayer(String user, WindowCard card);
+
+    /**
+     * Used to print on screen a window card
+     * @param window window card to be printed
+     */
     void printWindowCard(WindowCard window);
-    void printUsers(List<String> users);
-    void printPrivObj(ObjectiveCard privObj); // privObj -> private objective of the user
-    void printPublObj(List<ObjectiveCard> publObj); // publObj -> list of public objectives of the game
-    void setRound(); // increment local variable of num round in the graphic system
-    void isTurn(String username); // username -> user of current player
-    // draftValue, draftColor -> lists of combination value-color of the dices in the draft
+
+    /**
+     * Used to print owner's private objective
+     * @param privateObj = Player.getPrivateObjective()
+     */
+    void printPrivateObj(ObjectiveCard privateObj);
+
+    /**
+     * Used to print public objective of this current game
+     * @param publicObj publicObj.size() = 3
+     */
+    void printPublicObj(List<ObjectiveCard> publicObj);
+
+    /**
+     * Used to get that is turn of Player with passed username
+     * @param username = game.getCurrentPlayer().getId()
+     */
+    void isTurn(String username);
+
+    /**
+     * Used to show on screen draft for this current round
+     * @param draft = game.getBoard().getDraft()
+     */
     void showDraft(List<Dice> draft);
-    // notify when a dice is placed. username -> user of the player who placed the dice. row,col -> coordinates of the position of the dice. color,value -> attributes of the dice
+
     void placementDice(String username, Cell dest, Dice moved);
 }

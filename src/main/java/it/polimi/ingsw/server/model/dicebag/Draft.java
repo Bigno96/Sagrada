@@ -23,18 +23,19 @@ public class Draft implements Serializable {
 
     private List<Dice> draftList;
     private DiceBag diceBag;
-    private int nDice;
+    private int numberDice;
+
     private static final Logger logger = Logger.getLogger(Draft.class.getName());
 
     /**
      * Constructor
      * @param diceBag of the game
-     * @param nDice = nPlayer * 2 + 1
+     * @param numberDice = nPlayer * 2 + 1
      */
-    public Draft(DiceBag diceBag, int nDice) {
+    public Draft(DiceBag diceBag, int numberDice) {
         draftList = new ArrayList<>();
         this.diceBag = diceBag;
-        this.nDice = nDice;
+        this.numberDice = numberDice;
     }
 
     @Override
@@ -48,16 +49,16 @@ public class Draft implements Serializable {
     }
 
     /**
-     * Filling draft with nDice Dices from DiceBag removing dices taken from it
+     * Filling draft with numberDice Dices from DiceBag removing dices taken from it
      * @return true if fillDraft is successful
      * @throws EmptyException if there isn't enough dice in the bag, diceBag.size() < (2*nPlayer + 1)
      * @throws IDNotFoundException when try to take a Dice with invalid id
      */
     public boolean fillDraft() throws EmptyException, IDNotFoundException {
-        if (diceBag.diceRemaining() < nDice)
+        if (diceBag.diceRemaining() < numberDice)
             throw new EmptyException(NOT_ENOUGH_DICE);
 
-        for (int i = 0; i < nDice; i++) {
+        for (int i = 0; i < numberDice; i++) {
             Dice d = diceBag.randDice();
 
             if (d == null)
@@ -100,12 +101,11 @@ public class Draft implements Serializable {
             return null;
     }
 
+    /**
+     * @return iterator over dices list in the draft
+     */
     public Iterator<Dice> itrDraft() {
         return draftList.iterator();
-    }
-
-    public List<Dice> copyDraft() {
-        return new ArrayList<>(draftList);
     }
 
     /**
@@ -115,6 +115,13 @@ public class Draft implements Serializable {
         draftList.clear();
     }
 
+    /**
+     * Remove dice from the draft
+     * @param d dice to be removed
+     * @return true if success, false else
+     * @throws IDNotFoundException when dice is not in the draft
+     * @throws EmptyException when draft is empty
+     */
     public boolean rmDice(Dice d) throws IDNotFoundException, EmptyException {
         if (draftList.isEmpty())
             throw new EmptyException(EMPTY_DRAFT);
@@ -142,15 +149,34 @@ public class Draft implements Serializable {
         return draftList.add(d);
     }
 
-    public void setnDice(int n) {
-        this.nDice = n;
+    /**
+     * @param n number of dices in the draft
+     */
+    public void setNumberDice(int n) {
+        this.numberDice = n;
         }
 
-    public int getnDice() {
-        return this.nDice;
+    /**
+     * @return numberDice in the draft
+     */
+    public int getNumberDice() {
+        return this.numberDice;
     }
 
+    /**
+     * @return copy of the dices in the draft list
+     */
     public List<Dice> getDraftList() {
-        return draftList;
+        List<Dice> ret = new ArrayList<>();
+
+        draftList.forEach(dice -> {
+            try {
+                ret.add(dice.copyDice());
+            } catch (IDNotFoundException e) {
+                logger.info(e.getMessage());
+            }
+        });
+
+        return ret;
     }
 }

@@ -15,10 +15,11 @@ public class ServerRemoteImpl implements ServerRemote {
 
     private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
+    private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
 
-    private Lobby lobby;
-    private CommunicationParser protocol;
-    private ViewMessageParser dictionary;
+    private final Lobby lobby;
+    private final CommunicationParser protocol;
+    private final ViewMessageParser dictionary;
 
     public ServerRemoteImpl(Lobby lobby) {
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
@@ -105,6 +106,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public void endTurn(String username) {
+        lobby.notifyAllPlayers(username + dictionary.getMessage(TURN_PASSED_KEYWORD));
         lobby.getRoundController().nextTurn();
     }
 
@@ -113,7 +115,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public void getPublicObj(String username) {
-        lobby.getSpeakers().get(username).printPublicObj(lobby.getGame().getBoard().getPublObj());
+        lobby.getSpeakers().get(username).printPublicObj(lobby.getGame().getBoard().getPublicObj());
     }
 
     /**
@@ -121,7 +123,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public void getPrivateObj(String username) {
-        lobby.getSpeakers().get(username).printPrivateObj(lobby.getPlayers().get(username).getPrivObj());
+        lobby.getSpeakers().get(username).printPrivateObj(lobby.getPlayers().get(username).getPrivateObj());
     }
 
     @Override

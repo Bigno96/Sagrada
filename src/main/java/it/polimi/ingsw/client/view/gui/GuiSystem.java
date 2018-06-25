@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
+import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -8,17 +10,11 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,7 +36,7 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-        chooseCard();
+
     }
 
     @Override
@@ -54,33 +50,18 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
-    public void printUsers(List<String> users) {
+    public void printPrivateObj(ObjectiveCard privObj) {
 
     }
 
     @Override
-    public void printPrivObj(ObjectiveCard privObj) {
+    public void printPublicObj(List<ObjectiveCard> publObj) {
 
-    }
-
-    @Override
-    public void printPublObj(List<ObjectiveCard> publObj) {
-
-    }
-
-    @Override
-    public void setRound() {
-        nRound++;
     }
 
     @Override
     public void isTurn(String username) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Your Turn");
-        alert.setHeaderText("E' il tuo turno!");
-        alert.setContentText("Fa la tua mossa");
 
-        alert.showAndWait();
     }
 
     @Override
@@ -97,6 +78,21 @@ public class GuiSystem implements ViewInterface{
     public void print(String s) {
 
     }
+
+    public void setRound() {
+            nRound++;
+    }
+
+/*
+    @Override
+    public void isTurn(String username) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Your Turn");
+        alert.setHeaderText("E' il tuo turno!");
+        alert.setContentText("Fa la tua mossa");
+
+        alert.showAndWait();
+    }*/
 
     @Override
     public void startGraphic() {

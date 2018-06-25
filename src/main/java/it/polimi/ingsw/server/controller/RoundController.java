@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 
+/**
+ * Checks which player has to play turn
+ */
 public class RoundController {
 
     private Game game;

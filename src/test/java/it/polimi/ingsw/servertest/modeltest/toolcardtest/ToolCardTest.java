@@ -318,8 +318,8 @@ public class ToolCardTest extends TestCase {
         assertTrue(tool6.checkPreCondition(p, p.getWindowCard()));
         assertFalse(tool7.checkPreCondition(p, p.getWindowCard()));
 
-        p.endFirstTurn();
-        p.endSecondTurn();
+        p.setFirstTurn(false);
+        p.setSecondTurn(false);
 
         assertEquals(new ArrayList<>(), tool7.askParameter());
 
@@ -339,8 +339,8 @@ public class ToolCardTest extends TestCase {
         assertTrue(tool6.useTool(dices, null, null));
         assertTrue(tool7.useTool(null, null, null));
 
-        p.resetFirstTurn();
-        p.resetSecondTurn();
+        p.setFirstTurn(true);
+        p.setSecondTurn(true);
     }
 
     public void testTool8() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
@@ -356,10 +356,10 @@ public class ToolCardTest extends TestCase {
 
         assertFalse(tool8.checkPreCondition(p, p.getWindowCard()));
 
-        p.playDice();
+        p.setPlayedDice(true);
         assertFalse(tool8.checkPreCondition(p, p.getWindowCard()));
 
-        p.endFirstTurn();
+        p.setFirstTurn(false);
         assertTrue(tool8.checkPreCondition(p, p.getWindowCard()));
 
         assertEquals(new ArrayList<>(), tool8.askParameter());
@@ -368,8 +368,8 @@ public class ToolCardTest extends TestCase {
 
         assertTrue(tool8.useTool(null, null,null));
 
-        p.resetFirstTurn();
-        p.resetSecondTurn();
+        p.setFirstTurn(true);
+        p.setSecondTurn(true);
     }
 
     public void testTool9() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException, WrongPositionException {

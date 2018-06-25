@@ -33,6 +33,7 @@ public class StartGame extends TimerTask {
                                     ((settings.getStartingTimer()-count*settings.getGameNotifyInterval())/1000) +
                                     dictionary.getMessage(SECONDS_COUNTDOWN_KEYWORD));
             count++;
+
         } else {
             this.cancel();
             lobby.startGame();

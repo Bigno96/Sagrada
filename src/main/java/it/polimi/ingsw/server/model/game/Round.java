@@ -10,6 +10,9 @@ import java.util.logging.Logger;
 
 public class Round {
 
+    private static final String DUMP_MSG = "contains following players: ";
+    private static final String PLAYER_NOT_FOUND_MSG = "ID of the player not found";
+
     private List<Player> playerList;
     private Game game;
     private static final Logger logger = Logger.getLogger(Player.class.getName());
@@ -25,16 +28,14 @@ public class Round {
         firstTurn = true;
     }
 
-
     @Override
     public String toString() {
         return getClass().getName() + "@ " + this.hashCode();
     }
 
     public void dump() {
-        logger.info("contains following players: ");
-        for (Player p : playerList)
-            p.dump();
+        logger.info(DUMP_MSG);
+        playerList.forEach(Player::dump);
     }
 
     /**
@@ -45,23 +46,23 @@ public class Round {
         if (firstTurn) {
             for (Player p : playerList) {
                 if (p.isFirstTurn()) {
-                    p.endFirstTurn();
+                    p.setFirstTurn(false);
                     return p;
                 }
             }
-            for (Player p : playerList) {
-                p.resetPlayedDice();
-                p.resetUsedTool();
-            }
+            playerList.forEach(p -> {
+                p.setPlayedDice(false);
+                p.setUsedTool(false);
+            });
 
             firstTurn = false;      //if all player finished the first turn, set firstTurn = false
         }
 
         //The second turn of the round, will start from the last player of the previous turn
-        for (ListIterator<Player> itr = playerList.listIterator(playerList.size()); itr.hasPrevious(); ) {
+        for (ListIterator<Player> itr = playerList.listIterator(playerList.size()); itr.hasPrevious();) {
             Player p = itr.previous();
             if (p.isSecondTurn()) {
-                p.endSecondTurn();
+                p.setSecondTurn(false);
                 return p;
             }
         }
@@ -74,20 +75,18 @@ public class Round {
      * and move the first Player of the previous turn at the end of the playerList
      */
     public void nextRound() {
-        List<Player> tmp = new ArrayList<>();
-        for(ListIterator<Player> itr = playerList.listIterator(1); itr.hasNext();)
-            tmp.add(itr.next());
+        List<Player> tmp = new ArrayList<>(playerList.subList(1, playerList.size()));
 
         tmp.add(playerList.get(0));
 
         playerList = tmp;
 
-        for(Player p: playerList) {
-            p.resetFirstTurn();
-            p.resetSecondTurn();
-            p.resetPlayedDice();
-            p.resetUsedTool();
-        }
+        playerList.forEach(p -> {
+            p.setFirstTurn(true);
+            p.setSecondTurn(true);
+            p.setPlayedDice(true);
+            p.setUsedTool(true);
+        });
 
         firstTurn = true;
         game.getBoard().getDraft().rollDraft();
@@ -105,7 +104,7 @@ public class Round {
                 return p;
         }
 
-        throw new PlayerNotFoundException("ID of the player not found");
+        throw new PlayerNotFoundException(PLAYER_NOT_FOUND_MSG);
     }
 
 }

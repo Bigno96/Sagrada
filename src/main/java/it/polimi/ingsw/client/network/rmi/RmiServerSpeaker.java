@@ -191,11 +191,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
     @Override
     public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
-        try {
-            server.moveDiceFromDraftToCard(username, index, row, col);
-        } catch (RemoteException e) {
-            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
-        }
+
     }
 }
 

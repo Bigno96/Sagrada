@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Run to execute the choice of window card
+ */
 public class ChooseWindowCardTask implements Runnable {
 
     private CliSystem cliSystem;
@@ -21,13 +24,13 @@ public class ChooseWindowCardTask implements Runnable {
     public void run() {
         int pick;
 
-        Boolean exit;
+        Boolean wrong;
         do {
             cliSystem.print("Choose your window card (choice between 1 and 4):");
             pick = inKeyboard.nextInt();
-            exit = pick<1 || pick>4;
+            wrong = pick<1 || pick>4;
 
-        } while(exit);
+        } while(wrong);
 
         pick--;
 

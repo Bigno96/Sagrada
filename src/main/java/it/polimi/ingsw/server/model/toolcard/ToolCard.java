@@ -45,6 +45,10 @@ public class ToolCard {
         this.strategy = toolEffectRealization;
     }
 
+    public ToolCard copy() {
+        return new ToolCard(this.id, this.name, this.color, this.strategy);
+    }
+
     public String getName() {
         return name;
     }
@@ -229,8 +233,8 @@ public class ToolCard {
             return true;
         }
         else if (id == 8) {
-            player.resetPlayedDice();
-            player.endSecondTurn();
+            player.setPlayedDice(true);
+            player.setSecondTurn(false);
         }
         else if (id == 9) {
             return strategy.moveFromDraftToCard(dices.get(0), cells.get(0), windowCard);

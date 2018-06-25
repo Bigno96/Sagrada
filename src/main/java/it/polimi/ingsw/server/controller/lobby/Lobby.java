@@ -213,24 +213,35 @@ public class Lobby {
         ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0, settings.getDaemonFrequency());
     }
 
+    /**
+     * Start first round of the game
+     */
     public void startCountingRound() {
         roundController = new RoundController(game);
-        game.getBoard().getDraft().rollDraft();
+
+        try {
+            game.getBoard().getDraft().fillDraft();
+            game.getBoard().getDraft().rollDraft();
+
+        } catch (EmptyException | IDNotFoundException e) {
+            out.println(e.getMessage());
+        }
+
         roundController.nextTurn();
     }
 
     /**
      * @param s String to be printed to all player not disconnected
      */
-    void notifyAllPlayers(String s) {
+    public void notifyAllPlayers(String s) {
         synchronized (playersLock) {
-            synchronized (speakersLock) {
+           synchronized (speakersLock) {
                 players.entrySet().stream()
                     .filter(entry -> !entry.getValue().isDisconnected())        // filter only connected player
                     .map(Map.Entry::getKey)
                     .collect(Collectors.toList())
                     .forEach(key -> speakers.get(key).tell(s));                 // tell them
-            }
+           }
         }
     }
 
@@ -238,7 +249,7 @@ public class Lobby {
      * Ends the game notifying victory.
      */
     public void endGame() {
-        if (game.getNPlayer() == 1)
+        if (game.getNumPlayer() == 1)
             notifyAllPlayers(dictionary.getMessage(WIN_MSG_KEYWORD));
     }
 
