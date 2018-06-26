@@ -25,13 +25,15 @@ public class ToolEffectRealizationTest extends TestCase {
     private int fp = random.nextInt(4)+3;
     private int val = random.nextInt(6)+1;
 
+    private final GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+
     public ToolEffectRealizationTest(String testName) {
         super(testName);
     }
 
     // filling a list with 20 random cells with no restriction
     private List<Cell> myEmptyCellList() throws ValueException, PositionException {
-        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
@@ -45,7 +47,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         Cell c0 = winCard.getWindow().getCell(0,0);
@@ -75,7 +78,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         Cell c0 = winCard.getWindow().getCell(0,0);
 
         Dice d0 = new Dice(id, color);
@@ -118,7 +122,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         int row = 0;
         int col = 0;
 
@@ -148,7 +153,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         int row = 0;
@@ -185,7 +191,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         List<Dice> dices = new ArrayList<>();
         List<Cell> cells = new ArrayList<>();
         int row = 0;
@@ -237,7 +244,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         Dice d0 = new Dice(id, Colors.BLUE, val);
         Dice d1 = new Dice((id+1)%90, Colors.GREEN, val);
         Cell c0 = winCard.getWindow().getCell(0, 0);
@@ -260,7 +268,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         Dice d0 = new Dice((id+2)%90, Colors.BLUE, val);
         Dice d1 = new Dice((id+3)%90, Colors.GREEN, val);
         Cell c0 = winCard.getWindow().getCell(0, 0);
@@ -280,7 +289,8 @@ public class ToolEffectRealizationTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         Dice d0 = new Dice(id, Colors.GREEN, val);
         Dice d1 = new Dice((id+4)%90, Colors.GREEN, val);
         Dice d2 = new Dice((id+5)%90, Colors.GREEN, val);

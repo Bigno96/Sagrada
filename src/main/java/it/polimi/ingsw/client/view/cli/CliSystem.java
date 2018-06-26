@@ -134,22 +134,18 @@ public class CliSystem implements ViewInterface {
         out.println(window.getName());
         out.println(dictionary.getMessage(FAVOR_POINT_KEYWORD) + window.getNumFavPoint());
 
-        for (int i=0; i<window.getWindow().getCols(); i++)
+        for (int i = 0; i<window.getWindow().getMaxCol(); i++)
             out.print("\t" + i);
         print("");
 
-        for (int i=0; i<window.getWindow().getRows(); i++) {
+        for (int i = 0; i<window.getWindow().getMaxRow(); i++) {
             out.print(i + "\t");
 
-            for (int j = 0; j < window.getWindow().getCols(); j++) {
+            for (int j = 0; j < window.getWindow().getMaxCol(); j++) {
                 c = window.getWindow().getCell(i, j);
 
                 if (c.isOccupied()) {
-                    try {
-                        out.print(ansi().eraseScreen().bg(Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
-                    } catch (IDNotFoundException e) {
-                        out.println(e.getMessage());
-                    }
+                    out.print(ansi().eraseScreen().bg(Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
                 }
                 else
                     out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");

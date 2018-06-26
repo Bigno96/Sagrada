@@ -41,11 +41,11 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @return sum points of PrivateObjective
      */
-    public int calcPointPrivate(Colors col, WindowCard winCard) throws IDNotFoundException {
+    public int calcPointPrivate(Colors col, WindowCard winCard) {
         int sum = 0;
         List<Cell> occupiedCellList = new ArrayList<>();
 
-        winCard.getOrizzItr().forEachRemaining(cell -> {
+        winCard.getHorizontalItr().forEachRemaining(cell -> {
             if (cell.isOccupied())
                 occupiedCellList.add(cell);
         });
@@ -64,9 +64,8 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 1
-     * @throws IDNotFoundException when getDice throw IDNotFoundException
      */
-    public int calcDifferentRowColor(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcDifferentRowColor(WindowCard winCard, ObjectiveCard objective) {
         Cell c;
         int sum = 0;
         HashSet<Colors> colorFound = new HashSet<>();           // set of color found on the row
@@ -94,9 +93,8 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 2
-     * @throws IDNotFoundException when getDice throw IDNotFoundException
      */
-    public int calcDifferentColumnColor(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcDifferentColumnColor(WindowCard winCard, ObjectiveCard objective) {
         Cell c;
         int sum = 0;
         HashSet<Colors> colorFound = new HashSet<>();           // set of color found on the column
@@ -125,9 +123,8 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 3
-     * @throws IDNotFoundException when getDice throw IDNotFoundException
      */
-    public int calcDifferentRowShade(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcDifferentRowShade(WindowCard winCard, ObjectiveCard objective) {
         Cell c;
         int sum = 0;
         HashSet<Integer> valueFound = new HashSet<>();              // set of shade found on the row
@@ -156,9 +153,8 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 4
-     * @throws IDNotFoundException when getDice throw exception
      */
-    public int calcDifferentColumnShade(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcDifferentColumnShade(WindowCard winCard, ObjectiveCard objective) {
         Cell c;
         int sum = 0;
         HashSet<Integer> valueFound = new HashSet<>();              // set of shade found on the column
@@ -189,13 +185,12 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCards 5, 6, 7
-     * @throws IDNotFoundException when getDice throw exception
      */
-    public int calcGradationShade(int val1, int val2, WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcGradationShade(int val1, int val2, WindowCard winCard, ObjectiveCard objective) {
         int num1 = 0;
         int num2 = 0;
 
-        for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {          // iterates on cells of window Card
+        for (Iterator<Cell> itr = winCard.getHorizontalItr(); itr.hasNext();) {          // iterates on cells of window Card
             Cell c = itr.next();
             if (c.isOccupied()) {                                   // if cell is occupied
                 if (c.getDice().getValue() == val1)                 // count every shade equals to the first
@@ -213,15 +208,14 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 8
-     * @throws IDNotFoundException when getDice throw exception
      */
-    public int calcVarietyShade(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcVarietyShade(WindowCard winCard, ObjectiveCard objective) {
         int sum = 0;
         HashSet<Integer> var1 = new HashSet<>();                // we can found max 3 sets of different shades
         HashSet<Integer> var2 = new HashSet<>();
         HashSet<Integer> var3 = new HashSet<>();
 
-        for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {      // iterates on cells of window Card
+        for (Iterator<Cell> itr = winCard.getHorizontalItr(); itr.hasNext();) {      // iterates on cells of window Card
             Cell c = itr.next();
             if (c.isOccupied()) {                           // if cell is occupied
                 int val = c.getDice().getValue();           // get shade of the Dice in the cell
@@ -251,12 +245,11 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @return sum of points of PublicCard 9
      * @throws PositionException when retDiagonal throw exception
-     * @throws IDNotFoundException when getDice throw exception
      */
-    public int calcDiagonalColor(WindowCard winCard) throws PositionException, IDNotFoundException {
+    public int calcDiagonalColor(WindowCard winCard) throws PositionException {
         int sum = 0;
 
-        for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {      // iterates on cells of window Card
+        for (Iterator<Cell> itr = winCard.getHorizontalItr(); itr.hasNext();) {      // iterates on cells of window Card
             Cell c = itr.next();
             List<Cell> diagonal = winCard.getWindow().retDiagonal(c.getRow(), c.getCol());      // get cells around diagonally the given cell
             for (Cell cell : diagonal) {                                // for all of these cells
@@ -275,16 +268,15 @@ public class ObjectiveCalculator implements Serializable {
      * @param winCard != null
      * @param objective != null
      * @return sum of points of PublicCard 10
-     * @throws IDNotFoundException when getDice throw exception
      */
-    public int calcVarietyColor(WindowCard winCard, ObjectiveCard objective) throws IDNotFoundException {
+    public int calcVarietyColor(WindowCard winCard, ObjectiveCard objective) {
         int sum = 0;
         HashSet<Colors> var1 = new HashSet<>();                 // we can found 4 max sets of different colors
         HashSet<Colors> var2 = new HashSet<>();
         HashSet<Colors> var3 = new HashSet<>();
         HashSet<Colors> var4 = new HashSet<>();
 
-        for (Iterator<Cell> itr = winCard.getOrizzItr(); itr.hasNext();) {    // iterates on cells of window Card
+        for (Iterator<Cell> itr = winCard.getHorizontalItr(); itr.hasNext();) {    // iterates on cells of window Card
             Cell c = itr.next();
             if (c.isOccupied()) {                           // if cell is occupied
                 Colors col = c.getDice().getColor();        // get color of the Dice in the cell

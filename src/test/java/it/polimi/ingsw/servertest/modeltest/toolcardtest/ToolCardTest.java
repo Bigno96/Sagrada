@@ -151,7 +151,8 @@ public class ToolCardTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool2 = new ToolCard(2, "Tool2", col, strategy);
         ToolCard tool3 = new ToolCard(3, "Tool3", col, strategy);
 
@@ -226,7 +227,8 @@ public class ToolCardTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool4 = new ToolCard(4, "Tool4", col, strategy);
 
         Player p = new Player(username);
@@ -377,7 +379,8 @@ public class ToolCardTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool9 = new ToolCard(9, "Tool9", col, strategy);
 
         Player p = new Player(username);
@@ -450,7 +453,8 @@ public class ToolCardTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool11 = new ToolCard(11, "Tool11", col, strategy);
 
         Player p = new Player(username);
@@ -494,7 +498,8 @@ public class ToolCardTest extends TestCase {
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool12 = new ToolCard(12, "Tool12", col, strategy);
 
         Player p = new Player(username);

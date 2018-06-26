@@ -170,11 +170,7 @@ public class Draft implements Serializable {
         List<Dice> ret = new ArrayList<>();
 
         draftList.forEach(dice -> {
-            try {
-                ret.add(dice.copyDice());
-            } catch (IDNotFoundException e) {
-                logger.info(e.getMessage());
-            }
+            ret.add(dice.copyDice());
         });
 
         return ret;

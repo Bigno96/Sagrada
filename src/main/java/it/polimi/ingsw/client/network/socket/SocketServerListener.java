@@ -150,8 +150,10 @@ public class SocketServerListener implements Runnable {
         Consumer<String> printCard = string -> view.printWindowCard(card);
         Consumer<String> nextTurn = view::isTurn;
 
-        Consumer<String> makeListCard = string -> cards.add(new WindowCard(cardId, cardName, favorPoint, cellList));
-        Consumer<String> makeCard = string -> card = new WindowCard(cardId, cardName, favorPoint, cellList);
+        Consumer<String> makeListCard = string -> cards.add(new WindowCard(cardId, cardName, favorPoint, cellList,
+                                    settings.getWindowCardMaxRow(), settings.getWindowCardMaxColumn()));
+        Consumer<String> makeCard = string -> card = new WindowCard(cardId, cardName, favorPoint, cellList,
+                                    settings.getWindowCardMaxRow(), settings.getWindowCardMaxColumn());
         Consumer<String> makeCellList = string -> cellList.clear();
         Consumer<String> setCardName = name -> cardName = name;
         Consumer<String> setCardId = id -> cardId = Integer.parseInt(id);

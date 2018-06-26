@@ -9,7 +9,6 @@ import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
@@ -181,7 +180,7 @@ public class PlayerTest extends TestCase {
 
         p.setWindowCard(windowCard);
 
-        for (Iterator<Cell> itr = windowCard.getOrizzItr(); itr.hasNext();) {
+        for (Iterator<Cell> itr = windowCard.getHorizontalItr(); itr.hasNext();) {
             Cell cell = itr.next();
             cell.setDice(new Dice(cell.getCol() + cell.getRow(), cell.getColor(), cell.getValue()));
         }

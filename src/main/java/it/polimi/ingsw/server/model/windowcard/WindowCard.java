@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.model.windowcard;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.WrongPositionException;
 import it.polimi.ingsw.exception.EmptyException;
@@ -12,12 +12,22 @@ import static java.lang.System.*;
 
 public class WindowCard implements Serializable {
 
+    private static final String COLOR_ERROR_MSG = "Color not correct on cell: ";
+    private static final String VALUE_ERROR_MSG = "Value not correct on cell: ";
+    private static final String FIRST_DICE_POSITION_ERROR_MSG = "First Dice not correctly positioned";
+    private static final String MORE_DICE_POSITION_ERROR_MSG = "More than one dice positioned";
+    private static final String NO_DICE_POSITION_ERROR_MSG = "No Dice positioned";
+    private static final String POSITION_ERROR_MSG = "Position not correct on cell ";
+    private static final String NO_DICE_AROUND_POSITION_ERROR_MSG = "Position not correct on cell (no dice around) ";
+
+    private static final String DUMP_ID_MSG = "ID: ";
+    private static final String DUMP_NAME_MSG = " Name: ";
+    private static final String DUMP_NUM_FAVOR_POINT_MSG = " NumFavPoints: ";
+
     private MatrixCell window;
     private int id;                 // id it's the same for 2 window card that represents front and behind of a real Window Card
     private int numFavPoint;
     private String name;
-    private static String colorMsg = "Color not correct on cell: ";
-    private static String valueMsg = "Value not correct on cell: ";
 
     /**
      * Constructor
@@ -26,28 +36,39 @@ public class WindowCard implements Serializable {
      * @param numFavPoint !=null
      * @param cellList != null
      */
-    public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList){
-        final int rows = 4;
-        final int cols = 5;
+    public WindowCard (int id, String name, int numFavPoint, List<Cell> cellList, int maxRow, int maxCol) {
         this.id = id;
         this.name = name;
         this.numFavPoint = numFavPoint;
-        window = new MatrixCell(rows, cols);
+
+        window = new MatrixCell(maxRow, maxCol);
         this.window.loadMatrixCell(cellList);
     }
 
+    /**
+     * @return id of window card
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @return name of window card
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return number of favor point of this window card
+     */
     public int getNumFavPoint() {
         return numFavPoint;
     }
 
+    /**
+     * @return MatrixCell representing list of Cells of this window card
+     */
     public MatrixCell getWindow() {
         return window;
     }
@@ -58,14 +79,15 @@ public class WindowCard implements Serializable {
     }
 
     public void dump() {
-        out.println("ID: " + getId() + " Name: " + getName() + " NumFavPoints: " + getNumFavPoint());
-        Iterator<Cell> itr = window.itrOrizz();
-        while (itr.hasNext())
-            itr.next().dump();
+        out.println(DUMP_ID_MSG + getId() + DUMP_NAME_MSG + getName() + DUMP_NUM_FAVOR_POINT_MSG + getNumFavPoint());
+        window.itrHorizontal().forEachRemaining(Cell::dump);
     }
 
-    public Iterator<Cell> getOrizzItr() {
-        return window.itrOrizz();
+    /**
+     * @return iterator over cells matrix that iterates horizontally
+     */
+    public Iterator<Cell> getHorizontalItr() {
+        return window.itrHorizontal();
     }
 
     /**
@@ -76,14 +98,14 @@ public class WindowCard implements Serializable {
      */
     public boolean checkFirstDice() throws WrongPositionException, EmptyException {
         if (checkOneDice()) {
-            for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+            for (Iterator<Cell> itr = window.itrHorizontal(); itr.hasNext();) {
                 Cell c = itr.next();
-                if (c.isOccupied() && !window.isBorder(c)) {
-                    throw new WrongPositionException("First Dice not correctly positioned");
-                }
+                if (c.isOccupied() && !window.isBorder(c))
+                    throw new WrongPositionException(FIRST_DICE_POSITION_ERROR_MSG);
             }
+
         } else
-            throw new WrongPositionException("More than one dice positioned");
+            throw new WrongPositionException(MORE_DICE_POSITION_ERROR_MSG);
 
         return true;
     }
@@ -97,95 +119,127 @@ public class WindowCard implements Serializable {
     public boolean checkOneDice() throws EmptyException, WrongPositionException {
         Boolean first = true;
 
-        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+        for (Iterator<Cell> itr = window.itrHorizontal(); itr.hasNext();) {
             Cell c = itr.next();
             if (c.isOccupied() && first) {
                 first = false;
                 if (!c.checkColor())
-                    throw new WrongPositionException(colorMsg + c.toString());
+                    throw new WrongPositionException(COLOR_ERROR_MSG + c.toString());
                 if (!c.checkValue())
-                    throw new WrongPositionException(valueMsg + c.toString());
+                    throw new WrongPositionException(VALUE_ERROR_MSG + c.toString());
             }
             else if (c.isOccupied() && !first)
                 return false;
         }
 
         if (first)
-            throw new EmptyException("No Dice positioned");
+            throw new EmptyException(NO_DICE_POSITION_ERROR_MSG);
 
         return true;
     }
 
-    public boolean checkOrtCol(Cell c, List<Cell> cellList) throws IDNotFoundException {
-        for (Cell cell : cellList)
-            if (cell.getDice() != null)
-                if (!cell.isIgnoreColor() && c.getDice().getColor().equals(cell.getDice().getColor()))
-                    return false;
+    /**
+     * Check if a dice on a cell has valid color adjacency
+     * @param c cell to check
+     * @param cellList list of cell where to check
+     * @return true if the cell has valid color adjacency, false else
+     */
+    public boolean checkOrtCol(Cell c, List<Cell> cellList) {
+        Optional<Cell> ret = cellList.stream()
+                .filter(cell -> cell.getDice() != null)
+                .filter(cell -> !cell.isIgnoreColor() && c.getDice().getColor().equals(cell.getDice().getColor()))
+                .findAny();
 
-        return true;
+        return !ret.isPresent();
     }
 
-    public boolean checkOrtVal(Cell c, List<Cell> cellList) throws IDNotFoundException {
-        for (Cell cell : cellList)
-            if (cell.getDice() != null)
-                if (!cell.isIgnoreValue() && c.getDice().getValue() == cell.getDice().getValue())
-                    return false;
+    /**
+     * Check if a dice on a cell has valid value adjacency
+     * @param c cell to check
+     * @param cellList list of cell where to check
+     * @return true if the cell has valid value adjacency, false else
+     */
+    public boolean checkOrtVal(Cell c, List<Cell> cellList) {
+        Optional<Cell> ret = cellList.stream()
+                .filter(cell -> cell.getDice() != null)
+                .filter(cell -> !cell.isIgnoreValue() && c.getDice().getValue() == cell.getDice().getValue())
+                .findAny();
 
-        return true;
+        return !ret.isPresent();
     }
 
-    public boolean checkOrtPos(Cell c) throws IDNotFoundException, PositionException {
-        List<Cell> cellList = window.retOrtogonal(c.getRow(), c.getCol());
+    /**
+     * Check if a dice on a cell satisfy restriction of color and value adjacency
+     * @param c cell to check
+     * @return true if the cell satisfy restriction, false else
+     * @throws PositionException when trying to pass wrong coordinates
+     */
+    public boolean checkOrtPos(Cell c) throws PositionException {
+        List<Cell> orthogonal = window.retOrthogonal(c.getRow(), c.getCol());
 
-        for (Cell cell : cellList)
-            if (cell.getDice() != null) {
-                if (!c.isIgnoreValue() && !checkOrtVal(c, cellList))
-                    return false;
-                if (!c.isIgnoreColor() && !checkOrtCol(c, cellList))
-                    return false;
-            }
+        Optional<Cell> ret = orthogonal.stream()
+                .filter(cell -> cell.getDice() != null)
+                .filter(cell ->
+                        (!c.isIgnoreValue() && !checkOrtVal(c, orthogonal)) ||
+                        (!c.isIgnoreColor() && !checkOrtCol(c, orthogonal)))
+                .findAny();
 
-        return true;
+        return !ret.isPresent();
     }
 
+    /**
+     * Check if the cell occupied has some neighbors
+     * @param c cell to check
+     * @return true if the dice has some neighbors, false else
+     * @throws PositionException when trying to pass wrong coordinates
+     */
     public boolean checkNeighbors(Cell c) throws PositionException {
         if (c.isIgnoreNearby())
             return true;
 
-        List<Cell> cellList = window.retNeighbors(c.getRow(), c.getCol());
+        List<Cell> neighbors = window.retNeighbors(c.getRow(), c.getCol());
 
-        for (Cell cell : cellList)
-            if (cell.isOccupied())
-                return true;
+        Optional<Cell> ret = neighbors.stream()
+                .filter(Cell::isOccupied)
+                .findAny();
 
-        return false;
+        return ret.isPresent();
     }
 
-    public boolean checkPlaceCond() throws WrongPositionException, IDNotFoundException, PositionException {
-        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+    /**
+     * Check if all the restriction are satisfied on the window card
+     * @return true if restriction are satisfied, false else
+     * @throws WrongPositionException thrown when place condition are not satisfied
+     * @throws PositionException when trying to pass wrong coordinates
+     */
+    public boolean checkPlaceCond() throws WrongPositionException, PositionException {
+        for (Iterator<Cell> itr = window.itrHorizontal(); itr.hasNext();) {
             Cell c = itr.next();
             if (c.isOccupied()) {
                 if (!c.checkColor())
-                    throw new WrongPositionException(colorMsg + c.toString());
+                    throw new WrongPositionException(COLOR_ERROR_MSG + c.toString());
                 else if (!c.checkValue())
-                    throw new WrongPositionException(valueMsg + c.toString());
+                    throw new WrongPositionException(VALUE_ERROR_MSG + c.toString());
                 else if (!checkOrtPos(c))
-                    throw new WrongPositionException("Position not correct on cell " + c.toString());
+                    throw new WrongPositionException(POSITION_ERROR_MSG + c.toString());
                 else if (!checkNeighbors(c))
-                    throw new WrongPositionException("Position not correct on cell (no dice around) " + c.toString());
+                    throw new WrongPositionException(NO_DICE_AROUND_POSITION_ERROR_MSG + c.toString());
             }
         }
 
         return true;
     }
 
-    public int numEmptyCells(){
-        int cont = 0;
-        for (Iterator<Cell> itr = window.itrOrizz(); itr.hasNext();) {
+    /**
+     * @return number of empty cell in window card
+     */
+    public int numEmptyCells() {
+        int count = 0;
+        for (Iterator<Cell> itr = window.itrHorizontal(); itr.hasNext();)
             if (!itr.next().isOccupied())
-                cont++;
-        }
-        return cont;
+                count++;
+
+        return count;
     }
 
 }

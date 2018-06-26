@@ -326,7 +326,7 @@ public class ToolEffectRealization {
      */
     public void findSetNearby(Cell dest, boolean set, WindowCard windowCard) {
         if (windowCard.numEmptyCells() == 18) {
-            for (Iterator<Cell> itr = windowCard.getOrizzItr(); itr.hasNext();) {
+            for (Iterator<Cell> itr = windowCard.getHorizontalItr(); itr.hasNext();) {
                 Cell cell = itr.next();
                 if (cell.isOccupied())
                     if (set)

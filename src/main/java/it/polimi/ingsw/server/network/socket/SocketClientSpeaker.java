@@ -186,7 +186,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         socketOut.println(protocol.getMessage(CARD_CELL_LIST_KEYWORD));
         socketOut.println(" ");
 
-        card.getOrizzItr().forEachRemaining(cell -> {
+        card.getHorizontalItr().forEachRemaining(cell -> {
             socketOut.println(protocol.getMessage(CELL_VALUE_KEYWORD));
             socketOut.println(cell.getValue());
 

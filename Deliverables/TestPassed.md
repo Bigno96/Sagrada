@@ -132,7 +132,7 @@
 ### Cell
 * **testGetter**: testing getValue, getColor, getCol, getRow
 * **testChangeDiceValue**: testing changing value of dice in the cell
-* **testIsOccupied**: testing of method is occupied
+* **testIsOccupied**: testing of a cell is occupied
 * **testCheck**: testing control over value and color restrictions
 * **testValueException**: testing reaction to impossible value of cell
 * **testNotEmptyException**: testing that if cell is already occupied is impossible to insert a Dice
@@ -140,12 +140,12 @@
 * **testIgnoreRestriction**: test if the cells, nearby the current, have ignoring restriction set
 
 ### MatrixCell
-* **testGetter**: testing getRows, getCols, getMatrix, getCell
+* **testGetter**: testing getMaxRow, getMaxCol, getMatrix, getCell
 * **testLoadMatrixCell**: testing setting correctly matrix inside of window card
-* **testContainsDice**: test if the dice passed is in 
+* **testContainsDice**: test if the dice passed is in the matrix
 * **testIsBorder**: testing finding cells on border
 * **testPositionException**: testing reaction when asking for nearby cells around an incorrect cell
-* **testRetOrtogonal**: testing finding ortogonal neighbors of a cell
+* **testRetOrthogonal**: testing finding orthogonal neighbors of a cell
 * **testRetDiagonal**: testing finding diagonal neighbors of a cell
 * **testRetNeighbors**: testing finding all neighbors of a cell
 
@@ -155,7 +155,7 @@
 * **testCheckFirstDiceException**: testing cases as first dice placement of no dices positioned, more than one dice positioned, not in border and color and/or value restriction not respected
 * **testCheckOneDice**: testing if only one dice is positioned
 * **testCheckOneDiceException**: testing cases no dice are positioned and color and/or value restriction not respected
-* **testCheckOrtPos**: test the correct condition of the ortogonally positioned cells
+* **testCheckOrtPos**: test the correct condition of the orthogonally positioned cells
 * **testCheckNeighbors**: test the correct condition of the cells nearby 
 * **testCheckPlaceCond**: testing if all dices are correctly positioned
 * **testCheckPlaceCondException**: testing all bad cases of placement
