@@ -78,7 +78,7 @@
 * **testSetParameter**: testing setting parameter used by objective calculator
 * **testCopy**: testing method for copying objective card
 
-## roundtrack
+## roundTrack
 
 ### ListDiceRound
 * **testAddDice**: testing adding Dice to a round of RoundTrack
@@ -96,7 +96,7 @@
 * **testAddDice**: testing about adding dices and reaction to illegal adding attempts
 * **testRmDice**: testing about removing dices and reaction to illegal removing attempts
 
-## toolcard
+## toolCard
 
 ### ToolCard
 * **testAttribute**: testing all "get-methods" in ToolCard
@@ -112,10 +112,7 @@
 * **testTool11**: test tool card 11
 * **testTool12**: test tool card 12
 
-## ToolFactory
-* **testMakeToolCard**: test the making of all the tool cards
-
-## ToolStrategy
+### ToolStrategy
 * **testCheckTool12**: test if the condition of the tool card 12 are correct
 * **testCheckDiceIn**: test if the dice is in window card (first), round track (second), draft (third)
 * **testChangeValue**: test the change of value only if the new value is old value +1 or -1
@@ -161,10 +158,6 @@
 * **testCheckPlaceCondException**: testing all bad cases of placement
 * **testNumEmptyCells**: test the number of empty cells
 
-### WindowFactory 
-* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
-* **testException**: testing reaction to incorrect research
-
 ## colors
 
 ### Colors
@@ -186,4 +179,10 @@
 * **testPublic9**: test if parameter of public card 9 are built correctly
 * **testPublic10**: test if parameter of public card 10 are built correctly
 
+### WindowParserTest
+* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
+* **testException**: testing reaction to incorrect research
+
+### ToolCardParserTest
+* **testMakeToolCard**: test the making of all the tool cards
 
