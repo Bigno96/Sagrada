@@ -30,7 +30,7 @@
   "CELL_COL": "cell_col",
 
   "DICE": "dice",
-  "DRAFT_DICE": "draft_dice",
+  "DICE_DRAFT": "dice_draft",
   "MAKE_DRAFT": "make_draft",
   "DICE_ID": "dice_id",
   "DICE_COLOR": "dice_color",
