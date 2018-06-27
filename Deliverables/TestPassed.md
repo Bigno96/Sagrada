@@ -186,3 +186,13 @@
 ### ToolCardParserTest
 * **testMakeToolCard**: test the making of all the tool cards
 
+## lobby
+
+## LobbyTest
+* **testAddPlayer**: test addition of players into the lobby and their errors
+* **testDisconnectPlayer**: test disconnection of players from the lobby
+* **testReconnectPlayer**: test reconnection of a player who has disconnected while game was starting or started
+* **testRemovePlayer**: test removing a player
+* **testStartingGame**: test starting time pre game when 2 players have connected
+* **testStartCountingRound**: test starting round counting and roll first draft
+* **testGetter**: test various getter of lobby

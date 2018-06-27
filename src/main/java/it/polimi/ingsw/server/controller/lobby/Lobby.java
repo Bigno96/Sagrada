@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static java.lang.System.*;
 
 public class Lobby {
-    enum gameState { WAITING, STARTING, STARTED }
+    public enum gameState { WAITING, STARTING, STARTED }
     private gameState currentState;
 
     private static final String WELCOME_USER_KEYWORD = "WELCOME_USER";
@@ -107,14 +107,19 @@ public class Lobby {
      * @param username disconnected.
      */
     public void disconnectPlayer(String username) {
-        if(currentState.equals(gameState.WAITING)) {            // if gameState is WAITING, launch timer before removing
-            Timer removing = new Timer();
-            RemovePlayerDaemon daemon = new RemovePlayerDaemon(username);
-            removing.schedule(daemon, settings.getRemovingTimer());
-            checkerRemoving.put(username, daemon);
+        synchronized (playersLock) {
 
-        } else
-            players.get(username).setDisconnected(true);        // else, just set Disconnected state on player
+            if (players.containsKey(username)) {
+                if (currentState.equals(gameState.WAITING)) {            // if gameState is WAITING, launch timer before removing
+                    Timer removing = new Timer();
+                    RemovePlayerDaemon daemon = new RemovePlayerDaemon(username);
+                    removing.schedule(daemon, settings.getRemovingTimer());
+                    checkerRemoving.put(username, daemon);
+
+                } else
+                    players.get(username).setDisconnected(true);        // else, just set Disconnected state on player
+            }
+        }
     }
 
     /**
@@ -130,7 +135,7 @@ public class Lobby {
      * Stops REMOVING_PLAYER_TIMER of a player that re-enter a lobby in WAITING state.
      * @param username reconnected.
      */
-    public void purgeRemoving(String username) {
+    void purgeRemoving(String username) {
         synchronized (checkerLock) {
             if (checkerRemoving.containsKey(username))
                 checkerRemoving.get(username).cancel();
@@ -183,7 +188,7 @@ public class Lobby {
     /**
      * Sets up GAME_IS_STARTING_TIMER and add each player to the instance of game.
      */
-    void startingGame() {
+    public void startingGame() {
         synchronized (playersLock) {
             players.forEach((key, value) -> {
                 try {
@@ -203,7 +208,7 @@ public class Lobby {
     /**
      * Notify all players that game is started. Then invokes method startGame of game and sets up the check end game daemon.
      */
-    void startGame() {
+    public void startGame() {
         notifyAllPlayers(dictionary.getMessage(GAME_STARTED_KEYWORD));
         currentState = gameState.STARTED;
         gameController = new GameController(this, players);
@@ -253,24 +258,54 @@ public class Lobby {
             notifyAllPlayers(dictionary.getMessage(WIN_MSG_KEYWORD));
     }
 
+    /**
+     * @return game of this lobby
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * @return game Controller
+     */
     public GameController getGameController() {
         return this.gameController;
     }
 
+    /**
+     * @return round Controller
+     */
     public RoundController getRoundController() {
         return this.roundController;
     }
 
+    /**
+     * @return hash map of players
+     */
     public Map<String, Player> getPlayers() {
         return players;
     }
 
+    /**
+     * @return hash map of client speakers
+     */
     public Map<String, ClientSpeaker> getSpeakers() {
         return speakers;
+    }
+
+    /**
+     * Set current state
+     * @param state to be set
+     */
+    public void setState(gameState state) {
+        currentState = state;
+    }
+
+    /**
+     * @return current stat of the game
+     */
+    public gameState getState() {
+        return currentState;
     }
 }
 

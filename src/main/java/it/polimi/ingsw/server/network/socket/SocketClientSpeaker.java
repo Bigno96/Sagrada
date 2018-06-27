@@ -173,6 +173,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         }
     }
 
+    /**
+     * Deconstruct Window Card for passing through socket
+     * @param card to be deconstructed
+     * @param type if it's a single card, or one of the card of a list
+     */
     private void deconstructCard(WindowCard card, String type) {
         socketOut.println(protocol.getMessage(CARD_NAME_KEYWORD));
         socketOut.println(card.getName());
@@ -273,6 +278,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         }
     }
 
+    /**
+     * Deconstruct Dice for passing through socket
+     * @param dice to be deconstructed
+     * @param type if it's a single dice, or one of the dice of a list
+     */
     private void deconstructDice(Dice dice, String type) {
         socketOut.println(protocol.getMessage(DICE_ID_KEYWORD));
         socketOut.println(dice.getID());

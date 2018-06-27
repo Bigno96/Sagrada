@@ -20,7 +20,7 @@ public class RmiClientSpeaker implements ClientSpeaker {
 
     private ClientRemote client;
 
-    RmiClientSpeaker(ClientRemote client) {
+    public RmiClientSpeaker(ClientRemote client) {
         this.client = client;
     }
 

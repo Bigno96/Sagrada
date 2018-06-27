@@ -17,7 +17,7 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     private String username;
     private final AtomicReference<ViewInterface> view = new AtomicReference<>();
 
-    ClientRemoteImpl(String username, ViewInterface view) throws RemoteException {
+    public ClientRemoteImpl(String username, ViewInterface view) throws RemoteException {
         super();
         this.view.set(view);
         this.username = username;

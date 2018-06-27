@@ -19,7 +19,7 @@ public class Player extends Observable {
     private static final String DUMP_WINDOW_CARD_MSG = " WinCard: ";
     private static final String DUMP_FAVOR_POINT_MSG = "FavorPoint: ";
 
-    private enum playerState { DISCONNECTED, FIRST_TURN, SECOND_TURN, PLAYED_DICE, USED_TOOL }
+    public enum playerState { DISCONNECTED, FIRST_TURN, SECOND_TURN, PLAYED_DICE, USED_TOOL }
 
     private List<playerState> currentState;
     private String id;
