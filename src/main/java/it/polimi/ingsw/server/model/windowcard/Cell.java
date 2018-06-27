@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.windowcard;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.NotEmptyException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;

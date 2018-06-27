@@ -19,6 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ToolEffectRealizationTest extends TestCase {
 
+    private static final String COLOR = "color";
+    private static final String VALUE = "value";
+
     private static final Random random = new Random();
     private int id = random.nextInt(12)+1;
     private Colors color = Colors.random();
@@ -33,7 +36,6 @@ public class ToolEffectRealizationTest extends TestCase {
 
     // filling a list with 20 random cells with no restriction
     private List<Cell> myEmptyCellList() throws ValueException, PositionException {
-
         List<Cell> cellList = new ArrayList<>();
         for (int i=0; i<4; i++)
             for (int j=0; j<5; j++)
@@ -42,7 +44,15 @@ public class ToolEffectRealizationTest extends TestCase {
     }
 
 
-    public void testCheckTool12() throws IDNotFoundException, ValueException, PositionException, NotEmptyException, SameDiceException {
+    /**
+     * Test if the condition of the tool card 12 are correct
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     */
+    public void testCheckTool12() throws IDNotFoundException, ValueException, PositionException, NotEmptyException, SameDiceException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -73,7 +83,15 @@ public class ToolEffectRealizationTest extends TestCase {
         assertTrue(strategy.checkTool12(dices, cells, Colors.GREEN, winCard));
     }
 
-    public void testCheckDiceIn() throws ValueException, PositionException, IDNotFoundException, NotEmptyException, SameDiceException {
+    /**
+     * Test if the dice is in window card, round track, draft
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     */
+    public void testCheckDiceIn() throws ValueException, PositionException, IDNotFoundException, NotEmptyException, SameDiceException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -96,6 +114,11 @@ public class ToolEffectRealizationTest extends TestCase {
         assertTrue(strategy.checkDiceDraft(d0));
     }
 
+    /**
+     * Testing the change of value only if the new value is old value +1 or -1
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     */
     public void testChangeValue() throws IDNotFoundException, ValueException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -117,6 +140,13 @@ public class ToolEffectRealizationTest extends TestCase {
         assertSame(3, d.getValue());
     }
 
+    /**
+     * Testing the move of a dice from a cell in window Card to a Cell (dest) passed as parameter
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     */
     public void testMoveOneDice() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -133,21 +163,28 @@ public class ToolEffectRealizationTest extends TestCase {
         winCard.getWindow().getCell(2,2).setDice(d1);
         Cell dest = winCard.getWindow().getCell(row, col+1);
 
-        assertFalse(strategy.moveOneDice(d1, dest, "value", winCard));
+        assertFalse(strategy.moveOneDice(d1, dest, VALUE, winCard));
 
-        assertTrue(strategy.moveOneDice(d1, dest, "color", winCard));
+        assertTrue(strategy.moveOneDice(d1, dest, COLOR, winCard));
 
         dest.freeCell();
         d1 = new Dice((id+1)%90, Colors.BLUE, val);
         winCard.getWindow().getCell(2,2).setDice(d1);
-        assertFalse(strategy.moveOneDice(d1, dest, "color", winCard));
-        assertTrue(strategy.moveOneDice(d1, dest, "value", winCard));
+        assertFalse(strategy.moveOneDice(d1, dest, COLOR, winCard));
+        assertTrue(strategy.moveOneDice(d1, dest, VALUE, winCard));
 
         dest = winCard.getWindow().getCell(row+1, col+1);
-        assertTrue(strategy.moveOneDice(d1, dest, "value", winCard));
-        assertTrue(strategy.moveOneDice(d1, dest, "color", winCard));
+        assertTrue(strategy.moveOneDice(d1, dest, VALUE, winCard));
+        assertTrue(strategy.moveOneDice(d1, dest, COLOR, winCard));
     }
 
+    /**
+     * Testing moving exactly two dice inside window Card
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     */
     public void testMoveExTwoDice() throws IDNotFoundException, NotEmptyException, ValueException, PositionException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -186,6 +223,13 @@ public class ToolEffectRealizationTest extends TestCase {
         assertTrue(strategy.moveExTwoDice(dices, cells, winCard));
     }
 
+    /**
+     * Testing moving 0, 1 or 2 dices inside window Card
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     */
     public void testMoveUpToTwoDice() throws ValueException, PositionException, IDNotFoundException, NotEmptyException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -224,6 +268,10 @@ public class ToolEffectRealizationTest extends TestCase {
         assertTrue(strategy.moveUpToTwoDice(dices, cells, winCard));
     }
 
+    /**
+     * Testing swapping a dice from round Track with one from Draft
+     * @throws IDNotFoundException thrown by board constructor
+     */
     public void testMoveFromDraftToRound() throws IDNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -239,6 +287,15 @@ public class ToolEffectRealizationTest extends TestCase {
         assertThrows(IDNotFoundException.class, () -> strategy.moveFromDraftToRound(dices));
     }
 
+    /**
+     * Testing the move of  one dice from draft to the bag
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     */
     public void testMoveFromDraftToBagThanPlace() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, EmptyException, SameDiceException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -257,12 +314,21 @@ public class ToolEffectRealizationTest extends TestCase {
         board.getDraft().addDice(d1);
 
         assertFalse(strategy.moveFromDraftToBagThanPlace(d1, c1, val, winCard));
-        if(strategy.moveFromDraftToBagThanPlace(d1, c1, (val+1)%6+1, winCard)) {
+
+        if (strategy.moveFromDraftToBagThanPlace(d1, c1, (val+1)%6+1, winCard)) {
             assertTrue(c1.isOccupied() && !c1.getDice().getColor().equals(Colors.BLUE));
         } else
             assertFalse(c1.isOccupied());
     }
 
+    /**
+     * Testing the place of a Dice from draft into window Card
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     */
     public void testMoveFromDraftToCard() throws IDNotFoundException, NotEmptyException, ValueException, PositionException, SameDiceException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -284,6 +350,14 @@ public class ToolEffectRealizationTest extends TestCase {
         assertTrue(strategy.moveFromDraftToCard(d1, c1, winCard));
     }
 
+    /**
+     * Testing if two dices are on window Card, so ignore or set nearby restriction of both of their Cells.
+     * Else, ignore or set nearby restriction only for dest
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     */
     public void testFindSetNearby() throws IDNotFoundException, NotEmptyException, ValueException, PositionException {
         Board board = new Board(4);
         ToolEffectRealization strategy =

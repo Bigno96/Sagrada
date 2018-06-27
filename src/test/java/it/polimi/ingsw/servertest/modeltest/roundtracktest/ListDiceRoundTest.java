@@ -24,6 +24,11 @@ public class ListDiceRoundTest extends TestCase {
         super(testName);
     }
 
+    /**
+     * Testing adding Dice to a round of RoundTrack
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testAddDice() throws IDNotFoundException, SameDiceException {
         ListDiceRound list = new ListDiceRound();
         List<Dice> dices = new ArrayList<>();
@@ -42,6 +47,12 @@ public class ListDiceRoundTest extends TestCase {
         assertThrows(SameDiceException.class, () -> list.addDice(dices));
     }
 
+    /**
+     * Testing removing Dice from a round of RoundTrack
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     * @throws EmptyException when trying to remove a dice from an empty round
+     */
     public void testRemoveDice() throws IDNotFoundException, SameDiceException, EmptyException {
         ListDiceRound list = new ListDiceRound();
         Dice d = new Dice(id, col);
@@ -50,6 +61,10 @@ public class ListDiceRoundTest extends TestCase {
         assertTrue(list.rmDice(d));
     }
 
+    /**
+     * testing reaction when removing from an empty ListDiceRound
+     * @throws IDNotFoundException when dice is not in the specified round
+     */
     public void testEmptyException() throws IDNotFoundException {
         ListDiceRound list = new ListDiceRound();
         Dice d = new Dice(id, col);
@@ -57,6 +72,11 @@ public class ListDiceRoundTest extends TestCase {
         assertThrows(EmptyException.class, () -> list.rmDice(d));
     }
 
+    /**
+     * Testing reaction when asking for a Dice not in ListDiceRound
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testIDNotFoundException() throws IDNotFoundException, SameDiceException {
         ListDiceRound list = new ListDiceRound();
         Dice d = new Dice(id, col);
@@ -69,6 +89,11 @@ public class ListDiceRoundTest extends TestCase {
         assertThrows(IDNotFoundException.class, () -> list.getDice(dDiff.getID()));
     }
 
+    /**
+     * Testing if a Dice can be found
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testGetDice() throws IDNotFoundException, SameDiceException {
         ListDiceRound list = new ListDiceRound();
         Dice d = new Dice(id, col);
@@ -79,6 +104,11 @@ public class ListDiceRoundTest extends TestCase {
         assertSame(col, list.getDice(id).getColor());
     }
 
+    /**
+     * testing the presence of a Dice
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testContains() throws IDNotFoundException, SameDiceException {
         ListDiceRound list = new ListDiceRound();
         Dice d = new Dice(id, col);

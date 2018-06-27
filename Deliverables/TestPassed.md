@@ -90,7 +90,7 @@
 
 ### RoundTrack 
 * **testFindDice**: testing the correct search of a dice in round Track
-* **testFindColor**: test th correct search of a color
+* **testFindColor**: test the correct search of a color
 * **testGetRound**: test getRound
 * **testIDNotFoundException**: testing reaction when trying to find a dice not in round Track
 * **testAddDice**: testing about adding dices and reaction to illegal adding attempts
@@ -99,8 +99,8 @@
 ## toolCard
 
 ### ToolCard
-* **testAttribute**: testing all "get-methods" in ToolCard
-* **testGetActor**: test getActor
+* **testAttribute**: testing all getter in ToolCard
+* **testGetActor**: test getActor, elements of board involved in tool card
 * **testTool1**: test tool card 1
 * **testTool2_3**: test tool card 2 and 3
 * **testTool4**: test tool card 4
@@ -114,13 +114,13 @@
 
 ### ToolStrategy
 * **testCheckTool12**: test if the condition of the tool card 12 are correct
-* **testCheckDiceIn**: test if the dice is in window card (first), round track (second), draft (third)
+* **testCheckDiceIn**: test if the dice is in window card, round track, draft
 * **testChangeValue**: test the change of value only if the new value is old value +1 or -1
 * **testMoveOneDice**: test the move of a dice from a cell in window Card to a Cell (dest) passed as parameter
 * **testMoveExTwoDice**: test moving exactly two dice inside window Card
 * **testMoveUpToTwoDice**: test moving 0, 1 or 2 dices inside window Card
 * **testMoveFromDraftToRound**: test swapping a dice from round Track with one from Draft
-* **testMoveFromDraftToBag**: test the move of  one dice from draft to the bag
+* **testMoveFromDraftToBagThanPlace**: test the move of  one dice from draft to the bag
 * **testMoveFromDraftToCard**: test the place of a Dice from draft into window Card
 * **testFindSetNearby**: test if two dices are on window Card, so ignore or set nearby restriction of both of their Cells. Else, ignore or set nearby restriction only for dest
 

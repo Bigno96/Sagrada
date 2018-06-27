@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model.windowcard;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.WrongPositionException;

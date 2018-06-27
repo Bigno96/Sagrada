@@ -77,9 +77,8 @@ public class DiceBag implements Serializable {
     /**
      * Return random dice between the ones in the bag that doesn't have a value
      * @return ID of a random dice of the bag
-     * @throws IDNotFoundException when try to take a Dice with invalid id
      */
-    public Dice randDice() throws IDNotFoundException {
+    public Dice randDice() {
         if (dices.isEmpty())            // if bag is empty, return null
             return null;
 

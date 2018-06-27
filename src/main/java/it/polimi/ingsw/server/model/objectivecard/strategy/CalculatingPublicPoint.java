@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.objectivecard.strategy;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -26,11 +25,10 @@ public class CalculatingPublicPoint implements CalculatingPoint, Serializable {
      * @param windowCard    where to apply the objective card
      * @param objectiveCard to apply
      * @return sum of points
-     * @throws IDNotFoundException when error occurs in finding objective card
      * @throws PositionException when error occurs in finding cells in window card
      */
     @Override
-    public int calcPoint(WindowCard windowCard, ObjectiveCard objectiveCard) throws IDNotFoundException, PositionException {
+    public int calcPoint(WindowCard windowCard, ObjectiveCard objectiveCard) throws PositionException {
         String type = objectiveCard.getType();
         String scope = objectiveCard.getScope();
         String dir = objectiveCard.getDir();
@@ -49,10 +47,9 @@ public class CalculatingPublicPoint implements CalculatingPoint, Serializable {
      * @param windowCard where apply the objective card
      * @param objectiveCard to apply
      * @return point calculated basing on what parsed
-     * @throws IDNotFoundException when error occurs in finding objective card
      * @throws PositionException when error occurs in finding cells in window card
      */
-    private int parseCol(String scope, String dir, WindowCard windowCard, ObjectiveCard objectiveCard) throws IDNotFoundException, PositionException {
+    private int parseCol(String scope, String dir, WindowCard windowCard, ObjectiveCard objectiveCard) throws PositionException {
         if (scope.equals(DIFF))
             if (dir.equals(COLUMN))
                 return calculator.calcDifferentColumnColor(windowCard, objectiveCard);
@@ -72,9 +69,8 @@ public class CalculatingPublicPoint implements CalculatingPoint, Serializable {
      * @param windowCard where apply the objective card
      * @param objectiveCard to apply
      * @return point calculated basing on what parsed
-     * @throws IDNotFoundException when error occurs in finding objective card
      */
-    private int parseShade(String scope, String grad, String dir, WindowCard windowCard, ObjectiveCard objectiveCard) throws IDNotFoundException {
+    private int parseShade(String scope, String grad, String dir, WindowCard windowCard, ObjectiveCard objectiveCard) {
         if (scope.equals(DIFF))
             if (dir.equals(COLUMN))
                 return calculator.calcDifferentColumnShade(windowCard, objectiveCard);

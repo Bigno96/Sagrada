@@ -1,12 +1,10 @@
 package it.polimi.ingsw.server.model.windowcard;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.lang.System.*;
 

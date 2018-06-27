@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.objectivecard.strategy;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
