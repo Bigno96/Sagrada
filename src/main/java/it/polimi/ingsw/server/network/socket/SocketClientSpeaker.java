@@ -258,8 +258,18 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         }
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param dest     cell where the dice is being moved
+     * @param moved    dice being moved
+     */
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) {
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+
+    }
+
+    @Override
+    public void wrongPlacementDice() {
 
     }
 

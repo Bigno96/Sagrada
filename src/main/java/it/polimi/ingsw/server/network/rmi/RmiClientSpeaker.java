@@ -98,9 +98,30 @@ public class RmiClientSpeaker implements ClientSpeaker {
         }
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param dest cell where the dice is being moved
+     * @param moved dice being moved
+     */
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) {
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+        try {
+            client.successfulPlacementDice(username, dest, moved);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
 
+    /**
+     * Used when wrong placement is tried
+     */
+    @Override
+    public void wrongPlacementDice() {
+        try {
+            client.wrongPlacementDice();
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
     }
 
     /**

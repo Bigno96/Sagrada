@@ -250,6 +250,5 @@ public class GameControllerTest extends TestCase {
             assertNotSame(wrongId, player.getPrivateObj().getId());
             assertNotNull(player.getPrivateObj());
         });
-
     }
 }

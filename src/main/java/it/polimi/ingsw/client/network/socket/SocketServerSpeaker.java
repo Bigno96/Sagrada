@@ -257,8 +257,14 @@ public class SocketServerSpeaker implements ServerSpeaker {
         }
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param index    in the draft of the dice
+     * @param row      of the destination cell
+     * @param col      of the destination cell
+     */
     @Override
-    public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
+    public void placementDice(String username, int index, int row, int col) {
 
     }
 

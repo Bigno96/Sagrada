@@ -24,6 +24,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String SERVER_NOT_RESPONDING_KEYWORD = "SERVER_NOT_RESPONDING";
 
+    private static final String NOT_YOUR_TURN_EXCEPTION_KEYWORD = "NOT_YOUR_TURN_EXCEPTION";
+    private static final String NOT_EMPTY_EXCEPTION_KEYWORD = "NOT_EMPTY_EXCEPTION";
+    private static final String EMPTY_CARD_KEYWORD = "EMPTY_CARD_EXCEPTION";
+    private static final String WRONG_POSITION_EXCEPTION_KEYWORD = "WRONG_POSITION_EXCEPTION";
+    private static final String WRONG_DICE_INDEX_PLACEMENT_KEYWORD = "WRONG_DICE_INDEX_PLACEMENT";
+    private static final String WRONG_CELL_PLACEMENT_KEYWORD = "WRONG_CELL_PLACEMENT";
+
     private String ip;
     private ServerRemote server;            // server remote interface
     private ClientRemote client;            // client remote interface passed to server
@@ -189,9 +196,44 @@ public class RmiServerSpeaker implements ServerSpeaker {
         }
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param index    in the draft of the dice
+     * @param row      of the destination cell
+     * @param col      of the destination cell
+     */
     @Override
-    public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
+    public void placementDice(String username, int index, int row, int col) {
+        try {
+            server.placementDice(username, index, row, col);
 
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+
+        } catch (EmptyException e) {
+            view.print(dictionary.getMessage(EMPTY_CARD_KEYWORD));
+            view.wrongPlacementDice();
+
+        } catch (NotTurnException e) {
+            view.print(dictionary.getMessage(NOT_YOUR_TURN_EXCEPTION_KEYWORD));
+            view.wrongPlacementDice();
+
+        } catch (WrongPositionException e) {
+            view.print(dictionary.getMessage(WRONG_POSITION_EXCEPTION_KEYWORD));
+            view.wrongPlacementDice();
+
+        } catch (WrongDiceSelectionException | IDNotFoundException e) {
+            view.print(dictionary.getMessage(WRONG_DICE_INDEX_PLACEMENT_KEYWORD));
+            view.wrongPlacementDice();
+
+        } catch (NotEmptyException e) {
+            view.print(dictionary.getMessage(NOT_EMPTY_EXCEPTION_KEYWORD));
+            view.wrongPlacementDice();
+
+        } catch (WrongCellSelectionException | PositionException e) {
+            view.print(dictionary.getMessage(WRONG_CELL_PLACEMENT_KEYWORD));
+            view.wrongPlacementDice();
+        }
     }
 }
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
-import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -199,20 +198,42 @@ public class CliSystem implements ViewInterface {
                 out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param dest     cell where the dice is being moved
+     * @param moved    dice being moved
+     */
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) {
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
         print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
-    void moveDice(){
+
+    /**
+     * Used when wrong placement is tried
+     */
+    @Override
+    public void wrongPlacementDice() {
+        moveDice();
+    }
+
+    /**
+     * Used to get what dice to move and where it wants to move
+     */
+    public void moveDice() {
         int index;
         int row;
         int col;
 
         //place a dice (show personal window card and draft to choose dice)
 
+        print(dictionary.getMessage(SHOW_YOUR_WINDOW_CARD_TO_CHOOSE_KEYWORD));
+        serverSpeaker.askWindowCard(userName, userName);
+
         print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
         serverSpeaker.askDraft(userName);
+
+        print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
         try {
             index = Integer.parseInt(inKeyboard.nextLine());
             index--;
@@ -222,8 +243,6 @@ public class CliSystem implements ViewInterface {
             index--;
         }
 
-        print(dictionary.getMessage(SHOW_YOUR_WINDOW_CARD_TO_CHOOSE_KEYWORD));
-        serverSpeaker.askWindowCard(userName, userName);
         print(dictionary.getMessage(ASK_ROW_KEYWORD));
         try {
             row = Integer.parseInt(inKeyboard.nextLine());
@@ -239,7 +258,7 @@ public class CliSystem implements ViewInterface {
             col = Integer.parseInt(inKeyboard.nextLine());
         }
 
-        serverSpeaker.moveDiceFromDraftToCard(userName, index, row, col);
+        serverSpeaker.placementDice(userName, index, row, col);
 
     }
 

@@ -69,7 +69,12 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) {
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+
+    }
+
+    @Override
+    public void wrongPlacementDice() {
 
     }
 

@@ -73,6 +73,13 @@
 
   "ALREADY_DONE": "Hai gia' effettuato questa azione",
 
+  "NOT_YOUR_TURN_EXCEPTION": "Non è il tuo turno. Non puoi effettuare quest'azione",
+  "NOT_EMPTY_EXCEPTION": "La cella selezionata è già occupata",
+  "WRONG_POSITION_EXCEPTION": "La mossa tentata non è valida",
+  "EMPTY_CARD_EXCEPTION": "La carta schema è vuota",
+  "WRONG_DICE_INDEX_PLACEMENT": "L'indice passato per il piazzamento è errato",
+  "WRONG_CELL_PLACEMENT": "La cella indicata per il piazzamento non è valida",
+
   "WIN_MSG": "Congratulazioni! Hai vinto!"
 
 

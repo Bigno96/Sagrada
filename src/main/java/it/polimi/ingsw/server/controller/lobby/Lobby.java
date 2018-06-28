@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
+import it.polimi.ingsw.server.controller.ActionController;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.RoundController;
 import it.polimi.ingsw.server.model.game.Game;
@@ -43,6 +44,7 @@ public class Lobby {
     private Game game;
     private GameController gameController;
     private RoundController roundController;
+    private ActionController actionController;
 
     private final CommunicationParser protocol;
     private final GameSettingsParser settings;
@@ -211,6 +213,7 @@ public class Lobby {
     public void startGame() {
         notifyAllPlayers(dictionary.getMessage(GAME_STARTED_KEYWORD));
         currentState = gameState.STARTED;
+        actionController = new ActionController(this, game);
         gameController = new GameController(this, players);
         gameController.startGame();
 
@@ -277,6 +280,13 @@ public class Lobby {
      */
     public RoundController getRoundController() {
         return this.roundController;
+    }
+
+    /**
+     * @return action Controller
+     */
+    public ActionController getActionController() {
+        return this.actionController;
     }
 
     /**
