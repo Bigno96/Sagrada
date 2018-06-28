@@ -196,3 +196,15 @@
 * **testStartingGame**: test starting time pre game when 2 players have connected
 * **testStartCountingRound**: test starting round counting and roll first draft
 * **testGetter**: test various getter of lobby
+
+## RoundControllerTest
+* **testCountingRound**: test correct function of counting round
+
+## GameControllerTest
+* **testAllCardsAreSelected**: test checking that all players have selected their window card
+* **testCreateNRandom**: test creating a list of N random numbers
+* **testSetObserver**: test attaching observer
+* **testGetListWindowCard**: test getting window alternatives for each player
+* **testSetWindowCard**: test setting a window card for a player
+* **testSetPublicObjective**: test setting public objective
+* **testSetPrivateObjective**: test setting private objective for each player
