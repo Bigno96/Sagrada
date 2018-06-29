@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
-import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
-import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -32,6 +30,7 @@ public class GuiSystem implements ViewInterface{
     private static final String ALERT_TITLE_ISTURN = "E' il tuo turno";
     private static final String ALERT_HEADER_ISTURN = "E' il tuo turno";
     private static final String ALERT_CONTENT_ISTURN = "Fa la tua mossa";
+    private static final String ALERT_SERVER_MESSAGE = "Messaggio dal server";
     private static final String TITLE = "Sagrada";
 
     private HashMap<String, ServerSpeaker> connParam;
@@ -51,7 +50,24 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
+        Platform.runLater(() -> {
+            Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle(TITLE);
 
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
+
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
+
+            primaryStage.show();
+        });
     }
 
     @Override
@@ -81,21 +97,17 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void placementDice(String username, Cell dest, Dice moved) {
-
+        
     }
 
     @Override
     public void print(String s) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Server message");
-        alert.setHeaderText("Message");
+        alert.setTitle(dictionary.getMessage(ALERT_SERVER_MESSAGE));
+        alert.setHeaderText(serverSpeaker.toString());
         alert.setContentText(serverSpeaker.toString());
 
         alert.showAndWait();
-    }
-
-    public void setRound() {
-            nRound++;
     }
 
     @Override
