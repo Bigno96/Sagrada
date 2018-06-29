@@ -9,7 +9,7 @@ import it.polimi.ingsw.exception.EmptyException;
 
 import static java.lang.System.*;
 
-public class WindowCard implements Serializable {
+public class WindowCard extends Observable implements Serializable {
 
     private static final String COLOR_ERROR_MSG = "Restrizione di colore non rispettata nella cella: ";
     private static final String VALUE_ERROR_MSG = "Restrzione di valore non rispettata nella cella: ";
@@ -247,6 +247,14 @@ public class WindowCard implements Serializable {
      */
     private String cellErrorStringBuilder(Cell c) {
         return "(" + c.getRow() + "," + c.getCol() + ")";
+    }
+
+    /**
+     * Set changed
+     */
+    public void setPlacement(Cell c) {
+        setChanged();
+        notifyObservers(c);
     }
 
 }

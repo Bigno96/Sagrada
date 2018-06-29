@@ -265,9 +265,7 @@ public class CliSystem implements ViewInterface {
             }
         } while (col < 0);
 
-        System.out.println("index = " + index + " row = " + row + " col = " + col);
         serverSpeaker.placementDice(userName, index, row, col);
-
     }
 
     void useToolCard(){} //use tool card (show tool cards and choose which one use)

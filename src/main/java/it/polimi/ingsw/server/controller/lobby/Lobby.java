@@ -213,7 +213,7 @@ public class Lobby {
     public void startGame() {
         notifyAllPlayers(dictionary.getMessage(GAME_STARTED_KEYWORD));
         currentState = gameState.STARTED;
-        actionController = new ActionController(this, game);
+        actionController = new ActionController(game);
         gameController = new GameController(this, players);
         gameController.startGame();
 

@@ -5,8 +5,10 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.WindowParser;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.controller.observer.ChoiceWindowCardObserver;
+import it.polimi.ingsw.server.controller.observer.SetDiceObserver;
 import it.polimi.ingsw.server.controller.observer.SetObjectiveObserver;
 import it.polimi.ingsw.server.controller.observer.TurnObserver;
 import it.polimi.ingsw.server.model.game.Game;
@@ -36,7 +38,9 @@ public class GameController {
     private Game game;
     private HashMap<String, List<WindowCard>> windowAlternatives;
     private HashMap<String, Player> players;
-    private WindowParser windowParser;
+
+    private final GameSettingsParser gameSettings;
+    private final WindowParser windowParser;
     private static final Random random = new Random();
 
     public GameController(Lobby lobby, Map<String, Player> players) {
@@ -44,6 +48,8 @@ public class GameController {
         this.game = lobby.getGame();
         this.windowAlternatives = new HashMap<>();
         this.players = (HashMap<String, Player>) players;
+
+        this.gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         this.windowParser = (WindowParser) ParserManager.getWindowCardParser();
     }
 
@@ -58,11 +64,15 @@ public class GameController {
         getListWindowCard(used);
         chooseCard();
 
+        Timer timer = new Timer();
+        timer.schedule(new AllCardSelectedDaemon(lobby, this), gameSettings.getTimeUntilRandomCard());
+
         try {
             while (!allCardsAreSelected())
                 synchronized (this) {
                     wait();
                 }
+
         } catch (InterruptedException e) {
             out.println(e.getMessage());
             Thread.currentThread().interrupt();
@@ -180,6 +190,7 @@ public class GameController {
             Optional<WindowCard> chosen = windowAlternatives.get(username).stream().filter(card -> card.getName().equals(cardName)).findAny();
             if (chosen.isPresent())
                 synchronized (this) {
+                    chosen.get().addObserver(new SetDiceObserver(lobby));
                     game.findPlayer(username).setWindowCard(chosen.get());
                     notifyAll();
                 }

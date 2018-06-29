@@ -51,6 +51,8 @@
 * **testPrivateObj**: test the correct setting of the private objective
 * **testFavorPoint**: test the correct number of favor point
 * **testRateScore**: test the calculation of the score of the player
+* **testDisconnection**: test setter and getter for disconnected state
+* **testNextTurn**: test preparation of player for playing another turn
 
 ### Round
 * **testNextPlayer**: test the correct player who has to play

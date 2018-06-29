@@ -50,10 +50,7 @@ public class Round {
                     return p;
                 }
             }
-            playerList.forEach(p -> {
-                p.setPlayedDice(false);
-                p.setUsedTool(false);
-            });
+            playerList.forEach(Player::nextTurn);
 
             firstTurn = false;      //if all player finished the first turn, set firstTurn = false
         }
@@ -84,8 +81,7 @@ public class Round {
         playerList.forEach(p -> {
             p.setFirstTurn(true);
             p.setSecondTurn(true);
-            p.setPlayedDice(true);
-            p.setUsedTool(true);
+            p.nextTurn();
         });
 
         firstTurn = true;

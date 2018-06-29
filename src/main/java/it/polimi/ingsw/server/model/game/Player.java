@@ -232,4 +232,12 @@ public class Player extends Observable {
         else
             currentState.remove(playerState.DISCONNECTED);
     }
+
+    /**
+     * Prepare player for playing another turn
+     */
+    public void nextTurn() {
+        currentState.remove(playerState.PLAYED_DICE);
+        currentState.remove(playerState.USED_TOOL);
+    }
 }

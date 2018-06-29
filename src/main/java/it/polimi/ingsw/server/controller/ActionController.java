@@ -14,14 +14,12 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
  */
 public class ActionController {
 
-    private Lobby lobby;
     private Game game;
     private Cell dest;
 
     private final GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
-    public ActionController(Lobby lobby, Game game) {
-        this.lobby = lobby;
+    public ActionController(Game game) {
         this.game = game;
     }
 
@@ -38,12 +36,16 @@ public class ActionController {
      * @throws PositionException when parameters of cell are wrong
      * @throws IDNotFoundException when parameters of dice are wrong
      * @throws WrongPositionException when the move is not legal
+     * @throws AlreadyDoneException when player has already played dice
      */
     public void placeDice(String username, int index, int row, int col) throws NotTurnException, WrongDiceSelectionException,
-            WrongCellSelectionException, NotEmptyException, PositionException, IDNotFoundException, WrongPositionException, EmptyException {
+            WrongCellSelectionException, NotEmptyException, PositionException, IDNotFoundException, WrongPositionException, EmptyException, AlreadyDoneException {
 
         if (!game.getCurrentPlayer().getId().equals(username))
             throw new NotTurnException();
+
+        if (game.getCurrentPlayer().isPlayedDice())
+            throw new AlreadyDoneException();
 
         if (index < 0 || index >= game.getBoard().getDraft().getDraftList().size())
             throw new WrongDiceSelectionException();
@@ -72,7 +74,7 @@ public class ActionController {
 
         if (correct) {
             game.getBoard().getDraft().rmDice(dice);
-            lobby.getSpeakers().get(username).successfulPlacementDice(username, dest, dice);
+            card.setPlacement(dest);
         }
         else
             rollback();
