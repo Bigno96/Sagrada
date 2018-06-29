@@ -220,6 +220,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
         } catch (WrongPositionException e) {
             view.print(dictionary.getMessage(WRONG_POSITION_EXCEPTION_KEYWORD));
+            view.print(e.getMessage());
             view.wrongPlacementDice();
 
         } catch (WrongDiceSelectionException | IDNotFoundException e) {
@@ -228,6 +229,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
         } catch (NotEmptyException e) {
             view.print(dictionary.getMessage(NOT_EMPTY_EXCEPTION_KEYWORD));
+            view.print(e.getMessage());
             view.wrongPlacementDice();
 
         } catch (WrongCellSelectionException | PositionException e) {

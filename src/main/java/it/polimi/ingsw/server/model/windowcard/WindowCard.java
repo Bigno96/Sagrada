@@ -11,13 +11,13 @@ import static java.lang.System.*;
 
 public class WindowCard implements Serializable {
 
-    private static final String COLOR_ERROR_MSG = "Color not correct on cell: ";
-    private static final String VALUE_ERROR_MSG = "Value not correct on cell: ";
-    private static final String FIRST_DICE_POSITION_ERROR_MSG = "First Dice not correctly positioned";
-    private static final String MORE_DICE_POSITION_ERROR_MSG = "More than one dice positioned";
-    private static final String NO_DICE_POSITION_ERROR_MSG = "No Dice positioned";
-    private static final String POSITION_ERROR_MSG = "Position not correct on cell ";
-    private static final String NO_DICE_AROUND_POSITION_ERROR_MSG = "Position not correct on cell (no dice around) ";
+    private static final String COLOR_ERROR_MSG = "Restrizione di colore non rispettata nella cella: ";
+    private static final String VALUE_ERROR_MSG = "Restrzione di valore non rispettata nella cella: ";
+    private static final String FIRST_DICE_POSITION_ERROR_MSG = "Il primo dado deve essere posizionato in un angolo dello schema";
+    private static final String MORE_DICE_POSITION_ERROR_MSG = "Più di un dado è stato posizionato";
+    private static final String NO_DICE_POSITION_ERROR_MSG = "Nessun dado è stato posizionato";
+    private static final String POSITION_ERROR_MSG = "Non si sono rispettate le restrizioni di adiacenza con gli altri dadi nella cella: ";
+    private static final String NO_DICE_AROUND_POSITION_ERROR_MSG = "Nessun altro dado è presente nelle vicinanze della cella: ";
 
     private static final String DUMP_ID_MSG = "ID: ";
     private static final String DUMP_NAME_MSG = " Name: ";
@@ -216,13 +216,13 @@ public class WindowCard implements Serializable {
             Cell c = itr.next();
             if (c.isOccupied()) {
                 if (!c.checkColor())
-                    throw new WrongPositionException(COLOR_ERROR_MSG + c.toString());
+                    throw new WrongPositionException(COLOR_ERROR_MSG + cellErrorStringBuilder(c));
                 else if (!c.checkValue())
-                    throw new WrongPositionException(VALUE_ERROR_MSG + c.toString());
+                    throw new WrongPositionException(VALUE_ERROR_MSG + cellErrorStringBuilder(c));
                 else if (!checkOrtPos(c))
-                    throw new WrongPositionException(POSITION_ERROR_MSG + c.toString());
+                    throw new WrongPositionException(POSITION_ERROR_MSG + cellErrorStringBuilder(c));
                 else if (!checkNeighbors(c))
-                    throw new WrongPositionException(NO_DICE_AROUND_POSITION_ERROR_MSG + c.toString());
+                    throw new WrongPositionException(NO_DICE_AROUND_POSITION_ERROR_MSG + cellErrorStringBuilder(c));
             }
         }
 
@@ -239,6 +239,14 @@ public class WindowCard implements Serializable {
                 count++;
 
         return count;
+    }
+
+    /**
+     * @param c cell to build message
+     * @return coordinates of cell into an error message
+     */
+    private String cellErrorStringBuilder(Cell c) {
+        return "(" + c.getRow() + "," + c.getCol() + ")";
     }
 
 }

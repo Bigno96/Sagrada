@@ -40,7 +40,7 @@ public class ActionController {
      * @throws WrongPositionException when the move is not legal
      */
     public void placeDice(String username, int index, int row, int col) throws NotTurnException, WrongDiceSelectionException,
-            WrongCellSelectionException, NotEmptyException, EmptyException, PositionException, IDNotFoundException, WrongPositionException {
+            WrongCellSelectionException, NotEmptyException, PositionException, IDNotFoundException, WrongPositionException, EmptyException {
 
         if (!game.getCurrentPlayer().getId().equals(username))
             throw new NotTurnException();
@@ -60,7 +60,7 @@ public class ActionController {
         Boolean correct;
 
         try {
-            if (card.numEmptyCells() == 1)
+            if (card.numEmptyCells() == ((gameSettings.getWindowCardMaxColumn() * gameSettings.getWindowCardMaxRow())-1))
                 correct = card.checkFirstDice();
             else
                 correct = card.checkPlaceCond();

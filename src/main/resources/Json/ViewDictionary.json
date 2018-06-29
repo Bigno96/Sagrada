@@ -25,6 +25,7 @@
   "GAME_STARTED": "La partita è iniziata",
 
   "WINDOW_CARD_SELECTED": "\nQueste sono le carte schema selezionate per te:",
+  "WINDOW_CARD_CHOICE_ENTRY": "Scegli la tua carta schema (scegli tra 1 e 4):",
   "WINDOW_CARD_CHOSEN": "\nHai scelto la carta schema:",
   "PLAYER_CARD_CHOSEN": " ha selezionato la carta schema:",
   "FAVOR_POINT": "Punti favore: ",
@@ -57,11 +58,11 @@
 
   "PLACE_DICE_ENTRY": "dado",
   "PLACE_DICE_MESSAGE": "- piazza un dado sullo schema dalla riserva",
-  "SHOW_DRAFT":"Questa e' la riserva, scegli il dado che vuoi inserendo l'indice del dado nella sequenza: ",
-  "SHOW_YOUR_WINDOW_CARD_TO_CHOOSE":"Questa e' la tua carta schema, scegli dove vuoi posizionare il dado: ",
+  "SHOW_DRAFT":"Questa e' la riserva: ",
+  "SHOW_YOUR_WINDOW_CARD_TO_CHOOSE":"\nQuesta e' la tua carta schema: ",
   "ASK_ROW":"Inserisci riga: ",
   "ASK_COLUMN":"Inserisci colonna: ",
-  "INSERT_NUMBER": "Inserisci un numero",
+  "INSERT_NUMBER": "\nInserisci l'indice del dado che vuoi, a partire da 1",
 
   "USE_TOOL_CARD_ENTRY": "strumento",
   "USE_TOOL_CARD_MESSAGE": "- usa una carta strumento",

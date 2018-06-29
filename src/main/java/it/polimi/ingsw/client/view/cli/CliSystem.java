@@ -101,6 +101,7 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
+
         print(dictionary.getMessage(WINDOW_CARD_SELECTED_KEYWORD));
 
         cards.forEach(this::printWindowCard);
@@ -205,7 +206,7 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
-        print("User: " + username + " set dice: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " in cell: (" + dest.getRow() + "," + dest.getCol() + ") ");
+        print("Utente: " + username + " ha piazzato il dado: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " nella cella: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
 
@@ -220,7 +221,7 @@ public class CliSystem implements ViewInterface {
     /**
      * Used to get what dice to move and where it wants to move
      */
-    public void moveDice() {
+    void moveDice() {
         int index;
         int row;
         int col;
@@ -233,31 +234,38 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
         serverSpeaker.askDraft(userName);
 
-        print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
-        try {
-            index = Integer.parseInt(inKeyboard.nextLine());
-            index--;
-        } catch (NumberFormatException e) {
+        do {
             print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
-            index = Integer.parseInt(inKeyboard.nextLine());
-            index--;
-        }
+            try {
+                index = Integer.parseInt(inKeyboard.nextLine());
+                index--;
+            } catch (NumberFormatException e) {
+                print(e.getMessage());
+                index = -1;
+            }
+        } while (index < 0);
 
-        print(dictionary.getMessage(ASK_ROW_KEYWORD));
-        try {
-            row = Integer.parseInt(inKeyboard.nextLine());
-        } catch (NumberFormatException e) {
-            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
-            row = Integer.parseInt(inKeyboard.nextLine());
-        }
-        print(dictionary.getMessage(ASK_COLUMN_KEYWORD));
-        try {
-            col = Integer.parseInt(inKeyboard.nextLine());
-        } catch (NumberFormatException e) {
-            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
-            col = Integer.parseInt(inKeyboard.nextLine());
-        }
+        do {
+            print(dictionary.getMessage(ASK_ROW_KEYWORD));
+            try {
+                row = Integer.parseInt(inKeyboard.nextLine());
+            } catch (NumberFormatException e) {
+                print(e.getMessage());
+                row = -1;
+            }
+        } while (row < 0);
 
+        do {
+            print(dictionary.getMessage(ASK_COLUMN_KEYWORD));
+            try {
+                col = Integer.parseInt(inKeyboard.nextLine());
+            } catch (NumberFormatException e) {
+                print(e.getMessage());
+                col = -1;
+            }
+        } while (col < 0);
+
+        System.out.println("index = " + index + " row = " + row + " col = " + col);
         serverSpeaker.placementDice(userName, index, row, col);
 
     }

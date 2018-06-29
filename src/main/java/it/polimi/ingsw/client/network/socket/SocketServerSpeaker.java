@@ -92,8 +92,8 @@ public class SocketServerSpeaker implements ServerSpeaker {
 
         try {
             socket = new Socket(ip, parser.getSocketPort());
-            ExecutorService executor = Executors.newCachedThreadPool();
-            executor.submit(new SocketServerListener(socket, view, this));
+            SocketServerListener listener = new SocketServerListener(socket, view, this);
+            new Thread(listener).start();
 
             synchronized (lock) {
                 socketOut = new PrintWriter(socket.getOutputStream());
