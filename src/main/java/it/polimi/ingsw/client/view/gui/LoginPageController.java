@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -24,16 +25,14 @@ public class LoginPageController {
     private String username;
     private GuiSystem guiSystem;
 
-    private boolean socketConnection;
-    private boolean rmiConnection;
     private Stage loginWindow;
 
     private ServerSpeaker serverSpeaker;
     private final HashMap<String, ServerSpeaker> connParam;
 
     public LoginPageController(){
-        this.socketConnection = false;
-        this.rmiConnection = false;
+        boolean socketConnection = false;
+        boolean rmiConnection = false;
         this.connParam = new HashMap<>();
     }
 
@@ -59,16 +58,24 @@ public class LoginPageController {
         return !ip.endsWith(".");
     }
 
+    /**
+     * If connection has been successful change Stage
+     * LoginPage -> WaitingPage
+     */
     public void submitAction() {
         startConnection(guiSystem);
 
         guiSystem.setUsername(usernameText.getText());
         guiSystem.setServerSpeaker(serverSpeaker);
-        // niente return setter per string e serverSpeaker
-        //call change scene
+
         guiSystem.waitingPage();
     }
 
+    /**
+     * Choice of connection, constructor serverSpeaker
+     * @param guiSystem from GuiSystem
+     * @return HashMap = username + serverSpeaker
+     */
     HashMap<String, ServerSpeaker> startConnection(GuiSystem guiSystem) {
 
         username = usernameText.getText();

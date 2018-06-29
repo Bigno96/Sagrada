@@ -35,6 +35,7 @@ public class GuiSystem implements ViewInterface{
 
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
+    private WindowCard myCard;
     private ViewMessageParser dictionary;
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
@@ -42,12 +43,19 @@ public class GuiSystem implements ViewInterface{
     private LoginPageController ctrl;
     private int nRound = 0;
 
+    /**
+     * Constructor
+     * @param primaryStage from ClientMain
+     */
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
     }
 
-
+    /**
+     * Open WindowCardsPage
+     * @param cards cards.size() = 4
+     */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
         Platform.runLater(() -> {
@@ -65,6 +73,8 @@ public class GuiSystem implements ViewInterface{
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
+
+            ctrl.setList(cards);
 
             primaryStage.show();
         });
@@ -95,6 +105,7 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    //@Override
     public void placementDice(String username, Cell dest, Dice moved) {
         
     }
@@ -249,6 +260,10 @@ public class GuiSystem implements ViewInterface{
         });
 
         return true;
+    }
+
+    public void setWindowCard(WindowCard card){
+        myCard = card;
     }
 
     public int getnRound(){
