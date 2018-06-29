@@ -4,6 +4,9 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
@@ -36,6 +39,10 @@ public class GuiSystem implements ViewInterface{
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
     private WindowCard myCard;
+    private List<WindowCard> listOtherWindowCards;
+    private List<ToolCard> listToolCards;
+    private List<PublicObjective> publList;
+    private List<PrivateObjective> privList;
     private ViewMessageParser dictionary;
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
@@ -215,51 +222,16 @@ public class GuiSystem implements ViewInterface{
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
 
-            primaryStage.show();
-        });
-    }
+            ctrl.setMyWindowCard(myCard);
+            ctrl.setCardOtherPlayerList(listOtherWindowCards);
+            ctrl.setPrivCard(privList);
+            ctrl.setPublCard(publList);
+            ctrl.setToolCard(listToolCards);
 
-    boolean chooseCard() {
-
-        Platform.runLater(() -> {
-            Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            primaryStage.setTitle(dictionary.getMessage(TITLE));
-
-            assert root != null;
-            primaryStage.setScene(new Scene(root));
-
-            ctrl = loader.getController();
-            ctrl.setGuiSystem(this);
-
-            HBox hBoxImage = new HBox(8);
-            hBoxImage.setAlignment( Pos.CENTER );
-            hBoxImage.setStyle( "-fx-border-color: black;" );
-
-            InputStream is = loader.getClassLoader().getResourceAsStream("fxml/PublicCard.fxml");
-
-            Image imageEarthRise = new Image( is );
-
-            ImageView imageView = new ImageView();
-            imageView.setImage( imageEarthRise );
-            imageView.setCache( true );
-            imageView.setOpacity( .9 );
-            imageView.setSmooth( true );
-            imageView.setPreserveRatio( true );
-            imageView.setFitHeight( 200 );
-            imageView.setFitWidth( 200 );
-
-            hBoxImage.getChildren().add(  imageView );
+            ctrl.init();
 
             primaryStage.show();
         });
-
-        return true;
     }
 
     public void setWindowCard(WindowCard card){
