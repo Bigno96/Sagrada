@@ -67,5 +67,16 @@ public interface ViewInterface {
      */
     void showDraft(List<Dice> draft);
 
-    void placementDice(String username, Cell dest, Dice moved);
+    /**
+     * Used to place dice
+     * @param username of player moving the dice
+     * @param dest cell where the dice is being moved
+     * @param moved dice being moved
+     */
+    void successfulPlacementDice(String username, Cell dest, Dice moved);
+
+    /**
+     * Used when wrong placement is tried
+     */
+    void wrongPlacementDice();
 }

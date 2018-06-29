@@ -63,10 +63,10 @@ public class GameSettingsParser implements Parser {
     }
 
     public int getWindowCardMaxColumn() {
-        return Integer.parseInt(obj.get(MAX_COL).getAsString())-1;
+        return Integer.parseInt(obj.get(MAX_COL).getAsString());
     }
 
     public int getWindowCardMaxRow() {
-        return Integer.parseInt(obj.get(MAX_ROW).getAsString())-1;
+        return Integer.parseInt(obj.get(MAX_ROW).getAsString());
     }
 }

@@ -78,7 +78,7 @@
 * **testSetParameter**: testing setting parameter used by objective calculator
 * **testCopy**: testing method for copying objective card
 
-## roundtrack
+## roundTrack
 
 ### ListDiceRound
 * **testAddDice**: testing adding Dice to a round of RoundTrack
@@ -90,17 +90,17 @@
 
 ### RoundTrack 
 * **testFindDice**: testing the correct search of a dice in round Track
-* **testFindColor**: test th correct search of a color
+* **testFindColor**: test the correct search of a color
 * **testGetRound**: test getRound
 * **testIDNotFoundException**: testing reaction when trying to find a dice not in round Track
 * **testAddDice**: testing about adding dices and reaction to illegal adding attempts
 * **testRmDice**: testing about removing dices and reaction to illegal removing attempts
 
-## toolcard
+## toolCard
 
 ### ToolCard
-* **testAttribute**: testing all "get-methods" in ToolCard
-* **testGetActor**: test getActor
+* **testAttribute**: testing all getter in ToolCard
+* **testGetActor**: test getActor, elements of board involved in tool card
 * **testTool1**: test tool card 1
 * **testTool2_3**: test tool card 2 and 3
 * **testTool4**: test tool card 4
@@ -112,18 +112,15 @@
 * **testTool11**: test tool card 11
 * **testTool12**: test tool card 12
 
-## ToolFactory
-* **testMakeToolCard**: test the making of all the tool cards
-
-## ToolStrategy
+### ToolStrategy
 * **testCheckTool12**: test if the condition of the tool card 12 are correct
-* **testCheckDiceIn**: test if the dice is in window card (first), round track (second), draft (third)
+* **testCheckDiceIn**: test if the dice is in window card, round track, draft
 * **testChangeValue**: test the change of value only if the new value is old value +1 or -1
 * **testMoveOneDice**: test the move of a dice from a cell in window Card to a Cell (dest) passed as parameter
 * **testMoveExTwoDice**: test moving exactly two dice inside window Card
 * **testMoveUpToTwoDice**: test moving 0, 1 or 2 dices inside window Card
 * **testMoveFromDraftToRound**: test swapping a dice from round Track with one from Draft
-* **testMoveFromDraftToBag**: test the move of  one dice from draft to the bag
+* **testMoveFromDraftToBagThanPlace**: test the move of  one dice from draft to the bag
 * **testMoveFromDraftToCard**: test the place of a Dice from draft into window Card
 * **testFindSetNearby**: test if two dices are on window Card, so ignore or set nearby restriction of both of their Cells. Else, ignore or set nearby restriction only for dest
 
@@ -132,7 +129,7 @@
 ### Cell
 * **testGetter**: testing getValue, getColor, getCol, getRow
 * **testChangeDiceValue**: testing changing value of dice in the cell
-* **testIsOccupied**: testing of method is occupied
+* **testIsOccupied**: testing of a cell is occupied
 * **testCheck**: testing control over value and color restrictions
 * **testValueException**: testing reaction to impossible value of cell
 * **testNotEmptyException**: testing that if cell is already occupied is impossible to insert a Dice
@@ -140,12 +137,12 @@
 * **testIgnoreRestriction**: test if the cells, nearby the current, have ignoring restriction set
 
 ### MatrixCell
-* **testGetter**: testing getRows, getCols, getMatrix, getCell
+* **testGetter**: testing getMaxRow, getMaxCol, getMatrix, getCell
 * **testLoadMatrixCell**: testing setting correctly matrix inside of window card
-* **testContainsDice**: test if the dice passed is in 
+* **testContainsDice**: test if the dice passed is in the matrix
 * **testIsBorder**: testing finding cells on border
 * **testPositionException**: testing reaction when asking for nearby cells around an incorrect cell
-* **testRetOrtogonal**: testing finding ortogonal neighbors of a cell
+* **testRetOrthogonal**: testing finding orthogonal neighbors of a cell
 * **testRetDiagonal**: testing finding diagonal neighbors of a cell
 * **testRetNeighbors**: testing finding all neighbors of a cell
 
@@ -155,15 +152,11 @@
 * **testCheckFirstDiceException**: testing cases as first dice placement of no dices positioned, more than one dice positioned, not in border and color and/or value restriction not respected
 * **testCheckOneDice**: testing if only one dice is positioned
 * **testCheckOneDiceException**: testing cases no dice are positioned and color and/or value restriction not respected
-* **testCheckOrtPos**: test the correct condition of the ortogonally positioned cells
+* **testCheckOrtPos**: test the correct condition of the orthogonally positioned cells
 * **testCheckNeighbors**: test the correct condition of the cells nearby 
 * **testCheckPlaceCond**: testing if all dices are correctly positioned
 * **testCheckPlaceCondException**: testing all bad cases of placement
 * **testNumEmptyCells**: test the number of empty cells
-
-### WindowFactory 
-* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
-* **testException**: testing reaction to incorrect research
 
 ## colors
 
@@ -186,4 +179,32 @@
 * **testPublic9**: test if parameter of public card 9 are built correctly
 * **testPublic10**: test if parameter of public card 10 are built correctly
 
+### WindowParserTest
+* **testGetWindow**: testing correctly obtaining a pool of 4 WindowCard
+* **testException**: testing reaction to incorrect research
 
+### ToolCardParserTest
+* **testMakeToolCard**: test the making of all the tool cards
+
+## lobby
+
+## LobbyTest
+* **testAddPlayer**: test addition of players into the lobby and their errors
+* **testDisconnectPlayer**: test disconnection of players from the lobby
+* **testReconnectPlayer**: test reconnection of a player who has disconnected while game was starting or started
+* **testRemovePlayer**: test removing a player
+* **testStartingGame**: test starting time pre game when 2 players have connected
+* **testStartCountingRound**: test starting round counting and roll first draft
+* **testGetter**: test various getter of lobby
+
+## RoundControllerTest
+* **testCountingRound**: test correct function of counting round
+
+## GameControllerTest
+* **testAllCardsAreSelected**: test checking that all players have selected their window card
+* **testCreateNRandom**: test creating a list of N random numbers
+* **testSetObserver**: test attaching observer
+* **testGetListWindowCard**: test getting window alternatives for each player
+* **testSetWindowCard**: test setting a window card for a player
+* **testSetPublicObjective**: test setting public objective
+* **testSetPrivateObjective**: test setting private objective for each player

@@ -98,10 +98,14 @@ public class Dice implements Serializable {
     /**
      * Return a copy of the dice
      * @return copy of the dice
-     * @throws IDNotFoundException when id is < 0 || > 89
      */
-    public Dice copyDice() throws IDNotFoundException {
-        return new Dice(this.id, this.color, this.value);
+    public Dice copyDice() {
+        try {
+            return new Dice(this.id, this.color, this.value);
+        } catch (IDNotFoundException e) {
+            logger.info(e.getMessage());
+            return null;
+        }
     }
 
     /**

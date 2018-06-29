@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.windowcard;
 
-import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.NotEmptyException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
@@ -144,9 +143,8 @@ public class Cell implements Serializable {
     /**
      * Get the dice on the cell
      * @return copy of the dice on the cell, null if not occupied
-     * @throws IDNotFoundException if copying a wrong dice
      */
-    public Dice getDice() throws IDNotFoundException {
+    public Dice getDice() {
         if (dice == null)
             return null;
         return dice.copyDice();

@@ -58,8 +58,26 @@ public interface ClientRemote extends Remote {
      */
     void nextTurn(String user) throws RemoteException;
 
-    void placementDice(String username, Cell dest, Dice moved) throws  RemoteException;
+    /**
+     * Used to place dice
+     * @param username of player moving the dice
+     * @param dest cell where the dice is being moved
+     * @param moved dice being moved
+     * @throws RemoteException default
+     */
+    void successfulPlacementDice(String username, Cell dest, Dice moved) throws RemoteException;
 
+    /**
+     * Used when wrong placement is tried
+     * @throws RemoteException default
+     */
+    void wrongPlacementDice() throws RemoteException;
+
+    /**
+     * Used to print a window card
+     * @param card to print
+     * @throws RemoteException default
+     */
     void printWindowCard(WindowCard card) throws RemoteException;
 
     /**

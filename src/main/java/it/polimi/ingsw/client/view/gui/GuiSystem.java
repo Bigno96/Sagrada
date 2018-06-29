@@ -95,7 +95,6 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    @Override
     public void placementDice(String username, Cell dest, Dice moved) {
         
     }
@@ -108,6 +107,17 @@ public class GuiSystem implements ViewInterface{
         alert.setContentText(serverSpeaker.toString());
 
         alert.showAndWait();
+    }
+
+    @Override
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+
+    }
+
+    @Override
+    public void wrongPlacementDice() {
+
+
     }
 
     @Override

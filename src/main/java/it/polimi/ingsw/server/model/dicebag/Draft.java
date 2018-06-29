@@ -88,17 +88,13 @@ public class Draft implements Serializable {
      * Find and return Dice with passed id
      * @param id != null && id >= 0 && id <=89
      * @return Dice searched by a passed id
-     * @throws IDNotFoundException when copyDice throws IDNotFoundException
      */
-    public Dice findDice(int id) throws IDNotFoundException {
+    public Dice findDice(int id) {
         Optional<Dice> ret = draftList.stream()
                 .filter(d -> d.getID() == id)
                 .collect(Collectors.toList()).stream().findFirst();
 
-        if (ret.isPresent())
-            return ret.get().copyDice();
-        else
-            return null;
+        return ret.map(Dice::copyDice).orElse(null);
     }
 
     /**
@@ -169,13 +165,7 @@ public class Draft implements Serializable {
     public List<Dice> getDraftList() {
         List<Dice> ret = new ArrayList<>();
 
-        draftList.forEach(dice -> {
-            try {
-                ret.add(dice.copyDice());
-            } catch (IDNotFoundException e) {
-                logger.info(e.getMessage());
-            }
-        });
+        draftList.forEach(dice -> ret.add(dice.copyDice()));
 
         return ret;
     }

@@ -73,7 +73,14 @@ public interface ServerSpeaker {
      */
     void endTurn(String username);
 
-    void moveDiceFromDraftToCard(String username, int index, int row, int col);
+    /**
+     * Used to place dice, passing index of dice in the draft and row and column of the destination cell
+     * @param username of player moving the dice
+     * @param index in the draft of the dice
+     * @param row of the destination cell
+     * @param col of the destination cell
+     */
+    void placementDice(String username, int index, int row, int col);
 
 }
 

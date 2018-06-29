@@ -24,6 +24,7 @@ import java.util.List;
 public class WindowParser implements Parser {
 
     private static WindowParser ourInstance = null;
+    private final GameSettingsParser gameSettings;
 
     private static final String ID = "ID";
     private static final String NAME = "NAME";
@@ -41,6 +42,7 @@ public class WindowParser implements Parser {
         winCard1 = null;
         winCard2 = null;
         this.infoPath = infoPath;
+        this.gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
     }
 
     public static WindowParser getInstance(String infoPath) {
@@ -145,7 +147,6 @@ public class WindowParser implements Parser {
         //setting up parameter to pass to the Constructor of WindowCard
         int id = Integer.parseInt(obj.get(ID).toString());
         int numFavPoint = Integer.parseInt(obj.get(FP).toString());
-        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
         String name = obj.get(NAME).toString();
 
@@ -163,7 +164,7 @@ public class WindowParser implements Parser {
             col++;
         }
 
-        return new WindowCard(id, name, numFavPoint, cells);
+        return new WindowCard(id, name, numFavPoint, cells, gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
     }
 
     /**
@@ -178,8 +179,6 @@ public class WindowParser implements Parser {
     private Cell makeCell (JsonObject obj, int row, int col) throws ValueException, PositionException {
         int value = Integer.parseInt(obj.get(CELL_VALUE).toString());
         Colors color = Colors.parseColor(obj.get(CELL_COLOR).getAsString());
-
-        GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
         return new Cell(value, color, row, col, gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
     }

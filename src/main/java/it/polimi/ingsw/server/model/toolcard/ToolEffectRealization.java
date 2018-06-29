@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class ToolEffectRealization {
@@ -35,9 +34,8 @@ public class ToolEffectRealization {
      * @param d != null
      * @param windowCard != null
      * @return true if window Card contains Dice, else false
-     * @throws IDNotFoundException when dice has an illegal id
      */
-    public boolean checkDiceWinCard(Dice d, WindowCard windowCard) throws IDNotFoundException {
+    public boolean checkDiceWinCard(Dice d, WindowCard windowCard) {
         return windowCard.getWindow().containsDice(d);
     }
 
@@ -58,9 +56,8 @@ public class ToolEffectRealization {
      * Check if the Dice is in the Draft
      * @param d != null
      * @return true if Draft contains Dice, else false
-     * @throws IDNotFoundException when Dice has an illegal id
      */
-    public boolean checkDiceDraft(Dice d) throws IDNotFoundException {
+    public boolean checkDiceDraft(Dice d) {
         return draft.findDice(d.getID()) != null;
     }
 
@@ -72,18 +69,17 @@ public class ToolEffectRealization {
      * @param diceColor != null
      * @param windowCard != null
      * @return true if conditions are respected, else false
-     * @throws IDNotFoundException when illegal dices are passed
      */
-    public boolean checkTool12(List<Dice> dices, List<Cell> cells, Colors diceColor, WindowCard windowCard) throws IDNotFoundException {
+    public boolean checkTool12(List<Dice> dices, List<Cell> cells, Colors diceColor, WindowCard windowCard) {
         boolean bool = true;
+
         if (dices.isEmpty())
             return true;
-        if (dices.size() == 2 && cells.size() == 2) {
+        if (dices.size() == 2 && cells.size() == 2)
             bool = checkDiceWinCard(dices.get(1), windowCard) && dices.get(1).getColor().equals(diceColor);
-        }
 
         return dices.size() == cells.size() && dices.size()<3 && checkDiceWinCard(dices.get(0), windowCard) && bool &&
-                roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.WHITE);
+            roundTrack.findColor(diceColor) && dices.get(0).getColor().equals(diceColor) && !diceColor.equals(Colors.WHITE);
     }
 
     /**
@@ -112,10 +108,9 @@ public class ToolEffectRealization {
      * @param restrictionIgnored == "color" || "value"
      * @param windowCard != null
      * @return true if can move the Dice
-     * @throws IDNotFoundException when dice has wrong id
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
-    public boolean moveOneDice(Dice d, Cell dest, String restrictionIgnored, WindowCard windowCard) throws IDNotFoundException, NotEmptyException {
+    public boolean moveOneDice(Dice d, Cell dest, String restrictionIgnored, WindowCard windowCard) throws NotEmptyException {
         Cell c;
         boolean colorBool = restrictionIgnored.equals("color");
         boolean valueBool = restrictionIgnored.equals("value");
@@ -123,6 +118,7 @@ public class ToolEffectRealization {
         c = windowCard.getWindow().getCell(d);
         c.freeCell();
         dest.setDice(d);
+
         try {
             if (colorBool)
                 dest.setIgnoreColor(true);
@@ -131,11 +127,11 @@ public class ToolEffectRealization {
 
             if (windowCard.numEmptyCells() == 19)
                 windowCard.checkFirstDice();
-            else {
+            else
                 windowCard.checkPlaceCond();
-            }
 
             return true;
+
         } catch (WrongPositionException | PositionException | EmptyException e) {
             if (colorBool)
                 dest.setIgnoreColor(false);
@@ -155,10 +151,9 @@ public class ToolEffectRealization {
      * @param dest != null && dest.size() == dices.size()
      * @param windowCard != null
      * @return true if can move the dices
-     * @throws IDNotFoundException when dices have wrong id
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
-    public boolean moveExTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws IDNotFoundException, NotEmptyException {
+    public boolean moveExTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws NotEmptyException {
         Cell c0 = windowCard.getWindow().getCell(dices.get(0));
         Cell c1 = windowCard.getWindow().getCell(dices.get(1));
 
@@ -170,15 +165,17 @@ public class ToolEffectRealization {
 
         try {
             windowCard.checkPlaceCond();
+
             return true;
+
         } catch (WrongPositionException | PositionException e) {
             c1.setDice(dices.get(1));
             dest.get(1).freeCell();
             c0.setDice(dices.get(0));
             dest.get(0).freeCell();
+
             return false;
         }
-
     }
 
     /**
@@ -187,10 +184,9 @@ public class ToolEffectRealization {
      * @param dest dest.size() == dices.size()
      * @param windowCard != null
      * @return true if can move the dices
-     * @throws IDNotFoundException when dices have wrong id
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
-    public boolean moveUpToTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws IDNotFoundException, NotEmptyException {
+    public boolean moveUpToTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws NotEmptyException {
         if (dices.isEmpty())
             return true;
 
@@ -214,6 +210,7 @@ public class ToolEffectRealization {
                 windowCard.checkPlaceCond();
 
             return true;
+
         } catch (PositionException | EmptyException | WrongPositionException e) {
             if (size2) {
                 from1.setDice(dices.get(1));
@@ -221,9 +218,9 @@ public class ToolEffectRealization {
             }
             from0.setDice(dices.get(0));
             dest.get(0).freeCell();
+
             return false;
         }
-
     }
 
     /**
@@ -233,8 +230,9 @@ public class ToolEffectRealization {
      * @throws IDNotFoundException when dices have wrong id
      * @throws SameDiceException when trying to add the same dice twice to the same object
      * @throws EmptyException when trying to get a dice from an empty draft
+     * @throws RoundNotFoundException when wrong round is requested
      */
-    public boolean moveFromDraftToRound(List<Dice> dices) throws IDNotFoundException, SameDiceException, EmptyException {
+    public boolean moveFromDraftToRound(List<Dice> dices) throws IDNotFoundException, SameDiceException, EmptyException, RoundNotFoundException {
         int round = roundTrack.getRound(dices.get(1));
         draft.addDice(dices.get(1).copyDice());
         roundTrack.addDice(dices.get(0).copyDice(), round);
@@ -265,11 +263,14 @@ public class ToolEffectRealization {
                 windowCard.checkPlaceCond();
 
             draft.rmDice(d);
+
             return true;
+
         } catch (WrongPositionException | PositionException | EmptyException e) {
             findSetNearby(dest, false, windowCard);
             dest.freeCell();
             draft.addDice(d);
+
             return false;
         }
     }
@@ -321,19 +322,18 @@ public class ToolEffectRealization {
      * If two dices are on window Card, ignore or set nearby restriction of both of their Cells. Else, ignore or set
      * nearby restriction only for dest.
      * @param dest != null && dest.isFree
-     * @param set == true if ignore Nearby Restriction, == false if set Nearby Restrion
+     * @param set true if ignore Nearby Restriction, false if set Nearby Restriction
      * @param windowCard != null
      */
     public void findSetNearby(Cell dest, boolean set, WindowCard windowCard) {
         if (windowCard.numEmptyCells() == 18) {
-            for (Iterator<Cell> itr = windowCard.getOrizzItr(); itr.hasNext();) {
-                Cell cell = itr.next();
+            windowCard.getHorizontalItr().forEachRemaining(cell -> {
                 if (cell.isOccupied())
                     if (set)
                         cell.setIgnoreNearby(true);
                     else
                         cell.setIgnoreNearby(false);
-            }
+            });
         }
         else if (set)
             dest.setIgnoreNearby(true);

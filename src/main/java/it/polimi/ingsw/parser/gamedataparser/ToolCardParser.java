@@ -25,6 +25,7 @@ public class ToolCardParser implements Parser {
     private static final String ID = "ID";
     private static final String NAME = "NAME";
     private static final String COLOR = "COLOR";
+    private static final String WINDOW_CARD = "WINDOW_CARD";
     private static final String ROUND_TRACK = "ROUND_TRACK";
     private static final String DRAFT = "DRAFT";
     private static final String DICE_BAG = "DICE_BAG";
@@ -57,6 +58,7 @@ public class ToolCardParser implements Parser {
         RoundTrack roundTrack = null;
         Draft draft = null;
         DiceBag diceBag = null;
+        Boolean boolWindow = false;
 
         JsonParser parser = new JsonParser();
         JsonArray objArray = (JsonArray) parser.parse(new FileReader(infoPath));
@@ -70,6 +72,7 @@ public class ToolCardParser implements Parser {
                 roundTrack = readRoundTrack(obj, game);
                 draft = readDraft(obj, game);
                 diceBag = readDiceBag(obj, game);
+                boolWindow = readWindowCard(obj);
             }
         }
 
@@ -77,9 +80,18 @@ public class ToolCardParser implements Parser {
                 new ToolEffectRealization(game.getBoard().getRoundTrack(), game.getBoard().getDraft(), game.getBoard().getDiceBag());
 
         ret = new ToolCard(id, name, color, strategy);
-        ret.setActor(roundTrack, draft, diceBag);
+        ret.setActor(boolWindow, roundTrack, draft, diceBag);
 
         return ret;
+    }
+
+    /**
+     * Find if the tool card with selected id uses Window Card
+     * @param obj != null
+     * @return true if it uses, false else
+     */
+    private Boolean readWindowCard(JsonObject obj) {
+        return obj.get(WINDOW_CARD).getAsString() != null;
     }
 
     /**

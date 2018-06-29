@@ -2,6 +2,7 @@ package it.polimi.ingsw.servertest.modeltest.roundtracktest;
 
 import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.RoundNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
@@ -28,6 +29,11 @@ public class RoundTrackTest extends TestCase {
         super( testName );
     }
 
+    /**
+     * Testing the correct search of a dice in round Track
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testFindDice() throws IDNotFoundException, SameDiceException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
@@ -41,6 +47,11 @@ public class RoundTrackTest extends TestCase {
         assertNotSame(d, roundTrack.findDice(id));
     }
 
+    /**
+     * Testing the correct search of a color
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testFindColor() throws IDNotFoundException, SameDiceException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
@@ -57,7 +68,13 @@ public class RoundTrackTest extends TestCase {
         assertFalse(roundTrack.findColor(wrongCol));
     }
 
-    public void testGetRound() throws IDNotFoundException, SameDiceException {
+    /**
+     * Testing getRound
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testGetRound() throws IDNotFoundException, SameDiceException, RoundNotFoundException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
         int id1 = (id+1)%90;
@@ -69,6 +86,11 @@ public class RoundTrackTest extends TestCase {
         assertThrows(IDNotFoundException.class, () -> roundTrack.getRound(d1));
     }
 
+    /**
+     * Testing reaction when trying to find a dice not in round Track
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     */
     public void testIDNotFoundException() throws IDNotFoundException, SameDiceException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
@@ -88,7 +110,13 @@ public class RoundTrackTest extends TestCase {
         assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(dDiff.getID()));
     }
 
-    public void testAddDice() throws IDNotFoundException, SameDiceException {
+    /**
+     * Testing about adding dices and reaction to illegal adding attempts
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testAddDice() throws IDNotFoundException, SameDiceException, RoundNotFoundException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
         int roundNeg = random.nextInt() - (random.nextInt()+1);
@@ -100,11 +128,18 @@ public class RoundTrackTest extends TestCase {
         assertTrue(roundTrack.addDice(d, roundDiff));
         assertSame(id, roundTrack.findDice(id).getID());
         assertThrows(SameDiceException.class, () -> roundTrack.addDice(d, round));
-        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.addDice(d, roundNeg));
-        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.addDice(d, roundOver));
+        assertThrows(RoundNotFoundException.class, () -> roundTrack.addDice(d, roundNeg));
+        assertThrows(RoundNotFoundException.class, () -> roundTrack.addDice(d, roundOver));
     }
 
-    public void testRmDice() throws IDNotFoundException, SameDiceException, EmptyException {
+    /**
+     * Testing about removing dices and reaction to illegal removing attempts
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws SameDiceException when trying to add the same Dice twice
+     * @throws RoundNotFoundException when wrong round is requested
+     * @throws EmptyException when trying to remove a dice from an empty round
+     */
+    public void testRmDice() throws IDNotFoundException, SameDiceException, EmptyException, RoundNotFoundException {
         RoundTrack roundTrack = new RoundTrack(draft);
         Dice d = new Dice(id, col);
         int roundNeg = random.nextInt() - (random.nextInt()+1);
@@ -118,8 +153,8 @@ public class RoundTrackTest extends TestCase {
         roundTrack.addDice(dDiff, round);
 
         assertThrows(EmptyException.class, () -> roundTrack.rmDice(d, roundDiff));
-        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.rmDice(d, roundNeg));
-        assertThrows(IndexOutOfBoundsException.class, () -> roundTrack.rmDice(d, roundOver));
+        assertThrows(RoundNotFoundException.class, () -> roundTrack.rmDice(d, roundNeg));
+        assertThrows(RoundNotFoundException.class, () -> roundTrack.rmDice(d, roundOver));
         assertTrue(roundTrack.rmDice(d, round));
         assertThrows(IDNotFoundException.class, () -> roundTrack.findDice(id));
         assertThrows(IDNotFoundException.class, () -> roundTrack.rmDice(d, round));

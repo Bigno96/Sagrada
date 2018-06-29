@@ -2,11 +2,9 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -21,7 +19,7 @@ public class Player extends Observable {
     private static final String DUMP_WINDOW_CARD_MSG = " WinCard: ";
     private static final String DUMP_FAVOR_POINT_MSG = "FavorPoint: ";
 
-    private enum playerState { DISCONNECTED, FIRST_TURN, SECOND_TURN, PLAYED_DICE, USED_TOOL }
+    public enum playerState { DISCONNECTED, FIRST_TURN, SECOND_TURN, PLAYED_DICE, USED_TOOL }
 
     private List<playerState> currentState;
     private String id;

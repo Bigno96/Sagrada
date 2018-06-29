@@ -92,8 +92,8 @@ public class SocketServerSpeaker implements ServerSpeaker {
 
         try {
             socket = new Socket(ip, parser.getSocketPort());
-            ExecutorService executor = Executors.newCachedThreadPool();
-            executor.submit(new SocketServerListener(socket, view, this));
+            SocketServerListener listener = new SocketServerListener(socket, view, this);
+            new Thread(listener).start();
 
             synchronized (lock) {
                 socketOut = new PrintWriter(socket.getOutputStream());
@@ -257,8 +257,14 @@ public class SocketServerSpeaker implements ServerSpeaker {
         }
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param index    in the draft of the dice
+     * @param row      of the destination cell
+     * @param col      of the destination cell
+     */
     @Override
-    public void moveDiceFromDraftToCard(String username, int index, int row, int col) {
+    public void placementDice(String username, int index, int row, int col) {
 
     }
 

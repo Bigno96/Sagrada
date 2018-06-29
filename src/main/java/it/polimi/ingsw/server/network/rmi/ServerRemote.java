@@ -87,5 +87,13 @@ public interface ServerRemote extends Remote {
      */
     void getPrivateObj(String username) throws RemoteException;
 
-    void moveDiceFromDraftToCard(String username, int index, int row, int col) throws RemoteException;
+    /**
+     * Used to place dice for a user. Receiving index of the dice in the draft and cell's coordinates of the destination.
+     * @param username of player moving the dice
+     * @param index in the draft of the dice
+     * @param row of the destination cell
+     * @param col of the destination cell
+     */
+    void placementDice(String username, int index, int row, int col) throws RemoteException, WrongDiceSelectionException,
+            EmptyException, WrongPositionException, NotTurnException, NotEmptyException, IDNotFoundException, WrongCellSelectionException, PositionException;
 }

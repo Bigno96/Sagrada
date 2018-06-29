@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.roundtrack;
 
 import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.RoundNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Draft;
@@ -14,6 +15,11 @@ import java.util.logging.Logger;
 
 public class RoundTrack {
 
+    private static final String DUMP_MSG = "contains following dices: ";
+    private static final String ID_NOT_FOUND_MSG = "Id not found";
+    private static final String ROUND_NOT_EXISTING_MSG = "Round doesn't exists";
+    private static final String DICE_NOT_FOUND_MSG = "Dice not found";
+
     private List<ListDiceRound> trackList = new ArrayList<>();
     private Draft draft;
     private static final Logger logger = Logger.getLogger(RoundTrack.class.getName());
@@ -22,7 +28,7 @@ public class RoundTrack {
      * Constructor
      * @param draft of the current Round
      */
-    public RoundTrack(Draft draft){
+    public RoundTrack(Draft draft) {
         this.draft = draft;
         for (int i=0; i<10; i++)
             trackList.add(new ListDiceRound());
@@ -34,16 +40,15 @@ public class RoundTrack {
     }
 
     public void dump() {
-        logger.info("contains following : ");
-        for (ListDiceRound r :trackList )
-            r.dump();
+        logger.info(DUMP_MSG);
+        trackList.forEach(ListDiceRound::dump);
     }
 
     /**
      * Find dice into RoundTrack, with that ID
      * @param id != null
      * @return a copy of the Dice
-     * @throws IDNotFoundException
+     * @throws IDNotFoundException when dice is not found
      */
     public Dice findDice (int id) throws IDNotFoundException {
         for (ListDiceRound l : trackList) {
@@ -54,7 +59,7 @@ public class RoundTrack {
             }
         }
 
-        throw new IDNotFoundException("Id not found");
+        throw new IDNotFoundException(ID_NOT_FOUND_MSG);
     }
 
     /**
@@ -77,7 +82,7 @@ public class RoundTrack {
     /**
      * Move Dice from draft of round, to RoundTrack
      * @param round != null
-     * @throws SameDiceException
+     * @throws SameDiceException when trying to add the same Dice twice in draft
      */
     public void moveDraft(int round) throws SameDiceException {
         List<Dice> copy = draft.getDraftList();
@@ -85,20 +90,43 @@ public class RoundTrack {
         trackList.get(round).addDice(copy);
     }
 
-    public boolean addDice(Dice d, int round) throws SameDiceException {
+    /**
+     * Used to add Dice to a specified round
+     * @param d dice to add
+     * @param round where add a Dice
+     * @return true if successful, false else
+     * @throws SameDiceException when trying to add the same Dice twice
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public boolean addDice(Dice d, int round) throws SameDiceException, RoundNotFoundException {
         if (round < 0 || round > 9)
-            throw new IndexOutOfBoundsException("Round doesn't exists");
+            throw new RoundNotFoundException(ROUND_NOT_EXISTING_MSG);
 
         return trackList.get(round).addDice(d);
     }
 
-    public boolean rmDice(Dice d, int round) throws EmptyException, IDNotFoundException {
+    /**
+     * Used to remove Dice from a specified round
+     * @param d dice to remove
+     * @param round where to remove Dice
+     * @return true if successful, false else
+     * @throws EmptyException when removing from an empty round
+     * @throws IDNotFoundException when dice is not in the specified round
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public boolean rmDice(Dice d, int round) throws EmptyException, IDNotFoundException, RoundNotFoundException {
         if (round < 0 || round > 9)
-            throw new IndexOutOfBoundsException("Round doesn't exists");
+            throw new RoundNotFoundException(ROUND_NOT_EXISTING_MSG);
 
         return trackList.get(round).rmDice(d);
     }
 
+    /**
+     * Used to get number of round where a Dice is contained
+     * @param d dice to find
+     * @return round.contains(d)
+     * @throws IDNotFoundException when dice is not found
+     */
     public int getRound(Dice d) throws IDNotFoundException {
         for (ListDiceRound l : trackList) {
             for (Iterator<Dice> itr = l.itr(); itr.hasNext();) {
@@ -109,6 +137,6 @@ public class RoundTrack {
             }
         }
 
-        throw new IDNotFoundException("Dice not found");
+        throw new IDNotFoundException(DICE_NOT_FOUND_MSG);
     }
 }

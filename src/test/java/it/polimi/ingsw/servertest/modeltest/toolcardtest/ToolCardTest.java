@@ -25,40 +25,58 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ToolCardTest extends TestCase {
 
     private static final Random random = new Random();
-    private String username = "Test";
     private int id = random.nextInt(12)+1;
     private int idDice = random.nextInt(80)+1;
-    private Colors col = Colors.random();
     private int fp = random.nextInt(4)+3;
-    private GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+
+    private Colors col = Colors.random();
+    private String username = "Test";
+
+    private final GameSettingsParser gameSettings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+    private static final int MIN = 0;
+    private final int max_row = gameSettings.getWindowCardMaxRow();
+    private final int max_col = gameSettings.getWindowCardMaxColumn();
 
     public ToolCardTest(String testName) {
         super(testName);
     }
 
-    // filling a list with 20 random cells
+    /**
+     * Fills a list of cell with 20 random cells
+     * @return List<Cell> list, list.size() = 20
+     * @throws ValueException thrown when passing wrong values to cell
+     * @throws PositionException thrown when passing wrong coordinates to cell
+     */
     private List<Cell> myCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<>();
-        for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++) {
+        for (int i=MIN; i<max_row; i++)
+            for (int j=MIN; j<max_col; j++)
                 cellList.add(new Cell(random.nextInt(7), Colors.random(), i, j,
-                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
-            }
+                    gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
 
         return cellList;
     }
 
-    // filling a list with 20 random cells with no restriction
+    /**
+     * Fills a list of cell with 20 random cells with value = 0 and colors = white
+     * @return List<Cell> list, list.size() = 20
+     * @throws ValueException thrown when passing wrong values to cell
+     * @throws PositionException thrown when passing wrong coordinates to cell
+     */
     private List<Cell> myEmptyCellList() throws ValueException, PositionException {
         List<Cell> cellList = new ArrayList<>();
-        for (int i=0; i<4; i++)
-            for (int j=0; j<5; j++)
+        for (int i=MIN; i<max_row; i++)
+            for (int j=MIN; j<max_col; j++)
                 cellList.add(new Cell(0, Colors.WHITE, i, j,
-                        gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
+                    gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
+
         return cellList;
     }
 
-    // testing attribute
+    /**
+     * Testing all getter in ToolCard
+     * @throws IDNotFoundException thrown by board constructor
+     */
     public void testAttribute() throws IDNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
@@ -73,36 +91,55 @@ public class ToolCardTest extends TestCase {
         assertSame(fp, tool.getFavorPoint());
     }
 
-    // testing obtaining elements (round Track, dice Bag, Draft) involved in the tool card
-    public void testGetActor() throws IDNotFoundException {
+    /**
+     * Testing getActor, elements of board involved in tool card
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     */
+    public void testGetActor() throws IDNotFoundException, ValueException, PositionException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
         ToolCard tool = new ToolCard(id, "Test", col, strategy);
+        WindowCard testCard = null;
         RoundTrack testTrack = null;
         Draft testDraft = null;
         DiceBag testBag = null;
 
-        tool.setActor(null, board.getDraft(), board.getDiceBag());
-        List<Object> obj = tool.getActor();
+        tool.setActor(true, null, board.getDraft(), board.getDiceBag());
+        List<ToolCard.Actor> actor = tool.getActor();
 
-        for (Object o : obj) {      // if it's not used, it's null at the end
-            if (o instanceof RoundTrack)
-                testTrack = (RoundTrack) o;
-            else if (o instanceof Draft)
-                testDraft = (Draft) o;
-            else if (o instanceof DiceBag)
-                testBag = (DiceBag) o;
+        for (ToolCard.Actor act : actor) {
+            if (act.equals(ToolCard.Actor.WINDOW_CARD))
+                testCard = new WindowCard(1, "Test", 0, myCellList(), max_row, max_col);
+            if (act.equals(ToolCard.Actor.ROUND_TRACK))
+                testTrack = board.getRoundTrack();
+            if (act.equals(ToolCard.Actor.DRAFT))
+                testDraft = board.getDraft();
+            if (act.equals(ToolCard.Actor.DICE_BAG))
+                testBag = board.getDiceBag();
         }
 
+        assertNotNull(testCard);
         assertNull(testTrack);
-        assertSame(testDraft, board.getDraft());
-        assertSame(testBag, board.getDiceBag());
+        assertNotNull(testDraft);
+        assertNotNull(testBag);
     }
 
-    // testing tool card 1
-    public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
+
+    /**
+     * Testing tool card 1
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool1() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -112,16 +149,15 @@ public class ToolCardTest extends TestCase {
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool1.setActor(null, board.getDraft(), null);
+        tool1.setActor(null, null, board.getDraft(), null);
         assertTrue(tool1.checkPreCondition(p, null));
 
-        List<Object> obj = tool1.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List<ToolCard.Parameter> param = tool1.askParameter();
+        for (ToolCard.Parameter parameter : param)
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, Colors.random());
                 dices.add(d);
             }
-        }
 
         assertFalse(tool1.checkTool(dices, null, 0, null));    // the dice is not in the draft
 
@@ -145,13 +181,24 @@ public class ToolCardTest extends TestCase {
         assertSame(6, d.getValue());
     }
 
-    // testing tool card 2 and 3
-    public void testTool2_3() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, WrongPositionException, SameDiceException {
+    /**
+     * Testing tool card 2 & 3
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws WrongPositionException thrown when an error in positioning occurs
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool2_3() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, WrongPositionException, SameDiceException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool2 = new ToolCard(2, "Tool2", col, strategy);
         ToolCard tool3 = new ToolCard(3, "Tool3", col, strategy);
 
@@ -170,20 +217,19 @@ public class ToolCardTest extends TestCase {
         Colors col = c.getColor();
         int val = c.getValue();
 
-        tool2.setActor(null, null, null);
-        tool3.setActor(null, null, null);
+        tool2.setActor(true,null, null, null);
+        tool3.setActor(true, null, null, null);
         assertTrue(tool2.checkPreCondition(p, p.getWindowCard()));
         assertTrue(tool3.checkPreCondition(p, p.getWindowCard()));
 
-        List<Object> obj = tool2.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
-                d = new Dice(idDice, colNear);
+        List<ToolCard.Parameter> param = tool2.askParameter();
+        for (ToolCard.Parameter parameter : param) {
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
+                d = new Dice((idDice++) % 90, Colors.random());
                 dices.add(d);
             }
-            else if (o instanceof Cell) {
+            if (parameter.equals(ToolCard.Parameter.CELL))
                 cells.add(cNear);
-            }
         }
 
         assertFalse(tool2.checkTool(dices, cells, 0, null));
@@ -221,12 +267,23 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.checkPlaceCond());
     }
 
-    public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException {
+    /**
+     * Testing tool card 4
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool4() throws IDNotFoundException, ValueException, NotEmptyException, PositionException, EmptyException, SameDiceException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool4 = new ToolCard(4, "Tool4", col, strategy);
 
         Player p = new Player(username);
@@ -238,18 +295,19 @@ public class ToolCardTest extends TestCase {
         int row = 0;
         int column = 0;
 
-        tool4.setActor(null, null, null);
+        tool4.setActor(true, null, null, null);
         assertTrue(tool4.checkPreCondition(p, p.getWindowCard()));
 
-        List<Object> obj = tool4.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List<ToolCard.Parameter> param = tool4.askParameter();
+        for (ToolCard.Parameter parameter : param) {
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, Colors.random(), random.nextInt(6)+1);
                 winCard.getWindow().getCell(row, column).setDice(d);
                 dices.add(d);
                 row++;
                 column++;
-            } else if (o instanceof Cell) {
+            }
+            if (parameter.equals(ToolCard.Parameter.CELL)) {
                 cells.add(winCard.getWindow().getCell(row, column));
                 row++;
                 column++;
@@ -265,7 +323,16 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.getWindow().getCell(3,3).isOccupied());
     }
 
-    public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException {
+    /**
+     * Testing tool card 5
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     */
+    public void testTool5() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -277,16 +344,15 @@ public class ToolCardTest extends TestCase {
 
         int round = random.nextInt(10);
 
-        tool5.setActor(board.getRoundTrack(), board.getDraft(), null);
+        tool5.setActor(null, board.getRoundTrack(), board.getDraft(), null);
         assertTrue(tool5.checkPreCondition(p, p.getWindowCard()));
 
-        List<Object> obj = tool5.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List<ToolCard.Parameter> param = tool5.askParameter();
+        for (ToolCard.Parameter parameter : param)
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, Colors.random(), random.nextInt(6)+1);
                 dices.add(d);
             }
-        }
 
         board.getDraft().addDice(dices.get(0));
         board.getRoundTrack().addDice(dices.get(1), round);
@@ -300,7 +366,17 @@ public class ToolCardTest extends TestCase {
         assertSame(board.getDraft().findDice(dices.get(1).getID()).getID(), idDice-1);
     }
 
-    public void testTool6_7() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
+    /**
+     * Testing tool card 6 & 7
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool6_7() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -312,8 +388,8 @@ public class ToolCardTest extends TestCase {
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool6.setActor(null, board.getDraft(), null);
-        tool7.setActor( null, board.getDraft(), null);
+        tool6.setActor(true,null, board.getDraft(), null);
+        tool7.setActor(null,null, board.getDraft(), null);
 
         assertTrue(tool6.checkPreCondition(p, p.getWindowCard()));
         assertFalse(tool7.checkPreCondition(p, p.getWindowCard()));
@@ -323,13 +399,12 @@ public class ToolCardTest extends TestCase {
 
         assertEquals(new ArrayList<>(), tool7.askParameter());
 
-        List <Object> obj = tool6.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List <ToolCard.Parameter> param = tool6.askParameter();
+        for (ToolCard.Parameter parameter : param)
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, Colors.random(), random.nextInt(6)+1);
                 dices.add(d);
             }
-        }
 
         board.getDraft().addDice(dices.get(0));
 
@@ -343,7 +418,17 @@ public class ToolCardTest extends TestCase {
         p.setSecondTurn(true);
     }
 
-    public void testTool8() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException {
+    /**
+     * Testing tool card 8
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool8() throws IDNotFoundException, ValueException, PositionException, SameDiceException, NotEmptyException, EmptyException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -352,7 +437,7 @@ public class ToolCardTest extends TestCase {
         Player p = new Player(username);
         p.setBoard(board);
 
-        tool8.setActor(null, null, null);
+        tool8.setActor(true,null, null, null);
 
         assertFalse(tool8.checkPreCondition(p, p.getWindowCard()));
 
@@ -372,12 +457,24 @@ public class ToolCardTest extends TestCase {
         p.setSecondTurn(true);
     }
 
-    public void testTool9() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException, WrongPositionException {
+    /**
+     * Testing tool card 9
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws WrongPositionException thrown when an error in positioning occurs
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool9() throws ValueException, PositionException, IDNotFoundException, SameDiceException, NotEmptyException, EmptyException, WrongPositionException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool9 = new ToolCard(9, "Tool9", col, strategy);
 
         Player p = new Player(username);
@@ -389,18 +486,17 @@ public class ToolCardTest extends TestCase {
         int val = dest.getValue();
         Colors col = dest.getColor();
 
-        tool9.setActor(null, board.getDraft(), null);
+        tool9.setActor(true,null, board.getDraft(), null);
 
         assertTrue(tool9.checkPreCondition(p, p.getWindowCard()));
 
-        List <Object> obj = tool9.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List <ToolCard.Parameter> param = tool9.askParameter();
+        for (ToolCard.Parameter parameter : param)
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, col, val);
                 dices.add(d);
                 board.getDraft().addDice(d);
             }
-        }
 
         List<Cell> cells = new ArrayList<>();
         cells.add(dest);
@@ -414,7 +510,17 @@ public class ToolCardTest extends TestCase {
         assertTrue(winCard.getWindow().containsDice(dices.get(0)));
     }
 
-    public void testTool10() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException {
+    /**
+     * Testing tool card 10
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool10() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
@@ -424,18 +530,17 @@ public class ToolCardTest extends TestCase {
         p.setBoard(board);
         List<Dice> dices = new ArrayList<>();
 
-        tool10.setActor(null, board.getDraft(), null);
+        tool10.setActor(null,null, board.getDraft(), null);
 
         assertTrue(tool10.checkPreCondition(p, p.getWindowCard()));
 
-        List <Object> obj = tool10.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List <ToolCard.Parameter> param = tool10.askParameter();
+        for (ToolCard.Parameter parameter : param)
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, Colors.random(), random.nextInt(6)+1);
                 dices.add(d);
                 board.getDraft().addDice(d);
             }
-        }
 
         assertTrue(tool10.checkTool(dices, null, 0, null));
 
@@ -445,12 +550,24 @@ public class ToolCardTest extends TestCase {
         assertSame(7-old, board.getDraft().findDice(dices.get(0).getID()).getValue());
     }
 
-    public void testTool11() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, WrongPositionException {
+    /**
+     * Testing tool card 11
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     * @throws WrongPositionException thrown when an error in positioning occurs
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    public void testTool11() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, WrongPositionException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool11 = new ToolCard(11, "Tool11", col, strategy);
 
         Player p = new Player(username);
@@ -464,21 +581,20 @@ public class ToolCardTest extends TestCase {
         int val = dest.getValue();
         Colors col = dest.getColor();
 
-        tool11.setActor(null, board.getDraft(), board.getDiceBag());
+        tool11.setActor(true,null, board.getDraft(), board.getDiceBag());
 
         assertTrue(tool11.checkPreCondition(p, p.getWindowCard()));
 
-        List <Object> obj = tool11.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List <ToolCard.Parameter> param = tool11.askParameter();
+        for (ToolCard.Parameter parameter : param) {
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, col, val);
                 board.getDiceBag().rmDice(d);
                 dices.add(d);
                 board.getDraft().addDice(d);
             }
-            if (o instanceof Cell) {
+            if (parameter.equals(ToolCard.Parameter.CELL))
                 cells.add(dest);
-            }
         }
 
         assertFalse(tool11.checkTool(dices, cells, 0, null));
@@ -489,12 +605,22 @@ public class ToolCardTest extends TestCase {
         assertSame(winCard.getWindow().getCell(0,0).getDice().getValue(), 3);
     }
 
-    public void testTool12() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException {
+    /**
+     * Testing tool card 12
+     * @throws IDNotFoundException thrown by board constructor
+     * @throws ValueException thrown by Empty Cell List
+     * @throws PositionException thrown by Empty Cell List
+     * @throws NotEmptyException thrown when trying to set a Dice in a cell already occupied
+     * @throws SameDiceException thrown when trying to add same Dice to round Track twice
+     * @throws EmptyException thrown when trying to get a Dice from an empty bag
+     */
+    public void testTool12() throws IDNotFoundException, SameDiceException, ValueException, PositionException, NotEmptyException, EmptyException, RoundNotFoundException {
         Board board = new Board(4);
         ToolEffectRealization strategy =
                 new ToolEffectRealization(board.getRoundTrack(), board.getDraft(), board.getDiceBag());
 
-        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList());
+        WindowCard winCard = new WindowCard(id, "Test", fp, myEmptyCellList(),
+                            gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn());
         ToolCard tool12 = new ToolCard(12, "Tool12", col, strategy);
 
         Player p = new Player(username);
@@ -509,17 +635,17 @@ public class ToolCardTest extends TestCase {
         int row = 0;
         int col = 0;
 
-        tool12.setActor(board.getRoundTrack(), null, null);
+        tool12.setActor(true, board.getRoundTrack(), null, null);
 
         assertTrue(tool12.checkPreCondition(p, p.getWindowCard()));
 
-        List <Object> obj = tool12.askParameter();
-        for (Object o : obj) {
-            if (o instanceof Dice) {
+        List <ToolCard.Parameter> param = tool12.askParameter();
+        for (ToolCard.Parameter parameter : param) {
+            if (parameter.equals(ToolCard.Parameter.DICE)) {
                 Dice d = new Dice((idDice++)%90, color, val);
                 dices.add(d);
             }
-            if (o instanceof Cell) {
+            if (parameter.equals(ToolCard.Parameter.CELL)) {
                 cells.add(new Cell(0, Colors.WHITE, row, col,
                         gameSettings.getWindowCardMaxRow(), gameSettings.getWindowCardMaxColumn()));
                 row++;

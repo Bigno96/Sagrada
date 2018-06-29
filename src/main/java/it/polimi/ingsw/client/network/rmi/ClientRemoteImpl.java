@@ -17,7 +17,7 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     private String username;
     private final AtomicReference<ViewInterface> view = new AtomicReference<>();
 
-    ClientRemoteImpl(String username, ViewInterface view) throws RemoteException {
+    public ClientRemoteImpl(String username, ViewInterface view) throws RemoteException {
         super();
         this.view.set(view);
         this.username = username;
@@ -82,11 +82,27 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
         view.get().isTurn(user);
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param dest     cell where the dice is being moved
+     * @param moved    dice being moved
+     */
     @Override
-    public void placementDice(String username, Cell dest, Dice moved) {
-        view.get().placementDice(username, dest, moved);
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+        view.get().successfulPlacementDice(username, dest, moved);
     }
 
+    /**
+     * Used when wrong placement is tried
+     */
+    @Override
+    public void wrongPlacementDice() {
+        view.get().wrongPlacementDice();
+    }
+
+    /**
+     * @param card to print
+     */
     @Override
     public void printWindowCard(WindowCard card) {
         view.get().printWindowCard(card);
