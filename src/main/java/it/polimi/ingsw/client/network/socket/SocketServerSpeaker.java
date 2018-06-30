@@ -10,8 +10,6 @@ import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Implementation of socket version of server speaker
@@ -34,6 +32,12 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private static final String ASK_DRAFT_KEYWORD = "ASK_DRAFT";
     private static final String ASK_PUBLIC_OBJ_KEYWORD = "ASK_PUBLIC_OBJ";
     private static final String ASK_PRIVATE_OBJ_KEYWORD = "ASK_PRIVATE_OBJ";
+
+    private static final String PLACE_DICE_KEYWORD = "PLACE_DICE";
+    private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
+    private static final String INDEX_DICE_PLACING_KEYWORD = "INDEX_DICE_PLACING";
+    private static final String ROW_CELL_PLACING_KEYWORD = "ROW_CELL_PLACING";
+    private static final String COL_CELL_PLACING_KEYWORD = "COL_CELL_PLACING";
 
     private static final String END_TURN_KEYWORD = "END_TURN";
 
@@ -265,7 +269,24 @@ public class SocketServerSpeaker implements ServerSpeaker {
      */
     @Override
     public void placementDice(String username, int index, int row, int col) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(USER_PLACING_DICE_KEYWORD));
+            socketOut.println(username);
 
+            socketOut.println(protocol.getMessage(INDEX_DICE_PLACING_KEYWORD));
+            socketOut.println(index);
+
+            socketOut.println(protocol.getMessage(ROW_CELL_PLACING_KEYWORD));
+            socketOut.println(row);
+
+            socketOut.println(protocol.getMessage(COL_CELL_PLACING_KEYWORD));
+            socketOut.println(col);
+
+            socketOut.println(protocol.getMessage(PLACE_DICE_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
     }
 
 }

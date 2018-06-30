@@ -32,6 +32,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String EXCEPTION_KEYWORD = "EXCEPTION";
+    private static final String EXCEPTION_MESSAGE_KEYWORD = "EXCEPTION_MESSAGE";
 
     private static final String SEND_LIST_CARD_KEYWORD = "SEND_LIST_CARD";
     private static final String SHOW_USER_CARD_KEYWORD = "SHOW_USER_CARD";
@@ -41,6 +42,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
     private static final String SHOW_PUBLIC_OBJ_KEYWORD = "SHOW_PUBLIC_OBJ";
     private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
+    private static final String SUCCESSFUL_PLACE_DICE_KEYWORD = "SUCCESSFUL_PLACE_DICE";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
     private static final String CARD_ID_KEYWORD = "CARD_ID";
@@ -67,6 +69,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String MAKE_PUBLIC_LIST_KEYWORD = "MAKE_PUBLIC_LIST";
     private static final String MAKE_PUBLIC_OBJ_KEYWORD = "MAKE_PUBLIC_OBJ";
 
+    private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
 
     private Socket socket;
@@ -173,6 +176,22 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         }
     }
 
+
+    /**
+     * Used to tell client an exception
+     * @param exceptionClass type of exception
+     * @param message message of the exception
+     */
+    void sendException(String exceptionClass, String message) {
+         synchronized (lock) {
+             socketOut.println(protocol.getMessage(EXCEPTION_MESSAGE_KEYWORD));
+             socketOut.println(message);
+             socketOut.println(protocol.getMessage(EXCEPTION_KEYWORD));
+             socketOut.println(exceptionClass);
+             socketOut.flush();
+         }
+    }
+
     /**
      * Deconstruct Window Card for passing through socket
      * @param card to be deconstructed
@@ -191,24 +210,30 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         socketOut.println(protocol.getMessage(CARD_CELL_LIST_KEYWORD));
         socketOut.println(" ");
 
-        card.getHorizontalItr().forEachRemaining(cell -> {
-            socketOut.println(protocol.getMessage(CELL_VALUE_KEYWORD));
-            socketOut.println(cell.getValue());
-
-            socketOut.println(protocol.getMessage(CELL_COLOR_KEYWORD));
-            socketOut.println(cell.getColor());
-
-            socketOut.println(protocol.getMessage(CELL_ROW_KEYWORD));
-            socketOut.println(cell.getRow());
-
-            socketOut.println(protocol.getMessage(CELL_COL_KEYWORD));
-            socketOut.println(cell.getCol());
-
-            socketOut.println(protocol.getMessage(CELL_KEYWORD));
-            socketOut.println(" ");
-        });
+        card.getHorizontalItr().forEachRemaining(this::deconstructCell);
 
         socketOut.println(protocol.getMessage(type));
+        socketOut.println(" ");
+    }
+
+    /**
+     * Deconstruct Cell for passing through socket
+     * @param cell to be deconstructed
+     */
+    private void deconstructCell(Cell cell) {
+        socketOut.println(protocol.getMessage(CELL_VALUE_KEYWORD));
+        socketOut.println(cell.getValue());
+
+        socketOut.println(protocol.getMessage(CELL_COLOR_KEYWORD));
+        socketOut.println(cell.getColor());
+
+        socketOut.println(protocol.getMessage(CELL_ROW_KEYWORD));
+        socketOut.println(cell.getRow());
+
+        socketOut.println(protocol.getMessage(CELL_COL_KEYWORD));
+        socketOut.println(cell.getCol());
+
+        socketOut.println(protocol.getMessage(CELL_KEYWORD));
         socketOut.println(" ");
     }
 
@@ -265,12 +290,20 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+        socketOut.println(protocol.getMessage(USER_PLACING_DICE_KEYWORD));
+        socketOut.println(username);
 
-    }
+        socketOut.println(protocol.getMessage(CARD_CELL_LIST_KEYWORD));     // used to reset list of cell used in socket server listener
+        socketOut.println(" ");
 
-    @Override
-    public void wrongPlacementDice() {
+        deconstructCell(dest);
 
+        deconstructDice(moved, DICE_KEYWORD);
+
+        socketOut.println(protocol.getMessage(SUCCESSFUL_PLACE_DICE_KEYWORD));
+        socketOut.println(" ");
+
+        socketOut.flush();
     }
 
     /**

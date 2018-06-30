@@ -37,6 +37,7 @@ public class SocketServerListener implements Runnable {
     private static final String PRINT_KEYWORD = "PRINT";
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String EXCEPTION_KEYWORD = "EXCEPTION";
+    private static final String EXCEPTION_MESSAGE_KEYWORD = "EXCEPTION_MESSAGE";
     private static final String QUIT_KEYWORD = "QUIT";
     private static final String SERVER_NOT_RESPONDING_KEYWORD = "SERVER_NOT_RESPONDING";
 
@@ -48,6 +49,7 @@ public class SocketServerListener implements Runnable {
     private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
     private static final String SHOW_PUBLIC_OBJ_KEYWORD = "SHOW_PUBLIC_OBJ";
     private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
+    private static final String SUCCESSFUL_PLACE_DICE_KEYWORD = "SUCCESSFUL_PLACE_DICE";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
     private static final String CARD_ID_KEYWORD = "CARD_ID";
@@ -74,6 +76,7 @@ public class SocketServerListener implements Runnable {
     private static final String MAKE_PUBLIC_LIST_KEYWORD = "MAKE_PUBLIC_LIST";
     private static final String MAKE_PUBLIC_OBJ_KEYWORD = "MAKE_PUBLIC_OBJ";
 
+    private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
 
     private final ViewInterface view;
@@ -83,8 +86,11 @@ public class SocketServerListener implements Runnable {
     private final ViewMessageParser dictionary;
     private final GameSettingsParser settings;
 
-    private final HashMap<String, Supplier<String>> exceptionMap = new HashMap<>();
-    private final HashMap<String, Consumer<String>> commandMap = new HashMap<>();
+    private final HashMap<String, Supplier<String>> gameExceptionMap;
+    private final HashMap<String, Supplier<String>> placementExceptionMap;
+    private final HashMap<String, Consumer<String>> commandMap;
+
+    private String exceptionMessage;
 
     private List<WindowCard> cards;
     private WindowCard card;
@@ -99,6 +105,7 @@ public class SocketServerListener implements Runnable {
     private int col;
 
     private List<Dice> draft;
+    private Dice dice;
     private int diceId;
     private Colors diceColor;
     private int diceValue;
@@ -108,6 +115,7 @@ public class SocketServerListener implements Runnable {
     private String objDescription;
     private int objPoint;
 
+    private String username;
     private String otherUserName;
 
     SocketServerListener(Socket socket, ViewInterface view, SocketServerSpeaker speaker) {
@@ -119,22 +127,39 @@ public class SocketServerListener implements Runnable {
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
+        this.gameExceptionMap = new HashMap<>();
+        this.placementExceptionMap = new HashMap<>();
+        this.commandMap = new HashMap<>();
+
         this.cards = new ArrayList<>();
         this.cellList = new ArrayList<>();
         this.draft = new ArrayList<>();
         this.publicObj = new ArrayList<>();
 
-        mapException();
+        mapGameException();
+        mapPlacementException();
         mapCommand();
     }
 
     /**
      * Maps exception with their error code to be printed
      */
-    private void mapException() {
-        exceptionMap.put(GameAlreadyStartedException.class.toString(), () -> dictionary.getMessage(GAME_ALREADY_STARTED_KEYWORD));
-        exceptionMap.put(SamePlayerException.class.toString(), () -> dictionary.getMessage(SAME_PLAYER_LOGGED_KEYWORD));
-        exceptionMap.put(TooManyPlayersException.class.toString(), () -> dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
+    private void mapGameException() {
+        gameExceptionMap.put(GameAlreadyStartedException.class.toString(), () -> dictionary.getMessage(GAME_ALREADY_STARTED_KEYWORD));
+        gameExceptionMap.put(SamePlayerException.class.toString(), () -> dictionary.getMessage(SAME_PLAYER_LOGGED_KEYWORD));
+        gameExceptionMap.put(TooManyPlayersException.class.toString(), () -> dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
+    }
+
+    private void mapPlacementException() {
+        placementExceptionMap.put(NotTurnException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(WrongDiceSelectionException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(NotEmptyException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(WrongCellSelectionException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(IDNotFoundException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(PositionException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(EmptyException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(WrongPositionException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(AlreadyDoneException.class.toString(), () -> exceptionMessage);
     }
 
     /**
@@ -144,6 +169,7 @@ public class SocketServerListener implements Runnable {
         Consumer<String> print = view::print;
         Consumer<String> login = string -> speaker.setLogged(parseException(string));
         Consumer<String> exception = string -> speaker.setLogged(parseException(string));
+        Consumer<String> getExceptionMessage = message -> exceptionMessage = message;
 
         Consumer<String> sendListCard = string -> view.chooseWindowCard(cards);
         Consumer<String> showCardPlayer = string -> view.showCardPlayer(otherUserName, card);
@@ -184,6 +210,13 @@ public class SocketServerListener implements Runnable {
                 view.print(e.getMessage());
             }
         };
+        Consumer<String> makeDice = string -> {
+            try {
+                dice = new Dice(diceId, diceColor, diceValue);
+            } catch (IDNotFoundException e) {
+                view.print(e.getMessage());
+            }
+        };
 
         Consumer<String> setObjId = id -> objId = Integer.parseInt(id);
         Consumer<String> setObjDescription = desc -> objDescription = desc;
@@ -193,11 +226,15 @@ public class SocketServerListener implements Runnable {
         Consumer<String> showPublicCard = string -> view.printPublicObj(publicObj);
         Consumer<String> showPrivateCard = string -> view.printPrivateObj(new PrivateObjective(objId, objDescription));
 
-        Consumer<String> setOtherUser = username -> otherUserName = username;
+        Consumer<String> placementDice = string -> view.successfulPlacementDice(username, cellList.get(0), dice);
+
+        Consumer<String> setPlacementUser = placementUser -> username = placementUser;
+        Consumer<String> setOtherUser = otherUsername -> otherUserName = otherUsername;
 
         commandMap.put(protocol.getMessage(PRINT_KEYWORD), print);
         commandMap.put(protocol.getMessage(LOGIN_SUCCESS_KEYWORD), login);
         commandMap.put(protocol.getMessage(EXCEPTION_KEYWORD), exception);
+        commandMap.put(protocol.getMessage(EXCEPTION_MESSAGE_KEYWORD), getExceptionMessage);
 
         commandMap.put(protocol.getMessage(SEND_LIST_CARD_KEYWORD), sendListCard);
         commandMap.put(protocol.getMessage(SHOW_USER_CARD_KEYWORD), showCardPlayer);
@@ -223,6 +260,7 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(MAKE_DRAFT_KEYWORD), makeDraft);
         commandMap.put(protocol.getMessage(SHOW_DRAFT_KEYWORD), showDraft);
         commandMap.put(protocol.getMessage(DICE_DRAFT_KEYWORD), makeDiceDraft);
+        commandMap.put(protocol.getMessage(DICE_KEYWORD), makeDice);
 
         commandMap.put(protocol.getMessage(OBJ_ID_KEYWORD), setObjId);
         commandMap.put(protocol.getMessage(OBJ_DESCRIPTION_KEYWORD), setObjDescription);
@@ -232,6 +270,9 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(SHOW_PUBLIC_OBJ_KEYWORD), showPublicCard);
         commandMap.put(protocol.getMessage(SHOW_PRIVATE_OBJ_KEYWORD), showPrivateCard);
 
+        commandMap.put(protocol.getMessage(SUCCESSFUL_PLACE_DICE_KEYWORD), placementDice);
+
+        commandMap.put(protocol.getMessage(USER_PLACING_DICE_KEYWORD), setPlacementUser);
         commandMap.put(protocol.getMessage(OTHER_USER_NAME_KEYWORD), setOtherUser);
     }
 
@@ -269,9 +310,13 @@ public class SocketServerListener implements Runnable {
      * @return true if it was a string coming from an Exception, false else
      */
     private boolean parseException(String s) {
-        if (exceptionMap.containsKey(s)) {                  // if it's a known exception
-            view.print(exceptionMap.get(s).get());          // print it's message
+        if (gameExceptionMap.containsKey(s)) {                  // if it's a known exception
+            view.print(gameExceptionMap.get(s).get());          // print it's message
             return false;
+        }
+        else if (placementExceptionMap.containsKey(s)) {
+            view.print(placementExceptionMap.get(s).get());
+            view.wrongPlacementDice();
         }
         else
             view.print(s);              // print anyway

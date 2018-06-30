@@ -206,7 +206,7 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
-        print("Utente: " + username + " ha piazzato il dado: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " nella cella: (" + dest.getRow() + "," + dest.getCol() + ") ");
+        print("\nUtente " + username + " ha piazzato il dado: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " nella cella: (" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
 

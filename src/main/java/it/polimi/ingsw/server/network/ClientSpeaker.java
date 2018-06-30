@@ -59,11 +59,6 @@ public interface ClientSpeaker {
     void successfulPlacementDice(String username, Cell dest, Dice moved);
 
     /**
-     * Used when wrong placement is tried
-     */
-    void wrongPlacementDice();
-
-    /**
      * Used to print a window card on Player's view
      * @param card to be printed
      */

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.network.socket;
 
+import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
@@ -38,6 +39,12 @@ public class SocketClientListener implements Runnable {
     private static final String END_TURN_KEYWORD = "END_TURN";
     private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
 
+    private static final String PLACE_DICE_KEYWORD = "PLACE_DICE";
+    private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
+    private static final String INDEX_DICE_PLACING_KEYWORD = "INDEX_DICE_PLACING";
+    private static final String ROW_CELL_PLACING_KEYWORD = "ROW_CELL_PLACING";
+    private static final String COL_CELL_PLACING_KEYWORD = "COL_CELL_PLACING";
+
     private final Socket socket;
     private final SocketClientSpeaker speaker;
     private final Lobby lobby;
@@ -48,6 +55,10 @@ public class SocketClientListener implements Runnable {
 
     private String username;
     private String otherUsername;
+
+    private int indexDice;
+    private int rowCell;
+    private int colCell;
 
     SocketClientListener(Socket socket, SocketClientSpeaker speaker, Lobby lobby) {
         this.socket = socket;
@@ -86,6 +97,11 @@ public class SocketClientListener implements Runnable {
             lobby.getRoundController().nextTurn();
         };
 
+        Consumer<String> setIndexDice = index -> indexDice = Integer.parseInt(index);
+        Consumer<String> setRowCell = row -> rowCell = Integer.parseInt(row);
+        Consumer<String> setColCell = col -> colCell = Integer.parseInt(col);
+        Consumer<String> placeDice = string -> placeDice(username, indexDice, rowCell, colCell);
+
         commandMap.put(communication.getMessage(PRINT_KEYWORD), print);
         commandMap.put(communication.getMessage(CONNECT_KEYWORD), connect);
         commandMap.put(communication.getMessage(LOGIN_KEYWORD), login);
@@ -101,7 +117,31 @@ public class SocketClientListener implements Runnable {
         commandMap.put(communication.getMessage(ASK_PUBLIC_OBJ_KEYWORD), askPublicObj);
         commandMap.put(communication.getMessage(ASK_PRIVATE_OBJ_KEYWORD), askPrivateObj);
 
+        commandMap.put(communication.getMessage(USER_PLACING_DICE_KEYWORD), setUserName);
+        commandMap.put(communication.getMessage(INDEX_DICE_PLACING_KEYWORD), setIndexDice);
+        commandMap.put(communication.getMessage(ROW_CELL_PLACING_KEYWORD), setRowCell);
+        commandMap.put(communication.getMessage(COL_CELL_PLACING_KEYWORD), setColCell);
+        commandMap.put(communication.getMessage(PLACE_DICE_KEYWORD), placeDice);
+
         commandMap.put(communication.getMessage(END_TURN_KEYWORD), endTurn);
+    }
+
+    /**
+     * Used to tell action controller to try to place dice. All Exceptions are thrown back to the client through client speaker
+     * @param username of player that is placing dice
+     * @param indexDice index of draft of the dice being placed
+     * @param rowCell row of the destination cell
+     * @param colCell column of the destination cell
+     */
+    private void placeDice(String username, int indexDice, int rowCell, int colCell) {
+        try {
+            lobby.getActionController().placeDice(username, indexDice, rowCell, colCell);
+
+        } catch (NotTurnException | WrongDiceSelectionException | NotEmptyException | WrongCellSelectionException |
+                IDNotFoundException | PositionException | EmptyException | WrongPositionException | AlreadyDoneException e) {
+
+            speaker.sendException(e.getClass().toString(), e.getMessage());
+        }
     }
 
     @Override

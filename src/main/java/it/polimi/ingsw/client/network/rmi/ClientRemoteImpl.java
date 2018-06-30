@@ -93,14 +93,6 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     }
 
     /**
-     * Used when wrong placement is tried
-     */
-    @Override
-    public void wrongPlacementDice() {
-        view.get().wrongPlacementDice();
-    }
-
-    /**
      * @param card to print
      */
     @Override

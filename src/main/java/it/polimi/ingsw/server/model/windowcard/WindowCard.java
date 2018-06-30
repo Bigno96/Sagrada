@@ -13,7 +13,7 @@ public class WindowCard extends Observable implements Serializable {
 
     private static final String COLOR_ERROR_MSG = "Restrizione di colore non rispettata nella cella: ";
     private static final String VALUE_ERROR_MSG = "Restrzione di valore non rispettata nella cella: ";
-    private static final String FIRST_DICE_POSITION_ERROR_MSG = "Il primo dado deve essere posizionato in un angolo dello schema";
+    private static final String FIRST_DICE_POSITION_ERROR_MSG = "Il primo dado deve essere posizionato nel bordo dello schema";
     private static final String MORE_DICE_POSITION_ERROR_MSG = "Più di un dado è stato posizionato";
     private static final String NO_DICE_POSITION_ERROR_MSG = "Nessun dado è stato posizionato";
     private static final String POSITION_ERROR_MSG = "Non si sono rispettate le restrizioni di adiacenza con gli altri dadi nella cella: ";
