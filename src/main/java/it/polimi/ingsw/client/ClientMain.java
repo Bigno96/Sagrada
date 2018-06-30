@@ -27,9 +27,10 @@ public class ClientMain extends Application {
     private Stage primaryStage;
 
     private ViewMessageParser dictionary;
-
+/*
     private static final String TITLE_CLIENT_PAGE = "Quale modalità scegli?";
     private static final String CLI_CHOSEN = "Stai usando la CLI";
+*/
 
     /**
      * @param primaryStage initialize the base stage
@@ -39,7 +40,8 @@ public class ClientMain extends Application {
 
         this.primaryStage = primaryStage;
         primaryStage.resizableProperty().setValue(Boolean.FALSE);                    //disable resizable
-        this.primaryStage.setTitle(dictionary.getMessage(TITLE_CLIENT_PAGE));
+        this.primaryStage.setTitle("How do you wanna play?");
+        //this.primaryStage.setTitle(dictionary.getMessage(TITLE_CLIENT_PAGE));
         initRootLayout();
     }
 
@@ -86,7 +88,8 @@ public class ClientMain extends Application {
             primaryStage.show();
         });
 
-        out.println(dictionary.getMessage(CLI_CHOSEN));
+        out.println("CLI graphic chosen");
+        //out.println(dictionary.getMessage(CLI_CHOSEN));
             graphic.startGraphic();
     }
 
