@@ -12,6 +12,7 @@ public class ClientGUIController {
     }
 
     public void chooseGUI(){
+
         clientMain.openGUI();
     }
 
