@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class WaitingMenuTask implements Runnable {
         this.inKeyboard = new Scanner(System.in);
         this.waiting = true;
         this.serverSpeaker = cliSystem.getServerSpeaker();
-        this.dictionary = cliSystem.getDictionary();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
 
         this.cliSystem = cliSystem;
         this.waitingAction = new HashMap<>();
@@ -90,8 +91,10 @@ public class WaitingMenuTask implements Runnable {
 
             if (!waitingAction.containsKey(s))
                 cliSystem.print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
-            else
+            else {
                 waitingAction.get(s).accept(cliSystem.getUserName());
+                cliSystem.acquireSemaphore();                           // acquire before re printing menu, waiting for action to happen
+            }
         }
     }
 
@@ -99,25 +102,45 @@ public class WaitingMenuTask implements Runnable {
      * Maps hash map for waiting choices
      */
     private void mapWaiting() {
-        Consumer<String> window = username -> serverSpeaker.askWindowCard(username, username); //see personal window card
+    Consumer<String> window = username -> {                             //see personal window card
+            serverSpeaker.askWindowCard(username, username);
+            cliSystem.acquireSemaphore();           // acquire for print window card
+            cliSystem.releaseSemaphore();           // release for waitingAction.accept
+        };
 
-        Consumer<String> other = username -> {
-            //see other player window card
+        Consumer<String> other = username -> {                          //see other player window card
             cliSystem.print(dictionary.getMessage(ASK_USER_KEYWORD));
             serverSpeaker.getAllUsername(username);
             String userWanted = inKeyboard.nextLine();
             serverSpeaker.askWindowCard(userWanted, username);
+            cliSystem.acquireSemaphore();           // acquire for print window card
         };
 
-        Consumer<String> draft = serverSpeaker::askDraft;               //see draft
+        Consumer<String> draft = username -> {                            //see draft
+            serverSpeaker.askDraft(username);
+            cliSystem.acquireSemaphore();           // acquire for show draft
+            cliSystem.releaseSemaphore();           // release for waitingAction.accept
+        };
 
-        Consumer<String> publicObj = serverSpeaker::askPublicObj;       //see public objective
+        Consumer<String> publicObj = username -> {              //see public objective
+            serverSpeaker.askPublicObj(username);
+            cliSystem.releaseSemaphore();           // release for waitingAction.accept
+        };
 
-        Consumer<String> privateObj = serverSpeaker::askPrivateObj;     //see private objective
+        Consumer<String> privateObj = username -> {             //see private objective
+            serverSpeaker.askPrivateObj(username);
+            cliSystem.releaseSemaphore();           // release for waitingAction.accept
+        };
 
-        Consumer<String> tool = serverSpeaker::askToolCards;            //see tool card
+        Consumer<String> tool = username -> {                   //see tool card
+            serverSpeaker.askToolCards(username);
+            cliSystem.releaseSemaphore();           // release for waitingAction.accept
+        };
 
-        Consumer<String> favor = serverSpeaker::askFavorPoints;         //see favor points
+        Consumer<String> favor = username -> {                  //see favor points
+            serverSpeaker.askFavorPoints(username);
+            cliSystem.releaseSemaphore();           // release for waitingAction.accept
+        };
 
         waitingAction.put(dictionary.getMessage(OWN_WINDOW_CARD_ENTRY_KEYWORD), window);
         waitingAction.put(dictionary.getMessage(ANOTHER_WINDOW_CARD_ENTRY_KEYWORD), other);

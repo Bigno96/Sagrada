@@ -6,7 +6,6 @@ import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
-import it.polimi.ingsw.server.controller.game.AllCardSelectedDaemon;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.controller.observer.ChoiceWindowCardObserver;
 import it.polimi.ingsw.server.controller.observer.SetDiceObserver;

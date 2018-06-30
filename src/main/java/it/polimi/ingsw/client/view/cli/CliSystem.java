@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -15,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.SortedMap;
+import java.util.concurrent.Semaphore;
 import java.util.stream.IntStream;
 
 import static java.lang.System.*;
@@ -42,6 +42,16 @@ public class CliSystem implements ViewInterface {
     private static final String ASK_ROW_KEYWORD = "ASK_ROW";
     private static final String ASK_COLUMN_KEYWORD = "ASK_COLUMN";
 
+    private static final String POSITION = "Posizione: ";
+    private static final String POINT = " - punteggio: ";
+    private static final String USER = "\nUtente ";
+    private static final String YOU_PLACED_DICE = "Hai piazzato il dado: ";
+    private static final String OTHER_PLACED_DICE = " ha piazzato il dado: ";
+    private static final String IN_CELL = " nella cella: ";
+
+    private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
+    private static final String QUIT_KEYWORD = "QUIT";
+
     private final CliAskConnection connection;
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private final Scanner inKeyboard;
@@ -51,12 +61,17 @@ public class CliSystem implements ViewInterface {
     private Thread moveThread;
     private Thread waitingThread;
 
+    private Boolean quit = false;
+
+    private final Semaphore semaphore;
+
     private final ViewMessageParser dictionary;
 
     public CliSystem() {
-        connection = new CliAskConnection();
-        connParam = new HashMap<>();
-        inKeyboard = new Scanner(System.in);
+        this.connection = new CliAskConnection();
+        this.connParam = new HashMap<>();
+        this.inKeyboard = new Scanner(System.in);
+        this.semaphore = new Semaphore(0);
 
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
@@ -87,16 +102,36 @@ public class CliSystem implements ViewInterface {
         out.println(s);
     }
 
+    /**
+     * @return user name of the player
+     */
     String getUserName() {
         return this.userName;
     }
 
+    /**
+     * @return server Speaker of the player
+     */
     ServerSpeaker getServerSpeaker() {
         return this.serverSpeaker;
     }
 
-    ViewMessageParser getDictionary() {
-        return this.dictionary;
+    /**
+     * Used to release permits on semaphore
+     */
+    void releaseSemaphore() {
+        semaphore.release();
+    }
+
+    /**
+     * Used to acquire permits on semaphore
+     */
+    void acquireSemaphore() {
+        try {
+            this.semaphore.acquire();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -104,10 +139,16 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-
         print(dictionary.getMessage(WINDOW_CARD_SELECTED_KEYWORD));
 
-        cards.forEach(this::printWindowCard);
+        cards.forEach(card -> {
+            printWindowCard(card);
+            try {
+                semaphore.acquire();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
 
         ChooseWindowCardTask task = new ChooseWindowCardTask(this, cards);
         new Thread(task).start();
@@ -125,6 +166,11 @@ public class CliSystem implements ViewInterface {
             print("\n" + user + dictionary.getMessage(PLAYER_CARD_CHOSEN_KEYWORD));
 
         printWindowCard(card);
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -157,6 +203,8 @@ public class CliSystem implements ViewInterface {
             print("");
         }
         print("");
+
+        semaphore.release();
     }
 
     /**
@@ -189,6 +237,7 @@ public class CliSystem implements ViewInterface {
 
         } else {
             print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
+            moveThread.interrupt();
             waitingThread.start();
         }
     }
@@ -200,6 +249,8 @@ public class CliSystem implements ViewInterface {
     public void showDraft(List<Dice> draft) {
         draft.forEach(dice ->
                 out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
+
+        semaphore.release();
     }
 
     /**
@@ -209,7 +260,12 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
-        print("\nUtente " + username + " ha piazzato il dado: " + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset() + " nella cella: (" + dest.getRow() + "," + dest.getCol() + ") ");
+        if (username.equals(userName))
+            print(YOU_PLACED_DICE + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
+                    + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
+        else
+            print(USER + username + OTHER_PLACED_DICE + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
+                    + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
     }
 
 
@@ -231,7 +287,7 @@ public class CliSystem implements ViewInterface {
         IntStream.range(1, sizeRanking+1).forEach(integer -> {
             int firstPointTmp = ranking.lastKey();
             String firstUserTmp = ranking.get(firstPointTmp);
-            print("Posizione " + integer + ": " + firstUserTmp + " - punteggio: " + firstPointTmp);
+            print(POSITION + integer + ": " + firstUserTmp + POINT + firstPointTmp);
             ranking.remove(firstPointTmp, firstUserTmp);
         });
     }
@@ -249,41 +305,104 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(SHOW_YOUR_WINDOW_CARD_TO_CHOOSE_KEYWORD));
         serverSpeaker.askWindowCard(userName, userName);
 
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
         serverSpeaker.askDraft(userName);
 
-        do {
-            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD));
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        index = getIndex();
+
+        row = getRow();
+
+        col = getCol();
+
+        if (!quit)
+            serverSpeaker.placementDice(userName, index, row, col);
+    }
+
+    /**
+     * Used internally to get index of dice in the draft
+     * @return index of dice in the draft
+     */
+    private int getIndex() {
+        int index = -1;
+
+        while (index < 0 && !quit) {
+            print(dictionary.getMessage(INSERT_NUMBER_KEYWORD) + " - "
+                    + dictionary.getMessage(QUIT_ENTRY_KEYWORD) + dictionary.getMessage(QUIT_KEYWORD));
             try {
-                index = Integer.parseInt(inKeyboard.nextLine());
-                index--;
+                String line = inKeyboard.nextLine();
+                if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
+                    quit = true;
+                else {
+                    index = Integer.parseInt(line);
+                    index--;
+                }
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 index = -1;
             }
-        } while (index < 0);
+        }
 
-        do {
+        return index;
+    }
+
+    /**
+     * Used internally to get the row of destination cell
+     * @return row of the destination cell
+     */
+    private int getRow() {
+        int row = -1;
+
+        while (row < 0 && !quit) {
             print(dictionary.getMessage(ASK_ROW_KEYWORD));
             try {
-                row = Integer.parseInt(inKeyboard.nextLine());
+                String line = inKeyboard.nextLine();
+                if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
+                    quit = true;
+                else
+                    row = Integer.parseInt(inKeyboard.nextLine());
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 row = -1;
             }
-        } while (row < 0);
+        }
 
-        do {
+        return row;
+    }
+
+    /**
+     * Used internally to get the col of destination cell
+     * @return col of the destination cell
+     */
+    private int getCol() {
+        int col = -1;
+
+        while (col < 0 && !quit) {
             print(dictionary.getMessage(ASK_COLUMN_KEYWORD));
             try {
-                col = Integer.parseInt(inKeyboard.nextLine());
+                String line = inKeyboard.nextLine();
+                if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
+                    quit = true;
+                else
+                    col = Integer.parseInt(inKeyboard.nextLine());
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 col = -1;
             }
-        } while (col < 0);
+        }
 
-        serverSpeaker.placementDice(userName, index, row, col);
+        return col;
     }
 
     void useToolCard(){

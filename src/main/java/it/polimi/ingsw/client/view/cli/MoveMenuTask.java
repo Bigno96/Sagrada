@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
 import it.polimi.ingsw.client.network.ServerSpeaker;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class MoveMenuTask implements Runnable {
         this.cliSystem = cliSystem;
         this.inKeyboard = new Scanner(System.in);
         this.serverSpeaker = cliSystem.getServerSpeaker();
-        this.dictionary = cliSystem.getDictionary();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
 
         this.played = false;
 
@@ -72,10 +73,12 @@ public class MoveMenuTask implements Runnable {
 
             String s = inKeyboard.nextLine();
 
-            if (!playingAction.containsKey(s)){
+            if (!playingAction.containsKey(s))
                 cliSystem.print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
-            } else
+            else {
                 playingAction.get(s).accept(!played);
+                cliSystem.acquireSemaphore();                           // acquire before re printing menu, waiting for action to happen
+            }
 
         } while (!played);
 
@@ -90,21 +93,24 @@ public class MoveMenuTask implements Runnable {
             if (playing && !moved) {
                 moved = true;
                 cliSystem.moveDice();
+                cliSystem.releaseSemaphore();           // release for playingAction.accept
             } else
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
         };
 
         Consumer<Boolean> use = playing-> {         // use a tool card
             if (playing && !used) {
-                cliSystem.useToolCard();
                 used = true;
+                cliSystem.useToolCard();
+                cliSystem.releaseSemaphore();           // release for playingAction.accept
             } else
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
         };
 
         Consumer<Boolean> pass = playing -> {       // end turn
-            cliSystem.print(dictionary.getMessage(PASSED_KEYWORD));
             played = true;
+            cliSystem.print(dictionary.getMessage(PASSED_KEYWORD));
+            cliSystem.releaseSemaphore();               // release for playingAction.accept
         };
 
         playingAction.put(dictionary.getMessage(PLACE_DICE_ENTRY_KEYWORD), move);
