@@ -48,6 +48,8 @@ public class GuiSystem implements ViewInterface{
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private LoginPageController ctrl;
+    private LoginPageController ctrlChooseController;
+    private LoginPageController ctrlBoardController;
     private int nRound = 0;
 
     /**
@@ -65,7 +67,7 @@ public class GuiSystem implements ViewInterface{
      */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
             try {
@@ -78,13 +80,13 @@ public class GuiSystem implements ViewInterface{
             assert root != null;
             primaryStage.setScene(new Scene(root));
 
-            ctrl = loader.getController();
-            ctrl.setGuiSystem(this);
+            ctrlChooseController = loader.getController();
+            ctrlChooseController.setGuiSystem(this);
 
-            ctrl.setList(cards);
+            //ctrlChooseController.setList(cards);
 
             primaryStage.show();
-        });
+        });*/
     }
 
     @Override
@@ -203,7 +205,7 @@ public class GuiSystem implements ViewInterface{
     }
 
     public void inizializeBoard() {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/Board.fxml"));
             try {
@@ -219,19 +221,19 @@ public class GuiSystem implements ViewInterface{
              //ImageView img = new ImageView(this);
              //img.setImageResource(R.drawable.my_image);
 
-            ctrl = loader.getController();
-            ctrl.setGuiSystem(this);
+            ctrlBoardController = loader.getController();
+            ctrlBoardController.setGuiSystem(this);
 
-            ctrl.setMyWindowCard(myCard);
-            ctrl.setCardOtherPlayerList(listOtherWindowCards);
-            ctrl.setPrivCard(privList);
-            ctrl.setPublCard(publList);
-            ctrl.setToolCard(listToolCards);
+            ctrlBoardController.setMyWindowCard(myCard);
+            ctrlBoardController.setCardOtherPlayerList(listOtherWindowCards);
+            ctrlBoardController.setPrivCard(privList);
+            ctrlBoardController.setPublCard(publList);
+            ctrlBoardController.setToolCard(listToolCards);
 
-            ctrl.init();
+            ctrlBoardController.init();
 
             primaryStage.show();
-        });
+        }); */
     }
 
     public void setWindowCard(WindowCard card){

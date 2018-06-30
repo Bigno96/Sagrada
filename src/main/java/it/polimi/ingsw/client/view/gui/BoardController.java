@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.List;
 
 public class BoardController {
-
+/*
     String baseURL = "/img/";
 
     @FXML
@@ -45,7 +45,7 @@ public class BoardController {
     @FXML
     public ImageView imagePriv2;
 
-
+*/
     private WindowCard myCard;
     private List<WindowCard> listOtherWindowCards;
     private List<ToolCard> listToolCards;
@@ -59,6 +59,8 @@ public class BoardController {
 
     }
 
+
+/*
     void setMyWindowCard(WindowCard myCard){
         this.myCard = myCard;
 
@@ -202,5 +204,5 @@ public class BoardController {
 
         imagePubl2.setImage(publ2);
 
-    }
+    }*/
 }

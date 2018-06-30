@@ -38,14 +38,12 @@ public class WaitingController {
                 players.add(newPlayerLogged.getUsername());
               }
              */
-            if(guiSystem.chooseCard()) {
+           // if(guiSystem.chooseCard()) {
                 break;
-            }
+           // }
         }
-        guiSystem.chooseCard();
+ //       guiSystem.chooseCard();
     }
 
     //Wait Start game
-
-
 }
