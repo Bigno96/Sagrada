@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 
@@ -9,9 +10,11 @@ import it.polimi.ingsw.server.model.game.Player;
 public class RoundController {
 
     private Game game;
+    private Lobby lobby;
     private Player currentPlayer;
 
-    public RoundController(Game game) {
+    public RoundController(Lobby lobby, Game game) {
+        this.lobby = lobby;
         this.game = game;
     }
 
@@ -20,7 +23,12 @@ public class RoundController {
     }
 
     public void nextTurn() {
-        currentPlayer = game.nextPlayer();
+        Player p = game.nextPlayer();
+
+        if (p == null)      // when nextPlayer() is null, it means all rounds and all turns have been played
+            lobby.endGame();
+
+        currentPlayer = p;
     }
 
 }

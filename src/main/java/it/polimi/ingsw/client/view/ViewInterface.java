@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.util.List;
+import java.util.SortedMap;
 
 /**
  * Methods used to access view
@@ -79,4 +80,10 @@ public interface ViewInterface {
      * Used when wrong placement is tried
      */
     void wrongPlacementDice();
+
+    /**
+     * Used when game ends to print final ranking
+     * @param ranking sorted map of player username and their points through the game
+     */
+    void printRanking(SortedMap<Integer, String> ranking);
 }

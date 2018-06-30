@@ -16,6 +16,7 @@ import java.net.*;
 import java.io.*;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.SortedMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -71,6 +72,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
+
+    private static final String RANKING_KEYWORD = "RANKING";
+    private static final String RANKING_ENTRY_KEYWORD = "RANKING_ENTRY";
+    private static final String RANKING_PLAYER_KEYWORD = "RANKING_PLAYER";
+    private static final String RANKING_POINT_KEYWORD = "RANKING_POINT";
 
     private Socket socket;
     private PrintWriter socketOut;
@@ -401,6 +407,30 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             socketOut.println(privateObj.getDescription());
 
             socketOut.println(protocol.getMessage(SHOW_PRIVATE_OBJ_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * @param ranking sorted map of player username and their points through the game
+     */
+    @Override
+    public void printRanking(SortedMap<Integer, String> ranking) {
+        synchronized (lock) {
+            ranking.forEach((integer, username) -> {
+                socketOut.println(protocol.getMessage(RANKING_PLAYER_KEYWORD));
+                socketOut.println(username);
+
+                socketOut.println(protocol.getMessage(RANKING_POINT_KEYWORD));
+                socketOut.println(integer);
+
+                socketOut.println(protocol.getMessage(RANKING_ENTRY_KEYWORD));
+                socketOut.println(" ");
+            });
+
+            socketOut.println(protocol.getMessage(RANKING_KEYWORD));
             socketOut.println(" ");
 
             socketOut.flush();

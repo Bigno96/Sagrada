@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -13,6 +14,8 @@ import org.fusesource.jansi.Ansi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.SortedMap;
+import java.util.stream.IntStream;
 
 import static java.lang.System.*;
 import static org.fusesource.jansi.Ansi.Color;
@@ -216,6 +219,21 @@ public class CliSystem implements ViewInterface {
     @Override
     public void wrongPlacementDice() {
         moveDice();
+    }
+
+    /**
+     * @param ranking sorted map of player username and their points through the game
+     */
+    @Override
+    public void printRanking(SortedMap<Integer, String> ranking) {
+        int sizeRanking = ranking.size();
+
+        IntStream.range(1, sizeRanking+1).forEach(integer -> {
+            int firstPointTmp = ranking.lastKey();
+            String firstUserTmp = ranking.get(firstPointTmp);
+            print("Posizione " + integer + ": " + firstUserTmp + " - punteggio: " + firstPointTmp);
+            ranking.remove(firstPointTmp, firstUserTmp);
+        });
     }
 
     /**

@@ -225,7 +225,7 @@ public class Lobby {
      * Start first round of the game
      */
     public void startCountingRound() {
-        roundController = new RoundController(game);
+        roundController = new RoundController(this, game);
 
         try {
             game.getBoard().getDraft().fillDraft();
@@ -259,6 +259,17 @@ public class Lobby {
     public void endGame() {
         if (game.getNumPlayer() == 1)
             notifyAllPlayers(dictionary.getMessage(WIN_MSG_KEYWORD));
+
+        SortedMap<Integer, String> ranking = new TreeMap<>();
+        players.values().forEach(player -> {
+            try {
+                ranking.put(player.rateScore(), player.getId());
+            } catch (IDNotFoundException | PositionException e) {
+                out.println(e.getMessage());
+            }
+        });
+
+        speakers.values().forEach(speaker -> speaker.printRanking(ranking));
     }
 
     /**

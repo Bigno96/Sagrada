@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.util.List;
+import java.util.SortedMap;
 
 /**
  * Interface to hide network difference in comm Server -> Client
@@ -81,4 +82,10 @@ public interface ClientSpeaker {
      * @param privateObj = Player.getPrivateObjective()
      */
     void printPrivateObj(ObjectiveCard privateObj);
+
+    /**
+     * Used when game ends to print final ranking
+     * @param ranking sorted map of player username and their points through the game
+     */
+    void printRanking(SortedMap<Integer, String> ranking);
 }

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
 
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
@@ -135,6 +136,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void wrongPlacementDice() {
 
+
+    }
+
+    @Override
+    public void printRanking(SortedMap<Integer, String> ranking) {
 
     }
 

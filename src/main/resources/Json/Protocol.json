@@ -68,6 +68,10 @@
   "USER_PLACING_DICE": "placing_dice",
   "INDEX_DICE_PLACING": "index_dice",
   "ROW_CELL_PLACING": "row_cell_placing",
-  "COL_CELL_PLACING": "col_cell_placing"
+  "COL_CELL_PLACING": "col_cell_placing",
 
+  "RANKING": "ranking",
+  "RANKING_ENTRY": "ranking_entry",
+  "RANKING_PLAYER": "ranking_player",
+  "RANKING_POINT": "ranking_point"
 }
