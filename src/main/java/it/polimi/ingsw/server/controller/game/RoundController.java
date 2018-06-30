@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.game;
 
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.game.Game;

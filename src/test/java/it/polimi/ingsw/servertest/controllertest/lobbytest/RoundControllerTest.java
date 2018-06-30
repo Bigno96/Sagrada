@@ -1,7 +1,7 @@
 package it.polimi.ingsw.servertest.controllertest.lobbytest;
 
 import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.server.controller.RoundController;
+import it.polimi.ingsw.server.controller.game.RoundController;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import junit.framework.TestCase;

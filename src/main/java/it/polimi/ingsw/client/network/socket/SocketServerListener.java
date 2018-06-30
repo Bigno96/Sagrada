@@ -307,6 +307,7 @@ public class SocketServerListener implements Runnable {
 
             while (true) {
                 String command = socketIn.readLine();
+                System.out.println("command = " + command);
 
                 if (command.equals(protocol.getMessage(QUIT_KEYWORD)))
                     break;

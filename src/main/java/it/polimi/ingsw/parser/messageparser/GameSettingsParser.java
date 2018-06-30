@@ -26,6 +26,7 @@ public class GameSettingsParser implements Parser {
     private static final String TIME_UNTIL_RANDOM_CARD = "TIME_UNTIL_RANDOM_CARD";
     private static final String MAX_COL = "MAX_WINDOW_CARD_COLUMN";
     private static final String MAX_ROW = "MAX_WINDOW_CARD_ROW";
+    private static final String CARD_NOTIFY_INTERVAL = "RANDOM_CARD_NOTIFY_INTERVAL";
 
     private GameSettingsParser(String path) {
         JsonParser parser = new JsonParser();
@@ -74,4 +75,9 @@ public class GameSettingsParser implements Parser {
     public int getTimeUntilRandomCard() {
         return Integer.parseInt(obj.get(TIME_UNTIL_RANDOM_CARD).getAsString());
     }
+
+    public int getRandomCardNotifyInterval() {
+        return Integer.parseInt(obj.get(CARD_NOTIFY_INTERVAL).getAsString());
+    }
+
 }

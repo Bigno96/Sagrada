@@ -1,9 +1,8 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.game;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
-import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.windowcard.Cell;
