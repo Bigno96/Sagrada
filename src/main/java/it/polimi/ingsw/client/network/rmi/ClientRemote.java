@@ -68,12 +68,6 @@ public interface ClientRemote extends Remote {
     void successfulPlacementDice(String username, Cell dest, Dice moved) throws RemoteException;
 
     /**
-     * Used when wrong placement is tried
-     * @throws RemoteException default
-     */
-    void wrongPlacementDice() throws RemoteException;
-
-    /**
      * Used to print a window card
      * @param card to print
      * @throws RemoteException default

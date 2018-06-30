@@ -187,4 +187,28 @@ public class PlayerTest extends TestCase {
 
         assertSame(7, p.rateScore());
     }
+
+    /**
+     * Test setter and getter for disconnected state
+     */
+    public void testDisconnection() {
+        Player p = new Player(id);
+
+        p.setDisconnected(true);
+        assertTrue(p.isDisconnected());
+
+        p.setDisconnected(false);
+        assertFalse(p.isDisconnected());
+    }
+
+    /**
+     * Testing preparation of player for playing another turn
+     */
+    public void testNextTurn() {
+        Player p = new Player(id);
+
+        p.nextTurn();
+        assertFalse(p.isPlayedDice());
+        assertFalse(p.isUsedTool());
+    }
 }

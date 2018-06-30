@@ -23,6 +23,7 @@ public class GameSettingsParser implements Parser {
     private static final String DAEMON_FREQUENCY = "DAEMON_FREQUENCY";
     private static final String MAX_PLAYER = "MAX_PLAYER_IN_GAME";
     private static final String REMOVING_TIMER = "REMOVING_PLAYER_TIMER";
+    private static final String TIME_UNTIL_RANDOM_CARD = "TIME_UNTIL_RANDOM_CARD";
     private static final String MAX_COL = "MAX_WINDOW_CARD_COLUMN";
     private static final String MAX_ROW = "MAX_WINDOW_CARD_ROW";
 
@@ -68,5 +69,9 @@ public class GameSettingsParser implements Parser {
 
     public int getWindowCardMaxRow() {
         return Integer.parseInt(obj.get(MAX_ROW).getAsString());
+    }
+
+    public int getTimeUntilRandomCard() {
+        return Integer.parseInt(obj.get(TIME_UNTIL_RANDOM_CARD).getAsString());
     }
 }

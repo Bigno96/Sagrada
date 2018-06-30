@@ -131,10 +131,19 @@ public class ServerRemoteImpl implements ServerRemote {
      * @param index    in the draft of the dice
      * @param row      of the destination cell
      * @param col      of the destination cell
+     * @throws NotTurnException when it's not the turn of the player who requested the action
+     * @throws WrongDiceSelectionException when the dice selected is wrong
+     * @throws WrongCellSelectionException when the cell selected does not exists
+     * @throws NotEmptyException when the cell selected for the movement is already occupied
+     * @throws EmptyException when the draft is empty
+     * @throws PositionException when parameters of cell are wrong
+     * @throws IDNotFoundException when parameters of dice are wrong
+     * @throws WrongPositionException when the move is not legal
+     * @throws AlreadyDoneException when player has already played dice
      */
     @Override
     public void placementDice(String username, int index, int row, int col) throws WrongDiceSelectionException, EmptyException,
-            WrongPositionException, NotTurnException, NotEmptyException, IDNotFoundException, WrongCellSelectionException, PositionException {
+            WrongPositionException, NotTurnException, NotEmptyException, IDNotFoundException, WrongCellSelectionException, PositionException, AlreadyDoneException {
         lobby.getActionController().placeDice(username, index, row, col);
     }
 

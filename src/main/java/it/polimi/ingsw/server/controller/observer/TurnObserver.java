@@ -21,9 +21,8 @@ public class TurnObserver implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        Consumer<Map.Entry<String, ClientSpeaker>> notifyPlayerTurn = entry -> {
+        Consumer<Map.Entry<String, ClientSpeaker>> notifyPlayerTurn = entry ->
             entry.getValue().nextTurn(lobby.getGame().getCurrentPlayer().getId());
-        };
 
         if (arg.equals("nextTurn"))
             lobby.getSpeakers().entrySet().parallelStream().forEach(notifyPlayerTurn);

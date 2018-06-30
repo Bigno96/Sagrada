@@ -25,6 +25,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     private static final String SERVER_NOT_RESPONDING_KEYWORD = "SERVER_NOT_RESPONDING";
 
     private static final String NOT_YOUR_TURN_EXCEPTION_KEYWORD = "NOT_YOUR_TURN_EXCEPTION";
+    private static final String ALREADY_DONE_KEYWORD = "ALREADY_DONE";
     private static final String NOT_EMPTY_EXCEPTION_KEYWORD = "NOT_EMPTY_EXCEPTION";
     private static final String EMPTY_CARD_KEYWORD = "EMPTY_CARD_EXCEPTION";
     private static final String WRONG_POSITION_EXCEPTION_KEYWORD = "WRONG_POSITION_EXCEPTION";
@@ -217,6 +218,9 @@ public class RmiServerSpeaker implements ServerSpeaker {
         } catch (NotTurnException e) {
             view.print(dictionary.getMessage(NOT_YOUR_TURN_EXCEPTION_KEYWORD));
             view.wrongPlacementDice();
+
+        } catch (AlreadyDoneException e) {
+            view.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
 
         } catch (WrongPositionException e) {
             view.print(dictionary.getMessage(WRONG_POSITION_EXCEPTION_KEYWORD));

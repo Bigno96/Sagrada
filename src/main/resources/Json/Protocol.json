@@ -11,10 +11,22 @@
   "LOST_CONNECTION": "Lost connection with ",
   "REMOVED_USER": "Removed ",
 
-  "EXCEPTION": "parseException",
+  "EXCEPTION": "parse_exception",
+  "EXCEPTION_MESSAGE": "exception_message",
   "PING": "ping",
   "PRINT": "print",
   "QUIT": "quit",
+
+  "SEND_LIST_CARD": "send_list_card",
+  "SHOW_USER_CARD": "show_user_card",
+  "SHOW_DRAFT": "show_draft",
+  "PRINT_CARD": "print_card",
+  "SET_CARD": "set_card",
+  "GET_CARD": "get_card",
+  "SHOW_PUBLIC_OBJ": "show_public_obj",
+  "SHOW_PRIVATE_OBJ": "show_private_obj",
+  "PLACE_DICE": "place_dice",
+  "SUCCESSFUL_PLACE_DICE": "place_dice_success",
 
   "CARD": "card",
   "LIST_CARD": "list_card",
@@ -49,17 +61,13 @@
   "NEXT_TURN": "next_turn",
   "END_TURN": "end_turn",
 
-  "SEND_LIST_CARD": "send_list_card",
-  "SHOW_USER_CARD": "show_user_card",
-  "SHOW_DRAFT": "show_draft",
-  "PRINT_CARD": "print_card",
-  "SET_CARD": "set_card",
-  "GET_CARD": "get_card",
-  "SHOW_PUBLIC_OBJ": "show_public_obj",
-  "SHOW_PRIVATE_OBJ": "show_private_obj",
-
   "ASK_DRAFT": "ask_draft",
   "ASK_PUBLIC_OBJ": "ask_public_obj",
-  "ASK_PRIVATE_OBJ": "ask_private_obj"
+  "ASK_PRIVATE_OBJ": "ask_private_obj",
+
+  "USER_PLACING_DICE": "placing_dice",
+  "INDEX_DICE_PLACING": "index_dice",
+  "ROW_CELL_PLACING": "row_cell_placing",
+  "COL_CELL_PLACING": "col_cell_placing"
 
 }

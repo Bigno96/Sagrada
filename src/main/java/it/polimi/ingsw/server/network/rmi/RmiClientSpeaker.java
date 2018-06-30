@@ -113,18 +113,6 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     /**
-     * Used when wrong placement is tried
-     */
-    @Override
-    public void wrongPlacementDice() {
-        try {
-            client.wrongPlacementDice();
-        } catch (RemoteException e) {
-            out.println(e.getMessage());
-        }
-    }
-
-    /**
      * @param card to be printed
      */
     @Override
