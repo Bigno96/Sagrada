@@ -23,6 +23,11 @@ public class Lobby {
 
     private static final String WELCOME_USER_KEYWORD = "WELCOME_USER";
     private static final String WELCOME_BACK_KEYWORD = "WELCOME_BACK";
+    private static final String USER_KEYWORD = "USER";
+    private static final String CONNECTED_KEYWORD = "CONNECTED";
+    private static final String RECONNECTED_KEYWORD = "RECONNECTED";
+    private static final String DISCONNECTED_KEYWORD = "DISCONNECTED";
+    private static final String REMOVED_KEYWORD = "REMOVED";
     private static final String GAME_WILL_START_KEYWORD = "GAME_WILL_START";
     private static final String REMOVED_USER_KEYWORD = "REMOVED_USER";
     private static final String GAME_STARTED_KEYWORD = "GAME_STARTED";
@@ -101,6 +106,11 @@ public class Lobby {
 
             speaker.loginSuccess(dictionary.getMessage(WELCOME_USER_KEYWORD) + username);
             speaker.tell(dictionary.getMessage(GAME_WILL_START_KEYWORD));
+
+            speakers.forEach((user, speak) -> {
+                if (!user.equals(username))
+                    speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(CONNECTED_KEYWORD));
+            });
         }
     }
 
@@ -120,6 +130,11 @@ public class Lobby {
 
                 } else
                     players.get(username).setDisconnected(true);        // else, just set Disconnected state on player
+
+                speakers.forEach((user, speak) -> {
+                    if (!user.equals(username))
+                        speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(DISCONNECTED_KEYWORD));
+                });
             }
         }
     }
@@ -131,6 +146,11 @@ public class Lobby {
     public void reconnectPlayer(String username) {
         players.get(username).setDisconnected(false);
         speakers.get(username).tell(dictionary.getMessage(WELCOME_BACK_KEYWORD) + username);
+
+        speakers.forEach((user, speaker) -> {
+            if (!user.equals(username))
+                speaker.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(RECONNECTED_KEYWORD));
+        });
     }
 
     /**
@@ -167,6 +187,9 @@ public class Lobby {
         players.remove(username);
 
         out.println(protocol.getMessage(REMOVED_USER_KEYWORD) + username);
+
+        speakers.forEach((user, speak) ->
+            speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(REMOVED_KEYWORD)));
     }
 
     /**

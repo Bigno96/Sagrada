@@ -28,6 +28,9 @@ public class SetDiceObserver implements Observer {
                 .findAny();
 
         optionalUsername.ifPresent(username ->
-            lobby.getSpeakers().values().forEach(speaker -> speaker.successfulPlacementDice(username, dest, dest.getDice())));
+            lobby.getSpeakers().values().forEach(speaker -> {
+                speaker.successfulPlacementDice(username, dest, dest.getDice());
+                speaker.printWindowCard(card);
+            }));
     }
 }

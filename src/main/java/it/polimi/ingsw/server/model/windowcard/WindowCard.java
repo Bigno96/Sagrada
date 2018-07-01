@@ -123,9 +123,9 @@ public class WindowCard extends Observable implements Serializable {
             if (c.isOccupied() && first) {
                 first = false;
                 if (!c.checkColor())
-                    throw new WrongPositionException(COLOR_ERROR_MSG + c.toString());
+                    throw new WrongPositionException(COLOR_ERROR_MSG + cellErrorStringBuilder(c));
                 if (!c.checkValue())
-                    throw new WrongPositionException(VALUE_ERROR_MSG + c.toString());
+                    throw new WrongPositionException(VALUE_ERROR_MSG + cellErrorStringBuilder(c));
             }
             else if (c.isOccupied() && !first)
                 return false;

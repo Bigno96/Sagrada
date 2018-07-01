@@ -333,8 +333,7 @@ public class SocketServerListener implements Runnable {
             return false;
         }
         else if (placementExceptionMap.containsKey(s)) {
-            view.print(placementExceptionMap.get(s).get());
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(placementExceptionMap.get(s).get());
         }
         else
             view.print(s);              // print anyway

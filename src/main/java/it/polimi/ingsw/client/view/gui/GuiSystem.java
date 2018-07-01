@@ -143,7 +143,7 @@ public class GuiSystem extends Thread implements ViewInterface{
     }
 
     @Override
-    public void wrongPlacementDice() {
+    public void wrongPlacementDice(String errorMsg) {
 
 
     }

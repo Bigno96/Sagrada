@@ -113,6 +113,13 @@ public class CliSystem implements ViewInterface {
     }
 
     /**
+     * drain all permits of semaphore
+     */
+    void drainPermits() {
+        semaphore.drainPermits();
+    }
+
+    /**
      * Used to release permits on semaphore
      */
     void releaseSemaphore() {
@@ -226,21 +233,17 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
-        synchronized (this) {
-            menuThread.interrupt();
+        if (userName.equals(username)) {
+            print(dictionary.getMessage(YOUR_TURN_KEYWORD));
+            taskMenu.setPlaying(true);
 
-            if (userName.equals(username)) {
-                taskMenu.setPlaying(true);
-                print(dictionary.getMessage(YOUR_TURN_KEYWORD));
-
-            } else {
-                taskMenu.setPlaying(false);
-                print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
-            }
-
-            menuThread = new Thread(taskMenu);
-            menuThread.start();
+        } else {
+            print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
+            taskMenu.setPlaying(false);
         }
+
+        if (menuThread.getState().equals(Thread.State.NEW))
+            menuThread.start();
     }
 
     /**
@@ -269,6 +272,7 @@ public class CliSystem implements ViewInterface {
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
 
         taskMenu.setMoved();
+        semaphore.release();
     }
 
 
@@ -276,8 +280,11 @@ public class CliSystem implements ViewInterface {
      * Used when wrong placement is tried
      */
     @Override
-    public void wrongPlacementDice() {
-        moveDice();
+    public void wrongPlacementDice(String errorMsg) {
+        synchronized (this) {
+            print(errorMsg);
+        }
+        semaphore.release();
     }
 
     /**
@@ -332,6 +339,8 @@ public class CliSystem implements ViewInterface {
 
         if (!quit)
             serverSpeaker.placementDice(userName, index, row, col);
+        else
+            semaphore.release();
     }
 
     /**
@@ -375,7 +384,7 @@ public class CliSystem implements ViewInterface {
                 if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
                     quit = true;
                 else
-                    row = Integer.parseInt(inKeyboard.nextLine());
+                    row = Integer.parseInt(line);
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 row = -1;
@@ -399,7 +408,7 @@ public class CliSystem implements ViewInterface {
                 if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
                     quit = true;
                 else
-                    col = Integer.parseInt(inKeyboard.nextLine());
+                    col = Integer.parseInt(line);
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 col = -1;

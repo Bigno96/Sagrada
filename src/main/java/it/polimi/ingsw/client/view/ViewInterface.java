@@ -79,7 +79,7 @@ public interface ViewInterface {
     /**
      * Used when wrong placement is tried
      */
-    void wrongPlacementDice();
+    void wrongPlacementDice(String errorMsg);
 
     /**
      * Used when game ends to print final ranking
