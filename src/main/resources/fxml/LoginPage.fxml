@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -11,33 +8,32 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0"
             prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.client.view.gui.LoginPageController">
-   <children>
-       <Label graphicTextGap="0.0" layoutX="35.0" layoutY="181.0" prefHeight="31.0" prefWidth="80.0" text="Username"
-              textFill="#000000f7">
-           <font>
-                <Font size="15.0"/>
-           </font>
-        </Label>
-       <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true"
-                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <image>
-              <Image url="@../img/Sagrada-Logo-RGB.jpg" />
-          </image>
-       </ImageView>
-       <TextField fx:id="usernameText" layoutX="115.0" layoutY="184.0"/>
-       <Label graphicTextGap="0.0" layoutX="32.0" layoutY="229.0" prefHeight="31.0" prefWidth="86.0" text="IP"
-              textFill="#000000f7" >
-       <font>
-           <Font size="15.0"/>
-       </font>
-       </Label>
-       <TextField fx:id="ipText" layoutX="115.0" layoutY="232.0" />
-       <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false"  fx:id="submit" onAction="#submitAction" text="Submit" />
+    <Label graphicTextGap="0.0" layoutX="35.0" layoutY="181.0" prefHeight="31.0" prefWidth="80.0" text="Username"
+           textFill="#000000f7">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Label>
+    <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Image url="@../img/Sagrada-Logo-RGB.jpg"/>
+    </ImageView>
+    <TextField fx:id="usernameText" layoutX="115.0" layoutY="184.0"/>
+    <Label graphicTextGap="0.0" layoutX="32.0" layoutY="229.0" prefHeight="31.0" prefWidth="86.0" text="IP"
+           textFill="#000000f7">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Label>
+    <TextField fx:id="ipText" layoutX="115.0" layoutY="232.0"/>
+    <Button layoutX="168.0" layoutY="349.0" mnemonicParsing="false" fx:id="submit" onAction="#submitAction"
+            text="Submit"/>
 
-       <fx:define>
-           <ToggleGroup fx:id="toggleGroup"/>
-       </fx:define>
-      <RadioButton layoutX="85.0" layoutY="301.0" mnemonicParsing="false" fx:id="socket" text="Socket" toggleGroup="$toggleGroup"/>
-      <RadioButton layoutX="262.0" layoutY="301.0" mnemonicParsing="false" fx:id="rmi" text="RMI" toggleGroup="$toggleGroup"/>
-   </children>
+    <fx:define>
+        <ToggleGroup fx:id="toggleGroup"/>
+    </fx:define>
+    <RadioButton layoutX="85.0" layoutY="301.0" mnemonicParsing="false" fx:id="socket" text="Socket"
+                 toggleGroup="$toggleGroup"/>
+    <RadioButton layoutX="262.0" layoutY="301.0" mnemonicParsing="false" fx:id="rmi" text="RMI"
+                 toggleGroup="$toggleGroup"/>
 </AnchorPane>

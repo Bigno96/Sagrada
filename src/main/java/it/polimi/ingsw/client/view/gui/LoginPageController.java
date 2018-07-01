@@ -22,6 +22,7 @@ public class LoginPageController {
     public RadioButton rmi;
     @FXML
     public Button submit;
+
     private String username;
     private GuiSystem guiSystem;
 

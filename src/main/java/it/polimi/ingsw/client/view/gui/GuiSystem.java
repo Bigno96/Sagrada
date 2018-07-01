@@ -29,13 +29,13 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
 public class GuiSystem implements ViewInterface{
-
+/*
     private static final String ALERT_TITLE_ISTURN = "E' il tuo turno";
     private static final String ALERT_HEADER_ISTURN = "E' il tuo turno";
     private static final String ALERT_CONTENT_ISTURN = "Fa la tua mossa";
     private static final String ALERT_SERVER_MESSAGE = "Messaggio dal server";
     private static final String TITLE = "Sagrada";
-
+*/
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
     private WindowCard myCard;
@@ -122,7 +122,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void print(String s) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(dictionary.getMessage(ALERT_SERVER_MESSAGE));
+        alert.setTitle("Messaggio dal server    ");
         alert.setHeaderText(serverSpeaker.toString());
         alert.setContentText(serverSpeaker.toString());
 
@@ -143,9 +143,9 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void isTurn(String username) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(dictionary.getMessage(ALERT_TITLE_ISTURN));
-        alert.setHeaderText(dictionary.getMessage(ALERT_HEADER_ISTURN));
-        alert.setContentText(dictionary.getMessage(ALERT_CONTENT_ISTURN));
+        alert.setTitle("E' il tuo turno");
+        alert.setHeaderText("E' il tuo turno");
+        alert.setContentText("Fa la tua mossa");
 
         alert.showAndWait();
     }
@@ -162,7 +162,7 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle(TITLE);
+            primaryStage.setTitle("Sagrada");
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -183,7 +183,7 @@ public class GuiSystem implements ViewInterface{
     }
 
     void waitingPage(){
-
+/*
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WaitingPage.fxml"));
@@ -201,7 +201,7 @@ public class GuiSystem implements ViewInterface{
             ctrl.setGuiSystem(this);
 
             primaryStage.show();
-        });
+        });*/
     }
 
     public void inizializeBoard() {
