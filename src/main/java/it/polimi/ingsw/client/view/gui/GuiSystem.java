@@ -25,11 +25,15 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.concurrent.TimeUnit;
 
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
-public class GuiSystem implements ViewInterface{
+import static java.lang.System.out;
+import javafx.concurrent.Task;
+
+public class GuiSystem extends Thread implements ViewInterface{
 /*
     private static final String ALERT_TITLE_ISTURN = "E' il tuo turno";
     private static final String ALERT_HEADER_ISTURN = "E' il tuo turno";
@@ -51,6 +55,7 @@ public class GuiSystem implements ViewInterface{
     private LoginPageController ctrl;
     private LoginPageController ctrlChooseController;
     private LoginPageController ctrlBoardController;
+    private AlertBox alertBox;
     private int nRound = 0;
 
     /**
@@ -60,10 +65,11 @@ public class GuiSystem implements ViewInterface{
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
+        alertBox = new AlertBox();
     }
 
+
     /**
-     * Open WindowCardsPage
      * @param cards cards.size() = 4
      */
     @Override
@@ -120,14 +126,44 @@ public class GuiSystem implements ViewInterface{
         
     }
 
+    /**
+     * @param s to be printed
+     */
     @Override
     public void print(String s) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Messaggio dal server    ");
-        alert.setHeaderText(serverSpeaker.toString());
-        alert.setContentText(serverSpeaker.toString());
 
-        alert.showAndWait();
+        /*
+        AlertBox_Thread alertBox_thread = new AlertBox_Thread();
+        alertBox_thread.run(s);
+        */
+/*
+        Thread thread = new Thread();
+        thread.start();
+ */
+        //AlertBox alertBox = null;
+        //alertBox.display(s);
+
+        //alertBox.print(s);
+
+/*
+        out.println(s);
+        alertBox.close();
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        alertBox.display(s);
+*/
+        //AlertBox.display(s);
+
+        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Messaggio dal server");
+        //alert.setHeaderText("Messaggio");
+        alert.setContentText(s);
+
+        alert.showAndWait();*/
     }
 
     @Override
@@ -150,7 +186,7 @@ public class GuiSystem implements ViewInterface{
     public void isTurn(String username) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("E' il tuo turno");
-        alert.setHeaderText("E' il tuo turno");
+        //alert.setHeaderText("E' il tuo turno");
         alert.setContentText("Fa la tua mossa");
 
         alert.showAndWait();
@@ -189,7 +225,8 @@ public class GuiSystem implements ViewInterface{
     }
 
     void waitingPage(){
-/*
+        out.println("WaitingPage");
+
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WaitingPage.fxml"));
@@ -198,16 +235,16 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle(dictionary.getMessage(TITLE));
+            primaryStage.setTitle("Sagrada");
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
-
+/*
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
-
+*/
             primaryStage.show();
-        });*/
+        });
     }
 
     public void inizializeBoard() {
@@ -249,4 +286,5 @@ public class GuiSystem implements ViewInterface{
     public int getnRound(){
         return  nRound;
     }
+
 }

@@ -123,6 +123,8 @@ public class LoginPageController {
 
         connParam.put(username, serverSpeaker);
 
+        guiSystem.waitingPage();
+
         return connParam;
 
     }
