@@ -5,6 +5,9 @@
   "INSERT_NAME": "Inserire il proprio username",
   "INSERT_NAME_AGAIN": "Per favore inserire il proprio username nuovamente",
   "NO_SERVER_LISTENING": "Nessun server in ascolto sull'ip dato.\n Per favore inserirne un altro",
+  "MODALITY": "Quale modalità di gioco scegli?",
+  "TITLE_GAME":  "Sagrada",
+  "PRINT_BOX_TITLE": "Messaggio del server",
 
   "SOCKET_CHOSEN": "Connessione Socket scelta",
   "RMI_CHOSEN": "Connessione RMI scelta",
@@ -92,6 +95,5 @@
   "WRONG_CELL_PLACEMENT": "La cella indicata per il piazzamento non è valida",
 
   "WIN_MSG": "Congratulazioni! Hai vinto!"
-
 
 }

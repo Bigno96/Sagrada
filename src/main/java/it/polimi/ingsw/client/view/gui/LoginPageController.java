@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
@@ -22,6 +23,8 @@ public class LoginPageController {
     public RadioButton rmi;
     @FXML
     public Button submit;
+    @FXML
+    public TextField usernameText1;
 
     private String username;
     private GuiSystem guiSystem;
@@ -129,4 +132,9 @@ public class LoginPageController {
 
     }
 
+    public void print(String s) {
+
+        usernameText1.setText("s");
+
+    }
 }

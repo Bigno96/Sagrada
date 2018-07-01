@@ -25,25 +25,16 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.concurrent.TimeUnit;
-import javafx.application.Application;
 
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
 import static java.lang.System.out;
-import javafx.concurrent.Task;
-
-import javax.management.Notification;
 
 public class GuiSystem extends Thread implements ViewInterface{
-/*
-    private static final String ALERT_TITLE_ISTURN = "E' il tuo turno";
-    private static final String ALERT_HEADER_ISTURN = "E' il tuo turno";
-    private static final String ALERT_CONTENT_ISTURN = "Fa la tua mossa";
-    private static final String ALERT_SERVER_MESSAGE = "Messaggio dal server";
-    private static final String TITLE = "Sagrada";
-*/
+
+    private static final String TITLE = "TITLE_GAME";
+
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
     private WindowCard myCard;
@@ -67,6 +58,7 @@ public class GuiSystem extends Thread implements ViewInterface{
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
+        dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
 
@@ -107,24 +99,28 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     }
 
+    /**
+     * @param privObj
+     */
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
 
     }
 
+    /**
+     * @param publObj
+     */
     @Override
     public void printPublicObj(List<ObjectiveCard> publObj) {
 
     }
 
+    /**
+     * @param draft = game.getBoard().getDraft()
+     */
     @Override
     public void showDraft(List<Dice> draft) {
 
-    }
-
-    //@Override
-    public void placementDice(String username, Cell dest, Dice moved) {
-        
     }
 
     /**
@@ -133,26 +129,40 @@ public class GuiSystem extends Thread implements ViewInterface{
     @Override
     public void print(String s) {
 
-        PrintController printController = new PrintController(s);
+        ctrl.print(s);
 
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param dest     cell where the dice is being moved
+     * @param moved    dice being moved
+     */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
     }
 
+    /**
+     * @param errorMsg
+     */
     @Override
     public void wrongPlacementDice(String errorMsg) {
 
 
     }
 
+    /**
+     * @param ranking sorted map of player username and their points through the game
+     */
     @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
     }
 
+    /**
+     * @param username = game.getCurrentPlayer().getId()
+     */
     @Override
     public void isTurn(String username) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -163,6 +173,9 @@ public class GuiSystem extends Thread implements ViewInterface{
         alert.showAndWait();
     }
 
+    /**
+     *
+     */
     @Override
     public void startGraphic() {
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
@@ -206,7 +219,7 @@ public class GuiSystem extends Thread implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle("Sagrada");
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
