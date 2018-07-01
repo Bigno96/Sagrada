@@ -17,6 +17,8 @@
   "USER": "L'utente ",
   "CONNECTED": " si è connesso",
   "RECONNECTED": " si è riconnesso",
+  "DISCONNECTED": " si è disconnesso",
+  "REMOVED": " è stato rimosso",
 
   "SAME_PLAYER_MSG": "Un user con lo stesso nome è già connesso",
   "TOO_MANY_PLAYERS_MSG": "Troppi giocatori nella Lobby",

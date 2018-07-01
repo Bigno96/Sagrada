@@ -113,6 +113,7 @@ public class MenuTask implements Runnable {
 
                 if (!action.containsKey(s)) {
                     cliSystem.print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
+                    cliSystem.acquireSemaphore();
                 }
                 else {
                     action.get(s).accept(cliSystem.getUserName());
