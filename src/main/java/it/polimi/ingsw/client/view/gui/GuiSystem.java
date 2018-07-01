@@ -26,12 +26,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
+import javafx.application.Application;
 
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
 import static java.lang.System.out;
 import javafx.concurrent.Task;
+
+import javax.management.Notification;
 
 public class GuiSystem extends Thread implements ViewInterface{
 /*
@@ -55,7 +58,6 @@ public class GuiSystem extends Thread implements ViewInterface{
     private LoginPageController ctrl;
     private LoginPageController ctrlChooseController;
     private LoginPageController ctrlBoardController;
-    private AlertBox alertBox;
     private int nRound = 0;
 
     /**
@@ -65,7 +67,6 @@ public class GuiSystem extends Thread implements ViewInterface{
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
-        alertBox = new AlertBox();
     }
 
 
@@ -132,38 +133,8 @@ public class GuiSystem extends Thread implements ViewInterface{
     @Override
     public void print(String s) {
 
-        /*
-        AlertBox_Thread alertBox_thread = new AlertBox_Thread();
-        alertBox_thread.run(s);
-        */
-/*
-        Thread thread = new Thread();
-        thread.start();
- */
-        //AlertBox alertBox = null;
-        //alertBox.display(s);
+        PrintController printController = new PrintController(s);
 
-        //alertBox.print(s);
-
-/*
-        out.println(s);
-        alertBox.close();
-
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        alertBox.display(s);
-*/
-        //AlertBox.display(s);
-
-        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Messaggio dal server");
-        //alert.setHeaderText("Messaggio");
-        alert.setContentText(s);
-
-        alert.showAndWait();*/
     }
 
     @Override
