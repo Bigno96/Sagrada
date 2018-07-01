@@ -18,7 +18,7 @@ import static java.lang.System.*;
 class CliAskConnection {
 
     private static final String CHOOSE_CONNECTION_KEYWORD = "CHOOSE_CONNECTION";
-    private static final String INCORRECT_ENTRY_KEYWORD = "INCORRECT_ENTRY";
+    private static final String INCORRECT_MESSAGE_KEYWORD = "INCORRECT_MESSAGE";
     private static final String SOCKET_CHOSEN_KEYWORD = "SOCKET_CHOSEN";
     private static final String RMI_CHOSEN_KEYWORD = "RMI_CHOSEN";
 
@@ -122,7 +122,7 @@ class CliAskConnection {
             String s = input.nextLine();
 
             if (!connectionMap.containsKey(s))
-                out.println(dictionary.getMessage(INCORRECT_ENTRY_KEYWORD));
+                out.println(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
             else {
                 connectionMap.get(s).get();
                 connectionAction.get(s).accept(true);

@@ -212,33 +212,25 @@ public class RmiServerSpeaker implements ServerSpeaker {
             view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
 
         } catch (EmptyException e) {
-            view.print(dictionary.getMessage(EMPTY_CARD_KEYWORD));
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(dictionary.getMessage(EMPTY_CARD_KEYWORD));
 
         } catch (NotTurnException e) {
-            view.print(dictionary.getMessage(NOT_YOUR_TURN_EXCEPTION_KEYWORD));
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(dictionary.getMessage(NOT_YOUR_TURN_EXCEPTION_KEYWORD));
 
         } catch (AlreadyDoneException e) {
             view.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
 
         } catch (WrongPositionException e) {
-            view.print(dictionary.getMessage(WRONG_POSITION_EXCEPTION_KEYWORD));
-            view.print(e.getMessage());
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(dictionary.getMessage(WRONG_POSITION_EXCEPTION_KEYWORD) + " - " + e.getMessage());
 
         } catch (WrongDiceSelectionException | IDNotFoundException e) {
-            view.print(dictionary.getMessage(WRONG_DICE_INDEX_PLACEMENT_KEYWORD));
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(dictionary.getMessage(WRONG_DICE_INDEX_PLACEMENT_KEYWORD));
 
         } catch (NotEmptyException e) {
-            view.print(dictionary.getMessage(NOT_EMPTY_EXCEPTION_KEYWORD));
-            view.print(e.getMessage());
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(dictionary.getMessage(NOT_EMPTY_EXCEPTION_KEYWORD) + " - " + e.getMessage());
 
         } catch (WrongCellSelectionException | PositionException e) {
-            view.print(dictionary.getMessage(WRONG_CELL_PLACEMENT_KEYWORD));
-            view.wrongPlacementDice();
+            view.wrongPlacementDice(dictionary.getMessage(WRONG_CELL_PLACEMENT_KEYWORD));
         }
     }
 }

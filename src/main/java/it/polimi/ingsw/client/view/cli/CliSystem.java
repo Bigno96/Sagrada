@@ -113,6 +113,13 @@ public class CliSystem implements ViewInterface {
     }
 
     /**
+     * drain all permits of semaphore
+     */
+    void drainPermits() {
+        semaphore.drainPermits();
+    }
+
+    /**
      * Used to release permits on semaphore
      */
     void releaseSemaphore() {
@@ -265,6 +272,7 @@ public class CliSystem implements ViewInterface {
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
 
         taskMenu.setMoved();
+        semaphore.release();
     }
 
 
@@ -272,8 +280,11 @@ public class CliSystem implements ViewInterface {
      * Used when wrong placement is tried
      */
     @Override
-    public void wrongPlacementDice() {
-        moveDice();
+    public void wrongPlacementDice(String errorMsg) {
+        synchronized (this) {
+            print(errorMsg);
+        }
+        semaphore.release();
     }
 
     /**
@@ -326,9 +337,10 @@ public class CliSystem implements ViewInterface {
 
         col = getCol();
 
-        if (!quit) {
+        if (!quit)
             serverSpeaker.placementDice(userName, index, row, col);
-        }
+        else
+            semaphore.release();
     }
 
     /**

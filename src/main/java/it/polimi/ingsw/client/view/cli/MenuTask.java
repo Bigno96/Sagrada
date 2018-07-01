@@ -113,7 +113,7 @@ public class MenuTask implements Runnable {
 
                 if (!action.containsKey(s)) {
                     cliSystem.print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
-                    cliSystem.acquireSemaphore();
+                    cliSystem.drainPermits();
                 }
                 else {
                     action.get(s).accept(cliSystem.getUserName());
@@ -174,7 +174,8 @@ public class MenuTask implements Runnable {
         Consumer<String> move = string -> {       // place a dice
             if (!currentState.contains(state.MOVED)) {
                 cliSystem.moveDice();
-                cliSystem.releaseSemaphore();           // release for playingAction.accept
+                cliSystem.acquireSemaphore();       //  released by wrongPlacement or successfulPlacement
+                // releasing of semaphore or playingAction.accept made by print window card
             } else
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
         };

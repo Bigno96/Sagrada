@@ -136,7 +136,7 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
-    public void wrongPlacementDice() {
+    public void wrongPlacementDice(String errorMsg) {
 
 
     }
