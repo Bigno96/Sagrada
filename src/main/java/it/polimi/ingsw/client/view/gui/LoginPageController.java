@@ -134,7 +134,7 @@ public class LoginPageController {
 
     public void print(String s) {
 
-        usernameText1.setText("s");
+        usernameText1.setText(s);
 
     }
 }
