@@ -182,7 +182,6 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         }
     }
 
-
     /**
      * Used to tell client an exception
      * @param exceptionClass type of exception

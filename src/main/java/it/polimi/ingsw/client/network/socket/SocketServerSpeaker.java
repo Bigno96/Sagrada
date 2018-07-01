@@ -80,7 +80,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
      * set Logged
      * @param logged true if user logged
      */
-    void setLogged(Boolean logged) {
+    public void setLogged(Boolean logged) {
         this.logged = logged;
     }
 

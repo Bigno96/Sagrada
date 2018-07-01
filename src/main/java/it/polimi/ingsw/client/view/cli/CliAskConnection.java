@@ -104,6 +104,13 @@ class CliAskConnection {
         while (!serverSpeaker.login(userName)) {
             out.println(dictionary.getMessage(INSERT_NAME_AGAIN_KEYWORD));
             userName = inKeyboard.nextLine();
+            cli.setUserName(userName);
+
+            if (socketConnection) {
+               SocketServerSpeaker socketSpeaker = (SocketServerSpeaker) serverSpeaker;
+               socketSpeaker.setLogged(null);
+            }
+            serverSpeaker.connect(userName);
         }
     }
 
