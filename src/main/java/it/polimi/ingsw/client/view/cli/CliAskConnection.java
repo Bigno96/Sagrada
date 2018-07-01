@@ -37,7 +37,6 @@ class CliAskConnection {
     private final Scanner inKeyboard;
     private final ViewMessageParser dictionary;
 
-    private final HashMap<String, ServerSpeaker> connParam;
     private final HashMap<String, Supplier<String>> connectionMap;
     private final HashMap<String, Consumer<Boolean>> connectionAction;
 
@@ -45,7 +44,6 @@ class CliAskConnection {
         this.socketConnection = false;
         this.rmiConnection = false;
         this.inKeyboard = new Scanner(in);
-        this.connParam = new HashMap<>();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         this.connectionMap = new HashMap<>();
         this.connectionAction = new HashMap<>();
@@ -77,14 +75,14 @@ class CliAskConnection {
     }
 
     /**
-     * Ask user connection parameters
+     * Ask user and set connection parameters
      * @param cli != null, passed to the speaker
-     * @return HashMap<username, instance of speaker chosen>
      */
-    HashMap<String, ServerSpeaker> startConnection(CliSystem cli) {
-
+    void startConnection(CliSystem cli) {
         out.println(dictionary.getMessage(INSERT_NAME_KEYWORD));           // ask name of the user
         String userName = inKeyboard.nextLine();
+
+        cli.setUserName(userName);
 
         askConnection();            // ask type of connection wanted
         String ip = requestIp();
@@ -94,6 +92,8 @@ class CliAskConnection {
         } else if (rmiConnection) {
             serverSpeaker = new RmiServerSpeaker(ip, userName, cli);             // delegate to a rmi connection
         }
+
+        cli.setServerSpeaker(serverSpeaker);
 
         while (!serverSpeaker.connect(userName)) {
             out.println(dictionary.getMessage(NO_SERVER_LISTENING_KEYWORD));  // ip didn't connected
@@ -105,10 +105,6 @@ class CliAskConnection {
             out.println(dictionary.getMessage(INSERT_NAME_AGAIN_KEYWORD));
             userName = inKeyboard.nextLine();
         }
-
-        connParam.put(userName, serverSpeaker);
-
-        return connParam;
     }
 
     /**

@@ -86,7 +86,7 @@ public class Lobby {
 
             if (players.containsKey(username))
                 if (players.get(username).isDisconnected())
-                    reconnectPlayer(username);
+                    reconnectPlayer(username, speaker);
                 else
                     throw new SamePlayerException(dictionary.getMessage(SAME_PLAYER_KEYWORD));
 
@@ -96,21 +96,23 @@ public class Lobby {
             else if (players.size() >= settings.getMaxPlayer())
                 throw new TooManyPlayersException(dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
 
-            players.put(username, new Player(username));
-            speakers.put(username, speaker);
+            else {
+                players.put(username, new Player(username));
+                speakers.put(username, speaker);
 
-            Timer disconnection = new Timer();
-            CheckDisconnectionDaemon daemon = new CheckDisconnectionDaemon(speaker, this, username);
-            disconnection.scheduleAtFixedRate(daemon, 0, settings.getDaemonFrequency());
-            checkerDisconnection.put(username, daemon);
+                Timer disconnection = new Timer();
+                CheckDisconnectionDaemon daemon = new CheckDisconnectionDaemon(speaker, this, username);
+                disconnection.scheduleAtFixedRate(daemon, 0, settings.getDaemonFrequency());
+                checkerDisconnection.put(username, daemon);
 
-            speaker.loginSuccess(dictionary.getMessage(WELCOME_USER_KEYWORD) + username);
-            speaker.tell(dictionary.getMessage(GAME_WILL_START_KEYWORD));
+                speaker.loginSuccess(dictionary.getMessage(WELCOME_USER_KEYWORD) + username);
+                speaker.tell(dictionary.getMessage(GAME_WILL_START_KEYWORD));
 
-            speakers.forEach((user, speak) -> {
-                if (!user.equals(username))
-                    speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(CONNECTED_KEYWORD));
-            });
+                speakers.forEach((user, speak) -> {
+                    if (!user.equals(username))
+                        speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(CONNECTED_KEYWORD));
+                });
+            }
         }
     }
 
@@ -143,14 +145,21 @@ public class Lobby {
      * Reconnect player disconnected when gameState is STARTING or STARTED.
      * @param username reconnected.
      */
-    public void reconnectPlayer(String username) {
+    public void reconnectPlayer(String username, ClientSpeaker speaker) {
+        speakers.replace(username, speaker);
         players.get(username).setDisconnected(false);
         speakers.get(username).tell(dictionary.getMessage(WELCOME_BACK_KEYWORD) + username);
 
-        speakers.forEach((user, speaker) -> {
+        speakers.forEach((user, speak) -> {
             if (!user.equals(username))
-                speaker.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(RECONNECTED_KEYWORD));
+                speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(RECONNECTED_KEYWORD));
         });
+
+        if (currentState.equals(gameState.STARTED))
+            if (players.get(username).getWindowCard() == null)
+                speakers.get(username).sendWindowCard(gameController.getWindowAlternatives().get(username));
+            else
+                speakers.get(username).nextTurn(game.getCurrentPlayer().getId());
     }
 
     /**

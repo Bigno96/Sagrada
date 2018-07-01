@@ -91,12 +91,6 @@ public class LobbyTest extends TestCase {
         lobby.disconnectPlayer(USERNAME2);
 
         assertTrue(lobby.getPlayers().get(USERNAME2).isDisconnected());
-
-        lobby.addPlayer(USERNAME3, rmiSpeaker1);
-        lobby.setState(Lobby.gameState.STARTED);
-        lobby.disconnectPlayer(USERNAME3);
-
-        assertTrue(lobby.getPlayers().get(USERNAME3).isDisconnected());
     }
 
     /**
@@ -118,7 +112,7 @@ public class LobbyTest extends TestCase {
 
         assertTrue(lobby.getPlayers().get(USERNAME1).isDisconnected());
 
-        lobby.reconnectPlayer(USERNAME1);
+        lobby.reconnectPlayer(USERNAME1, rmiSpeaker1);
 
         assertFalse(lobby.getPlayers().get(USERNAME1).isDisconnected());
     }
