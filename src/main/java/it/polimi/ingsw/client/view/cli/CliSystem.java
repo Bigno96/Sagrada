@@ -58,8 +58,8 @@ public class CliSystem implements ViewInterface {
     private String userName;
     private HashMap<String, ServerSpeaker> connParam;
 
-    private Thread moveThread;
-    private Thread waitingThread;
+    private MenuTask taskMenu;
+    private Thread menuThread;
 
     private Boolean quit = false;
 
@@ -72,7 +72,6 @@ public class CliSystem implements ViewInterface {
         this.connParam = new HashMap<>();
         this.inKeyboard = new Scanner(System.in);
         this.semaphore = new Semaphore(0);
-
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
@@ -87,11 +86,8 @@ public class CliSystem implements ViewInterface {
 
         serverSpeaker = connParam.get(userName);
 
-        MoveMenuTask taskMove = new MoveMenuTask(this);
-        moveThread = new Thread(taskMove);
-
-        WaitingMenuTask taskWaiting = new WaitingMenuTask(this);
-        waitingThread = new Thread(taskWaiting);
+        this.taskMenu = new MenuTask(this);
+        this.menuThread = new Thread(taskMenu);
     }
 
     /**
@@ -230,15 +226,20 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
-        if (userName.equals(username)) {
-            print(dictionary.getMessage(YOUR_TURN_KEYWORD));
-            waitingThread.interrupt();
-            moveThread.start();
+        synchronized (this) {
+            menuThread.interrupt();
 
-        } else {
-            print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
-            moveThread.interrupt();
-            waitingThread.start();
+            if (userName.equals(username)) {
+                taskMenu.setPlaying(true);
+                print(dictionary.getMessage(YOUR_TURN_KEYWORD));
+
+            } else {
+                taskMenu.setPlaying(false);
+                print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
+            }
+
+            menuThread = new Thread(taskMenu);
+            menuThread.start();
         }
     }
 
@@ -266,6 +267,8 @@ public class CliSystem implements ViewInterface {
         else
             print(USER + username + OTHER_PLACED_DICE + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
+
+        taskMenu.setMoved();
     }
 
 
@@ -296,6 +299,7 @@ public class CliSystem implements ViewInterface {
      * Used to get what dice to move and where it wants to move
      */
     void moveDice() {
+        quit = false;
         int index;
         int row;
         int col;
