@@ -10,7 +10,6 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.SortedMap;
@@ -56,7 +55,6 @@ public class CliSystem implements ViewInterface {
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private final Scanner inKeyboard;
     private String userName;
-    private HashMap<String, ServerSpeaker> connParam;
 
     private MenuTask taskMenu;
     private Thread menuThread;
@@ -69,10 +67,12 @@ public class CliSystem implements ViewInterface {
 
     public CliSystem() {
         this.connection = new CliAskConnection();
-        this.connParam = new HashMap<>();
         this.inKeyboard = new Scanner(System.in);
         this.semaphore = new Semaphore(0);
-        dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+
+        this.taskMenu = new MenuTask(this);
+        this.menuThread = new Thread(taskMenu);
     }
 
     /**
@@ -80,14 +80,7 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void startGraphic() {
-        connParam = connection.startConnection(this);
-
-        userName = connParam.keySet().iterator().next();
-
-        serverSpeaker = connParam.get(userName);
-
-        this.taskMenu = new MenuTask(this);
-        this.menuThread = new Thread(taskMenu);
+        connection.startConnection(this);
     }
 
     /**
@@ -106,10 +99,24 @@ public class CliSystem implements ViewInterface {
     }
 
     /**
+     * @param userName to be set
+     */
+    void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
      * @return server Speaker of the player
      */
     ServerSpeaker getServerSpeaker() {
         return this.serverSpeaker;
+    }
+
+    /**
+     * @param serverSpeaker to be set
+     */
+    void setServerSpeaker(ServerSpeaker serverSpeaker) {
+        this.serverSpeaker = serverSpeaker;
     }
 
     /**
@@ -340,7 +347,7 @@ public class CliSystem implements ViewInterface {
         if (!quit)
             serverSpeaker.placementDice(userName, index, row, col);
         else
-            semaphore.release();
+            semaphore.release(2);
     }
 
     /**

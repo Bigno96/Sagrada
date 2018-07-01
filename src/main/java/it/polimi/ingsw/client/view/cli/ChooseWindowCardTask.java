@@ -29,13 +29,18 @@ public class ChooseWindowCardTask implements Runnable {
 
     @Override
     public void run() {
-        int pick;
+        int pick = 0;
 
         Boolean wrong;
         do {
-            cliSystem.print(dictionary.getMessage(WINDOW_CARD_CHOICE_ENTRY_KEYWORD));
-            pick = inKeyboard.nextInt();
-            wrong = pick<1 || pick>4;
+            try {
+                cliSystem.print(dictionary.getMessage(WINDOW_CARD_CHOICE_ENTRY_KEYWORD));
+                pick = Integer.parseInt(inKeyboard.nextLine());
+                wrong = pick < 1 || pick > 4;
+
+            } catch (NumberFormatException e) {
+                wrong = true;
+            }
 
         } while(wrong);
 

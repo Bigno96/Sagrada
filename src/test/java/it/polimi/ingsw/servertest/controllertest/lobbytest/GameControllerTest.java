@@ -195,18 +195,29 @@ public class GameControllerTest extends TestCase {
                 lobby.getGame().findPlayer(USERNAME1).getWindowCard().getName());
 
         gameController.setWindowCard(USERNAME2, gameController.getWindowAlternatives().get(USERNAME2).get(pick).getName());
-        assertSame(gameController.getWindowAlternatives().get(USERNAME2).get(pick).getName(),
-                lobby.getGame().findPlayer(USERNAME2).getWindowCard().getName());
+        assertSame(gameController.getWindowAlternatives().get(USERNAME2).get(pick).getName().trim(),
+                lobby.getGame().findPlayer(USERNAME2).getWindowCard().getName().trim());
     }
 
     /**
      * Testing setting public objective
+     * @throws RemoteException by remote client
+     * @throws TooManyPlayersException when lobby player limit is exceeded
+     * @throws SamePlayerException when trying to add a player with the same id
+     * @throws GameAlreadyStartedException when trying to add a player to an already started game
      */
-    public void testSetPublicObjective() {
+    public void testSetPublicObjective() throws RemoteException, TooManyPlayersException, SamePlayerException, GameAlreadyStartedException {
         Lobby lobby = new Lobby();
         lobby.startLobby();
         GameController gameController = new GameController(lobby, lobby.getPlayers());
         List<Integer> used = new ArrayList<>();
+
+        ClientRemote clientRemote = new ClientRemoteImpl(USERNAME1, view);
+        ClientSpeaker rmiSpeaker1 = new RmiClientSpeaker(clientRemote);
+        ClientSpeaker rmiSpeaker2 = new RmiClientSpeaker(clientRemote);
+
+        lobby.addPlayer(USERNAME1, rmiSpeaker1);
+        lobby.addPlayer(USERNAME2, rmiSpeaker2);
 
         int wrongId = random.nextInt(20) + 20;
         PublicObjective wrongObj = new PublicObjective(wrongId, "Test", wrongId);
