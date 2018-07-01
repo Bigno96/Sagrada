@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.game;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
@@ -65,7 +65,7 @@ public class GameController {
         chooseCard();
 
         Timer timer = new Timer();
-        timer.schedule(new AllCardSelectedDaemon(lobby, this), gameSettings.getTimeUntilRandomCard());
+        timer.scheduleAtFixedRate(new AllCardSelectedDaemon(lobby, this), 0, gameSettings.getRandomCardNotifyInterval());
 
         try {
             while (!allCardsAreSelected())

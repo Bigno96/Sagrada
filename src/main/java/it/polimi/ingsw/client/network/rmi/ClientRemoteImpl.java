@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemote {
@@ -122,5 +123,13 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     @Override
     public void printPrivateObj(ObjectiveCard privateObj) {
         view.get().printPrivateObj(privateObj);
+    }
+
+    /**
+     * @param ranking sorted map of player username and their points through the game
+     */
+    @Override
+    public void printRanking(SortedMap<Integer, String> ranking) {
+        view.get().printRanking(ranking);
     }
 }

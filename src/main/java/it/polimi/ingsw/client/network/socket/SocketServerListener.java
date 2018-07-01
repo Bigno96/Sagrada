@@ -19,9 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -79,6 +77,11 @@ public class SocketServerListener implements Runnable {
     private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
 
+    private static final String RANKING_KEYWORD = "RANKING";
+    private static final String RANKING_ENTRY_KEYWORD = "RANKING_ENTRY";
+    private static final String RANKING_PLAYER_KEYWORD = "RANKING_PLAYER";
+    private static final String RANKING_POINT_KEYWORD = "RANKING_POINT";
+
     private final ViewInterface view;
     private final Socket socket;
     private final SocketServerSpeaker speaker;
@@ -118,6 +121,10 @@ public class SocketServerListener implements Runnable {
     private String username;
     private String otherUserName;
 
+    private SortedMap<Integer, String> ranking;
+    private String rankingUsername;
+    private int rankingPoint;
+
     SocketServerListener(Socket socket, ViewInterface view, SocketServerSpeaker speaker) {
         this.view = view;
         this.socket = socket;
@@ -135,6 +142,7 @@ public class SocketServerListener implements Runnable {
         this.cellList = new ArrayList<>();
         this.draft = new ArrayList<>();
         this.publicObj = new ArrayList<>();
+        this.ranking = new TreeMap<>();
 
         mapGameException();
         mapPlacementException();
@@ -231,6 +239,11 @@ public class SocketServerListener implements Runnable {
         Consumer<String> setPlacementUser = placementUser -> username = placementUser;
         Consumer<String> setOtherUser = otherUsername -> otherUserName = otherUsername;
 
+        Consumer<String> setRankingUser = user -> rankingUsername = user;
+        Consumer<String> setRankingPoint = point -> rankingPoint = Integer.parseInt(point);
+        Consumer<String> setRankingEntry = string -> ranking.put(rankingPoint, rankingUsername);
+        Consumer<String> printRanking = string -> view.printRanking(ranking);
+
         commandMap.put(protocol.getMessage(PRINT_KEYWORD), print);
         commandMap.put(protocol.getMessage(LOGIN_SUCCESS_KEYWORD), login);
         commandMap.put(protocol.getMessage(EXCEPTION_KEYWORD), exception);
@@ -274,6 +287,11 @@ public class SocketServerListener implements Runnable {
 
         commandMap.put(protocol.getMessage(USER_PLACING_DICE_KEYWORD), setPlacementUser);
         commandMap.put(protocol.getMessage(OTHER_USER_NAME_KEYWORD), setOtherUser);
+
+        commandMap.put(protocol.getMessage(RANKING_PLAYER_KEYWORD), setRankingUser);
+        commandMap.put(protocol.getMessage(RANKING_POINT_KEYWORD), setRankingPoint);
+        commandMap.put(protocol.getMessage(RANKING_ENTRY_KEYWORD), setRankingEntry);
+        commandMap.put(protocol.getMessage(RANKING_KEYWORD), printRanking);
     }
 
     /**

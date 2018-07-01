@@ -1,7 +1,8 @@
 package it.polimi.ingsw.servertest.controllertest.lobbytest;
 
 import it.polimi.ingsw.exception.SamePlayerException;
-import it.polimi.ingsw.server.controller.RoundController;
+import it.polimi.ingsw.server.controller.game.RoundController;
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import junit.framework.TestCase;
@@ -20,8 +21,11 @@ public class RoundControllerTest extends TestCase {
      * @throws SamePlayerException when trying to add a player with the same id
      */
     public void testCountingRound() throws SamePlayerException {
-        Game game = new Game();
-        RoundController roundController = new RoundController(game);
+        Lobby lobby = new Lobby();
+        lobby.startLobby();
+        lobby.startingGame();
+        Game game = lobby.getGame();
+        RoundController roundController = new RoundController(lobby, game);
         game.addPlayer(new Player(USERNAME1));
         game.addPlayer(new Player(USERNAME2));
 

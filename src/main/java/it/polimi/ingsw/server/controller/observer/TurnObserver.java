@@ -25,6 +25,6 @@ public class TurnObserver implements Observer {
             entry.getValue().nextTurn(lobby.getGame().getCurrentPlayer().getId());
 
         if (arg.equals("nextTurn"))
-            lobby.getSpeakers().entrySet().parallelStream().forEach(notifyPlayerTurn);
+            lobby.getSpeakers().entrySet().forEach(notifyPlayerTurn);
     }
 }

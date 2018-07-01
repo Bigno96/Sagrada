@@ -4,9 +4,9 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
-import it.polimi.ingsw.server.controller.ActionController;
-import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.controller.RoundController;
+import it.polimi.ingsw.server.controller.game.ActionController;
+import it.polimi.ingsw.server.controller.game.GameController;
+import it.polimi.ingsw.server.controller.game.RoundController;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -225,7 +225,7 @@ public class Lobby {
      * Start first round of the game
      */
     public void startCountingRound() {
-        roundController = new RoundController(game);
+        roundController = new RoundController(this, game);
 
         try {
             game.getBoard().getDraft().fillDraft();
@@ -259,6 +259,17 @@ public class Lobby {
     public void endGame() {
         if (game.getNumPlayer() == 1)
             notifyAllPlayers(dictionary.getMessage(WIN_MSG_KEYWORD));
+
+        SortedMap<Integer, String> ranking = new TreeMap<>();
+        players.values().forEach(player -> {
+            try {
+                ranking.put(player.rateScore(), player.getId());
+            } catch (IDNotFoundException | PositionException e) {
+                out.println(e.getMessage());
+            }
+        });
+
+        speakers.values().forEach(speaker -> speaker.printRanking(ranking));
     }
 
     /**

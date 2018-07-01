@@ -32,6 +32,8 @@
   "PRIVATE_OBJECTIVE_CHOSEN": "\nIl tuo obiettivo privato è: ",
   "PUBLIC_OBJECTIVE": "\nGli obiettivi pubblici sono:",
   "OBJECTIVE_POINT": " punti: ",
+
+  "NOT_YET_SELECTED_CARD": " secondi per selezionare la carta schema",
   "EXCEEDED_TIME_SELECTING_CARD": " ha impiegato troppo tempo a selezionare la propria carta schema. Gliene sarà assegnata una casualmente.",
 
   "MENU_WAITING_MESSAGE": "\nStai aspettando, cosa vuoi fare:",
@@ -64,6 +66,8 @@
   "ASK_ROW":"Inserisci riga: ",
   "ASK_COLUMN":"Inserisci colonna: ",
   "INSERT_NUMBER": "\nInserisci l'indice del dado che vuoi, a partire da 1",
+  "QUIT_ENTRY": "exit",
+  "QUIT": " per interrompere",
 
   "USE_TOOL_CARD_ENTRY": "strumento",
   "USE_TOOL_CARD_MESSAGE": "- usa una carta strumento",

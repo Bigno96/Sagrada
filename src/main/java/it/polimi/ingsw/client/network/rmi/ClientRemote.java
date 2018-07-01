@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.SortedMap;
 
 /**
  * Remote interface of client used by server
@@ -94,4 +95,10 @@ public interface ClientRemote extends Remote {
      * @throws RemoteException default
      */
     void printPrivateObj(ObjectiveCard privateObj) throws RemoteException;
+
+    /**
+     * Used when game ends to print final ranking
+     * @param ranking sorted map of player username and their points through the game
+     */
+    void printRanking(SortedMap<Integer, String> ranking) throws RemoteException;
 }

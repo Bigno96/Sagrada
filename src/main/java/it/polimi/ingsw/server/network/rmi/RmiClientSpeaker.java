@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.SortedMap;
 
 import static java.lang.System.*;
 
@@ -155,6 +156,18 @@ public class RmiClientSpeaker implements ClientSpeaker {
     public void printPrivateObj(ObjectiveCard privateObj) {
         try {
             client.printPrivateObj(privateObj);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * @param ranking sorted map of player username and their points through the game
+     */
+    @Override
+    public void printRanking(SortedMap<Integer, String> ranking) {
+        try {
+            client.printRanking(ranking);
         } catch (RemoteException e) {
             out.println(e.getMessage());
         }
