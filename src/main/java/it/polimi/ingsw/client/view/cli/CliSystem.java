@@ -226,21 +226,17 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
-        synchronized (this) {
-            menuThread.interrupt();
+        if (userName.equals(username)) {
+            print(dictionary.getMessage(YOUR_TURN_KEYWORD));
+            taskMenu.setPlaying(true);
 
-            if (userName.equals(username)) {
-                taskMenu.setPlaying(true);
-                print(dictionary.getMessage(YOUR_TURN_KEYWORD));
-
-            } else {
-                taskMenu.setPlaying(false);
-                print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
-            }
-
-            menuThread = new Thread(taskMenu);
-            menuThread.start();
+        } else {
+            print(dictionary.getMessage(OTHER_PLAYER_TURN_KEYWORD) + username);
+            taskMenu.setPlaying(false);
         }
+
+        if (menuThread.getState().equals(Thread.State.NEW))
+            menuThread.start();
     }
 
     /**
@@ -330,8 +326,9 @@ public class CliSystem implements ViewInterface {
 
         col = getCol();
 
-        if (!quit)
+        if (!quit) {
             serverSpeaker.placementDice(userName, index, row, col);
+        }
     }
 
     /**
@@ -375,7 +372,7 @@ public class CliSystem implements ViewInterface {
                 if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
                     quit = true;
                 else
-                    row = Integer.parseInt(inKeyboard.nextLine());
+                    row = Integer.parseInt(line);
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 row = -1;
@@ -399,7 +396,7 @@ public class CliSystem implements ViewInterface {
                 if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD)))
                     quit = true;
                 else
-                    col = Integer.parseInt(inKeyboard.nextLine());
+                    col = Integer.parseInt(line);
             } catch (NumberFormatException e) {
                 print(e.getMessage());
                 col = -1;
