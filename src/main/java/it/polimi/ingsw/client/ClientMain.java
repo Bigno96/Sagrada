@@ -1,11 +1,9 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.client.view.cli.CliSystem;
 import it.polimi.ingsw.client.view.gui.ClientGUIController;
 import it.polimi.ingsw.client.view.gui.GuiSystem;
-import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -26,12 +24,6 @@ public class ClientMain extends Application {
 
     private Stage primaryStage;
 
-    private ViewMessageParser dictionary;
-/*
-    private static final String TITLE_CLIENT_PAGE = "Quale modalità scegli?";
-    private static final String CLI_CHOSEN = "Stai usando la CLI";
-*/
-
     /**
      * @param primaryStage initialize the base stage
      */
@@ -40,8 +32,7 @@ public class ClientMain extends Application {
 
         this.primaryStage = primaryStage;
         primaryStage.resizableProperty().setValue(Boolean.FALSE);                    //disable resizable
-        this.primaryStage.setTitle("How do you wanna play?");
-        //this.primaryStage.setTitle(dictionary.getMessage(TITLE_CLIENT_PAGE));
+        this.primaryStage.setTitle("Quale modalità scegli?");
         initRootLayout();
     }
 
@@ -88,8 +79,7 @@ public class ClientMain extends Application {
             primaryStage.show();
         });
 
-        out.println("CLI graphic chosen");
-        //out.println(dictionary.getMessage(CLI_CHOSEN));
+        out.println("Stai usando la CLI");
             graphic.startGraphic();
     }
 
