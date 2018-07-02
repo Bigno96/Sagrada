@@ -11,11 +11,13 @@ public class RoundController {
 
     private Game game;
     private Lobby lobby;
+    private TimerTurnDaemon timerTurn;
     private Player currentPlayer;
 
-    public RoundController(Lobby lobby, Game game) {
+    public RoundController(Lobby lobby, Game game, TimerTurnDaemon timerTurn) {
         this.lobby = lobby;
         this.game = game;
+        this.timerTurn = timerTurn;
     }
 
     public Player getCurrentPlayer() {
@@ -27,8 +29,10 @@ public class RoundController {
 
         if (p == null)      // when nextPlayer() is null, it means all rounds and all turns have been played
             lobby.endGame();
-
-        currentPlayer = p;
+        else {
+            timerTurn.resetCount();
+            currentPlayer = p;
+        }
     }
 
 }

@@ -15,26 +15,29 @@ public class CheckDisconnectionDaemon extends TimerTask {
 
     private static final String LOST_CONNECTION_KEYWORD = "LOST_CONNECTION";
 
+    private final String lostConnection;
+
     private Boolean disconnected;
     private final Lobby lobby;
     private final String username;
 
     private final ClientSpeaker speaker;
-    private final CommunicationParser protocol;
 
     CheckDisconnectionDaemon(ClientSpeaker speaker, Lobby lobby, String username) {
         this.username = username;
         this.speaker = speaker;
         this.disconnected = false;
         this.lobby = lobby;
-        this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+
+        CommunicationParser protocol = (CommunicationParser) ParserManager.getCommunicationParser();
+        this.lostConnection = protocol.getMessage(LOST_CONNECTION_KEYWORD);
     }
 
     @Override
     public synchronized void run() {
         Boolean pinged = speaker.ping();                // try to ping speaker
         if (!pinged && !disconnected) {                 // failed to ping and user is not yet disconnected
-            out.println(protocol.getMessage(LOST_CONNECTION_KEYWORD) + username);
+            out.println(lostConnection + username);
             disconnected = true;
             lobby.disconnectPlayer(username);
         }

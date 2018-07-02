@@ -108,6 +108,7 @@ public class LobbyTest extends TestCase {
 
         lobby.addPlayer(USERNAME1, rmiSpeaker1);
         lobby.startingGame();
+        lobby.setState(Lobby.gameState.STARTING);
         lobby.disconnectPlayer(USERNAME1);
 
         assertTrue(lobby.getPlayers().get(USERNAME1).isDisconnected());

@@ -20,25 +20,34 @@ public class AllCardSelectedDaemon extends TimerTask {
     private static final String NOT_YET_SELECTED_CARD_KEYWORD = "NOT_YET_SELECTED_CARD";
     private static final String EXCEEDED_TIME_KEYWORD = "EXCEEDED_TIME_SELECTING_CARD";
 
+    private final String notSelectedYet;
+    private final String exceededTime;
+
     private Lobby lobby;
     private GameController gameController;
 
-    private final ViewMessageParser dictionary;
-    private final GameSettingsParser settings;
     private int count;
     private static final Random random = new Random();
+
+    private final int timeUntilRandomCard;
+    private final int notifyInterval;
 
     AllCardSelectedDaemon(Lobby lobby, GameController gameController) {
         this.lobby = lobby;
         this.gameController = gameController;
         this.count = 0;
-        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
-        this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+        ViewMessageParser dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        GameSettingsParser settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+
+        this.notSelectedYet = dictionary.getMessage(NOT_YET_SELECTED_CARD_KEYWORD);
+        this.exceededTime = dictionary.getMessage(EXCEEDED_TIME_KEYWORD);
+        this.timeUntilRandomCard = settings.getTimeUntilRandomCard();
+        this.notifyInterval = settings.getNotifyInterval();
     }
 
     @Override
     public void run() {
-        if (count < settings.getTimeUntilRandomCard()/settings.getRandomCardNotifyInterval()
+        if (count < timeUntilRandomCard/notifyInterval
                 && !gameController.allCardsAreSelected()) {
 
             lobby.getPlayers().values().forEach(player -> {
@@ -46,8 +55,7 @@ public class AllCardSelectedDaemon extends TimerTask {
                 if (player.getWindowCard() == null) {
 
                     lobby.notifyAllPlayers(USER + player.getId() + HAS_YET
-                            + ((settings.getTimeUntilRandomCard()-count*settings.getRandomCardNotifyInterval())/1000)
-                            + dictionary.getMessage(NOT_YET_SELECTED_CARD_KEYWORD));
+                            + ((timeUntilRandomCard-count*notifyInterval)/1000) + notSelectedYet);
                 }
             });
 
@@ -59,7 +67,7 @@ public class AllCardSelectedDaemon extends TimerTask {
 
                 if (player.getWindowCard() == null) {
 
-                    lobby.notifyAllPlayers(USER + player.getId() + dictionary.getMessage(EXCEEDED_TIME_KEYWORD));
+                    lobby.notifyAllPlayers(USER + player.getId() + exceededTime);
                     WindowCard chosen = gameController.getWindowAlternatives().get(player.getId()).get(random.nextInt(4));
                     gameController.setWindowCard(player.getId(), chosen.getName());
                 }

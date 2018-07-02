@@ -14,24 +14,31 @@ public class StartGame extends TimerTask {
     private static final String TIMER_ON_KEYWORD = "TIMER_ON";
     private static final String SECONDS_COUNTDOWN_KEYWORD = "SECONDS_COUNTDOWN";
 
+    private final String timerOn;
+    private final String countdown;
+
     private final Lobby lobby;
     private int count;
-    private final GameSettingsParser settings;
-    private final ViewMessageParser dictionary;
+
+    private final int gameTimer;
+    private final int notifyInterval;
 
     StartGame(Lobby lobby) {
         this.lobby = lobby;
         count = 0;
-        this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
-        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        GameSettingsParser settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
+        ViewMessageParser dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+
+        this.timerOn = dictionary.getMessage(TIMER_ON_KEYWORD);
+        this.countdown = dictionary.getMessage(SECONDS_COUNTDOWN_KEYWORD);
+        this.gameTimer = settings.getStartingTimer();
+        this.notifyInterval = settings.getGameNotifyInterval();
     }
 
     @Override
     public synchronized void run() {
-        if (count < settings.getStartingTimer()/settings.getGameNotifyInterval()) {
-            lobby.notifyAllPlayers( dictionary.getMessage(TIMER_ON_KEYWORD)+
-                                    ((settings.getStartingTimer()-count*settings.getGameNotifyInterval())/1000) +
-                                    dictionary.getMessage(SECONDS_COUNTDOWN_KEYWORD));
+        if (count < gameTimer/notifyInterval) {
+            lobby.notifyAllPlayers( timerOn + ((gameTimer-count*notifyInterval)/1000) + countdown);
             count++;
 
         } else {

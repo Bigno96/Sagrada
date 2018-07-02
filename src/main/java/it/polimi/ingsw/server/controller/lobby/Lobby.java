@@ -7,6 +7,7 @@ import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.game.ActionController;
 import it.polimi.ingsw.server.controller.game.GameController;
 import it.polimi.ingsw.server.controller.game.RoundController;
+import it.polimi.ingsw.server.controller.game.TimerTurnDaemon;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -50,6 +51,7 @@ public class Lobby {
     private GameController gameController;
     private RoundController roundController;
     private ActionController actionController;
+    private TimerTurnDaemon timerTurn;
 
     private final CommunicationParser protocol;
     private final GameSettingsParser settings;
@@ -257,7 +259,9 @@ public class Lobby {
      * Start first round of the game
      */
     public void startCountingRound() {
-        roundController = new RoundController(this, game);
+        Timer timer = new Timer();
+        timerTurn = new TimerTurnDaemon(this);
+        roundController = new RoundController(this, game, timerTurn);
 
         try {
             game.getBoard().getDraft().fillDraft();
@@ -267,6 +271,7 @@ public class Lobby {
             out.println(e.getMessage());
         }
 
+        timer.scheduleAtFixedRate(timerTurn, 0, settings.getNotifyInterval());
         roundController.nextTurn();
     }
 

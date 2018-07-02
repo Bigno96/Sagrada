@@ -82,6 +82,8 @@
   "PASSED": "Hai passato!",
   "TURN_PASSED": " ha passato il turno",
 
+  "TIME_TO_END_TURN": " secondi per terminare il turno",
+  "TIMER_TURN_EXCEEDED": " ha esaurito il tempo per il suo turno",
   "ALREADY_DONE": "Hai gia' effettuato questa azione",
 
   "NOT_YOUR_TURN_EXCEPTION": "Non è il tuo turno. Non puoi effettuare quest'azione",

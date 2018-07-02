@@ -65,7 +65,7 @@ public class GameController {
         chooseCard();
 
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new AllCardSelectedDaemon(lobby, this), 0, gameSettings.getRandomCardNotifyInterval());
+        timer.scheduleAtFixedRate(new AllCardSelectedDaemon(lobby, this), 0, gameSettings.getNotifyInterval());
 
         try {
             while (!allCardsAreSelected())
