@@ -51,6 +51,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String CARD_CELL_LIST_KEYWORD = "CARD_CELL_LIST";
     private static final String CARD_KEYWORD = "CARD";
     private static final String LIST_CARD_KEYWORD = "LIST_CARD";
+    private static final String OCCUPIED_CELL_KEYWORD = "OCCUPIED_CELL";
 
     private static final String CELL_VALUE_KEYWORD = "CELL_VALUE";
     private static final String CELL_COLOR_KEYWORD = "CELL_COLOR";
@@ -240,6 +241,13 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
         socketOut.println(protocol.getMessage(CELL_KEYWORD));
         socketOut.println(" ");
+
+        if (cell.isOccupied()) {
+            deconstructDice(cell.getDice(), DICE_KEYWORD);
+
+            socketOut.println(protocol.getMessage(OCCUPIED_CELL_KEYWORD));
+            socketOut.println(" ");
+        }
     }
 
     /**
@@ -329,7 +337,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     /**
      * Deconstruct Dice for passing through socket
      * @param dice to be deconstructed
-     * @param type if it's a single dice, or one of the dice of a list
+     * @param type DICE_DRAFT_KEYWORD if it's a single dice, DICE_KEYWORD if one of the dice of a list
      */
     private void deconstructDice(Dice dice, String type) {
         socketOut.println(protocol.getMessage(DICE_ID_KEYWORD));

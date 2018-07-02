@@ -31,6 +31,7 @@ public class SocketServerListener implements Runnable {
     private static final String GAME_ALREADY_STARTED_KEYWORD = "GAME_ALREADY_STARTED_MSG";
     private static final String SAME_PLAYER_LOGGED_KEYWORD = "SAME_PLAYER_MSG";
     private static final String TOO_MANY_PLAYERS_KEYWORD = "TOO_MANY_PLAYERS_MSG";
+    private static final String SOMETHING_WENT_WRONG_KEYWORD = "SOMETHING_WENT_WRONG";
 
     private static final String PRINT_KEYWORD = "PRINT";
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
@@ -55,6 +56,7 @@ public class SocketServerListener implements Runnable {
     private static final String CARD_CELL_LIST_KEYWORD = "CARD_CELL_LIST";
     private static final String CARD_KEYWORD = "CARD";
     private static final String LIST_CARD_KEYWORD = "LIST_CARD";
+    private static final String OCCUPIED_CELL_KEYWORD = "OCCUPIED_CELL";
 
     private static final String CELL_VALUE_KEYWORD = "CELL_VALUE";
     private static final String CELL_COLOR_KEYWORD = "CELL_COLOR";
@@ -189,6 +191,13 @@ public class SocketServerListener implements Runnable {
         Consumer<String> makeCard = string -> card = new WindowCard(cardId, cardName, favorPoint, cellList,
                                     settings.getWindowCardMaxRow(), settings.getWindowCardMaxColumn());
         Consumer<String> makeCellList = string -> cellList.clear();
+        Consumer<String> setCellOccupied = string -> {
+            try {
+                cellList.get(cellList.size()-1).setDice(dice);
+            } catch (NotEmptyException e) {
+                view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
+            }
+        };
         Consumer<String> setCardName = name -> cardName = name;
         Consumer<String> setCardId = id -> cardId = Integer.parseInt(id);
         Consumer<String> setFavorPoint = point -> favorPoint = Integer.parseInt(point);
@@ -257,6 +266,7 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(LIST_CARD_KEYWORD), makeListCard);
         commandMap.put(protocol.getMessage(CARD_KEYWORD), makeCard);
         commandMap.put(protocol.getMessage(CARD_CELL_LIST_KEYWORD), makeCellList);
+        commandMap.put(protocol.getMessage(OCCUPIED_CELL_KEYWORD), setCellOccupied);
         commandMap.put(protocol.getMessage(CARD_NAME_KEYWORD), setCardName);
         commandMap.put(protocol.getMessage(CARD_ID_KEYWORD), setCardId);
         commandMap.put(protocol.getMessage(CARD_FAVOR_POINT_KEYWORD), setFavorPoint);

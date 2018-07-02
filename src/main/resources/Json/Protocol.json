@@ -34,6 +34,7 @@
   "CARD_ID": "card_id",
   "CARD_FAVOR_POINT": "card_favor_point",
   "CARD_CELL_LIST": "card_cell_list",
+  "OCCUPIED_CELL": "occupied_cell",
 
   "CELL": "cell",
   "CELL_VALUE": "cell_value",

@@ -96,6 +96,7 @@
   "WRONG_DICE_INDEX_PLACEMENT": "L'indice passato per il piazzamento è errato",
   "WRONG_CELL_PLACEMENT": "La cella indicata per il piazzamento non è valida",
 
+  "SOMETHING_WENT_WRONG": "Ops, qualcosa è andato storto!",
   "WIN_MSG": "Congratulazioni! Hai vinto!"
 
 }
