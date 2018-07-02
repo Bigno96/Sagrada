@@ -29,13 +29,11 @@ import java.util.SortedMap;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 
-public class GuiSystem implements ViewInterface{
+import static java.lang.System.out;
 
-    private static final String ALERT_TITLE_ISTURN = "E' il tuo turno";
-    private static final String ALERT_HEADER_ISTURN = "E' il tuo turno";
-    private static final String ALERT_CONTENT_ISTURN = "Fa la tua mossa";
-    private static final String ALERT_SERVER_MESSAGE = "Messaggio dal server";
-    private static final String TITLE = "Sagrada";
+public class GuiSystem extends Thread implements ViewInterface{
+
+    private static final String TITLE = "TITLE_GAME";
 
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
@@ -60,10 +58,11 @@ public class GuiSystem implements ViewInterface{
     public GuiSystem(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
+        dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
+
     /**
-     * Open WindowCardsPage
      * @param cards cards.size() = 4
      */
     @Override
@@ -100,62 +99,83 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    /**
+     * @param privObj
+     */
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
 
     }
 
+    /**
+     * @param publObj
+     */
     @Override
     public void printPublicObj(List<ObjectiveCard> publObj) {
 
     }
 
+    /**
+     * @param draft = game.getBoard().getDraft()
+     */
     @Override
     public void showDraft(List<Dice> draft) {
 
     }
 
-    //@Override
-    public void placementDice(String username, Cell dest, Dice moved) {
-        
-    }
-
+    /**
+     * @param s to be printed
+     */
     @Override
     public void print(String s) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(dictionary.getMessage(ALERT_SERVER_MESSAGE));
-        alert.setHeaderText(serverSpeaker.toString());
-        alert.setContentText(serverSpeaker.toString());
 
-        alert.showAndWait();
+        ctrl.print(s);
+
     }
 
+    /**
+     * @param username of player moving the dice
+     * @param dest     cell where the dice is being moved
+     * @param moved    dice being moved
+     */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
     }
 
+    /**
+     * @param errorMsg
+     */
     @Override
     public void wrongPlacementDice(String errorMsg) {
 
 
     }
 
+    /**
+     * @param ranking sorted map of player username and their points through the game
+     */
     @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
     }
 
+    /**
+     * @param username = game.getCurrentPlayer().getId()
+     */
     @Override
     public void isTurn(String username) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(dictionary.getMessage(ALERT_TITLE_ISTURN));
-        alert.setHeaderText(dictionary.getMessage(ALERT_HEADER_ISTURN));
-        alert.setContentText(dictionary.getMessage(ALERT_CONTENT_ISTURN));
+        alert.setTitle("E' il tuo turno");
+        //alert.setHeaderText("E' il tuo turno");
+        alert.setContentText("Fa la tua mossa");
 
         alert.showAndWait();
     }
 
+    /**
+     *
+     */
     @Override
     public void startGraphic() {
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
@@ -168,7 +188,7 @@ public class GuiSystem implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle(TITLE);
+            primaryStage.setTitle("Sagrada");
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -189,6 +209,7 @@ public class GuiSystem implements ViewInterface{
     }
 
     void waitingPage(){
+        out.println("WaitingPage");
 
         Platform.runLater(() -> {
             Parent root = null;
@@ -202,10 +223,10 @@ public class GuiSystem implements ViewInterface{
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
-
+/*
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
-
+*/
             primaryStage.show();
         });
     }
@@ -249,4 +270,5 @@ public class GuiSystem implements ViewInterface{
     public int getnRound(){
         return  nRound;
     }
+
 }
