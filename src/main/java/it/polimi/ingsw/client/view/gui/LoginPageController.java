@@ -3,15 +3,22 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.List;
 
-public class LoginPageController extends ControlInterface{
+public class LoginPageController implements ControlInterface{
+
+    private static final String SET_TITLE = "TITLE_GAME";
+    private static final String WRONG_IP = "NO_SERVER_LISTENING";
+    private static final String SAME_USERNAME = "INSERT_NAME_AGAIN";
+    private static final String WRONG_IP_KEY = "WRONG_IP";
+    private static final String NO_SERVER = "SERVER_NOT_RESPONDING";
 
     @FXML
     public TextField usernameText;
@@ -24,12 +31,10 @@ public class LoginPageController extends ControlInterface{
     @FXML
     public Button submit;
     @FXML
-    public TextField usernameText1;
+    public TextField textField;
 
-    private String username;
     private GuiSystem guiSystem;
-
-    private Stage loginWindow;
+    private ViewMessageParser dictionary;
 
     private ServerSpeaker serverSpeaker;
     private final HashMap<String, ServerSpeaker> connParam;
@@ -38,10 +43,16 @@ public class LoginPageController extends ControlInterface{
         boolean socketConnection = false;
         boolean rmiConnection = false;
         this.connParam = new HashMap<>();
+        dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
+    }
+
+    @Override
+    public void setList(List<WindowCard> cards) {
+
     }
 
     private boolean validIP(String ip) {
@@ -80,9 +91,9 @@ public class LoginPageController extends ControlInterface{
      * @param guiSystem from GuiSystem
      * @return HashMap = username + serverSpeaker
      */
-    HashMap<String, ServerSpeaker> startConnection(GuiSystem guiSystem) {
+    private HashMap<String, ServerSpeaker> startConnection(GuiSystem guiSystem) {
 
-        username = usernameText.getText();
+        String username = usernameText.getText();
         if (socket.isSelected()) {
             //if rmi RadioButton is selected return HashMap(username, ServerSpeaker)
             serverSpeaker = new SocketServerSpeaker(ipText.getText(), guiSystem);
@@ -90,41 +101,37 @@ public class LoginPageController extends ControlInterface{
             serverSpeaker = new RmiServerSpeaker(ipText.getText(), usernameText.getText(), guiSystem);
         }
 
-        if(validIP(ipText.getText())){
 
-            if (!serverSpeaker.connect(username)){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Error Connection Server");
-                alert.setHeaderText("Il server non risponde");
-                alert.setContentText("Cambiare IP");
+            if (validIP(ipText.getText())) {
 
-                alert.showAndWait();
+                if (!serverSpeaker.connect(username)) {
+
+                    textField.setText(dictionary.getMessage(NO_SERVER));
+
+                    ipText.setText("");
+
+                    return null;
+                }
+
+                if (!serverSpeaker.login(username)) {
+
+                    usernameText.setText("");
+
+                    textField.setText(dictionary.getMessage(SAME_USERNAME));
+
+                    return null;
+
+                }
+            } else {
+
+                textField.setText(dictionary.getMessage(WRONG_IP_KEY));
 
                 ipText.setText("");
+
+                return null;
             }
 
-            if (!serverSpeaker.login(username)) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Error Username");
-                alert.setHeaderText("Username già in uso");
-                alert.setContentText("Cambiare Username");
-
-                alert.showAndWait();
-
-                usernameText.setText("");
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Error Invalid IP");
-            alert.setHeaderText("IP errato");
-            alert.setContentText("Nuovo IP");
-
-            alert.showAndWait();
-
-            ipText.setText("");
-        }
-
-        connParam.put(username, serverSpeaker);
+            connParam.put(username, serverSpeaker);
 
         guiSystem.waitingPage();
 
@@ -134,7 +141,7 @@ public class LoginPageController extends ControlInterface{
 
     public void print(String s) {
 
-        usernameText1.setText(s);
+        textField.setText(s);
 
     }
 }

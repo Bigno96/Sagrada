@@ -1,17 +1,13 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
-import java.awt.*;
 import java.util.List;
 
-public class WaitingController extends ControlInterface{
+public class WaitingController implements ControlInterface{
 
-    @FXML
-    public TextArea textArea;
     @FXML
     public TextField textField;
 
@@ -19,12 +15,19 @@ public class WaitingController extends ControlInterface{
 
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
+        this.textField.setText("La partita sta per iniziare");
+
+    }
+
+    @Override
+    public void setList(List<WindowCard> cards) {
+
     }
 
     public void print(String s) {
 
-        System.out.println("waiting"+s);
-        textField.setText(s);
+        this.textField.appendText("\n"+s);
 
     }
+
 }

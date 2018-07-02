@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="378.0"
-            prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.polimi.ingsw.client.view.gui.WaitingController">
-   <TextArea fx:id="textArea" layoutX="13.0" layoutY="14.0" prefHeight="84.0" prefWidth="676.0"/>
-   <TextField fx:id="textField" editable="false" focusTraversable="false" accessibleHelp="false" accessibleText="false" layoutX="14.0" layoutY="137.0" prefHeight="226.0" prefWidth="676.0"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.WaitingController">
+   <TextField fx:id="textField" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false" layoutY="136.0" prefHeight="233.0" prefWidth="406.0" />
+   <ImageView fitHeight="142.0" fitWidth="402.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../img/Sagrada-Logo-RGB.jpg" />
+      </image>
+   </ImageView>
 </AnchorPane>

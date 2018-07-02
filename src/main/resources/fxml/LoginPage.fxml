@@ -32,7 +32,7 @@
          <ToggleGroup fx:id="toggleGroup" />
       </toggleGroup></RadioButton>
     <RadioButton fx:id="rmi" layoutX="262.0" layoutY="301.0" mnemonicParsing="false" text="RMI" toggleGroup="$toggleGroup" />
-   <TextField fx:id="usernameText1" editable="false" focusTraversable="false" accessibleHelp="false" accessibleText="false" layoutX="7.0" layoutY="330.0" prefHeight="78.0" prefWidth="385.0" />
+   <TextField fx:id="textField" editable="false" focusTraversable="false" accessibleHelp="false" accessibleText="false" layoutX="7.0" layoutY="330.0" prefHeight="78.0" prefWidth="385.0" />
 
     <fx:define>
         <ToggleGroup fx:id="toggleGroup" />

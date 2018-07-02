@@ -5,11 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class ChooseWinCardController {
+public class ChooseWinCardController implements ControlInterface {
 
     String baseURL = "/img/WindowCard/";
     @FXML
@@ -20,6 +21,8 @@ public class ChooseWinCardController {
     public ImageView img2;
     @FXML
     public ImageView img3;
+    @FXML
+    public TextField usernameText1;
 
     private GuiSystem guiSystem;
     private List<WindowCard> cards;
@@ -75,7 +78,7 @@ public class ChooseWinCardController {
     ChooseWinCardController(){
 
     }
-
+/*
     public void wind0(){
 
         guiSystem.setWindowCard(cards.get(0));
@@ -98,6 +101,13 @@ public class ChooseWinCardController {
 
         guiSystem.setWindowCard(cards.get(3));
         guiSystem.inizializeBoard();
+    }
+*/
+    @Override
+    public void print(String message) {
+
+        usernameText1.setText(message);
+
     }
 
     public void setGuiSystem(GuiSystem guiSystem) {

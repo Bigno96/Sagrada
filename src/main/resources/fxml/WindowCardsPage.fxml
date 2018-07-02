@@ -16,30 +16,30 @@
       </font></Text>
     <Button layoutY="82.0" mnemonicParsing="false" onAction="#wind0" prefHeight="200.0" prefWidth="269.0">
         <graphic>
-          <ImageView id="img0" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-              <Image fx:id="img0" url="@../img/WindowCard/Aurora Sagradis.png" />
+          <ImageView fx:id="img0" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+              <Image />
           </ImageView>
         </graphic>
     </Button>
     <Button layoutX="3.0" layoutY="107.0" mnemonicParsing="false" onAction="#wind1" prefHeight="200.0" prefWidth="269.0"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <graphic>
-          <ImageView id="img1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-              <Image fx:id="img1" url="@../img/WindowCard/Aurora Sagradis.png" />
+          <ImageView fx:id="img1" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+              <Image />
           </ImageView>
         </graphic>
     </Button>
     <Button layoutX="392.0" layoutY="82.0" mnemonicParsing="false" onAction="#wind2" prefHeight="200.0" prefWidth="269.0">
         <graphic>
-          <ImageView id="img2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-              <Image fx:id="img2" url="@../img/WindowCard/Aurora Sagradis.png" />
+          <ImageView fx:id="img2" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+              <Image />
           </ImageView>
         </graphic>
     </Button>
     <Button layoutX="392.0" layoutY="307.0" mnemonicParsing="false" onAction="#wind3" prefHeight="200.0" prefWidth="269.0">
         <graphic>
-          <ImageView id="img3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-              <Image fx:id="img3" url="@../img/WindowCard/Aurora Sagradis.png" />
+          <ImageView fx:id="img3" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+              <Image />
           </ImageView>
         </graphic>
     </Button>

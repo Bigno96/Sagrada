@@ -1,13 +1,15 @@
 package it.polimi.ingsw.client.view.gui;
 
-public abstract class ControlInterface {
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-    public void print(String message){
+import java.util.List;
 
-    }
+public interface ControlInterface {
 
-    public void setGuiSystem(GuiSystem guiSystem){
+    void print(String message);
 
-    }
+    void setGuiSystem(GuiSystem guiSystem);
+
+    void setList(List<WindowCard> cards);
 
 }
