@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 
-public class LoginPageController {
+public class LoginPageController extends ControlInterface{
 
     @FXML
     public TextField usernameText;

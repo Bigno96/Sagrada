@@ -46,9 +46,11 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    private LoginPageController ctrl;
-    private LoginPageController ctrlChooseController;
-    private LoginPageController ctrlBoardController;
+
+    private ControlInterface ctrl;
+
+    //private LoginPageController ctrl;
+    //private WaitingController ctrlWaiting;
     private int nRound = 0;
 
     /**
@@ -67,6 +69,10 @@ public class GuiSystem extends Thread implements ViewInterface{
      */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
+
+        System.out.println("choose");
+        out.println("choose Window");
+
         /*Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
@@ -129,6 +135,7 @@ public class GuiSystem extends Thread implements ViewInterface{
     @Override
     public void print(String s) {
 
+        out.println(s);
         ctrl.print(s);
 
     }
@@ -165,12 +172,9 @@ public class GuiSystem extends Thread implements ViewInterface{
      */
     @Override
     public void isTurn(String username) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("E' il tuo turno");
-        //alert.setHeaderText("E' il tuo turno");
-        alert.setContentText("Fa la tua mossa");
 
-        alert.showAndWait();
+        ctrl.print("E' il tuo turno" + username);
+
     }
 
     /**
