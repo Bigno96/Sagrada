@@ -130,6 +130,8 @@ public class LoginPageController implements ControlInterface {
             guiSystem.setUsername(username);
             connParam.put(username, serverSpeaker);
 
+            guiSystem.setConnParam(connParam);
+
         guiSystem.waitingPage();
 
         return connParam;

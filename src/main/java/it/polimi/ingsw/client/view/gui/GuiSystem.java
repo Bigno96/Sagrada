@@ -154,9 +154,6 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    /**
-     *
-     */
     @Override
     public void startGraphic() {
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
@@ -251,10 +248,6 @@ public class GuiSystem implements ViewInterface{
 
     public ServerSpeaker getServerSpeaker() {
         return serverSpeaker;
-    }
-
-    public HashMap<String, ServerSpeaker> getConnParam() {
-        return connParam;
     }
 
     public void setConnParam(HashMap<String, ServerSpeaker> connParam) {
