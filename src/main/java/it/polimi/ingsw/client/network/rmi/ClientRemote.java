@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.network.rmi;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -82,6 +83,13 @@ public interface ClientRemote extends Remote {
      * @throws RemoteException default
      */
     void showDraft(Draft draft) throws RemoteException;
+
+    /**
+     * Used to show Round Track at the end of each round
+     * @param roundTrack at the end of round
+     * @throws RemoteException default;
+     */
+    void showRoundTrack(RoundTrack roundTrack) throws RemoteException;
 
     /**
      * Used to show public objective cards selected for the current game

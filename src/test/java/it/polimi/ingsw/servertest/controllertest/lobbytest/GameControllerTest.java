@@ -118,7 +118,9 @@ public class GameControllerTest extends TestCase {
 
         lobby.getPlayers().forEach((user, player) -> assertSame(2, player.countObservers()));
         assertSame(1, lobby.getGame().countObservers());
-        assertSame(1, lobby.getGame().getBoard().countObservers());
+        assertSame(2, lobby.getGame().getBoard().countObservers());
+        assertSame(1, lobby.getGame().getBoard().getRoundTrack().countObservers());
+        assertSame(1, lobby.getGame().getBoard().getDraft().countObservers());
     }
 
     /**

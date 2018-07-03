@@ -1,8 +1,13 @@
 package it.polimi.ingsw.server.controller.game;
 
+import it.polimi.ingsw.exception.EmptyException;
+import it.polimi.ingsw.exception.IDNotFoundException;
+import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
+
+import static java.lang.System.*;
 
 /**
  * Checks which player has to play turn
@@ -25,7 +30,12 @@ public class RoundController {
     }
 
     public void nextTurn() {
-        Player p = game.nextPlayer();
+        Player p = null;
+        try {
+            p = game.nextPlayer();
+        } catch (SameDiceException | EmptyException | IDNotFoundException e) {
+            out.println(e.getMessage());
+        }
 
         if (p == null)      // when nextPlayer() is null, it means all rounds and all turns have been played
             lobby.endGame();

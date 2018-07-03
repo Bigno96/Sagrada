@@ -5,17 +5,19 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ListDiceRound {
+public class ListDiceRound implements Serializable {
 
     private static final String SINGLE_DICE_ALREADY_IN_TRACK_MSG = "Dice is already on Round Track";
     private static final String MULTIPLE_DICE_ALREADY_IN_TRACK_MSG = "Dices are already on Round Track";
     private static final String EMPTY_MSG = "is empty";
     private static final String ID_NOT_FOUND_MSG = "Id not found";
+    private static final String DUMP_MSG = "contains following dices: ";
 
     private List<Dice> listDice;
     private static final Logger logger = Logger.getLogger(ListDiceRound.class.getName());
@@ -33,7 +35,7 @@ public class ListDiceRound {
     }
 
     public void dump() {
-        logger.info("contains following dices: ");
+        logger.info(DUMP_MSG);
         for (Dice d : listDice)
             d.dump();
     }

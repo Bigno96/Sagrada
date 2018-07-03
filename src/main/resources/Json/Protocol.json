@@ -20,6 +20,7 @@
   "SEND_LIST_CARD": "send_list_card",
   "SHOW_USER_CARD": "show_user_card",
   "SHOW_DRAFT": "show_draft",
+  "SHOW_ROUND_TRACK": "show_round_track",
   "PRINT_CARD": "print_card",
   "SET_CARD": "set_card",
   "GET_CARD": "get_card",
@@ -66,6 +67,12 @@
   "ASK_DRAFT": "ask_draft",
   "ASK_PUBLIC_OBJ": "ask_public_obj",
   "ASK_PRIVATE_OBJ": "ask_private_obj",
+
+  "MAKE_ROUND_TRACK": "make_round_track",
+  "MAKE_LIST_ROUND": "make_list_round",
+  "NUM_ROUND": "num_round",
+  "ADD_LIST_ROUND": "add_list_round",
+  "ADD_DICE_ROUND": "add_dice_round",
 
   "USER_PLACING_DICE": "placing_dice",
   "INDEX_DICE_PLACING": "index_dice",

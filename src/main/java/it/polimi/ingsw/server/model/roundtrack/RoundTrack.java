@@ -8,12 +8,14 @@ import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 import java.util.logging.Logger;
 
-public class RoundTrack {
+public class RoundTrack extends Observable implements Serializable {
 
     private static final String DUMP_MSG = "contains following dices: ";
     private static final String ID_NOT_FOUND_MSG = "Id not found";
@@ -88,6 +90,9 @@ public class RoundTrack {
         List<Dice> copy = draft.getDraftList();
         draft.freeDraft();
         trackList.get(round).addDice(copy);
+
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -138,5 +143,12 @@ public class RoundTrack {
         }
 
         throw new IDNotFoundException(DICE_NOT_FOUND_MSG);
+    }
+
+    /**
+     * @return all lists of list<dice> for all rounds
+     */
+    public List<ListDiceRound> getTrackList() {
+        return this.trackList;
     }
 }

@@ -70,13 +70,15 @@
 
   "PLACE_DICE_ENTRY": "dado",
   "PLACE_DICE_MESSAGE": "- piazza un dado sullo schema dalla riserva",
-  "SHOW_DRAFT":"Questa e' la riserva: ",
+  "SHOW_DRAFT":"\nQuesta e' la riserva: ",
   "SHOW_YOUR_WINDOW_CARD_TO_CHOOSE":"\nQuesta e' la tua carta schema: ",
   "ASK_ROW":"Inserisci riga: ",
   "ASK_COLUMN":"Inserisci colonna: ",
   "INSERT_NUMBER": "\nInserisci l'indice del dado che vuoi, a partire da 1",
   "QUIT_ENTRY": "exit",
   "QUIT": " per interrompere",
+
+  "SHOW_ROUND_TRACK": "\nQuesto è il tracciato dei round:",
 
   "USE_TOOL_CARD_ENTRY": "strumento",
   "USE_TOOL_CARD_MESSAGE": "- usa una carta strumento",

@@ -131,8 +131,11 @@ public class Game extends Observable {
     /**
      * Return the Current Player of the Turn
      * @return return the current Player, null if the game is finished
+     * @throws SameDiceException when move Draft finds a dice already in round Track
+     * @throws EmptyException when finds an empty dice bag
+     * @throws IDNotFoundException when internal error on adding dice occurs
      */
-    public Player nextPlayer(){
+    public Player nextPlayer() throws SameDiceException, EmptyException, IDNotFoundException {
         Player p = round.nextPlayer();
 
         if (p == null) {

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.model.game;
 
+import it.polimi.ingsw.exception.EmptyException;
+import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
+import it.polimi.ingsw.exception.SameDiceException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +73,11 @@ public class Round {
     /**
      * When the second turn of the round finished, nextRound reset all parameters of Player and Round
      * and move the first Player of the previous turn at the end of the playerList
+     * @throws SameDiceException when move Draft finds a dice already in round Track
+     * @throws EmptyException when finds an empty dice bag
+     * @throws IDNotFoundException when internal error on adding dice occurs
      */
-    public void nextRound() {
+    public void nextRound() throws SameDiceException, EmptyException, IDNotFoundException {
         List<Player> tmp = new ArrayList<>(playerList.subList(1, playerList.size()));
 
         tmp.add(playerList.get(0));
@@ -85,6 +91,9 @@ public class Round {
         });
 
         firstTurn = true;
+        game.getBoard().getRoundTrack().moveDraft(game.getNumRound()-1);
+
+        game.getBoard().getDraft().fillDraft();
         game.getBoard().getDraft().rollDraft();
     }
 

@@ -129,6 +129,8 @@ public class GameController {
         game.addObserver(new TurnObserver(lobby));
         game.getBoard().addObserver(new SetObjectiveObserver(lobby));
         game.getBoard().addObserver(new SetToolCardObserver(lobby));
+        game.getBoard().getRoundTrack().addObserver(new RoundTrackObserver(lobby));
+        game.getBoard().getDraft().addObserver(new DraftObserver(lobby));
     }
 
     /**
