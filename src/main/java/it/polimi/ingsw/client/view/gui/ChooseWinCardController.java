@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import static java.lang.System.out;
+
 public class ChooseWinCardController implements ControlInterface {
 
     String baseURL = "/img/WindowCard/";
@@ -133,11 +135,21 @@ public class ChooseWinCardController implements ControlInterface {
         }
 */
 
-        //Image firstWindow = new Image( "/home/gio/Scrivania/Sagrada/src/main/resources/img/WindowCard/Aurora Sagradis.png" );
+        //Image firstWindow = new Image( "/img/WindowCard/Aurora Sagradis.png" );
 
         //Image firstWindow = new Image("@../img/Sagrada-Logo-RGB.jpg");
 
-        Image firstWindow = new Image(baseURL + cards.get(0).getName() + ".png");
+        out.println("/img/WindowCard/" + cards.get(0).getName().replace("X","") + ".png");
+
+        String url = "/img/WindowCard/" + cards.get(0).getName() + ".png";
+        String url2 = cards.get(0).getName();
+
+        out.println(url);
+        out.println("\n");
+        out.println(url2);
+
+        Image firstWindow = new Image("/img/WindowCard/" + cards.get(0).getName() + ".png");
+
         img0.setImage(firstWindow);
 
     }
