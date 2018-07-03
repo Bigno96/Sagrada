@@ -103,9 +103,6 @@ public class MenuTask implements Runnable {
      */
     @Override
     public void run() {
-        currentState.remove(state.MOVED);
-        currentState.remove(state.USED);
-
         while (!currentState.contains(state.EXIT)) {
 
             synchronized (this) {
@@ -117,7 +114,7 @@ public class MenuTask implements Runnable {
                 }
                 else {
                     action.get(s).accept(cliSystem.getUserName());
-                    cliSystem.acquireSemaphore();                           // acquire before re printing menu, waiting for waitingAction to happen
+                    cliSystem.acquireSemaphore();                           // acquire before re printing menu, waiting for Action to happen
                 }
 
                 if (!currentState.contains(state.PASSING))
@@ -174,67 +171,54 @@ public class MenuTask implements Runnable {
         Consumer<String> move = string -> {       // place a dice
             if (!currentState.contains(state.MOVED)) {
                 cliSystem.moveDice();
-                cliSystem.acquireSemaphore();       //  released by wrongPlacement or successfulPlacement
-                // releasing of semaphore or playingAction.accept made by print window card
-            } else
+            } else {
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
+                cliSystem.releaseSemaphore();            // releasing for menuTask action.accept()
+            }
         };
 
         Consumer<String> use = string -> {         // use a tool card
             if (!currentState.contains(state.USED)) {
                 cliSystem.useToolCard();
-                cliSystem.releaseSemaphore();           // release for playingAction.accept
-            } else
+            } else {
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
+                cliSystem.releaseSemaphore();            // releasing for menuTask action.accept()
+            }
         };
 
         Consumer<String> pass = string -> {       // end turn
             currentState.add(state.PASSING);
+            currentState.remove(state.MOVED);
+            currentState.remove(state.USED);
+
             cliSystem.print(dictionary.getMessage(PASSED_KEYWORD));
-            cliSystem.releaseSemaphore();               // release for playingAction.accept
             serverSpeaker.endTurn(cliSystem.getUserName());
         };
 
-        Consumer<String> window = username -> {                         //see personal window card
+        Consumer<String> window = username ->                          //see personal window card
             serverSpeaker.askWindowCard(username, username);
-            cliSystem.acquireSemaphore();           // acquire for print window card
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
-        };
 
         Consumer<String> other = username -> {                          //see other player window card
             cliSystem.print(dictionary.getMessage(ASK_USER_KEYWORD));
             serverSpeaker.getAllUsername(username);
             String userWanted = inKeyboard.nextLine();
             serverSpeaker.askWindowCard(userWanted, username);
-            cliSystem.acquireSemaphore();           // acquire for print window card
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
         };
 
-        Consumer<String> draft = username -> {                            //see draft
-            serverSpeaker.askDraft(username);
-            cliSystem.acquireSemaphore();           // acquire for show draft
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
-        };
+        //see draft
+        Consumer<String> draft = serverSpeaker::askDraft;
 
-        Consumer<String> publicObj = username -> {              //see public objective
-            serverSpeaker.askPublicObj(username);
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
-        };
+        //see public objective
+        Consumer<String> publicObj = serverSpeaker::askPublicObj;
 
-        Consumer<String> privateObj = username -> {             //see private objective
-            serverSpeaker.askPrivateObj(username);
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
-        };
+        //see private objective
+        Consumer<String> privateObj = serverSpeaker::askPrivateObj;
 
-        Consumer<String> tool = username -> {                   //see tool card
-            serverSpeaker.askToolCards(username);
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
-        };
+        //see tool card
+        Consumer<String> tool = serverSpeaker::askToolCards;
 
-        Consumer<String> favor = username -> {                  //see favor points
-            serverSpeaker.askFavorPoints(username);
-            cliSystem.releaseSemaphore();           // release for playingAction.accept
-        };
+        //see favor points
+        Consumer<String> favor = serverSpeaker::askFavorPoints;
 
         playingAction.put(dictionary.getMessage(PLACE_DICE_ENTRY_KEYWORD), move);
         playingAction.put(dictionary.getMessage(USE_TOOL_CARD_ENTRY_KEYWORD), use);
@@ -252,46 +236,30 @@ public class MenuTask implements Runnable {
      * Maps hash map for waiting choices
      */
     private void mapWaitingAction() {
-        Consumer<String> window = username -> {                         //see personal window card
+        Consumer<String> window = username ->                          //see personal window card
             serverSpeaker.askWindowCard(username, username);
-            cliSystem.acquireSemaphore();           // acquire for print window card
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
-        };
 
         Consumer<String> other = username -> {                          //see other player window card
             cliSystem.print(dictionary.getMessage(ASK_USER_KEYWORD));
             serverSpeaker.getAllUsername(username);
             String userWanted = inKeyboard.nextLine();
             serverSpeaker.askWindowCard(userWanted, username);
-            cliSystem.acquireSemaphore();           // acquire for print window card
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
         };
 
-        Consumer<String> draft = username -> {                            //see draft
-            serverSpeaker.askDraft(username);
-            cliSystem.acquireSemaphore();           // acquire for show draft
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
-        };
+        //see draft
+        Consumer<String> draft = serverSpeaker::askDraft;
 
-        Consumer<String> publicObj = username -> {              //see public objective
-            serverSpeaker.askPublicObj(username);
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
-        };
+        //see public objective
+        Consumer<String> publicObj = serverSpeaker::askPublicObj;
 
-        Consumer<String> privateObj = username -> {             //see private objective
-            serverSpeaker.askPrivateObj(username);
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
-        };
+        //see private objective
+        Consumer<String> privateObj = serverSpeaker::askPrivateObj;
 
-        Consumer<String> tool = username -> {                   //see tool card
-            serverSpeaker.askToolCards(username);
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
-        };
+        //see tool card
+        Consumer<String> tool = serverSpeaker::askToolCards;
 
-        Consumer<String> favor = username -> {                  //see favor points
-            serverSpeaker.askFavorPoints(username);
-            cliSystem.releaseSemaphore();           // release for waitingAction.accept
-        };
+        //see favor points
+        Consumer<String> favor = serverSpeaker::askFavorPoints;
 
         waitingAction.put(dictionary.getMessage(OWN_WINDOW_CARD_ENTRY_KEYWORD), window);
         waitingAction.put(dictionary.getMessage(ANOTHER_WINDOW_CARD_ENTRY_KEYWORD), other);

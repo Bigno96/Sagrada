@@ -65,9 +65,6 @@ public class Draft extends Observable implements Serializable {
             draftList.add(d);
         }
 
-        setChanged();
-        notifyObservers();
-
         return true;
     }
 
@@ -76,6 +73,9 @@ public class Draft extends Observable implements Serializable {
      */
     public void rollDraft() {
         draftList.forEach(Dice::rollDice);
+
+        setChanged();
+        notifyObservers();
     }
 
     /**
