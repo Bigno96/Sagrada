@@ -73,9 +73,6 @@ public class CliSystem implements ViewInterface {
         this.inKeyboard = new Scanner(System.in);
         this.semaphore = new Semaphore(0);
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
-
-        this.taskMenu = new MenuTask(this);
-        this.menuThread = new Thread(taskMenu);
     }
 
     /**
@@ -84,6 +81,8 @@ public class CliSystem implements ViewInterface {
     @Override
     public void startGraphic() {
         connection.startConnection(this);
+        this.taskMenu = new MenuTask(this);
+        this.menuThread = new Thread(taskMenu);
     }
 
     /**
