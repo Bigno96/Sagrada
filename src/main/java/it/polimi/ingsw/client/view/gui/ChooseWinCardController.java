@@ -6,21 +6,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
-import static java.lang.System.out;
-
 public class ChooseWinCardController implements ControlInterface {
-
-    String baseURL = "/img/WindowCard/";
-    String exp = ".png";
 
     @FXML
     public ImageView img0;
@@ -33,87 +21,43 @@ public class ChooseWinCardController implements ControlInterface {
     @FXML
     public TextArea textArea;
 
+    private List<WindowCard> cards;
+
     private GuiSystem guiSystem;
-  /*  private List<WindowCard> cards;
-
-    public void setList(List<WindowCard> list){
-        cards = list;
-
-        URL url0 = null;
-        try {
-            url0 = new URL(String.format("%s%s", baseURL, list.get(0).getName()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        
-        Image window0 = new Image(String.valueOf(url0));
-
-        img0.setImage(window0);
-
-        URL url1 = null;
-        try {
-            url1 = new URL(String.format("%s%s", baseURL, list.get(1).getName()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        Image window1 = new Image(String.valueOf(url1));
-
-        img1.setImage(window1);
-
-        URL url2 = null;
-        try {
-            url2 = new URL(String.format("%s%s", baseURL, list.get(2).getName()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        Image window2 = new Image(String.valueOf(url2));
-
-        img2.setImage(window2);
-
-        URL url3 = null;
-        try {
-            url3 = new URL(String.format("%s%s", baseURL, list.get(3).getName()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        Image window3 = new Image(String.valueOf(url3));
-
-        img3.setImage(window3);
-    }
 
     ChooseWinCardController(){
 
     }
 
-    public void wind0(){
+    public void choose0() {
 
-        guiSystem.setWindowCard(cards.get(0));
         guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(0).getName());
+
     }
 
-    public void wind1(){
+    public void choose1(){
 
-        guiSystem.setWindowCard(cards.get(1));
         guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(1).getName());
+
     }
 
-    public void wind2(){
+    public void choose2(){
 
-        guiSystem.setWindowCard(cards.get(2));
         guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(2).getName());
+
+
     }
 
-    public void wind3(){
+    public void choose3(){
 
-        guiSystem.setWindowCard(cards.get(3));
         guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(3).getName());
+        
+    }
 
-    }*/
-
-    @Override
     public void print(String s) {
 
         this.textArea.appendText("\n"+s);
@@ -124,9 +68,12 @@ public class ChooseWinCardController implements ControlInterface {
         this.guiSystem = guiSystem;
     }
 
-    @Override
     public void setList(List<WindowCard> cards) {
 
+        this.cards = cards;
+
+        String baseURL = "/img/WindowCard/";
+        String exp = ".png";
         Image firstWindow = new Image(baseURL + cards.get(0).getName() + exp);
         img0.setImage(firstWindow);
 
@@ -140,5 +87,6 @@ public class ChooseWinCardController implements ControlInterface {
         img3.setImage(fourthWindow);
 
     }
+
 
 }

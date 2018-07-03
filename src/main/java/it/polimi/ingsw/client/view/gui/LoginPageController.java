@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import java.util.HashMap;
 import java.util.List;
 
-public class LoginPageController implements ControlInterface{
+public class LoginPageController implements ControlInterface {
 
     private static final String SAME_USERNAME = "INSERT_NAME_AGAIN";
     private static final String WRONG_IP_KEY = "WRONG_IP";
@@ -48,7 +48,7 @@ public class LoginPageController implements ControlInterface{
         this.guiSystem = guiSystem;
     }
 
-    @Override
+
     public void setList(List<WindowCard> cards) {
 
     }
