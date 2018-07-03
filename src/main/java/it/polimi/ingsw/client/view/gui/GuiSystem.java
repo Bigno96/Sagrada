@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
-public class GuiSystem extends Thread implements ViewInterface{
+public class GuiSystem implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
     private static final String YOUR_TURN_KEY = "YOUR_TURN";
@@ -31,6 +31,7 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
+    private WindowCard windowCard;
 
     private ControlInterface ctrl;
 
@@ -63,7 +64,7 @@ public class GuiSystem extends Thread implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle(TITLE);
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -229,4 +230,27 @@ public class GuiSystem extends Thread implements ViewInterface{
         }); */
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public ServerSpeaker getServerSpeaker() {
+        return serverSpeaker;
+    }
+
+    public HashMap<String, ServerSpeaker> getConnParam() {
+        return connParam;
+    }
+
+    public void setConnParam(HashMap<String, ServerSpeaker> connParam) {
+        this.connParam = connParam;
+    }
+
+    public void setWindowCard(WindowCard windowCard) {
+        this.windowCard = windowCard;
+    }
+
+    public WindowCard getWindowCard() {
+        return windowCard;
+    }
 }

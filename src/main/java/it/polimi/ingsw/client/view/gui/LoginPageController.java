@@ -14,8 +14,6 @@ import java.util.List;
 
 public class LoginPageController implements ControlInterface{
 
-    private static final String SET_TITLE = "TITLE_GAME";
-    private static final String WRONG_IP = "NO_SERVER_LISTENING";
     private static final String SAME_USERNAME = "INSERT_NAME_AGAIN";
     private static final String WRONG_IP_KEY = "WRONG_IP";
     private static final String NO_SERVER = "SERVER_NOT_RESPONDING";
@@ -31,7 +29,7 @@ public class LoginPageController implements ControlInterface{
     @FXML
     public Button submit;
     @FXML
-    public TextField textField;
+    public TextArea textArea;
 
     private GuiSystem guiSystem;
     private ViewMessageParser dictionary;
@@ -106,8 +104,7 @@ public class LoginPageController implements ControlInterface{
 
                 if (!serverSpeaker.connect(username)) {
 
-                    textField.setText(dictionary.getMessage(NO_SERVER));
-
+                    textArea.setText(dictionary.getMessage(NO_SERVER));
                     ipText.setText("");
 
                     return null;
@@ -116,21 +113,21 @@ public class LoginPageController implements ControlInterface{
                 if (!serverSpeaker.login(username)) {
 
                     usernameText.setText("");
-
-                    textField.setText(dictionary.getMessage(SAME_USERNAME));
+                    textArea.setText(dictionary.getMessage(SAME_USERNAME));
 
                     return null;
 
                 }
             } else {
 
-                textField.setText(dictionary.getMessage(WRONG_IP_KEY));
+                textArea.setText(dictionary.getMessage(WRONG_IP_KEY));
 
                 ipText.setText("");
 
                 return null;
             }
 
+            guiSystem.setUsername(username);
             connParam.put(username, serverSpeaker);
 
         guiSystem.waitingPage();
@@ -141,7 +138,7 @@ public class LoginPageController implements ControlInterface{
 
     public void print(String s) {
 
-        textField.setText(s);
+        this.textArea.appendText("\n"+s);
 
     }
 }

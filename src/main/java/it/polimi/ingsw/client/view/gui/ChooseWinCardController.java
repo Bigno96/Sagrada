@@ -78,7 +78,7 @@ public class ChooseWinCardController implements ControlInterface {
     ChooseWinCardController(){
 
     }
-/*
+
     public void wind0(){
 
         guiSystem.setWindowCard(cards.get(0));
@@ -101,8 +101,9 @@ public class ChooseWinCardController implements ControlInterface {
 
         guiSystem.setWindowCard(cards.get(3));
         guiSystem.inizializeBoard();
+
     }
-*/
+
     @Override
     public void print(String message) {
 

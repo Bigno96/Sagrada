@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -10,13 +11,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.LoginPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0"
+            prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.client.view.gui.LoginPageController">
     <Label graphicTextGap="0.0" layoutX="35.0" layoutY="181.0" prefHeight="31.0" prefWidth="80.0" text="Username" textFill="#000000f7">
         <font>
             <Font size="15.0" />
         </font>
     </Label>
-    <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <ImageView fitHeight="144.0" fitWidth="400.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Image url="@../img/Sagrada-Logo-RGB.jpg" />
     </ImageView>
     <TextField fx:id="usernameText" layoutX="115.0" layoutY="184.0" />
@@ -31,8 +35,11 @@
       <toggleGroup>
          <ToggleGroup fx:id="toggleGroup" />
       </toggleGroup></RadioButton>
-    <RadioButton fx:id="rmi" layoutX="262.0" layoutY="301.0" mnemonicParsing="false" text="RMI" toggleGroup="$toggleGroup" />
-   <TextField fx:id="textField" editable="false" focusTraversable="false" accessibleHelp="false" accessibleText="false" layoutX="7.0" layoutY="330.0" prefHeight="78.0" prefWidth="385.0" />
+    <RadioButton fx:id="rmi" layoutX="262.0" layoutY="301.0" mnemonicParsing="false" text="RMI" toggleGroup="$toggleGroup"
+                 AnchorPane.topAnchor="301.0" />
+   <TextArea fx:id="textArea" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false"
+             prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0"
+             AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="330.0" />
 
     <fx:define>
         <ToggleGroup fx:id="toggleGroup" />

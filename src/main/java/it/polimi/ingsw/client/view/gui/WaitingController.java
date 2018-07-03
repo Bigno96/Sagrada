@@ -1,21 +1,26 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 
 import java.util.List;
 
 public class WaitingController implements ControlInterface{
 
+    private static final String STARTING_GAME = "GAME_WILL_START";
+
     @FXML
-    public TextField textField;
+    public TextArea textArea;
 
     private GuiSystem guiSystem;
 
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
-        this.textField.setText("La partita sta per iniziare");
+        ViewMessageParser dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.textArea.setText(dictionary.getMessage(STARTING_GAME));
 
     }
 
@@ -26,7 +31,7 @@ public class WaitingController implements ControlInterface{
 
     public void print(String s) {
 
-        this.textField.appendText("\n"+s);
+        this.textArea.appendText("\n"+s);
 
     }
 
