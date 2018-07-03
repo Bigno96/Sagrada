@@ -119,8 +119,10 @@ public class GameTest extends TestCase {
     /**
      * Testing the correct order of the turn
      * @throws SamePlayerException when trying to add same player twice
+     * @throws EmptyException when finds an empty dice bag
+     * @throws IDNotFoundException when internal error on adding dice occurs
      */
-    public void testCurrentPlayer() throws SamePlayerException {
+    public void testCurrentPlayer() throws SamePlayerException, SameDiceException, EmptyException, IDNotFoundException {
         Game game = new Game();
         Player p = new Player(id1);
         Player p1 = new Player(id2);

@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -106,6 +107,11 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     @Override
     public void showDraft(List<Dice> draft) {
+
+    }
+
+    @Override
+    public void showRoundTrack(RoundTrack roundTrack) {
 
     }
 

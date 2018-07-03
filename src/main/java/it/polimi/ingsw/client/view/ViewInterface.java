@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -74,6 +75,12 @@ public interface ViewInterface {
      * @param draft = game.getBoard().getDraft()
      */
     void showDraft(List<Dice> draft);
+
+    /**
+     * Used to show on screen Round Track at the end of round
+     * @param roundTrack = game.getBoard().getRoundTrack()
+     */
+    void showRoundTrack(RoundTrack roundTrack);
 
     /**
      * Used to place dice

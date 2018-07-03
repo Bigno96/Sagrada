@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -133,6 +134,15 @@ public class RmiClientSpeaker implements ClientSpeaker {
     public void showDraft(Draft draft) {
         try {
             client.showDraft(draft);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void showRoundTrack(RoundTrack roundTrack) {
+        try {
+            client.showRoundTrack(roundTrack);
         } catch (RemoteException e) {
             out.println(e.getMessage());
         }

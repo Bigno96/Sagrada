@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -39,6 +40,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String SEND_LIST_CARD_KEYWORD = "SEND_LIST_CARD";
     private static final String SHOW_USER_CARD_KEYWORD = "SHOW_USER_CARD";
     private static final String SHOW_DRAFT_KEYWORD = "SHOW_DRAFT";
+    private static final String SHOW_ROUND_TRACK_KEYWORD = "SHOW_ROUND_TRACK";
     private static final String MAKE_DRAFT_KEYWORD = "MAKE_DRAFT";
     private static final String PRINT_CARD_KEYWORD = "PRINT_CARD";
     private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
@@ -77,6 +79,12 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String TOOL_NAME_KEYWORD = "TOOL_NAME";
     private static final String MAKE_TOOL_LIST_KEYWORD = "MAKE_TOOL_LIST";
     private static final String MAKE_TOOL_CARD_KEYWORD = "MAKE_TOOL_CARD";
+
+    private static final String MAKE_ROUND_TRACK_KEYWORD = "MAKE_ROUND_TRACK";
+    private static final String MAKE_LIST_ROUND_KEYWORD = "MAKE_LIST_ROUND";
+    private static final String NUM_ROUND_KEYWORD = "NUM_ROUND";
+    private static final String ADD_LIST_ROUND_KEYWORD = "ADD_LIST_ROUND";
+    private static final String ADD_DICE_ROUND_KEYWORD = "ADD_DICE_ROUND";
 
     private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
@@ -344,7 +352,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     /**
      * Deconstruct Dice for passing through socket
      * @param dice to be deconstructed
-     * @param type DICE_DRAFT_KEYWORD if it's a single dice, DICE_KEYWORD if one of the dice of a list
+     * @param type DICE_DRAFT_KEYWORD if one of the dice of a list, DICE_KEYWORD if it's a single dice
      */
     private void deconstructDice(Dice dice, String type) {
         socketOut.println(protocol.getMessage(DICE_ID_KEYWORD));
@@ -375,6 +383,35 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             socketOut.println(" ");
 
             socketOut.flush();
+        }
+    }
+
+    @Override
+    public void showRoundTrack(RoundTrack roundTrack) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(MAKE_ROUND_TRACK_KEYWORD));
+            socketOut.println(" ");
+
+            roundTrack.getTrackList().forEach(listDiceRound -> {
+                socketOut.println(protocol.getMessage(MAKE_LIST_ROUND_KEYWORD));
+                socketOut.println(" ");
+
+                listDiceRound.itr().forEachRemaining(dice -> {
+                    deconstructDice(dice, DICE_KEYWORD);
+
+                    socketOut.println(protocol.getMessage(ADD_DICE_ROUND_KEYWORD));
+                    socketOut.println(" ");
+                });
+
+                socketOut.println(protocol.getMessage(NUM_ROUND_KEYWORD));
+                socketOut.println(roundTrack.getTrackList().indexOf(listDiceRound));
+
+                socketOut.println(protocol.getMessage(ADD_LIST_ROUND_KEYWORD));
+                socketOut.println(" ");
+            });
+
+            socketOut.println(protocol.getMessage(SHOW_ROUND_TRACK_KEYWORD));
+            socketOut.println(" ");
         }
     }
 

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
+import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
+import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.model.game.Game;
 import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
@@ -55,8 +57,11 @@ public class RoundTest extends TestCase {
     /**
      * Testing the correct round sequence
      * @throws PlayerNotFoundException thrown by getPlayer when player is not found
+     * @throws SameDiceException when move Draft finds a dice already in round Track
+     * @throws EmptyException when finds an empty dice bag
+     * @throws IDNotFoundException when internal error on adding dice occurs
      */
-    public void testNextRound() throws PlayerNotFoundException {
+    public void testNextRound() throws PlayerNotFoundException, SameDiceException, EmptyException, IDNotFoundException {
         List<Player> list = myPlayerList();
         Game game = new Game();
         game.startGame();
@@ -68,6 +73,7 @@ public class RoundTest extends TestCase {
         assertSame(round.getPlayer("test"+0), round.nextPlayer());
         assertNull(round.nextPlayer());
 
+        game.setNumRound(1);
         round.nextRound();
 
         assertSame(round.getPlayer("test"+1), round.nextPlayer());

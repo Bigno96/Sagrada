@@ -12,6 +12,8 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
+import it.polimi.ingsw.server.model.roundtrack.ListDiceRound;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -44,6 +46,7 @@ public class SocketServerListener implements Runnable {
     private static final String SEND_LIST_CARD_KEYWORD = "SEND_LIST_CARD";
     private static final String SHOW_USER_CARD_KEYWORD = "SHOW_USER_CARD";
     private static final String SHOW_DRAFT_KEYWORD = "SHOW_DRAFT";
+    private static final String SHOW_ROUND_TRACK_KEYWORD = "SHOW_ROUND_TRACK";
     private static final String MAKE_DRAFT_KEYWORD = "MAKE_DRAFT";
     private static final String PRINT_CARD_KEYWORD = "PRINT_CARD";
     private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
@@ -82,6 +85,12 @@ public class SocketServerListener implements Runnable {
     private static final String TOOL_NAME_KEYWORD = "TOOL_NAME";
     private static final String MAKE_TOOL_LIST_KEYWORD = "MAKE_TOOL_LIST";
     private static final String MAKE_TOOL_CARD_KEYWORD = "MAKE_TOOL_CARD";
+
+    private static final String MAKE_ROUND_TRACK_KEYWORD = "MAKE_ROUND_TRACK";
+    private static final String MAKE_LIST_ROUND_KEYWORD = "MAKE_LIST_ROUND";
+    private static final String NUM_ROUND_KEYWORD = "NUM_ROUND";
+    private static final String ADD_LIST_ROUND_KEYWORD = "ADD_LIST_ROUND";
+    private static final String ADD_DICE_ROUND_KEYWORD = "ADD_DICE_ROUND";
 
     private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
@@ -130,6 +139,10 @@ public class SocketServerListener implements Runnable {
     private List<ToolCard> toolCard;
     private int toolId;
     private String toolName;
+
+    private RoundTrack roundTrack;
+    private ListDiceRound listDiceRound;
+    private int numRound;
 
     private String username;
     private String otherUserName;
@@ -223,7 +236,7 @@ public class SocketServerListener implements Runnable {
                 cellList.add(new Cell(cellValue, cellColor, row, col,
                         settings.getWindowCardMaxRow(), settings.getWindowCardMaxColumn()));
             } catch (ValueException | PositionException e) {
-                view.print(e.getMessage());
+                view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
             }
         };
 
@@ -236,14 +249,14 @@ public class SocketServerListener implements Runnable {
             try {
                 draft.add(new Dice(diceId, diceColor, diceValue));
             } catch (IDNotFoundException e) {
-                view.print(e.getMessage());
+                view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
             }
         };
         Consumer<String> makeDice = string -> {
             try {
                 dice = new Dice(diceId, diceColor, diceValue);
             } catch (IDNotFoundException e) {
-                view.print(e.getMessage());
+                view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
             }
         };
 
@@ -260,6 +273,26 @@ public class SocketServerListener implements Runnable {
         Consumer<String> makeToolList = string -> toolCard.clear();
         Consumer<String> makeToolCard = string -> toolCard.add(new ToolCard(toolId, toolName, null, null));
         Consumer<String> showToolCard = string -> view.printListToolCard(toolCard);
+
+        Consumer<String> makeRoundTrack = string -> roundTrack = new RoundTrack(null);
+        Consumer<String> makeListRound = string -> listDiceRound = new ListDiceRound();
+        Consumer<String> setNumRound = round -> numRound = Integer.parseInt(round);
+        Consumer<String> addDiceRound = string -> {
+            try {
+                listDiceRound.addDice(dice);
+            } catch (SameDiceException e) {
+                view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
+            }
+        };
+        Consumer<String> addListRound = string ->
+          listDiceRound.itr().forEachRemaining(d -> {
+              try {
+                  roundTrack.addDice(d, numRound);
+              } catch (SameDiceException | RoundNotFoundException e) {
+                  view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
+              }
+          });
+        Consumer<String> showRoundTrack = string -> view.showRoundTrack(roundTrack);
 
         Consumer<String> placementDice = string -> view.successfulPlacementDice(username, cellList.get(0), dice);
 
@@ -316,6 +349,13 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(MAKE_TOOL_LIST_KEYWORD), makeToolList);
         commandMap.put(protocol.getMessage(MAKE_TOOL_CARD_KEYWORD), makeToolCard);
         commandMap.put(protocol.getMessage(SHOW_TOOL_CARD_KEYWORD), showToolCard);
+
+        commandMap.put(protocol.getMessage(MAKE_ROUND_TRACK_KEYWORD), makeRoundTrack);
+        commandMap.put(protocol.getMessage(MAKE_LIST_ROUND_KEYWORD), makeListRound);
+        commandMap.put(protocol.getMessage(NUM_ROUND_KEYWORD), setNumRound);
+        commandMap.put(protocol.getMessage(ADD_DICE_ROUND_KEYWORD), addDiceRound);
+        commandMap.put(protocol.getMessage(ADD_LIST_ROUND_KEYWORD), addListRound);
+        commandMap.put(protocol.getMessage(SHOW_ROUND_TRACK_KEYWORD), showRoundTrack);
 
         commandMap.put(protocol.getMessage(SUCCESSFUL_PLACE_DICE_KEYWORD), placementDice);
 

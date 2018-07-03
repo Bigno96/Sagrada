@@ -5,14 +5,11 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class Draft implements Serializable {
+public class Draft extends Observable implements Serializable {
 
     private static final String NO_DICE = "No Dice in Bag";
     private static final String NOT_ENOUGH_DICE = "Not Enough Dices in Bag";
@@ -67,6 +64,9 @@ public class Draft implements Serializable {
             diceBag.rmDice(d);
             draftList.add(d);
         }
+
+        setChanged();
+        notifyObservers();
 
         return true;
     }

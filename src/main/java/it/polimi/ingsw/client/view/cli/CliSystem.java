@@ -6,6 +6,7 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -35,6 +36,7 @@ public class CliSystem implements ViewInterface {
     private static final String OBJECTIVE_POINT_KEYWORD = "OBJECTIVE_POINT";
 
     private static final String TOOL_CARD_KEYWORD = "TOOL_CARD";
+    private static final String SHOW_ROUND_TRACK_KEYWORD = "SHOW_ROUND_TRACK";
 
     private static final String OTHER_PLAYER_TURN_KEYWORD = "OTHER_PLAYER_TURN";
     private static final String YOUR_TURN_KEYWORD = "YOUR_TURN";
@@ -50,6 +52,7 @@ public class CliSystem implements ViewInterface {
     private static final String YOU_PLACED_DICE = "Hai piazzato il dado: ";
     private static final String OTHER_PLACED_DICE = " ha piazzato il dado: ";
     private static final String IN_CELL = " nella cella: ";
+    private static final String ROUND = "Round ";
 
     private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
     private static final String QUIT_KEYWORD = "QUIT";
@@ -267,10 +270,27 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void showDraft(List<Dice> draft) {
+        print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
+
         draft.forEach(dice ->
                 out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
 
         semaphore.release();
+    }
+
+    /**
+     * @param roundTrack = game.getBoard().getRoundTrack()
+     */
+    @Override
+    public void showRoundTrack(RoundTrack roundTrack) {
+        roundTrack.getTrackList().forEach(listDiceRound -> {
+            out.print(ROUND + roundTrack.getTrackList().indexOf(listDiceRound) + ": ");
+
+            listDiceRound.itr().forEachRemaining(dice ->
+                    out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
+
+            out.print("\n");
+        });
     }
 
     /**
@@ -338,7 +358,6 @@ public class CliSystem implements ViewInterface {
             Thread.currentThread().interrupt();
         }
 
-        print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
         serverSpeaker.askDraft(userName);
 
         try {
