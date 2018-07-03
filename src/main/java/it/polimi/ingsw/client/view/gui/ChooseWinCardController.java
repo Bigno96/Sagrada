@@ -2,10 +2,15 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -22,10 +27,10 @@ public class ChooseWinCardController implements ControlInterface {
     @FXML
     public ImageView img3;
     @FXML
-    public TextField usernameText1;
+    public TextArea textArea;
 
     private GuiSystem guiSystem;
-    private List<WindowCard> cards;
+  /*  private List<WindowCard> cards;
 
     public void setList(List<WindowCard> list){
         cards = list;
@@ -78,7 +83,7 @@ public class ChooseWinCardController implements ControlInterface {
     ChooseWinCardController(){
 
     }
-/*
+
     public void wind0(){
 
         guiSystem.setWindowCard(cards.get(0));
@@ -101,17 +106,40 @@ public class ChooseWinCardController implements ControlInterface {
 
         guiSystem.setWindowCard(cards.get(3));
         guiSystem.inizializeBoard();
-    }
-*/
-    @Override
-    public void print(String message) {
 
-        usernameText1.setText(message);
+    }*/
+
+    @Override
+    public void print(String s) {
+
+        this.textArea.appendText("\n"+s);
 
     }
 
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
+    }
+
+    @Override
+    public void setList(List<WindowCard> cards) {
+
+        //Image firstWindow = new Image( "@Aurora Sagratis.png" );
+/*
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getResource("@../img/Sagrada-Logo-RGB.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+*/
+
+        //Image firstWindow = new Image( "/home/gio/Scrivania/Sagrada/src/main/resources/img/WindowCard/Aurora Sagradis.png" );
+
+        //Image firstWindow = new Image("@../img/Sagrada-Logo-RGB.jpg");
+
+        Image firstWindow = new Image(baseURL + cards.get(0).getName() + ".png");
+        img0.setImage(firstWindow);
+
     }
 
 }
