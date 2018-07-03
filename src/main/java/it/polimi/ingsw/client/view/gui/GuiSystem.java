@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
+import static java.lang.System.out;
+
 public class GuiSystem implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
@@ -54,7 +56,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
 
-        System.out.println("choose");
+        out.println("choose");
 
         Platform.runLater(() -> {
             Parent root = null;
@@ -253,4 +255,5 @@ public class GuiSystem implements ViewInterface{
     public WindowCard getWindowCard() {
         return windowCard;
     }
+
 }

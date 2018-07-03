@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -22,10 +23,10 @@ public class ChooseWinCardController implements ControlInterface {
     @FXML
     public ImageView img3;
     @FXML
-    public TextField usernameText1;
+    public TextArea textArea;
 
     private GuiSystem guiSystem;
-    private List<WindowCard> cards;
+  /*  private List<WindowCard> cards;
 
     public void setList(List<WindowCard> list){
         cards = list;
@@ -102,17 +103,22 @@ public class ChooseWinCardController implements ControlInterface {
         guiSystem.setWindowCard(cards.get(3));
         guiSystem.inizializeBoard();
 
-    }
+    }*/
 
     @Override
-    public void print(String message) {
+    public void print(String s) {
 
-        usernameText1.setText(message);
+        this.textArea.appendText("\n"+s);
 
     }
 
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
+    }
+
+    @Override
+    public void setList(List<WindowCard> cards) {
+
     }
 
 }
