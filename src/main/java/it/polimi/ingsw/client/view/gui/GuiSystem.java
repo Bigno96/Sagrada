@@ -58,8 +58,6 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
 
-        out.println("choose");
-
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));

@@ -7,37 +7,32 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="618.0" prefWidth="765.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.polimi.ingsw.client.view.gui.ChooseWinCardController">
+<AnchorPane prefHeight="601.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.ChooseWinCardController">
 
-    <Text layoutX="292.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Segli la tua vetrata">
-      <font>
-         <Font size="27.0" />
-      </font></Text>
-   <TextArea fx:id="textArea" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false" layoutX="13.0" layoutY="536.0" prefHeight="68.0" prefWidth="745.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-   <Button layoutX="10.0" layoutY="73.0" mnemonicParsing="false" onAction="#choose0" prefHeight="193.0" prefWidth="377.0"
-           AnchorPane.leftAnchor="5.0">
+    <Text layoutX="202.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Segli la tua vetrata">
+        <font>
+            <Font size="27.0" />
+        </font></Text>
+    <TextArea fx:id="textArea" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false" layoutX="10.0" layoutY="525.0" prefHeight="69.0" prefWidth="641.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+   <Button layoutY="64.0" mnemonicParsing="false" prefHeight="212.0" prefWidth="258.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="64.0">
       <graphic>
-         <ImageView fx:id="img0" fitHeight="224.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
+          <ImageView fx:id="img0" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
       </graphic>
    </Button>
-   <Button layoutX="410.0" layoutY="73.0" mnemonicParsing="false" onAction="#choose1" prefHeight="208.0" prefWidth="377.0"
-           AnchorPane.rightAnchor="5.0">
+   <Button layoutX="331.0" layoutY="64.0" mnemonicParsing="false" prefHeight="212.0" prefWidth="258.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="64.0">
       <graphic>
-         <ImageView fx:id="img1" fitHeight="224.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="img1" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
       </graphic>
    </Button>
-   <Button layoutX="5.0" layoutY="307.0" mnemonicParsing="false" onAction="#choose2" prefHeight="193.0" prefWidth="377.0"
-           AnchorPane.leftAnchor="383.0">
+   <Button layoutX="14.0" layoutY="301.0" mnemonicParsing="false" prefHeight="212.0" prefWidth="258.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="301.0">
       <graphic>
-         <ImageView fx:id="img2" fitHeight="224.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="img2" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
       </graphic>
    </Button>
-   <Button layoutX="5.0" layoutY="307.0" mnemonicParsing="false" onAction="#choose3" prefHeight="208.0" prefWidth="377.0"
-           AnchorPane.leftAnchor="5.0">
+   <Button layoutX="341.0" layoutY="301.0" mnemonicParsing="false" prefHeight="212.0" prefWidth="258.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="301.0">
       <graphic>
-         <ImageView fx:id="img3" fitHeight="224.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="img3" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
       </graphic>
    </Button>
-    
+
 </AnchorPane>
