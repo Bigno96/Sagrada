@@ -171,7 +171,12 @@ class CliAskConnection {
             return false;
 
         List<Integer> intParts = new ArrayList<>();
-        Arrays.asList(parts).forEach(string -> intParts.add(Integer.parseInt(string)));        // convert to integer
+        Arrays.asList(parts).forEach(string -> {
+            if (string != null && !string.equals(""))
+                intParts.add(Integer.parseInt(string));                // convert to integer
+            else
+                intParts.add(-1);
+        });
 
         Boolean okay = intParts.stream()
                 .noneMatch(x -> x < 0 || x > 255);

@@ -103,9 +103,6 @@ public class MenuTask implements Runnable {
      */
     @Override
     public void run() {
-        currentState.remove(state.MOVED);
-        currentState.remove(state.USED);
-
         while (!currentState.contains(state.EXIT)) {
 
             synchronized (this) {
@@ -176,8 +173,9 @@ public class MenuTask implements Runnable {
                 cliSystem.moveDice();
                 cliSystem.acquireSemaphore();       //  released by wrongPlacement or successfulPlacement
                 // releasing of semaphore or playingAction.accept made by print window card
-            } else
+            } else {
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
+            }
         };
 
         Consumer<String> use = string -> {         // use a tool card
@@ -190,6 +188,8 @@ public class MenuTask implements Runnable {
 
         Consumer<String> pass = string -> {       // end turn
             currentState.add(state.PASSING);
+            currentState.remove(state.MOVED);
+            currentState.remove(state.USED);
             cliSystem.print(dictionary.getMessage(PASSED_KEYWORD));
             cliSystem.releaseSemaphore();               // release for playingAction.accept
             serverSpeaker.endTurn(cliSystem.getUserName());

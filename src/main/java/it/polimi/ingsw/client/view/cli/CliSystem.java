@@ -274,6 +274,7 @@ public class CliSystem implements ViewInterface {
         draft.forEach(dice ->
                 out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
 
+        out.print("\n");
         semaphore.release();
     }
 
