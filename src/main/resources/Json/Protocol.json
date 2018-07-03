@@ -25,6 +25,7 @@
   "GET_CARD": "get_card",
   "SHOW_PUBLIC_OBJ": "show_public_obj",
   "SHOW_PRIVATE_OBJ": "show_private_obj",
+  "SHOW_TOOL_CARD": "show_tool_card",
   "PLACE_DICE": "place_dice",
   "SUCCESSFUL_PLACE_DICE": "place_dice_success",
 
@@ -70,6 +71,11 @@
   "INDEX_DICE_PLACING": "index_dice",
   "ROW_CELL_PLACING": "row_cell_placing",
   "COL_CELL_PLACING": "col_cell_placing",
+
+  "TOOL_ID": "tool_id",
+  "TOOL_NAME": "tool_name",
+  "MAKE_TOOL_LIST": "make_tool_list",
+  "MAKE_TOOL_CARD": "tool_card",
 
   "RANKING": "ranking",
   "RANKING_ENTRY": "ranking_entry",

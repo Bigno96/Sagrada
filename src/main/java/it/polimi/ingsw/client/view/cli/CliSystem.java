@@ -6,6 +6,7 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import org.fusesource.jansi.Ansi;
@@ -32,6 +33,8 @@ public class CliSystem implements ViewInterface {
     private static final String PRIVATE_OBJECTIVE_KEYWORD = "PRIVATE_OBJECTIVE_CHOSEN";
     private static final String PUBLIC_OBJECTIVE_KEYWORD = "PUBLIC_OBJECTIVE";
     private static final String OBJECTIVE_POINT_KEYWORD = "OBJECTIVE_POINT";
+
+    private static final String TOOL_CARD_KEYWORD = "TOOL_CARD";
 
     private static final String OTHER_PLAYER_TURN_KEYWORD = "OTHER_PLAYER_TURN";
     private static final String YOUR_TURN_KEYWORD = "YOUR_TURN";
@@ -230,9 +233,15 @@ public class CliSystem implements ViewInterface {
      * @param publicObj publicObj.size() = 3
      */
     @Override
-    public void printPublicObj(List<ObjectiveCard> publicObj) {
+    public void printListPublicObj(List<ObjectiveCard> publicObj) {
         print(dictionary.getMessage(PUBLIC_OBJECTIVE_KEYWORD));
         publicObj.forEach(p -> print("- " + p.getDescription() + dictionary.getMessage(OBJECTIVE_POINT_KEYWORD) + p.getPoint()));
+    }
+
+    @Override
+    public void printListToolCard(List<ToolCard> toolCards) {
+        print(dictionary.getMessage(TOOL_CARD_KEYWORD));
+        toolCards.forEach(tool -> print("- " + tool.getName()));
     }
 
     /**

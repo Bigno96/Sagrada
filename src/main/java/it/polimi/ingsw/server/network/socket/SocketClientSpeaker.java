@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -43,6 +44,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
     private static final String SHOW_PUBLIC_OBJ_KEYWORD = "SHOW_PUBLIC_OBJ";
     private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
+    private static final String SHOW_TOOL_CARD_KEYWORD = "SHOW_TOOL_CARD";
     private static final String SUCCESSFUL_PLACE_DICE_KEYWORD = "SUCCESSFUL_PLACE_DICE";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
@@ -70,6 +72,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String OBJ_POINT_KEYWORD = "OBJ_POINT";
     private static final String MAKE_PUBLIC_LIST_KEYWORD = "MAKE_PUBLIC_LIST";
     private static final String MAKE_PUBLIC_OBJ_KEYWORD = "MAKE_PUBLIC_OBJ";
+
+    private static final String TOOL_ID_KEYWORD = "TOOL_ID";
+    private static final String TOOL_NAME_KEYWORD = "TOOL_NAME";
+    private static final String MAKE_TOOL_LIST_KEYWORD = "MAKE_TOOL_LIST";
+    private static final String MAKE_TOOL_CARD_KEYWORD = "MAKE_TOOL_CARD";
 
     private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
@@ -375,7 +382,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      * @param publicObj publicObj.size() = 3
      */
     @Override
-    public void printPublicObj(List<ObjectiveCard> publicObj) {
+    public void printListPublicObj(List<ObjectiveCard> publicObj) {
         synchronized (lock) {
             socketOut.println(protocol.getMessage(MAKE_PUBLIC_LIST_KEYWORD));
             socketOut.println(" ");
@@ -414,6 +421,33 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             socketOut.println(privateObj.getDescription());
 
             socketOut.println(protocol.getMessage(SHOW_PRIVATE_OBJ_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * @param toolCards toolCards.size() = 3
+     */
+    @Override
+    public void printListToolCard(List<ToolCard> toolCards) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(MAKE_TOOL_LIST_KEYWORD));
+            socketOut.println(" ");
+
+            toolCards.forEach(tool -> {
+                socketOut.println(protocol.getMessage(TOOL_ID_KEYWORD));
+                socketOut.println(tool.getId());
+
+                socketOut.println(protocol.getMessage(TOOL_NAME_KEYWORD));
+                socketOut.println(tool.getName());
+
+                socketOut.println(protocol.getMessage(MAKE_TOOL_CARD_KEYWORD));
+                socketOut.println(" ");
+            });
+
+            socketOut.println(protocol.getMessage(SHOW_TOOL_CARD_KEYWORD));
             socketOut.println(" ");
 
             socketOut.flush();

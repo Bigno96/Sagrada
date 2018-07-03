@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class Player extends Observable {
 
-    private static final String NOTIFY_PRIVATE_OBJ = "PrivateObjective";
+    private static final String PRIVATE_OBJECTIVE_OBSERVER_MSG = "PrivateObjective";
 
     private static final String DUMP_ID_MSG = "ID: ";
     private static final String DUMP_PRIVATE_MSG = " PrivateObj: ";
@@ -127,7 +127,7 @@ public class Player extends Observable {
         this.privateObj = privateObj;
 
         setChanged();
-        notifyObservers(NOTIFY_PRIVATE_OBJ);
+        notifyObservers(PRIVATE_OBJECTIVE_OBSERVER_MSG);
     }
 
     /**

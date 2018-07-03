@@ -111,7 +111,12 @@ public class GuiSystem extends Thread implements ViewInterface{
      * @param publObj
      */
     @Override
-    public void printPublicObj(List<ObjectiveCard> publObj) {
+    public void printListPublicObj(List<ObjectiveCard> publObj) {
+
+    }
+
+    @Override
+    public void printListToolCard(List<ToolCard> toolCards) {
 
     }
 

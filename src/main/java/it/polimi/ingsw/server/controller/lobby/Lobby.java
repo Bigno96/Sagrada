@@ -51,7 +51,6 @@ public class Lobby {
     private GameController gameController;
     private RoundController roundController;
     private ActionController actionController;
-    private TimerTurnDaemon timerTurn;
 
     private final CommunicationParser protocol;
     private final GameSettingsParser settings;
@@ -260,7 +259,7 @@ public class Lobby {
      */
     public void startCountingRound() {
         Timer timer = new Timer();
-        timerTurn = new TimerTurnDaemon(this);
+        TimerTurnDaemon timerTurn = new TimerTurnDaemon(this);
         roundController = new RoundController(this, game, timerTurn);
 
         try {

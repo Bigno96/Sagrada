@@ -57,7 +57,7 @@ public class TimerTurnDaemon extends TimerTask {
     /**
      * Used to restart counter, setting count = 0
      */
-    public void resetCount() {
+    void resetCount() {
         this.count = 0;
     }
 }

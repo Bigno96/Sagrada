@@ -4,16 +4,15 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
+import it.polimi.ingsw.parser.gamedataparser.ToolCardParser;
 import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
-import it.polimi.ingsw.server.controller.observer.ChoiceWindowCardObserver;
-import it.polimi.ingsw.server.controller.observer.SetDiceObserver;
-import it.polimi.ingsw.server.controller.observer.SetObjectiveObserver;
-import it.polimi.ingsw.server.controller.observer.TurnObserver;
+import it.polimi.ingsw.server.controller.observer.*;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
 
@@ -84,6 +83,9 @@ public class GameController {
         used.clear();
         setPrivateObjective(used);
 
+        used.clear();
+        setToolCard(used);
+
         lobby.startCountingRound();
     }
 
@@ -126,6 +128,7 @@ public class GameController {
         players.entrySet().parallelStream().forEach(attachObserver);
         game.addObserver(new TurnObserver(lobby));
         game.getBoard().addObserver(new SetObjectiveObserver(lobby));
+        game.getBoard().addObserver(new SetToolCardObserver(lobby));
     }
 
     /**
@@ -247,5 +250,27 @@ public class GameController {
                 out.println(e.getMessage());
             }
         });
+    }
+
+    /**
+     * Set game's tool card and informs all players
+     * @param used list of integer to avoid duplicating
+     */
+    public void setToolCard(List<Integer> used) {
+        ToolCardParser cardParser = (ToolCardParser) ParserManager.getToolCardParser();
+
+        List<Integer> nRand = createNRandom(3, used, 13);
+
+        List<ToolCard> tools = new ArrayList<>();
+
+        nRand.forEach(integer -> {
+            try {
+                tools.add(cardParser.makeToolCard(integer, game));
+            } catch (FileNotFoundException e) {
+                out.println(e.getMessage());
+            }
+        });
+
+        game.getBoard().setToolCard(tools.get(0), tools.get(1), tools.get(2));
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.network;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
@@ -75,13 +76,19 @@ public interface ClientSpeaker {
      * Used to show all Public Objectives selected for the current game on Player's view
      * @param publicObj publicObj.size() = 3
      */
-    void printPublicObj(List<ObjectiveCard> publicObj);
+    void printListPublicObj(List<ObjectiveCard> publicObj);
 
     /**
      * Used to show Private Objective to owner's view
      * @param privateObj = Player.getPrivateObjective()
      */
     void printPrivateObj(ObjectiveCard privateObj);
+
+    /**
+     * Used to show all Tool Cards selected for the current game on Player's view
+     * @param toolCards toolCards.size() = 3
+     */
+    void printListToolCard(List<ToolCard> toolCards);
 
     /**
      * Used when game ends to print final ranking

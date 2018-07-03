@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
@@ -48,6 +49,7 @@ public class SocketServerListener implements Runnable {
     private static final String NEXT_TURN_KEYWORD = "NEXT_TURN";
     private static final String SHOW_PUBLIC_OBJ_KEYWORD = "SHOW_PUBLIC_OBJ";
     private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
+    private static final String SHOW_TOOL_CARD_KEYWORD = "SHOW_TOOL_CARD";
     private static final String SUCCESSFUL_PLACE_DICE_KEYWORD = "SUCCESSFUL_PLACE_DICE";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
@@ -75,6 +77,11 @@ public class SocketServerListener implements Runnable {
     private static final String OBJ_POINT_KEYWORD = "OBJ_POINT";
     private static final String MAKE_PUBLIC_LIST_KEYWORD = "MAKE_PUBLIC_LIST";
     private static final String MAKE_PUBLIC_OBJ_KEYWORD = "MAKE_PUBLIC_OBJ";
+
+    private static final String TOOL_ID_KEYWORD = "TOOL_ID";
+    private static final String TOOL_NAME_KEYWORD = "TOOL_NAME";
+    private static final String MAKE_TOOL_LIST_KEYWORD = "MAKE_TOOL_LIST";
+    private static final String MAKE_TOOL_CARD_KEYWORD = "MAKE_TOOL_CARD";
 
     private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
@@ -120,6 +127,10 @@ public class SocketServerListener implements Runnable {
     private String objDescription;
     private int objPoint;
 
+    private List<ToolCard> toolCard;
+    private int toolId;
+    private String toolName;
+
     private String username;
     private String otherUserName;
 
@@ -144,6 +155,7 @@ public class SocketServerListener implements Runnable {
         this.cellList = new ArrayList<>();
         this.draft = new ArrayList<>();
         this.publicObj = new ArrayList<>();
+        this.toolCard = new ArrayList<>();
         this.ranking = new TreeMap<>();
 
         mapGameException();
@@ -240,8 +252,14 @@ public class SocketServerListener implements Runnable {
         Consumer<String> setObjPoint = point -> objPoint = Integer.parseInt(point);
         Consumer<String> makePublicList = string -> publicObj.clear();
         Consumer<String> makePublicCard = string -> publicObj.add(new PublicObjective(objId, objDescription, objPoint));
-        Consumer<String> showPublicCard = string -> view.printPublicObj(publicObj);
+        Consumer<String> showPublicCard = string -> view.printListPublicObj(publicObj);
         Consumer<String> showPrivateCard = string -> view.printPrivateObj(new PrivateObjective(objId, objDescription));
+
+        Consumer<String> setToolId = id -> toolId = Integer.parseInt(id);
+        Consumer<String> setToolName = name -> toolName = name;
+        Consumer<String> makeToolList = string -> toolCard.clear();
+        Consumer<String> makeToolCard = string -> toolCard.add(new ToolCard(toolId, toolName, null, null));
+        Consumer<String> showToolCard = string -> view.printListToolCard(toolCard);
 
         Consumer<String> placementDice = string -> view.successfulPlacementDice(username, cellList.get(0), dice);
 
@@ -292,6 +310,12 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(MAKE_PUBLIC_OBJ_KEYWORD), makePublicCard);
         commandMap.put(protocol.getMessage(SHOW_PUBLIC_OBJ_KEYWORD), showPublicCard);
         commandMap.put(protocol.getMessage(SHOW_PRIVATE_OBJ_KEYWORD), showPrivateCard);
+
+        commandMap.put(protocol.getMessage(TOOL_ID_KEYWORD), setToolId);
+        commandMap.put(protocol.getMessage(TOOL_NAME_KEYWORD), setToolName);
+        commandMap.put(protocol.getMessage(MAKE_TOOL_LIST_KEYWORD), makeToolList);
+        commandMap.put(protocol.getMessage(MAKE_TOOL_CARD_KEYWORD), makeToolCard);
+        commandMap.put(protocol.getMessage(SHOW_TOOL_CARD_KEYWORD), showToolCard);
 
         commandMap.put(protocol.getMessage(SUCCESSFUL_PLACE_DICE_KEYWORD), placementDice);
 

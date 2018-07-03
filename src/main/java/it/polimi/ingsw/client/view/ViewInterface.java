@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
@@ -54,7 +55,13 @@ public interface ViewInterface {
      * Used to print public objective of this current game
      * @param publicObj publicObj.size() = 3
      */
-    void printPublicObj(List<ObjectiveCard> publicObj);
+    void printListPublicObj(List<ObjectiveCard> publicObj);
+
+    /**
+     * Used to print tool cards of this current game
+     * @param toolCards toolCards.size() = 3
+     */
+    void printListToolCard(List<ToolCard> toolCards);
 
     /**
      * Used to get that is turn of Player with passed username
