@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
@@ -97,7 +98,12 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
-    public void printPublicObj(List<ObjectiveCard> publObj) {
+    public void printListPublicObj(List<ObjectiveCard> publObj) {
+
+    }
+
+    @Override
+    public void printListToolCard(List<ToolCard> toolCards) {
 
     }
 

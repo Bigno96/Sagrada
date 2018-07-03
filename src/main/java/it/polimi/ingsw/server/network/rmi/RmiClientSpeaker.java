@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
@@ -141,7 +142,7 @@ public class RmiClientSpeaker implements ClientSpeaker {
      * @param publicObj publicObj.size() = 3
      */
     @Override
-    public void printPublicObj(List<ObjectiveCard> publicObj) {
+    public void printListPublicObj(List<ObjectiveCard> publicObj) {
         try {
             client.printPublicObj(publicObj);
         } catch (RemoteException e) {
@@ -156,6 +157,18 @@ public class RmiClientSpeaker implements ClientSpeaker {
     public void printPrivateObj(ObjectiveCard privateObj) {
         try {
             client.printPrivateObj(privateObj);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * @param toolCards toolCards.size() = 3
+     */
+    @Override
+    public void printListToolCard(List<ToolCard> toolCards) {
+        try {
+            client.printListToolCard(toolCards);
         } catch (RemoteException e) {
             out.println(e.getMessage());
         }

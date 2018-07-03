@@ -21,6 +21,9 @@ public class Board extends Observable {
     private static final String DUMP_ROUND_TRACK_MSG = " RoundTrack: ";
     private static final String DUMP_N_PLAYER_MSG = " nPlayer: ";
 
+    private static final String PUBLIC_OBJECTIVE_OBSERVER_MSG = "PublicObjective";
+    private static final String TOOL_CARD_OBSERVER_MSG = "ToolCard";
+
     private List<ObjectiveCard> publicObj;
     private List<ToolCard> toolCard;
     private DiceBag diceBag;
@@ -68,7 +71,7 @@ public class Board extends Observable {
         this.publicObj.add(obj3);
 
         setChanged();
-        notifyObservers("PublicObjective");
+        notifyObservers(PUBLIC_OBJECTIVE_OBSERVER_MSG);
     }
 
     /**
@@ -81,6 +84,9 @@ public class Board extends Observable {
         this.toolCard.add(obj1);
         this.toolCard.add(obj2);
         this.toolCard.add(obj3);
+
+        setChanged();
+        notifyObservers(TOOL_CARD_OBSERVER_MSG);
     }
 
     /**

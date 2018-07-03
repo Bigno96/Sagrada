@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.network.rmi;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
@@ -83,7 +84,7 @@ public interface ClientRemote extends Remote {
     void showDraft(Draft draft) throws RemoteException;
 
     /**
-     * Used to show public objective cards
+     * Used to show public objective cards selected for the current game
      * @param publicObj publicObj.size() = 3
      * @throws RemoteException default
      */
@@ -97,8 +98,16 @@ public interface ClientRemote extends Remote {
     void printPrivateObj(ObjectiveCard privateObj) throws RemoteException;
 
     /**
+     * Used to show all Tool Cards selected for the current game
+     * @param toolCards toolCards.size() = 3
+     * @throws RemoteException default
+     */
+    void printListToolCard(List<ToolCard> toolCards) throws RemoteException;
+
+    /**
      * Used when game ends to print final ranking
      * @param ranking sorted map of player username and their points through the game
+     * @throws RemoteException default
      */
     void printRanking(SortedMap<Integer, String> ranking) throws RemoteException;
 }
