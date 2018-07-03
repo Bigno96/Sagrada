@@ -219,7 +219,7 @@ public class CliSystem implements ViewInterface {
         }
         print("");
 
-        semaphore.release();
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -229,6 +229,8 @@ public class CliSystem implements ViewInterface {
     public void printPrivateObj(ObjectiveCard privateObj) {
         print(dictionary.getMessage(PRIVATE_OBJECTIVE_KEYWORD));
         print(privateObj.getDescription());
+
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -238,12 +240,16 @@ public class CliSystem implements ViewInterface {
     public void printListPublicObj(List<ObjectiveCard> publicObj) {
         print(dictionary.getMessage(PUBLIC_OBJECTIVE_KEYWORD));
         publicObj.forEach(p -> print("- " + p.getDescription() + dictionary.getMessage(OBJECTIVE_POINT_KEYWORD) + p.getPoint()));
+
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
         print(dictionary.getMessage(TOOL_CARD_KEYWORD));
         toolCards.forEach(tool -> print("- " + tool.getName()));
+
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -260,8 +266,12 @@ public class CliSystem implements ViewInterface {
             taskMenu.setPlaying(false);
         }
 
-        if (menuThread.getState().equals(Thread.State.NEW))
+        semaphore.release();            // releasing for menuTask action.accept()
+
+        if (menuThread.getState().equals(Thread.State.NEW)) {
+            semaphore.drainPermits();
             menuThread.start();
+        }
     }
 
     /**
@@ -275,7 +285,7 @@ public class CliSystem implements ViewInterface {
                 out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
 
         out.print("\n");
-        semaphore.release();
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -283,6 +293,8 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void showRoundTrack(RoundTrack roundTrack) {
+        print(dictionary.getMessage(SHOW_ROUND_TRACK_KEYWORD));
+
         roundTrack.getTrackList().forEach(listDiceRound -> {
             out.print(ROUND + roundTrack.getTrackList().indexOf(listDiceRound) + ": ");
 
@@ -291,6 +303,8 @@ public class CliSystem implements ViewInterface {
 
             out.print("\n");
         });
+
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -308,7 +322,7 @@ public class CliSystem implements ViewInterface {
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
 
         taskMenu.setMoved();
-        semaphore.release();
+        // releasing for menuTask action.accept() is made by print window card called after this
     }
 
 
@@ -320,7 +334,7 @@ public class CliSystem implements ViewInterface {
         synchronized (this) {
             print(errorMsg);
         }
-        semaphore.release();
+        semaphore.release();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -372,10 +386,11 @@ public class CliSystem implements ViewInterface {
 
         col = getCol();
 
+        System.out.println("sempahore permits = " + semaphore.availablePermits());
         if (!quit)
             serverSpeaker.placementDice(userName, index, row, col);
         else
-            semaphore.release(2);
+            semaphore.drainPermits();
     }
 
     /**
