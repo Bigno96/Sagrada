@@ -88,6 +88,9 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    /**
+     * @param window window card to be printed
+     */
     @Override
     public void printWindowCard(WindowCard window) {
 

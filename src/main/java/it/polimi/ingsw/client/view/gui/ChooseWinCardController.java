@@ -20,6 +20,8 @@ import static java.lang.System.out;
 public class ChooseWinCardController implements ControlInterface {
 
     String baseURL = "/img/WindowCard/";
+    String exp = ".png";
+
     @FXML
     public ImageView img0;
     @FXML
@@ -125,32 +127,17 @@ public class ChooseWinCardController implements ControlInterface {
     @Override
     public void setList(List<WindowCard> cards) {
 
-        //Image firstWindow = new Image( "@Aurora Sagratis.png" );
-/*
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResource("@../img/Sagrada-Logo-RGB.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
-
-        //Image firstWindow = new Image( "/img/WindowCard/Aurora Sagradis.png" );
-
-        //Image firstWindow = new Image("@../img/Sagrada-Logo-RGB.jpg");
-
-        out.println("/img/WindowCard/" + cards.get(0).getName().replace("X","") + ".png");
-
-        String url = "/img/WindowCard/" + cards.get(0).getName() + ".png";
-        String url2 = cards.get(0).getName();
-
-        out.println(url);
-        out.println("\n");
-        out.println(url2);
-
-        Image firstWindow = new Image("/img/WindowCard/" + cards.get(0).getName() + ".png");
-
+        Image firstWindow = new Image(baseURL + cards.get(0).getName() + exp);
         img0.setImage(firstWindow);
+
+        Image secondWindow = new Image(baseURL + cards.get(1).getName() + exp);
+        img1.setImage(secondWindow);
+
+        Image thirdWindow = new Image(baseURL + cards.get(2).getName() + exp);
+        img2.setImage(thirdWindow);
+
+        Image fourthWindow = new Image(baseURL + cards.get(3).getName() + exp);
+        img3.setImage(fourthWindow);
 
     }
 
