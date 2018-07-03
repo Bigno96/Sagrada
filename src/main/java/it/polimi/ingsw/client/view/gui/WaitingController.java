@@ -1,49 +1,33 @@
 package it.polimi.ingsw.client.view.gui;
 
-import javafx.scene.text.Text;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 import java.util.List;
 
-public class WaitingController {
+public class WaitingController implements ControlInterface{
 
-    public Text firstPlayer;
-    public Text secondPlayer;
-    public Text thirdPlayer;
-    public Text fourthPlayer;
+    @FXML
+    public TextField textField;
 
-    List<String> players;
+    private GuiSystem guiSystem;
 
-    //set players
+    public void setGuiSystem(GuiSystem guiSystem) {
+        this.guiSystem = guiSystem;
+        this.textField.setText("La partita sta per iniziare");
 
-
-    public void setFirstPlayer(Text firstPlayer) {
-        this.firstPlayer = firstPlayer;
     }
 
-    public void setSecondPlayer(Text secondPlayer) {
-        this.secondPlayer = secondPlayer;
+    @Override
+    public void setList(List<WindowCard> cards) {
+
     }
 
-    public Text getThirdPlayer() {
-        return thirdPlayer;
+    public void print(String s) {
+
+        this.textField.appendText("\n"+s);
+
     }
 
-    public Text getFourthPlayer() {
-        return fourthPlayer;
-    }
-
-    public WaitingController(GuiSystem guiSystem){
-        while(true) {
-            /*if(new PlayerLogged){
-                players.add(newPlayerLogged.getUsername());
-              }
-             */
-           // if(guiSystem.chooseCard()) {
-                break;
-           // }
-        }
- //       guiSystem.chooseCard();
-    }
-
-    //Wait Start game
 }

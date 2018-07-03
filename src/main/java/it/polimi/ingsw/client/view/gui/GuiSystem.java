@@ -1,58 +1,41 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
-import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
+
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedMap;
 
-import it.polimi.ingsw.parser.ParserManager;
-import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
-
-import static java.lang.System.out;
-
 public class GuiSystem extends Thread implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
+    private static final String YOUR_TURN_KEY = "YOUR_TURN";
 
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
-    private WindowCard myCard;
-    private List<WindowCard> listOtherWindowCards;
-    private List<ToolCard> listToolCards;
-    private List<PublicObjective> publList;
-    private List<PrivateObjective> privList;
     private ViewMessageParser dictionary;
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    private LoginPageController ctrl;
-    private LoginPageController ctrlChooseController;
-    private LoginPageController ctrlBoardController;
-    private int nRound = 0;
+
+    private ControlInterface ctrl;
 
     /**
-     * Constructor
+     * Constructor of GuiSystem
      * @param primaryStage from ClientMain
      */
     public GuiSystem(Stage primaryStage){
@@ -61,13 +44,18 @@ public class GuiSystem extends Thread implements ViewInterface{
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
     }
 
-
     /**
+     * Load WindowCardPage
+     * Set List of Cards
+     * Return to server the card
      * @param cards cards.size() = 4
      */
     @Override
     public void chooseWindowCard(List<WindowCard> cards) {
-        /*Platform.runLater(() -> {
+
+        System.out.println("choose");
+
+        Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/WindowCardsPage.fxml"));
             try {
@@ -80,13 +68,14 @@ public class GuiSystem extends Thread implements ViewInterface{
             assert root != null;
             primaryStage.setScene(new Scene(root));
 
-            ctrlChooseController = loader.getController();
-            ctrlChooseController.setGuiSystem(this);
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
 
-            //ctrlChooseController.setList(cards);
+            ctrl.setList(cards);
 
             primaryStage.show();
-        });*/
+        });
+
     }
 
     @Override
@@ -99,17 +88,11 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     }
 
-    /**
-     * @param privObj
-     */
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
 
     }
 
-    /**
-     * @param publObj
-     */
     @Override
     public void printListPublicObj(List<ObjectiveCard> publObj) {
 
@@ -120,9 +103,6 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     }
 
-    /**
-     * @param draft = game.getBoard().getDraft()
-     */
     @Override
     public void showDraft(List<Dice> draft) {
 
@@ -138,28 +118,16 @@ public class GuiSystem extends Thread implements ViewInterface{
 
     }
 
-    /**
-     * @param username of player moving the dice
-     * @param dest     cell where the dice is being moved
-     * @param moved    dice being moved
-     */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
     }
 
-    /**
-     * @param errorMsg
-     */
     @Override
     public void wrongPlacementDice(String errorMsg) {
 
-
     }
 
-    /**
-     * @param ranking sorted map of player username and their points through the game
-     */
     @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
@@ -170,12 +138,9 @@ public class GuiSystem extends Thread implements ViewInterface{
      */
     @Override
     public void isTurn(String username) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("E' il tuo turno");
-        //alert.setHeaderText("E' il tuo turno");
-        alert.setContentText("Fa la tua mossa");
 
-        alert.showAndWait();
+        ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
+
     }
 
     /**
@@ -193,7 +158,7 @@ public class GuiSystem extends Thread implements ViewInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryStage.setTitle("Sagrada");
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
@@ -203,6 +168,7 @@ public class GuiSystem extends Thread implements ViewInterface{
 
             primaryStage.show();
         });
+
     }
 
     public void setUsername(String userName){
@@ -214,7 +180,6 @@ public class GuiSystem extends Thread implements ViewInterface{
     }
 
     void waitingPage(){
-        out.println("WaitingPage");
 
         Platform.runLater(() -> {
             Parent root = null;
@@ -228,15 +193,16 @@ public class GuiSystem extends Thread implements ViewInterface{
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
-/*
+
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
-*/
+
             primaryStage.show();
         });
+
     }
 
-    public void inizializeBoard() {
+    void inizializeBoard() {
         /*Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/Board.fxml"));
@@ -266,14 +232,6 @@ public class GuiSystem extends Thread implements ViewInterface{
 
             primaryStage.show();
         }); */
-    }
-
-    public void setWindowCard(WindowCard card){
-        myCard = card;
-    }
-
-    public int getnRound(){
-        return  nRound;
     }
 
 }
