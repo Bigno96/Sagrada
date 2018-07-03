@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -57,4 +58,31 @@ public class ChooseWinCardController implements ControlInterface {
 
     }
 
+    public void win0(ActionEvent event) {
+
+        guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(0).getName());
+
+    }
+
+    public void win1(ActionEvent event) {
+
+        guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(1).getName());
+
+    }
+
+    public void win2(ActionEvent event) {
+
+        guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(2).getName());
+
+    }
+
+    public void win3(ActionEvent event) {
+
+        guiSystem.inizializeBoard();
+        guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(3).getName());
+
+    }
 }
