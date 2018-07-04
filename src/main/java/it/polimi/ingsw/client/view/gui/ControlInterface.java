@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.util.List;
@@ -11,5 +15,19 @@ public interface ControlInterface {
     void setGuiSystem(GuiSystem guiSystem);
 
     void setList(List<WindowCard> cards);
+
+    void newCard();
+
+    void printDraft(List<Dice> Draft);
+
+    void printPrivateObj(ObjectiveCard privObj);
+
+    void printListToolCard(List<ToolCard> toolCards);
+
+    void printListPublObj(List<ObjectiveCard> publObj);
+
+    void updateCard(WindowCard window);
+
+    void updateRoundTrack(RoundTrack roundTrack);
 
 }

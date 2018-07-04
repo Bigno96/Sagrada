@@ -18,9 +18,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedMap;
+import java.util.*;
 
 import static java.lang.System.out;
 
@@ -35,7 +33,8 @@ public class GuiSystem implements ViewInterface{
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
-    private WindowCard windowCard;
+    private WindowCard myWindowCard;
+    public List<WindowCard> windowCards;
 
     private ControlInterface ctrl;
 
@@ -44,9 +43,12 @@ public class GuiSystem implements ViewInterface{
      * @param primaryStage from ClientMain
      */
     public GuiSystem(Stage primaryStage){
+
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        windowCards = new ArrayList<WindowCard>();
+
     }
 
     /**
@@ -81,10 +83,21 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    /**
+     * set Card at the star of game
+     * @param user = Player.getId()
+     * @param card = Player.getWindowCard().getName()
+     */
     @Override
     public void showCardPlayer(String user, WindowCard card) {
 
+        if(userName.equals(user)){
+            myWindowCard = card;
+        }else{
+            windowCards.add(card);
+        }
 
+        ctrl.newCard();
 
     }
 
@@ -94,30 +107,48 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printWindowCard(WindowCard window) {
 
+        out.println("printWindowCards");
+        ctrl.updateCard(window);
+
     }
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
+
+        out.println("printPrivareObj");
+        ctrl.printPrivateObj(privObj);
 
     }
 
     @Override
     public void printListPublicObj(List<ObjectiveCard> publObj) {
 
+        out.println("printListPublObj");
+        ctrl.printListPublObj(publObj);
+
     }
 
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
+
+        out.println("printListToolCard");
+        ctrl.printListToolCard(toolCards);
 
     }
 
     @Override
     public void showDraft(List<Dice> draft) {
 
+        out.println("draft");
+        ctrl.printDraft(draft);
+
     }
 
     @Override
     public void showRoundTrack(RoundTrack roundTrack) {
+
+        out.println("showRoundTrack");
+        ctrl.updateRoundTrack(roundTrack);
 
     }
 
@@ -245,12 +276,13 @@ public class GuiSystem implements ViewInterface{
         this.connParam = connParam;
     }
 
-    public void setWindowCard(WindowCard windowCard) {
-        this.windowCard = windowCard;
+    public WindowCard getMyWindowCard() {
+        return myWindowCard;
     }
 
-    public WindowCard getWindowCard() {
-        return windowCard;
-    }
+    public List<WindowCard> getWindowCards(){
 
+        return windowCards;
+
+    }
 }
