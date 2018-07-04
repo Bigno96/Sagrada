@@ -156,7 +156,7 @@ public class WindowParser implements Parser {
         int row = 0;
         int col = 0;
         for (Object o : cellArr) {
-            if (col > gameSettings.getWindowCardMaxColumn()) {
+            if (col > gameSettings.getWindowCardMaxColumn()-1) {
                 col = 0;
                 row++;
             }
