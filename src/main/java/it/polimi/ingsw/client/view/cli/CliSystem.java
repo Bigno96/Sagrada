@@ -257,6 +257,9 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
+
+        taskMenu.clearCurrentState();
+
         if (userName.equals(username)) {
             print(dictionary.getMessage(YOUR_TURN_KEYWORD));
             taskMenu.setPlaying(true);
