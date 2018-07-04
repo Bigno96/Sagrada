@@ -84,6 +84,8 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void showCardPlayer(String user, WindowCard card) {
 
+
+
     }
 
     /**
@@ -211,9 +213,9 @@ public class GuiSystem implements ViewInterface{
     }
 
     void inizializeBoard() {
-        /*Platform.runLater(() -> {
+        Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/Board.fxml"));
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/BoardPage.fxml"));
             try {
                 root = loader.load();
             } catch (IOException e) {
@@ -224,33 +226,22 @@ public class GuiSystem implements ViewInterface{
             assert root != null;
             primaryStage.setScene(new Scene(root));
 
-             //ImageView img = new ImageView(this);
-             //img.setImageResource(R.drawable.my_image);
-
-            ctrlBoardController = loader.getController();
-            ctrlBoardController.setGuiSystem(this);
-
-            ctrlBoardController.setMyWindowCard(myCard);
-            ctrlBoardController.setCardOtherPlayerList(listOtherWindowCards);
-            ctrlBoardController.setPrivCard(privList);
-            ctrlBoardController.setPublCard(publList);
-            ctrlBoardController.setToolCard(listToolCards);
-
-            ctrlBoardController.init();
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
 
             primaryStage.show();
-        }); */
+        });
     }
 
-    public String getUserName() {
+    String getUserName() {
         return userName;
     }
 
-    public ServerSpeaker getServerSpeaker() {
+    ServerSpeaker getServerSpeaker() {
         return serverSpeaker;
     }
 
-    public void setConnParam(HashMap<String, ServerSpeaker> connParam) {
+    void setConnParam(HashMap<String, ServerSpeaker> connParam) {
         this.connParam = connParam;
     }
 

@@ -5,12 +5,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0"
-            prefWidth="406.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.polimi.ingsw.client.view.gui.WaitingController">
-   <TextArea fx:id="textArea" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false"
-             prefHeight="425.0" prefWidth="385.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
-             AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="145.0" />
+   <TextArea fx:id="textArea" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false" prefHeight="425.0" prefWidth="385.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="145.0" />
    <ImageView fitHeight="142.0" fitWidth="402.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="238.4255828857422">
       <Image url="@../img/Sagrada-Logo-RGB.jpg" />
    </ImageView>
