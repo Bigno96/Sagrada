@@ -197,6 +197,19 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     /**
+     * @param username of who used the tool
+     * @param card     tool card used
+     */
+    @Override
+    public void successfulUsedTool(String username, ToolCard card) {
+        try {
+            client.successfulUsedTool(username, card);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    /**
      * @param ranking sorted map of player username and their points through the game
      */
     @Override

@@ -169,4 +169,12 @@ public class Draft extends Observable implements Serializable {
 
         return ret;
     }
+
+    /**
+     * Set changed and notify observers
+     */
+    public void setChangedAndNotify() {
+        setChanged();
+        notifyObservers();
+    }
 }

@@ -95,6 +95,7 @@
   "UP_MESSAGE": " - per aumentare di 1",
   "DOWN_MESSAGE": " - per diminuire di 1",
   "TOOL_CARD_NOT_FOUND": "\nLa carta strumento selezionata non esiste in questa partita",
+  "NOT_ENOUGH_FAVOR_POINT": "\nNon hai abbastanza punti favore per giocare questa carta",
 
   "PASS_TURN_ENTRY": "passo",
   "PASS_TURN_MESSAGE": "- passa il turno",

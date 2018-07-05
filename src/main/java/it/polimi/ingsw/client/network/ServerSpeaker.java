@@ -144,9 +144,10 @@ public interface ServerSpeaker {
      * @param dices null when not needed
      * @param up null when not needed
      * @param cells null when not needed
+     * @param username of who requested
      * @return true if move was successful, else false
      */
-    Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells);
+    Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username);
 
     /**
      * Used to get requested Dice using passed coordinates to localize it through passed Actor

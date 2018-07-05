@@ -158,4 +158,13 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     public void printRanking(SortedMap<Integer, String> ranking) {
         view.get().printRanking(ranking);
     }
+
+    /**
+     * @param username of who used the tool
+     * @param card     tool card used
+     */
+    @Override
+    public void successfulUsedTool(String username, ToolCard card) {
+        view.get().successfulUsedTool(username, card);
+    }
 }

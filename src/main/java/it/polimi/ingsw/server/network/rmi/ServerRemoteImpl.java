@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
@@ -27,43 +26,15 @@ public class ServerRemoteImpl implements ServerRemote {
     private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
-    private static final String TOOL_CARD_NOT_FOUND_KEYWORD = "TOOL_CARD_NOT_FOUND";
 
     private final Lobby lobby;
     private final CommunicationParser protocol;
     private final ViewMessageParser dictionary;
 
-    private Dice dice;
-    private Colors col;
-    private EnumMap<ToolCard.Actor, BiConsumer<String, List<Integer>>> diceActorMap;
-
     public ServerRemoteImpl(Lobby lobby) {
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         this.lobby = lobby;
-
-        this.diceActorMap = new EnumMap<>(ToolCard.Actor.class);
-        mapDiceActor();
-    }
-
-    /**
-     * Maps enum map for getDiceFromActorMethod
-     */
-    private void mapDiceActor() {
-        BiConsumer<String, List<Integer>> windowCard = (username, coordinates) -> {
-            WindowCard card = lobby.getPlayers().get(username).getWindowCard();
-            dice = card.getWindow().getCell(coordinates.get(0), coordinates.get(1)).getDice();
-        };
-        BiConsumer<String, List<Integer>> roundTrack = (username, coordinates) -> {
-            Iterator<Dice> itr = lobby.getGame().getBoard().getRoundTrack().getTrackList().get(coordinates.get(0)).itr();
-            IntStream.rangeClosed(0, coordinates.get(1)).forEach(integer -> dice = itr.next());
-        };
-        BiConsumer<String, List<Integer>> draft = (username, coordinates) ->
-            dice = lobby.getGame().getBoard().getDraft().getDraftList().get(coordinates.get(0));
-
-        diceActorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
-        diceActorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);
-        diceActorMap.put(ToolCard.Actor.DRAFT, draft);
     }
 
     /**
@@ -220,15 +191,11 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws EmptyException when game is empty
      * @throws PlayerNotFoundException when player it's not in the game
      * @throws IDNotFoundException when tool card is not found
+     * @throws NotEnoughFavorPointsException when player has not enough favor points to play the tool card
      */
     @Override
-    public Boolean checkPreCondition(int pick, String username) throws EmptyException, PlayerNotFoundException, IDNotFoundException {
-        if (pick < 0 || pick > 2) {
-            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
-        }
-        Player p = lobby.getGame().findPlayer(username);
-        WindowCard card = p.getWindowCard();
-        return lobby.getGame().getBoard().getToolCard().get(pick).checkPreCondition(p, card);
+    public Boolean checkPreCondition(int pick, String username) throws EmptyException, PlayerNotFoundException, IDNotFoundException, NotEnoughFavorPointsException {
+        return lobby.getActionController().checkPreCondition(pick, username);
     }
 
     /**
@@ -239,10 +206,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public List<ToolCard.Actor> getActor(int pick, String username) throws IDNotFoundException {
-        if (pick < 0 || pick > 2) {
-            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
-        }
-        return lobby.getGame().getBoard().getToolCard().get(pick).getActor();
+        return lobby.getActionController().getActor(pick, username);
     }
 
     /**
@@ -253,10 +217,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public List<ToolCard.Parameter> getParameter(int pick, String username) throws IDNotFoundException {
-        if (pick < 0 || pick > 2) {
-            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
-        }
-        return lobby.getGame().getBoard().getToolCard().get(pick).askParameter();
+        return lobby.getActionController().getParameter(pick, username);
     }
 
     /**
@@ -271,10 +232,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws PositionException, IDNotFoundException {
-        if (pick < 0 || pick > 2) {
-            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
-        }
-        return lobby.getGame().getBoard().getToolCard().get(pick).checkTool(dices, cells, diceValue, diceColor);
+        return lobby.getActionController().checkTool(pick, dices, cells, diceValue, diceColor);
     }
 
     /**
@@ -282,6 +240,7 @@ public class ServerRemoteImpl implements ServerRemote {
      * @param dices null when not needed
      * @param up    null when not needed
      * @param cells null when not needed
+     * @param username of who requested
      * @return true if move was successful, else false
      * @throws ValueException when wrong value are chosen
      * @throws IDNotFoundException when couldn't find a dice or when tool card is not found
@@ -289,14 +248,12 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws EmptyException when trying to get dice from empty draft or bag
      * @throws SameDiceException when trying to put the same dice twice
      * @throws RoundNotFoundException when wrong round is requested
+     * @throws PlayerNotFoundException when player is not found in the game
      */
     @Override
-    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) throws NotEmptyException, EmptyException, ValueException,
-            RoundNotFoundException, IDNotFoundException, SameDiceException {
-        if (pick < 0 || pick > 2) {
-            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
-        }
-        return lobby.getGame().getBoard().getToolCard().get(pick).useTool(dices, up, cells);
+    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) throws NotEmptyException, EmptyException, ValueException,
+            RoundNotFoundException, IDNotFoundException, SameDiceException, PlayerNotFoundException {
+        return lobby.getActionController().useTool(pick, dices, up, cells, username);
     }
 
     /**
@@ -310,12 +267,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public Dice getDiceFromActor(ToolCard.Actor actor, String username, List<Integer> coordinates) {
-        if (diceActorMap.containsKey(actor))
-            diceActorMap.get(actor).accept(username, coordinates);
-        else
-            dice = null;
-
-        return dice;
+        return lobby.getActionController().getDiceFromActor(actor, username, coordinates);
     }
 
     /**
@@ -325,7 +277,7 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public Cell getCellFromWindow(String username, List<Integer> coordinates) {
-        return lobby.getPlayers().get(username).getWindowCard().getWindow().getCell(coordinates.get(0), coordinates.get(1));
+        return lobby.getActionController().getCellFromWindow(username, coordinates);
     }
 
     /**
@@ -335,10 +287,6 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public Colors getColorFromRoundTrack(String username, List<Integer> coordinates) {
-        Iterator<Dice> itr = lobby.getGame().getBoard().getRoundTrack().getTrackList().get(coordinates.get(0)).itr();
-        IntStream.rangeClosed(0, coordinates.get(1)).forEach(integer -> col = itr.next().getColor());
-
-        return col;
+        return lobby.getActionController().getColorFromRoundTrack(username, coordinates);
     }
-
 }

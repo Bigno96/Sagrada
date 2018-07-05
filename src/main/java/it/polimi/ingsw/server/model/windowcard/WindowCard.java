@@ -250,7 +250,7 @@ public class WindowCard extends Observable implements Serializable {
     }
 
     /**
-     * Set changed
+     * Set changed and notify observer
      */
     public void setPlacement(Cell c) {
         setChanged();

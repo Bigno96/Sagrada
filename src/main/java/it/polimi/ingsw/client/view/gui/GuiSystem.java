@@ -176,6 +176,11 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    @Override
+    public void successfulUsedTool(String username, ToolCard card) {
+
+    }
+
     /**
      * @param username = game.getCurrentPlayer().getId()
      */

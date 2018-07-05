@@ -131,6 +131,8 @@ public class ToolEffectRealization implements Serializable {
             else
                 windowCard.checkPlaceCond();
 
+            windowCard.setPlacement(dest);
+
             return true;
 
         } catch (WrongPositionException | PositionException | EmptyException e) {
@@ -166,6 +168,9 @@ public class ToolEffectRealization implements Serializable {
 
         try {
             windowCard.checkPlaceCond();
+
+            windowCard.setPlacement(dest.get(0));
+            windowCard.setPlacement(dest.get(1));
 
             return true;
 
@@ -210,6 +215,11 @@ public class ToolEffectRealization implements Serializable {
             else
                 windowCard.checkPlaceCond();
 
+            windowCard.setPlacement(dest.get(0));
+
+            if (size2)
+                windowCard.setPlacement(dest.get(1));
+
             return true;
 
         } catch (PositionException | EmptyException | WrongPositionException e) {
@@ -240,6 +250,9 @@ public class ToolEffectRealization implements Serializable {
         draft.rmDice(dices.get(0));
         roundTrack.rmDice(dices.get(1), round);
 
+        roundTrack.setChangedAndNotify();
+        draft.setChangedAndNotify();
+
         return true;
     }
 
@@ -264,6 +277,9 @@ public class ToolEffectRealization implements Serializable {
                 windowCard.checkPlaceCond();
 
             draft.rmDice(d);
+
+            draft.setChangedAndNotify();
+            windowCard.setPlacement(dest);
 
             return true;
 
@@ -307,6 +323,9 @@ public class ToolEffectRealization implements Serializable {
 
             tmp.changeValue(0);
             diceBag.rmDice(tmp1);
+
+            draft.setChangedAndNotify();
+            windowCard.setPlacement(dest);
 
             return true;
 

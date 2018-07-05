@@ -64,6 +64,8 @@ public class CliSystem implements ViewInterface {
     private static final String IN_CELL = " nella cella: ";
     private static final String ROUND = "Round ";
     private static final String NUMBER_FAVOR_POINTS = "Numero di punti favore = ";
+    private static final String YOU_USED_TOOL = "Hai correttamente usato la carta strumento: ";
+    private static final String OTHER_USED_TOOL = " ha correttamente usato la carta strumento: ";
 
     private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
     private static final String QUIT_KEYWORD = "QUIT";
@@ -381,7 +383,7 @@ public class CliSystem implements ViewInterface {
     @Override
     public void printFavorPoints(int point) {
         print(dictionary.getMessage(SHOW_FAVOR_POINT_LEFT_KEYWORD) + point);
-        semaphore.release();
+        semaphore.release();             // releasing for menuTask action.accept()
     }
 
     /**
@@ -397,6 +399,21 @@ public class CliSystem implements ViewInterface {
             print(POSITION + integer + ": " + firstUserTmp + POINT + firstPointTmp);
             ranking.remove(firstPointTmp, firstUserTmp);
         });
+    }
+
+    /**
+     * @param username of who used the tool
+     * @param card     tool card used
+     */
+    @Override
+    public void successfulUsedTool(String username, ToolCard card) {
+        if (username.equals(userName))
+            print(YOU_USED_TOOL + card.getId());
+        else
+            print(USER + username + OTHER_USED_TOOL + card.getId());
+
+        taskMenu.setUsed();
+        semaphore.release();         // releasing for menuTask action.accept()
     }
 
     /**
@@ -622,7 +639,7 @@ public class CliSystem implements ViewInterface {
             if (!validity)
                 wrong = true;
             else {
-                success = serverSpeaker.useTool(pick, dices, up, cells);
+                success = serverSpeaker.useTool(pick, dices, up, cells, userName);
 
                 if (!success)
                     wrong = true;

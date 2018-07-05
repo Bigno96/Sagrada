@@ -15,9 +15,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 import java.util.logging.Logger;
 
-public class ToolCard implements Serializable {
+public class ToolCard extends Observable implements Serializable {
 
     public enum Actor { WINDOW_CARD, ROUND_TRACK, DRAFT, DICE_BAG }
     public enum Parameter { DICE, CELL, INTEGER, COLOR, BOOLEAN }
@@ -111,6 +112,34 @@ public class ToolCard implements Serializable {
      */
     public void setFavorPoint(int favorPoint) {
         this.favorPoint = favorPoint;
+    }
+
+    /**
+     * Adds 1 or 2 favor points depending on how much there were before and returns how much were added
+     * @return how much favor point were added to the tool
+     */
+    public int addFavorPoint() {
+        if (favorPoint == 0) {
+            favorPoint++;
+            return 1;
+        }
+        favorPoint += 2;
+        return 2;
+    }
+
+    /**
+     * Checks if player passed has enough favor points to play this tool card
+     * @param p player to check
+     * @return true if player has enough favor point, false else
+     */
+    public Boolean checkFavorPoint(Player p) {
+        if (p.getFavorPoint() == 0)
+            return false;
+
+        if (favorPoint == 0)
+            return p.getFavorPoint() >= 1;
+
+        return p.getFavorPoint() >= 2;
     }
 
     /**
@@ -259,40 +288,51 @@ public class ToolCard implements Serializable {
      */
     public boolean useTool(List<Dice> dices, Boolean up, List<Cell> cells) throws ValueException, IDNotFoundException, NotEmptyException,
             EmptyException, SameDiceException, RoundNotFoundException {
+        Boolean ret = false;
+
         if (id == 1)
-            return strategy.changeValue(dices.get(0), up);
+            ret = strategy.changeValue(dices.get(0), up);
         else if (id == 2)
-            return strategy.moveOneDice(dices.get(0), cells.get(0), "color", windowCard);
+            ret = strategy.moveOneDice(dices.get(0), cells.get(0), "color", windowCard);
         else if (id == 3)
-            return strategy.moveOneDice(dices.get(0), cells.get(0), "value", windowCard);
+            ret = strategy.moveOneDice(dices.get(0), cells.get(0), "value", windowCard);
         else if (id == 4)
-            return strategy.moveExTwoDice(dices, cells, windowCard);
+            ret = strategy.moveExTwoDice(dices, cells, windowCard);
         else if (id == 5)
-            return strategy.moveFromDraftToRound(dices);
+            ret = strategy.moveFromDraftToRound(dices);
         else if (id == 6) {
             dices.get(0).rollDice();
-            return true;
+            ret = true;
         }
         else if (id == 7) {
             draft.rollDraft();
-            return true;
+            ret = true;
         }
         else if (id == 8) {
             player.setPlayedDice(false);
             player.setSecondTurn(false);
+            ret = true;
         }
         else if (id == 9)
-            return strategy.moveFromDraftToCard(dices.get(0), cells.get(0), windowCard);
+            ret = strategy.moveFromDraftToCard(dices.get(0), cells.get(0), windowCard);
         else if (id==10) {
             dices.get(0).changeValue(7 - dices.get(0).getValue());
-            return true;
+            ret = true;
         }
         else if (id == 11)
-            return strategy.moveFromDraftToBagThanPlace(dices.get(0), cells.get(0), diceValue, windowCard);
+            ret = strategy.moveFromDraftToBagThanPlace(dices.get(0), cells.get(0), diceValue, windowCard);
         else if (id == 12)
-            return strategy.moveUpToTwoDice(dices, cells, windowCard);
+            ret = strategy.moveUpToTwoDice(dices, cells, windowCard);
 
-        return true;
+        return ret;
+    }
+
+    /**
+     * Set changed and notify observers
+     */
+    public void setChangedAndNotify() {
+        setChanged();
+        notifyObservers(player);
     }
 
 }

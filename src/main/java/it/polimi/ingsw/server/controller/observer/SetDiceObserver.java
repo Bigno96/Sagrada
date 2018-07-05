@@ -9,6 +9,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
+/**
+ * Used to tell everyone that a player set a dice, informing of which dice in which cell
+ */
 public class SetDiceObserver implements Observer {
 
     private Lobby lobby;

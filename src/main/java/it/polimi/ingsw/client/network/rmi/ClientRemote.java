@@ -125,4 +125,11 @@ public interface ClientRemote extends Remote {
      * @throws RemoteException default
      */
     void printRanking(SortedMap<Integer, String> ranking) throws RemoteException;
+
+    /**
+     * Used to print that Player username has successfully used Tool Card card
+     * @param username of who used the tool
+     * @param card tool card used
+     */
+    void successfulUsedTool(String username, ToolCard card) throws RemoteException;
 }
