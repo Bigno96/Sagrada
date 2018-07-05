@@ -9,9 +9,10 @@ import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ToolEffectRealization {
+public class ToolEffectRealization implements Serializable {
 
     private RoundTrack roundTrack;
     private Draft draft;

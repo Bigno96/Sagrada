@@ -4,7 +4,9 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
-public interface ObjectiveCard {
+import java.io.Serializable;
+
+public interface ObjectiveCard extends Serializable {
 
     /**
      * Used by parser to set parameter for objective calculator

@@ -7,12 +7,13 @@ import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
 
-public class Board extends Observable {
+public class Board extends Observable implements Serializable {
 
     private static final String DUMP_PUBLIC_MSG = "PublicObj: ";
     private static final String DUMP_TOOL_MSG = " ToolCard: ";

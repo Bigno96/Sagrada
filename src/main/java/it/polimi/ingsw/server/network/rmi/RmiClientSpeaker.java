@@ -185,6 +185,18 @@ public class RmiClientSpeaker implements ClientSpeaker {
     }
 
     /**
+     * @param point favor point of the user that requested
+     */
+    @Override
+    public void printNumberFavorPoint(int point) {
+        try {
+            client.printNumberFavorPoint(point);
+        } catch (RemoteException e) {
+            out.println(e.getMessage());
+        }
+    }
+
+    /**
      * @param ranking sorted map of player username and their points through the game
      */
     @Override

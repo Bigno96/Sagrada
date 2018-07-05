@@ -113,6 +113,13 @@ public interface ClientRemote extends Remote {
     void printListToolCard(List<ToolCard> toolCards) throws RemoteException;
 
     /**
+     * Used to print how much favor point the user has left
+     * @param point number of favor point
+     * @throws RemoteException default
+     */
+    void printNumberFavorPoint(int point) throws RemoteException;
+
+    /**
      * Used when game ends to print final ranking
      * @param ranking sorted map of player username and their points through the game
      * @throws RemoteException default

@@ -12,7 +12,7 @@ public class MatrixCell implements Serializable {
 
     private static final int MIN = 0;
 
-    private static final String ILLEGAL_MSG = "Illegal Position";
+    private static final String ILLEGAL_MSG = "Posizione illegale";
     private static final String DUMP_ROW_MSG = "Rows: ";
     private static final String DUMP_COL_MSG = " Cols: ";
 

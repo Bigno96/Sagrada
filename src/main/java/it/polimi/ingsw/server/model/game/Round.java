@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class Round {
 
     private static final String DUMP_MSG = "contains following players: ";
-    private static final String PLAYER_NOT_FOUND_MSG = "ID of the player not found";
+    private static final String PLAYER_NOT_FOUND_MSG = "ID del giocatore non trovato";
 
     private List<Player> playerList;
     private Game game;

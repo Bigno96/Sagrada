@@ -11,10 +11,10 @@ public class Game extends Observable {
     private static final String DUMP_N_PLAYER_MSG = " nPlayer: ";
     private static final String DUMP_N_ROUND_MSG = " nRound: ";
 
-    private static final String PLAYER_ALREADY_GAME_MSG = "Player already in game";
-    private static final String ROUND_EMPTY_MSG = "Round List is empty";
-    private static final String NO_PLAYER_MSG = "No player in game";
-    private static final String PLAYER_NOT_FOUND_MSG = "Player not found";
+    private static final String PLAYER_ALREADY_GAME_MSG = "Giocatore già in partita";
+    private static final String ROUND_EMPTY_MSG = "Lista dei round vuota";
+    private static final String NO_PLAYER_MSG = "Nessun giocatore in partita";
+    private static final String PLAYER_NOT_FOUND_MSG = "Giocatore non trovato";
 
     private static final String NOTIFY_NEXT_TURN = "nextTurn";
 

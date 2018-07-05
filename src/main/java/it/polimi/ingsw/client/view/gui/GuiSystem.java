@@ -171,6 +171,11 @@ public class GuiSystem implements ViewInterface{
     }
 
     @Override
+    public void printFavorPoints(int point) {
+
+    }
+
+    @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
     }

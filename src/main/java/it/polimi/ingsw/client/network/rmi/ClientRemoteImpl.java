@@ -144,6 +144,14 @@ public class ClientRemoteImpl extends UnicastRemoteObject implements ClientRemot
     }
 
     /**
+     * @param point number of favor point
+     */
+    @Override
+    public void printNumberFavorPoint(int point) {
+        view.get().printFavorPoints(point);
+    }
+
+    /**
      * @param ranking sorted map of player username and their points through the game
      */
     @Override

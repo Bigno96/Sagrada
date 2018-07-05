@@ -5,12 +5,13 @@ import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Logger;
 
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
 
     private static final String PRIVATE_OBJECTIVE_OBSERVER_MSG = "PrivateObjective";
 

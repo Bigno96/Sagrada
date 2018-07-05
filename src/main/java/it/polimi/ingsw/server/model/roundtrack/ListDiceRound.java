@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 
 public class ListDiceRound implements Serializable {
 
-    private static final String SINGLE_DICE_ALREADY_IN_TRACK_MSG = "Dice is already on Round Track";
-    private static final String MULTIPLE_DICE_ALREADY_IN_TRACK_MSG = "Dices are already on Round Track";
-    private static final String EMPTY_MSG = "is empty";
-    private static final String ID_NOT_FOUND_MSG = "Id not found";
+    private static final String SINGLE_DICE_ALREADY_IN_TRACK_MSG = "Il dado è già presente nel tracciato dei round";
+    private static final String MULTIPLE_DICE_ALREADY_IN_TRACK_MSG = "I dadi sono già presenti nel tracciato dei round";
+    private static final String EMPTY_MSG = "è vuoto";
+    private static final String ID_NOT_FOUND_MSG = "Id non trovato";
     private static final String DUMP_MSG = "contains following dices: ";
 
     private List<Dice> listDice;

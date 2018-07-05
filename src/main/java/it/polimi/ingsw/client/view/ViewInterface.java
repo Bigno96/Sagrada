@@ -96,6 +96,12 @@ public interface ViewInterface {
     void wrongPlacementDice(String errorMsg);
 
     /**
+     * Print number of favor point of user that requested
+     * @param point number of favor point
+     */
+    void printFavorPoints(int point);
+
+    /**
      * Used when game ends to print final ranking
      * @param ranking sorted map of player username and their points through the game
      */

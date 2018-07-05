@@ -2,9 +2,14 @@ package it.polimi.ingsw.server.network.rmi;
 
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * Remote interface of server used by client
@@ -67,6 +72,13 @@ public interface ServerRemote extends Remote {
     void getDraft(String username) throws RemoteException;
 
     /**
+     * Used to get round track of the current game
+     * @param username = Player.getId() of who requested
+     * @throws RemoteException default
+     */
+    void getRoundTrack(String username) throws RemoteException;
+
+    /**
      * Used to end the turn
      * @param username = Player.getId() of who ended turn
      * @throws RemoteException default
@@ -105,4 +117,114 @@ public interface ServerRemote extends Remote {
      */
     void placementDice(String username, int index, int row, int col) throws RemoteException, WrongDiceSelectionException,
             EmptyException, WrongPositionException, NotTurnException, NotEmptyException, IDNotFoundException, WrongCellSelectionException, PositionException, AlreadyDoneException;
+
+    /**
+     * Used by an user to request printing of tool card
+     * @param username of the player who requested tool cards
+     * @throws RemoteException default
+     */
+    void askToolCards(String username) throws RemoteException;
+
+
+    /**
+     * Used by a player to get how much favor points he has left
+     * @param username of the player who requested his number of favor points
+     * @throws RemoteException default
+     * @throws EmptyException when game is empty
+     * @throws PlayerNotFoundException when player it's not in the game
+     */
+    void printFavorPoint(String username) throws RemoteException, EmptyException, PlayerNotFoundException;
+
+    /**
+     * Used to check if a tool card can be activated by a player or not
+     * @param pick index of tool card chosen
+     * @param username of the player who wants to activate the tool
+     * @return true if it can be activated, false else
+     * @throws RemoteException default
+     * @throws EmptyException when game is empty
+     * @throws PlayerNotFoundException when player it's not in the game
+     * @throws IDNotFoundException when tool card is not found
+     */
+    Boolean checkPreCondition(int pick, String username) throws RemoteException, EmptyException, PlayerNotFoundException, IDNotFoundException;
+
+    /**
+     * Used to get which elements of board are involved in selected window card
+     * @param pick index of tool card chosen by player
+     * @param username of the player that requested
+     * @return list of Enum Actor
+     * @throws RemoteException default
+     * @throws IDNotFoundException when tool card is not found
+     */
+    List<ToolCard.Actor> getActor(int pick, String username) throws RemoteException, IDNotFoundException;
+
+    /**
+     * Used to get which parameters are requested to use selected tool card
+     * @param pick index of tool card chosen by player
+     * @param username of the player that requested
+     * @return list of Enum Parameter
+     * @throws RemoteException default
+     * @throws IDNotFoundException when tool card is not found
+     */
+    List<ToolCard.Parameter> getParameter(int pick, String username) throws RemoteException, IDNotFoundException;
+
+    /**
+     * Used to check if the selected tool can be used with passed parameter
+     * @param pick index of tool card chosen by player
+     * @param dices requested by tool card, dices.size() == 0 || 1 || 2
+     * @param cells requested by tool card, cells.size() == 0 || 1 || 2
+     * @param diceValue if value of a dice need to be changed, 0 if not needed
+     * @param diceColor if color on round track is necessary for the tool card, null if not needed
+     * @return true if tool can be used with passed parameters, false else
+     * @throws RemoteException default
+     * @throws PositionException when wrong cells are passed
+     * @throws IDNotFoundException when tool card is not found
+     */
+    Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws RemoteException, PositionException, IDNotFoundException;
+
+    /**
+     * Realize the effect of the tool card on the passed parameter
+     * @param pick index of tool card chosen by player
+     * @param dices null when not needed
+     * @param up null when not needed
+     * @param cells null when not needed
+     * @return true if move was successful, else false
+     * @throws RemoteException default
+     * @throws ValueException when wrong value are chosen
+     * @throws IDNotFoundException when couldn't find a dice or when tool card is not found
+     * @throws NotEmptyException when trying to stack dice on the same cell
+     * @throws EmptyException when trying to get dice from empty draft or bag
+     * @throws SameDiceException when trying to put the same dice twice
+     * @throws RoundNotFoundException when wrong round is requested
+     */
+    Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) throws RemoteException, NotEmptyException, EmptyException,
+            ValueException, RoundNotFoundException, IDNotFoundException, SameDiceException;
+
+    /**
+     * Used to get requested Dice using coordinates to localize it through passed Actor
+     * @param actor       can be Draft, Window Card or Round Track
+     * @param username    of who requested
+     * @param coordinates there could be various type of coordinates depending on which actor is passed
+     *                    if Draft, coordinates.size() = 1 and coordinates contains index of dice in the draft
+     *                    if Round Track, coordinates.size() = 2 and coordinates.get(0) = number of round where dice is and coordinates.get(1) = index of dice in list dice round
+     *                    if Window Card, coordinates.size() = 2 and coordinates.get(0) = cell.getRow() and coordinates.get(1) = cell.getCol() of where the dice is located
+     * @throws RemoteException default
+     * @return Dice asked by user, null if any problem occurs
+     */
+    Dice getDiceFromActor(ToolCard.Actor actor, String username, List<Integer> coordinates) throws RemoteException;
+
+    /**
+     * Used to get requested Cell using passed coordinates to localize it in the window card of the user
+     * @param username of player who requested
+     * @param coordinates coordinates.size() = 2 and coordinates.get(0) = cell.getRow() and coordinates.get(1) = cell.getCol()
+     * @return Cell asked by user, null if any problem occurs
+     */
+    Cell getCellFromWindow(String username, List<Integer> coordinates) throws RemoteException;
+
+    /**
+     * Used to get the Color of one dice of the round track
+     * @param username of player who requested
+     * @param coordinates coordinates.size() = 2 and coordinates.get(0) = number of round where dice is and coordinates.get(1) = index of dice in list dice round
+     * @return Color asked by user, null if any problem occurs
+     */
+    Colors getColorFromRoundTrack(String username, List<Integer> coordinates) throws RemoteException;
 }

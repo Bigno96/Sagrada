@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 public class Draft extends Observable implements Serializable {
 
-    private static final String NO_DICE = "No Dice in Bag";
-    private static final String NOT_ENOUGH_DICE = "Not Enough Dices in Bag";
-    private static final String EMPTY_DRAFT = "Draft is empty";
-    private static final String ID_NOT_FOUND = "Id not found";
-    private static final String ALREADY_IN_DRAFT = "Dice is already in Draft";
+    private static final String NO_DICE = "Nessun dado nel sacchetto dei dadi";
+    private static final String NOT_ENOUGH_DICE = "Non ci sono abbastanza dadi nel sacchetto dei dadi";
+    private static final String EMPTY_DRAFT = "La riserva è vuota";
+    private static final String ID_NOT_FOUND = "Id non trovato";
+    private static final String ALREADY_IN_DRAFT = "Il dado è già presente nella riserva";
     private static final String DUMP_MSG = "contains following dices: ";
 
     private List<Dice> draftList;

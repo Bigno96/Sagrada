@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 public class RoundTrack extends Observable implements Serializable {
 
     private static final String DUMP_MSG = "contains following dices: ";
-    private static final String ID_NOT_FOUND_MSG = "Id not found";
-    private static final String ROUND_NOT_EXISTING_MSG = "Round doesn't exists";
-    private static final String DICE_NOT_FOUND_MSG = "Dice not found";
+    private static final String ID_NOT_FOUND_MSG = "Id non trovato";
+    private static final String ROUND_NOT_EXISTING_MSG = "Il round non esite";
+    private static final String DICE_NOT_FOUND_MSG = "Dado non trovato nel tracciato dei round";
 
     private List<ListDiceRound> trackList = new ArrayList<>();
     private Draft draft;
