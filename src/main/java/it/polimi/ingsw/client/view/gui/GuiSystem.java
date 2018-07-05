@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -35,6 +36,7 @@ public class GuiSystem implements ViewInterface{
     private String userName;
     private WindowCard myWindowCard;
     public List<WindowCard> windowCards;
+    public List<ObjectiveCard> pulicCards;
 
     private ControlInterface ctrl;
 
@@ -91,17 +93,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void showCardPlayer(String user, WindowCard card) {
 
-        if(userName.equals(user)){
-
-            myWindowCard = card;
-
-        }else{
+        if(!userName.equals(user)){
 
             windowCards.add(card);
 
         }
-
-        ctrl.newCard();
 
     }
 
@@ -125,7 +121,9 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printListPublicObj(List<ObjectiveCard> publObj) {
 
-      ctrl.printListPublObj(publObj);
+        pulicCards = new ArrayList<ObjectiveCard>();
+        pulicCards = publObj;
+        ctrl.printListPublObj(publObj);
 
     }
 
@@ -249,7 +247,7 @@ public class GuiSystem implements ViewInterface{
     void inizializeBoard() {
         Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/BoardPage.fxml"));
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/Board3.fxml"));
             try {
                 root = loader.load();
             } catch (IOException e) {
@@ -288,4 +286,17 @@ public class GuiSystem implements ViewInterface{
         return windowCards;
 
     }
+
+    public List<PublicObjective> getPulicCards(){
+
+        return getPulicCards();
+
+    }
+
+    public void setWindowCard(WindowCard windowCard) {
+
+        myWindowCard = windowCard;
+
+    }
+
 }

@@ -99,6 +99,7 @@ public class ChooseWinCardController implements ControlInterface {
 
     public void win0(ActionEvent event) {
 
+        guiSystem.setWindowCard(cards.get(0));
         guiSystem.inizializeBoard();
         guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(0).getName());
 
@@ -106,6 +107,7 @@ public class ChooseWinCardController implements ControlInterface {
 
     public void win1(ActionEvent event) {
 
+        guiSystem.setWindowCard(cards.get(1));
         guiSystem.inizializeBoard();
         guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(1).getName());
 
@@ -113,6 +115,7 @@ public class ChooseWinCardController implements ControlInterface {
 
     public void win2(ActionEvent event) {
 
+        guiSystem.setWindowCard(cards.get(2));
         guiSystem.inizializeBoard();
         guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(2).getName());
 
@@ -120,6 +123,7 @@ public class ChooseWinCardController implements ControlInterface {
 
     public void win3(ActionEvent event) {
 
+        guiSystem.setWindowCard(cards.get(3));
         guiSystem.inizializeBoard();
         guiSystem.getServerSpeaker().setWindowCard(guiSystem.getUserName(), cards.get(3).getName());
 
