@@ -21,8 +21,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
-import static java.lang.System.out;
-
 public class GuiSystem implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
@@ -247,7 +245,7 @@ public class GuiSystem implements ViewInterface{
     void inizializeBoard() {
         Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/Board3.fxml"));
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/BoardPage.fxml"));
             try {
                 root = loader.load();
             } catch (IOException e) {
