@@ -39,7 +39,6 @@
   "FAVOR_POINT": "Punti favore: ",
   "PRIVATE_OBJECTIVE_CHOSEN": "\nIl tuo obiettivo privato è: ",
   "PUBLIC_OBJECTIVE": "\nGli obiettivi pubblici sono:",
-  "TOOL_CARD": "\nLe carte strumento sono:",
   "OBJECTIVE_POINT": " punti: ",
 
   "NOT_YET_SELECTED_CARD": " secondi per selezionare la carta schema",
@@ -76,12 +75,23 @@
   "ASK_COLUMN":"Inserisci colonna: ",
   "INSERT_NUMBER": "\nInserisci l'indice del dado che vuoi, a partire da 1",
   "QUIT_ENTRY": "exit",
-  "QUIT": " per interrompere",
+  "QUIT": " in qualunque momento per interrompere",
 
   "SHOW_ROUND_TRACK": "\nQuesto è il tracciato dei round:",
 
   "USE_TOOL_CARD_ENTRY": "strumento",
   "USE_TOOL_CARD_MESSAGE": "- usa una carta strumento",
+  "SHOW_TOOL_CARD": "\nQueste sono le carte strumento:",
+  "SHOW_FAVOR_POINT_LEFT": "\nHai ancora questi punti favore: ",
+  "CHOOSE_TOOL_CARD": "\nScegli quale carta vuoi con un numero da 1 a 3 (1 in alto, 3 in basso)",
+  "INSERT_ROUND": "\nInserisci il numero del round da cui vuoi prendere il dado, a partire da 1",
+  "DICE_VALUE": "\nChe valore vuoi assegnare al dado?",
+  "DICE_COLOR": "\nDa quale dado vuoi selezionare il colore?",
+  "BOOLEAN_ASK": "\nScegli se aumentare o diminuire di 1 il valore del dado:",
+  "UP_ENTRY": "+1",
+  "DOWN_ENTRY": "-1",
+  "UP_MESSAGE": " - per aumentare di 1",
+  "DOWN_MESSAGE": " - per diminuire di 1",
 
   "PASS_TURN_ENTRY": "passo",
   "PASS_TURN_MESSAGE": "- passa il turno",
@@ -98,6 +108,8 @@
   "EMPTY_CARD_EXCEPTION": "La carta schema è vuota",
   "WRONG_DICE_INDEX_PLACEMENT": "L'indice passato per il piazzamento è errato",
   "WRONG_CELL_PLACEMENT": "La cella indicata per il piazzamento non è valida",
+  "EMPTY_GAME_EXCEPTION": "Non è stato trovato alcun giocatore nella partita corrente",
+  "NOT_IN_GAME_EXCEPTION": "Non sei dentro alla partita corrente",
 
   "SOMETHING_WENT_WRONG": "Ops, qualcosa è andato storto!",
   "WIN_MSG": "Congratulazioni! Hai vinto!"

@@ -492,6 +492,14 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     }
 
     /**
+     * @param point favor point of the user that requested
+     */
+    @Override
+    public void printNumberFavorPoint(int point) {
+
+    }
+
+    /**
      * @param ranking sorted map of player username and their points through the game
      */
     @Override

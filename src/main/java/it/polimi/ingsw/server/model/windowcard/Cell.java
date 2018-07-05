@@ -22,9 +22,9 @@ public class Cell implements Serializable {
     private static final String DUMP_ROW_MSG = " Row: ";
     private static final String DUMP_COL_MSG = " Col: ";
 
-    private static final String WRONG_VALUE = "Illegal Value";
-    private static final String WRONG_POSITION = "Illegal Position";
-    private static final String NOT_EMPTY_CELL = "Cell not empty";
+    private static final String WRONG_VALUE = "Valore illegale";
+    private static final String WRONG_POSITION = "Posizione illegale";
+    private static final String NOT_EMPTY_CELL = "La cella è già occupata";
 
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 6;

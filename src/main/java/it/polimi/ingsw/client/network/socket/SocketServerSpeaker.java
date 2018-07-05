@@ -6,10 +6,15 @@ import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
+import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * Implementation of socket version of server speaker
@@ -212,6 +217,11 @@ public class SocketServerSpeaker implements ServerSpeaker {
         }
     }
 
+    @Override
+    public void askRoundTrack(String username) {
+
+    }
+
     /**
      * @param username of player that requested
      */
@@ -287,6 +297,51 @@ public class SocketServerSpeaker implements ServerSpeaker {
 
             socketOut.flush();
         }
+    }
+
+    /**
+     * @param pick index of tool card chosen by player
+     * @param username of the player that requested
+     * @return true id can be activated, false else
+     */
+    @Override
+    public Boolean checkPreCondition(int pick, String username) {
+        return null;
+    }
+
+    @Override
+    public List<ToolCard.Actor> getActor(int pick, String username) {
+        return null;
+    }
+
+    @Override
+    public List<ToolCard.Parameter> getParameter(int pick, String username) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) {
+        return null;
+    }
+
+    @Override
+    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) {
+        return null;
+    }
+
+    @Override
+    public Dice getDiceFromActor(ToolCard.Actor actor, String username, List<Integer> coordinates) {
+        return null;
+    }
+
+    @Override
+    public Cell getCellFromWindow(String username, List<Integer> coordinates) {
+        return null;
+    }
+
+    @Override
+    public Colors getColorFromRoundTrack(String username, List<Integer> coordinates) {
+        return null;
     }
 
 }

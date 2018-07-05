@@ -98,6 +98,12 @@ public interface ClientSpeaker {
     void printListToolCard(List<ToolCard> toolCards);
 
     /**
+     * Used to tell a player his number of favor point left
+     * @param point favor point of the user that requested
+     */
+    void printNumberFavorPoint(int point);
+
+    /**
      * Used when game ends to print final ranking
      * @param ranking sorted map of player username and their points through the game
      */

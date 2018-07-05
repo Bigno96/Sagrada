@@ -7,12 +7,18 @@ import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
+import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Implementation of Rmi version of server speaker
@@ -23,6 +29,7 @@ public class RmiServerSpeaker implements ServerSpeaker {
     private static final String SERVER_REMOTE_KEYWORD = "SERVER_REMOTE";
     private static final String LOGIN_SUCCESS_KEYWORD = "LOGIN_SUCCESS";
     private static final String SERVER_NOT_RESPONDING_KEYWORD = "SERVER_NOT_RESPONDING";
+    private static final String SOMETHING_WENT_WRONG_KEYWORD = "SOMETHING_WENT_WRONG";
 
     private static final String NOT_YOUR_TURN_EXCEPTION_KEYWORD = "NOT_YOUR_TURN_EXCEPTION";
     private static final String ALREADY_DONE_KEYWORD = "ALREADY_DONE";
@@ -31,6 +38,8 @@ public class RmiServerSpeaker implements ServerSpeaker {
     private static final String WRONG_POSITION_EXCEPTION_KEYWORD = "WRONG_POSITION_EXCEPTION";
     private static final String WRONG_DICE_INDEX_PLACEMENT_KEYWORD = "WRONG_DICE_INDEX_PLACEMENT";
     private static final String WRONG_CELL_PLACEMENT_KEYWORD = "WRONG_CELL_PLACEMENT";
+    private static final String EMPTY_GAME_EXCEPTION_KEYWORD = "EMPTY_GAME_EXCEPTION";
+    private static final String NOT_IN_GAME_EXCEPTION_KEYWORD = "NOT_IN_GAME_EXCEPTION";
 
     private String ip;
     private ServerRemote server;            // server remote interface
@@ -155,6 +164,18 @@ public class RmiServerSpeaker implements ServerSpeaker {
      * @param username of player that requested
      */
     @Override
+    public void askRoundTrack(String username) {
+        try {
+            server.getRoundTrack(username);
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+        }
+    }
+
+    /**
+     * @param username of player that requested
+     */
+    @Override
     public void askPublicObj(String username) {
         try {
             server.getPublicObj(username);
@@ -175,14 +196,35 @@ public class RmiServerSpeaker implements ServerSpeaker {
         }
     }
 
+    /**
+     * @param username of player that requested
+     */
     @Override
     public void askToolCards(String username) {
-
+        try {
+            server.askToolCards(username);
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+        }
     }
 
+    /**
+     * @param username of player that requested
+     */
     @Override
     public void askFavorPoints(String username) {
+        try {
+            server.printFavorPoint(username);
 
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+
+        } catch (PlayerNotFoundException e) {
+            view.print(dictionary.getMessage(NOT_IN_GAME_EXCEPTION_KEYWORD));
+
+        } catch (EmptyException e) {
+            view.print(dictionary.getMessage(EMPTY_GAME_EXCEPTION_KEYWORD));
+        }
     }
 
     /**
@@ -231,6 +273,157 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
         } catch (WrongCellSelectionException | PositionException e) {
             view.wrongPlacementDice(dictionary.getMessage(WRONG_CELL_PLACEMENT_KEYWORD));
+        }
+    }
+
+    /**
+     * @param pick index of tool card chosen by player
+     * @param username of the player that requested
+     * @return true if can be activated, false else
+     */
+    @Override
+    public Boolean checkPreCondition(int pick, String username) {
+        try {
+            return server.checkPreCondition(pick, username);
+
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return false;
+
+        } catch (PlayerNotFoundException e) {
+            view.print(dictionary.getMessage(NOT_IN_GAME_EXCEPTION_KEYWORD));
+            return false;
+
+        } catch (EmptyException e) {
+            view.print(dictionary.getMessage(EMPTY_GAME_EXCEPTION_KEYWORD));
+            return false;
+        }
+    }
+
+    /**
+     * @param pick     index of tool card chosen by player
+     * @param username of the player that requested
+     * @return list of Enum Actor if everything okay, Collections.emptyList() if not okay
+     */
+    @Override
+    public List<ToolCard.Actor> getActor(int pick, String username) {
+        try {
+            return server.getActor(pick, username);
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * @param pick     index of tool card chosen by player
+     * @param username of the player that requested
+     * @return list of Enum Parameter if everything okay, Collections.emptyList() if not okay
+     */
+    @Override
+    public List<ToolCard.Parameter> getParameter(int pick, String username) {
+        try {
+            return server.getParameter(pick, username);
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * @param pick      index of tool card chosen by player
+     * @param dices     requested by tool card, dices.size() == 0 || 1 || 2
+     * @param cells     requested by tool card, cells.size() == 0 || 1 || 2
+     * @param diceValue if value of a dice need to be changed, 0 if not needed
+     * @param diceColor if color on round track is necessary for the tool card, null if not needed
+     * @return true if tool can be used with passed parameters, false else
+     */
+    @Override
+    public Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) {
+        try {
+            return server.checkTool(pick, dices, cells, diceValue, diceColor);
+
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return false;
+
+        } catch (PositionException e) {
+            view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
+            return false;
+        }
+    }
+
+    /**
+     * @param pick  index of tool card chosen by player
+     * @param dices null when not needed
+     * @param up    null when not needed
+     * @param cells null when not needed
+     * @return true if move was successful, else false
+     */
+    @Override
+    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) {
+        try {
+            return server.useTool(pick, dices, up, cells);
+
+        } catch (RemoteException e) {
+           view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+           return false;
+
+        } catch (NotEmptyException | EmptyException | ValueException | RoundNotFoundException | IDNotFoundException | SameDiceException e) {
+            view.print(e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @param actor       can be Draft, Window Card or Round Track
+     * @param username    of who requested
+     * @param coordinates there could be various type of coordinates depending on which actor is passed
+     *                    if Draft, coordinates.size() = 1 and coordinates contains index of dice in the draft
+     *                    if Round Track, coordinates.size() = 2 and coordinates.get(0) = number of round where dice is and coordinates.get(1) = index of dice in list dice round
+     *                    if Window Card, coordinates.size() = 2 and coordinates.get(0) = cell.getRow() and coordinates.get(1) = cell.getCol() of where the dice is located
+     * @return Dice asked by user, null if any problem occurs
+     */
+    @Override
+    public Dice getDiceFromActor(ToolCard.Actor actor, String username, List<Integer> coordinates) {
+        try {
+            return server.getDiceFromActor(actor, username, coordinates);
+
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return null;
+        }
+    }
+
+    /**
+     * @param username    of player who requested
+     * @param coordinates coordinates.size() = 2 and coordinates.get(0) = cell.getRow() and coordinates.get(1) = cell.getCol()
+     * @return Cell asked by user, null if any problem occurs
+     */
+    @Override
+    public Cell getCellFromWindow(String username, List<Integer> coordinates) {
+        try {
+            return server.getCellFromWindow(username, coordinates);
+
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return null;
+        }
+    }
+
+    /**
+     * @param username    of player who requested
+     * @param coordinates coordinates.size() = 2 and coordinates.get(0) = number of round where dice is and coordinates.get(1) = index of dice in list dice round
+     * @return Color asked by user, null if any problem occurs
+     */
+    @Override
+    public Colors getColorFromRoundTrack(String username, List<Integer> coordinates) {
+        try {
+            return server.getColorFromRoundTrack(username, coordinates);
+
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return null;
         }
     }
 }

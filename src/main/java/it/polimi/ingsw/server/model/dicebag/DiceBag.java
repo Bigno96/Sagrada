@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 
 public class DiceBag implements Serializable {
 
-    private static final String EMPTY_DRAFT = "Draft is empty";
-    private static final String ID_NOT_FOUND = "Id not found";
-    private static final String ALREADY_IN_BAG = "Dice is already in Bag";
+    private static final String EMPTY_DRAFT = "La riserva è vuota";
+    private static final String ID_NOT_FOUND = "Id non trovato";
+    private static final String ALREADY_IN_BAG = "Il dado è già nel sacchetto dadi";
     private static final String DUMP_MSG = "contains following dices: ";
 
     private static final int NUM_DICE = 90;

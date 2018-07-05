@@ -14,8 +14,8 @@ public class Dice implements Serializable {
     private static final String DUMP_COL_MSG = " Col: ";
     private static final String DUMP_VAL_MSG = " Val: ";
 
-    private static final String WRONG_ID = "ID not allowed";
-    private static final String WRONG_VALUE = "Illegal Value";
+    private static final String WRONG_ID = "ID non permesso";
+    private static final String WRONG_VALUE = "Valore illegale";
     private static final int MAX_DICE_VALUE = 6;
     private static final int MIN_DICE_VALUE = 0;
     private static final int DICE_NUMBER = 90;

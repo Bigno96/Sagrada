@@ -10,16 +10,17 @@ import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ToolCard {
+public class ToolCard implements Serializable {
 
     public enum Actor { WINDOW_CARD, ROUND_TRACK, DRAFT, DICE_BAG }
-    public enum Parameter { DICE, CELL, INTEGER, COLOR }
+    public enum Parameter { DICE, CELL, INTEGER, COLOR, BOOLEAN }
 
     private static final String DUMP_ID_MSG = "ID = ";
     private static final String DUMP_NAME_MSG = " name = ";
@@ -189,10 +190,13 @@ public class ToolCard {
             list.add(Parameter.CELL);
         }
 
-        if (id == 11)
+        if (id == 1)
+            list.add(Parameter.BOOLEAN);
+
+        else if (id == 11)
             list.add(Parameter.INTEGER);
 
-        if (id == 12)
+        else if (id == 12)
             list.add(Parameter.COLOR);
 
         return list;
@@ -202,7 +206,7 @@ public class ToolCard {
      * Checks if correct elements have been selected for this tool
      * @param dices null when not needed
      * @param cells null when not needed
-     * @param diceValue null when not needed
+     * @param diceValue 0 when not needed
      * @param diceColor null when not needed
      * @return true if selected elements are correct for this tool, else false
      * @throws PositionException when cells have invalid positions
@@ -245,7 +249,7 @@ public class ToolCard {
      * @param dices null when not needed
      * @param up null when not needed
      * @param cells null when not needed
-     * @return true if move was sucessfull, else false
+     * @return true if move was successful, else false
      * @throws ValueException when wrong value are chosen
      * @throws IDNotFoundException when couldn't find a dice
      * @throws NotEmptyException when trying to stack dice on the same cell
@@ -274,7 +278,7 @@ public class ToolCard {
             return true;
         }
         else if (id == 8) {
-            player.setPlayedDice(true);
+            player.setPlayedDice(false);
             player.setSecondTurn(false);
         }
         else if (id == 9)
