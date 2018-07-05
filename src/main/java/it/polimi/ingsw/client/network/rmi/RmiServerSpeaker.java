@@ -298,9 +298,10 @@ public class RmiServerSpeaker implements ServerSpeaker {
             view.print(dictionary.getMessage(EMPTY_GAME_EXCEPTION_KEYWORD));
             return false;
 
-        } catch (IDNotFoundException e) {
+        } catch (IDNotFoundException | NotEnoughFavorPointsException e) {
             view.print(e.getMessage());
             return false;
+
         }
     }
 
@@ -376,12 +377,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
      * @param dices null when not needed
      * @param up    null when not needed
      * @param cells null when not needed
+     * @param username of who requested
      * @return true if move was successful, else false
      */
     @Override
-    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) {
+    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) {
         try {
-            return server.useTool(pick, dices, up, cells);
+            return server.useTool(pick, dices, up, cells, username);
 
         } catch (RemoteException e) {
            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));

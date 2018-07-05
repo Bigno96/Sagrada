@@ -622,7 +622,7 @@ public class CliSystem implements ViewInterface {
             if (!validity)
                 wrong = true;
             else {
-                success = serverSpeaker.useTool(pick, dices, up, cells);
+                success = serverSpeaker.useTool(pick, dices, up, cells, userName);
 
                 if (!success)
                     wrong = true;

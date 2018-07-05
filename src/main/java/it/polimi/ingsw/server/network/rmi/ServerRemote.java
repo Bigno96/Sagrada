@@ -144,8 +144,9 @@ public interface ServerRemote extends Remote {
      * @throws EmptyException when game is empty
      * @throws PlayerNotFoundException when player it's not in the game
      * @throws IDNotFoundException when tool card is not found
+     * @throws NotEnoughFavorPointsException when player has not enough favor points to play the tool card
      */
-    Boolean checkPreCondition(int pick, String username) throws RemoteException, EmptyException, PlayerNotFoundException, IDNotFoundException;
+    Boolean checkPreCondition(int pick, String username) throws RemoteException, EmptyException, PlayerNotFoundException, IDNotFoundException, NotEnoughFavorPointsException;
 
     /**
      * Used to get which elements of board are involved in selected window card
@@ -187,6 +188,7 @@ public interface ServerRemote extends Remote {
      * @param dices null when not needed
      * @param up null when not needed
      * @param cells null when not needed
+     * @param username of who requested
      * @return true if move was successful, else false
      * @throws RemoteException default
      * @throws ValueException when wrong value are chosen
@@ -196,7 +198,7 @@ public interface ServerRemote extends Remote {
      * @throws SameDiceException when trying to put the same dice twice
      * @throws RoundNotFoundException when wrong round is requested
      */
-    Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) throws RemoteException, NotEmptyException, EmptyException,
+    Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) throws RemoteException, NotEmptyException, EmptyException,
             ValueException, RoundNotFoundException, IDNotFoundException, SameDiceException;
 
     /**

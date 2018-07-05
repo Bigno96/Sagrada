@@ -325,7 +325,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
     }
 
     @Override
-    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) {
+    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) {
         return null;
     }
 

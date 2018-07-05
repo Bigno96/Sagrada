@@ -28,6 +28,7 @@ public class ServerRemoteImpl implements ServerRemote {
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
     private static final String TOOL_CARD_NOT_FOUND_KEYWORD = "TOOL_CARD_NOT_FOUND";
+    private static final String NOT_ENOUGH_FAVOR_POINT_KEYWORD = "NOT_ENOUGH_FAVOR_POINT";
 
     private final Lobby lobby;
     private final CommunicationParser protocol;
@@ -220,15 +221,22 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws EmptyException when game is empty
      * @throws PlayerNotFoundException when player it's not in the game
      * @throws IDNotFoundException when tool card is not found
+     * @throws NotEnoughFavorPointsException when player has not enough favor points to play the tool card
      */
     @Override
-    public Boolean checkPreCondition(int pick, String username) throws EmptyException, PlayerNotFoundException, IDNotFoundException {
+    public Boolean checkPreCondition(int pick, String username) throws EmptyException, PlayerNotFoundException, IDNotFoundException, NotEnoughFavorPointsException {
         if (pick < 0 || pick > 2) {
             throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
         }
+
+        ToolCard toolCard = lobby.getGame().getBoard().getToolCard().get(pick);
         Player p = lobby.getGame().findPlayer(username);
         WindowCard card = p.getWindowCard();
-        return lobby.getGame().getBoard().getToolCard().get(pick).checkPreCondition(p, card);
+
+        if (!toolCard.checkFavorPoint(p))
+            throw new NotEnoughFavorPointsException(dictionary.getMessage(NOT_ENOUGH_FAVOR_POINT_KEYWORD));
+
+        return toolCard.checkPreCondition(p, card);
     }
 
     /**
@@ -282,6 +290,7 @@ public class ServerRemoteImpl implements ServerRemote {
      * @param dices null when not needed
      * @param up    null when not needed
      * @param cells null when not needed
+     * @param username of who requested
      * @return true if move was successful, else false
      * @throws ValueException when wrong value are chosen
      * @throws IDNotFoundException when couldn't find a dice or when tool card is not found
@@ -291,12 +300,21 @@ public class ServerRemoteImpl implements ServerRemote {
      * @throws RoundNotFoundException when wrong round is requested
      */
     @Override
-    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) throws NotEmptyException, EmptyException, ValueException,
+    public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) throws NotEmptyException, EmptyException, ValueException,
             RoundNotFoundException, IDNotFoundException, SameDiceException {
         if (pick < 0 || pick > 2) {
             throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
         }
-        return lobby.getGame().getBoard().getToolCard().get(pick).useTool(dices, up, cells);
+
+        ToolCard card = lobby.getGame().getBoard().getToolCard().get(pick);
+
+        if (card.useTool(dices, up, cells)) {
+            Player p = lobby.getPlayers().get(username);
+            p.setFavorPoint(p.getFavorPoint() - card.addFavorPoint());
+            return true;
+        }
+
+        return false;
     }
 
     /**
