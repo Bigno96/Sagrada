@@ -297,6 +297,10 @@ public class RmiServerSpeaker implements ServerSpeaker {
         } catch (EmptyException e) {
             view.print(dictionary.getMessage(EMPTY_GAME_EXCEPTION_KEYWORD));
             return false;
+
+        } catch (IDNotFoundException e) {
+            view.print(e.getMessage());
+            return false;
         }
     }
 
@@ -309,8 +313,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public List<ToolCard.Actor> getActor(int pick, String username) {
         try {
             return server.getActor(pick, username);
+
         } catch (RemoteException e) {
             view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return Collections.emptyList();
+
+        } catch (IDNotFoundException e) {
+            view.print(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -324,8 +333,13 @@ public class RmiServerSpeaker implements ServerSpeaker {
     public List<ToolCard.Parameter> getParameter(int pick, String username) {
         try {
             return server.getParameter(pick, username);
+
         } catch (RemoteException e) {
             view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+            return Collections.emptyList();
+
+        } catch (IDNotFoundException e) {
+            view.print(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -349,6 +363,10 @@ public class RmiServerSpeaker implements ServerSpeaker {
 
         } catch (PositionException e) {
             view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
+            return false;
+
+        } catch (IDNotFoundException e) {
+            view.print(e.getMessage());
             return false;
         }
     }

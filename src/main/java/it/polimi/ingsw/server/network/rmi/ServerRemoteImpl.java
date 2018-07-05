@@ -27,6 +27,7 @@ public class ServerRemoteImpl implements ServerRemote {
     private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
+    private static final String TOOL_CARD_NOT_FOUND_KEYWORD = "TOOL_CARD_NOT_FOUND";
 
     private final Lobby lobby;
     private final CommunicationParser protocol;
@@ -218,9 +219,13 @@ public class ServerRemoteImpl implements ServerRemote {
      * @return true if it can be activated, false else
      * @throws EmptyException when game is empty
      * @throws PlayerNotFoundException when player it's not in the game
+     * @throws IDNotFoundException when tool card is not found
      */
     @Override
-    public Boolean checkPreCondition(int pick, String username) throws EmptyException, PlayerNotFoundException {
+    public Boolean checkPreCondition(int pick, String username) throws EmptyException, PlayerNotFoundException, IDNotFoundException {
+        if (pick < 0 || pick > 2) {
+            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
+        }
         Player p = lobby.getGame().findPlayer(username);
         WindowCard card = p.getWindowCard();
         return lobby.getGame().getBoard().getToolCard().get(pick).checkPreCondition(p, card);
@@ -229,20 +234,28 @@ public class ServerRemoteImpl implements ServerRemote {
     /**
      * @param pick     index of tool card chosen by player
      * @param username of the player that requested
+     * @throws IDNotFoundException when tool card is not found
      * @return list of Enum Actor
      */
     @Override
-    public List<ToolCard.Actor> getActor(int pick, String username) {
+    public List<ToolCard.Actor> getActor(int pick, String username) throws IDNotFoundException {
+        if (pick < 0 || pick > 2) {
+            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
+        }
         return lobby.getGame().getBoard().getToolCard().get(pick).getActor();
     }
 
     /**
      * @param pick     index of tool card chosen by player
      * @param username of the player that requested
+     * @throws IDNotFoundException when tool card is not found
      * @return list of Enum Parameter
      */
     @Override
-    public List<ToolCard.Parameter> getParameter(int pick, String username) {
+    public List<ToolCard.Parameter> getParameter(int pick, String username) throws IDNotFoundException {
+        if (pick < 0 || pick > 2) {
+            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
+        }
         return lobby.getGame().getBoard().getToolCard().get(pick).askParameter();
     }
 
@@ -254,9 +267,13 @@ public class ServerRemoteImpl implements ServerRemote {
      * @param diceColor if color on round track is necessary for the tool card, null if not needed
      * @return true if tool can be used with passed parameters, false else
      * @throws PositionException when wrong cells are passed
+     * @throws IDNotFoundException when tool card is not found
      */
     @Override
-    public Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws PositionException {
+    public Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws PositionException, IDNotFoundException {
+        if (pick < 0 || pick > 2) {
+            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
+        }
         return lobby.getGame().getBoard().getToolCard().get(pick).checkTool(dices, cells, diceValue, diceColor);
     }
 
@@ -267,7 +284,7 @@ public class ServerRemoteImpl implements ServerRemote {
      * @param cells null when not needed
      * @return true if move was successful, else false
      * @throws ValueException when wrong value are chosen
-     * @throws IDNotFoundException when couldn't find a dice
+     * @throws IDNotFoundException when couldn't find a dice or when tool card is not found
      * @throws NotEmptyException when trying to stack dice on the same cell
      * @throws EmptyException when trying to get dice from empty draft or bag
      * @throws SameDiceException when trying to put the same dice twice
@@ -276,6 +293,9 @@ public class ServerRemoteImpl implements ServerRemote {
     @Override
     public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells) throws NotEmptyException, EmptyException, ValueException,
             RoundNotFoundException, IDNotFoundException, SameDiceException {
+        if (pick < 0 || pick > 2) {
+            throw new IDNotFoundException(dictionary.getMessage(TOOL_CARD_NOT_FOUND_KEYWORD));
+        }
         return lobby.getGame().getBoard().getToolCard().get(pick).useTool(dices, up, cells);
     }
 

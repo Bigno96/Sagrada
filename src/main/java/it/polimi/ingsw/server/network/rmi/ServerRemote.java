@@ -143,8 +143,9 @@ public interface ServerRemote extends Remote {
      * @throws RemoteException default
      * @throws EmptyException when game is empty
      * @throws PlayerNotFoundException when player it's not in the game
+     * @throws IDNotFoundException when tool card is not found
      */
-    Boolean checkPreCondition(int pick, String username) throws RemoteException, EmptyException, PlayerNotFoundException;
+    Boolean checkPreCondition(int pick, String username) throws RemoteException, EmptyException, PlayerNotFoundException, IDNotFoundException;
 
     /**
      * Used to get which elements of board are involved in selected window card
@@ -152,8 +153,9 @@ public interface ServerRemote extends Remote {
      * @param username of the player that requested
      * @return list of Enum Actor
      * @throws RemoteException default
+     * @throws IDNotFoundException when tool card is not found
      */
-    List<ToolCard.Actor> getActor(int pick, String username) throws RemoteException;
+    List<ToolCard.Actor> getActor(int pick, String username) throws RemoteException, IDNotFoundException;
 
     /**
      * Used to get which parameters are requested to use selected tool card
@@ -161,8 +163,9 @@ public interface ServerRemote extends Remote {
      * @param username of the player that requested
      * @return list of Enum Parameter
      * @throws RemoteException default
+     * @throws IDNotFoundException when tool card is not found
      */
-    List<ToolCard.Parameter> getParameter(int pick, String username) throws RemoteException;
+    List<ToolCard.Parameter> getParameter(int pick, String username) throws RemoteException, IDNotFoundException;
 
     /**
      * Used to check if the selected tool can be used with passed parameter
@@ -174,8 +177,9 @@ public interface ServerRemote extends Remote {
      * @return true if tool can be used with passed parameters, false else
      * @throws RemoteException default
      * @throws PositionException when wrong cells are passed
+     * @throws IDNotFoundException when tool card is not found
      */
-    Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws RemoteException, PositionException;
+    Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) throws RemoteException, PositionException, IDNotFoundException;
 
     /**
      * Realize the effect of the tool card on the passed parameter
@@ -186,7 +190,7 @@ public interface ServerRemote extends Remote {
      * @return true if move was successful, else false
      * @throws RemoteException default
      * @throws ValueException when wrong value are chosen
-     * @throws IDNotFoundException when couldn't find a dice
+     * @throws IDNotFoundException when couldn't find a dice or when tool card is not found
      * @throws NotEmptyException when trying to stack dice on the same cell
      * @throws EmptyException when trying to get dice from empty draft or bag
      * @throws SameDiceException when trying to put the same dice twice

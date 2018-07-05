@@ -47,6 +47,9 @@ public class MenuTask implements Runnable {
     private static final String PRIVATE_OBJECTIVE_ENTRY_KEYWORD = "PRIVATE_OBJECTIVE_ENTRY";
     private static final String PRIVATE_OBJECTIVE_MESSAGE_KEYWORD = "PRIVATE_OBJECTIVE_MESSAGE";
 
+    private static final String ROUND_TRACK_ENTRY_KEYWORD = "ROUND_TRACK_ENTRY";
+    private static final String ROUND_TRACK_MESSAGE_KEYWORD = "ROUND_TRACK_MESSAGE";
+
     private static final String TOOL_CARD_ENTRY_KEYWORD = "TOOL_CARD_ENTRY";
     private static final String TOOL_CARD_MESSAGE_KEYWORD = "TOOL_CARD_MESSAGE";
 
@@ -157,6 +160,9 @@ public class MenuTask implements Runnable {
         cliSystem.print("'" + dictionary.getMessage(PRIVATE_OBJECTIVE_ENTRY_KEYWORD) + "' " +
                 dictionary.getMessage(PRIVATE_OBJECTIVE_MESSAGE_KEYWORD));
 
+        cliSystem.print("'" + dictionary.getMessage(ROUND_TRACK_ENTRY_KEYWORD) + "' " +
+                dictionary.getMessage(ROUND_TRACK_MESSAGE_KEYWORD));
+
         cliSystem.print("'" + dictionary.getMessage(TOOL_CARD_ENTRY_KEYWORD) + "' " +
                 dictionary.getMessage(TOOL_CARD_MESSAGE_KEYWORD));
 
@@ -214,6 +220,9 @@ public class MenuTask implements Runnable {
         //see private objective
         Consumer<String> privateObj = serverSpeaker::askPrivateObj;
 
+        //see round track
+        Consumer<String> roundTrack = serverSpeaker::askRoundTrack;
+
         //see tool card
         Consumer<String> tool = serverSpeaker::askToolCards;
 
@@ -228,6 +237,7 @@ public class MenuTask implements Runnable {
         playingAction.put(dictionary.getMessage(DRAFT_ENTRY_KEYWORD), draft);
         playingAction.put(dictionary.getMessage(PUBLIC_OBJECTIVE_ENTRY_KEYWORD), publicObj);
         playingAction.put(dictionary.getMessage(PRIVATE_OBJECTIVE_ENTRY_KEYWORD), privateObj);
+        playingAction.put(dictionary.getMessage(ROUND_TRACK_ENTRY_KEYWORD), roundTrack);
         playingAction.put(dictionary.getMessage(TOOL_CARD_ENTRY_KEYWORD), tool);
         playingAction.put(dictionary.getMessage(FAVOR_POINT_ENTRY_KEYWORD), favor);
     }
@@ -255,6 +265,9 @@ public class MenuTask implements Runnable {
         //see private objective
         Consumer<String> privateObj = serverSpeaker::askPrivateObj;
 
+        //see round track
+        Consumer<String> roundTrack = serverSpeaker::askRoundTrack;
+
         //see tool card
         Consumer<String> tool = serverSpeaker::askToolCards;
 
@@ -266,6 +279,7 @@ public class MenuTask implements Runnable {
         waitingAction.put(dictionary.getMessage(DRAFT_ENTRY_KEYWORD), draft);
         waitingAction.put(dictionary.getMessage(PUBLIC_OBJECTIVE_ENTRY_KEYWORD), publicObj);
         waitingAction.put(dictionary.getMessage(PRIVATE_OBJECTIVE_ENTRY_KEYWORD), privateObj);
+        waitingAction.put(dictionary.getMessage(ROUND_TRACK_ENTRY_KEYWORD), roundTrack);
         waitingAction.put(dictionary.getMessage(TOOL_CARD_ENTRY_KEYWORD), tool);
         waitingAction.put(dictionary.getMessage(FAVOR_POINT_ENTRY_KEYWORD), favor);
     }

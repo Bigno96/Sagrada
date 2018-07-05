@@ -58,6 +58,8 @@
   "PRIVATE_OBJECTIVE_MESSAGE": "- guarda il tuo obiettivo privato",
   "TOOL_CARD_ENTRY": "strumenti",
   "TOOL_CARD_MESSAGE": "- guarda le carte strumento",
+  "ROUND_TRACK_ENTRY": "round",
+  "ROUND_TRACK_MESSAGE": "- guarda il tracciato dei round",
   "FAVOR_POINT_ENTRY": "punti-favore",
   "FAVOR_POINT_MESSAGE": "- guarda quanti punti favore ti rimangono",
   "INCORRECT_MESSAGE": "Input sbagliato!",
@@ -92,6 +94,7 @@
   "DOWN_ENTRY": "-1",
   "UP_MESSAGE": " - per aumentare di 1",
   "DOWN_MESSAGE": " - per diminuire di 1",
+  "TOOL_CARD_NOT_FOUND": "\nLa carta strumento selezionata non esiste in questa partita",
 
   "PASS_TURN_ENTRY": "passo",
   "PASS_TURN_MESSAGE": "- passa il turno",
