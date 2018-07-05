@@ -389,7 +389,8 @@ public class RmiServerSpeaker implements ServerSpeaker {
            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
            return false;
 
-        } catch (NotEmptyException | EmptyException | ValueException | RoundNotFoundException | IDNotFoundException | SameDiceException e) {
+        } catch (NotEmptyException | EmptyException | ValueException | RoundNotFoundException | IDNotFoundException |
+                SameDiceException | PlayerNotFoundException e) {
             view.print(e.getMessage());
             return false;
         }

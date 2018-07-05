@@ -15,9 +15,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 import java.util.logging.Logger;
 
-public class ToolCard implements Serializable {
+public class ToolCard extends Observable implements Serializable {
 
     public enum Actor { WINDOW_CARD, ROUND_TRACK, DRAFT, DICE_BAG }
     public enum Parameter { DICE, CELL, INTEGER, COLOR, BOOLEAN }
@@ -324,6 +325,14 @@ public class ToolCard implements Serializable {
             ret = strategy.moveUpToTwoDice(dices, cells, windowCard);
 
         return ret;
+    }
+
+    /**
+     * Set changed and notify observers
+     */
+    public void setChangedAndNotify() {
+        setChanged();
+        notifyObservers(player);
     }
 
 }

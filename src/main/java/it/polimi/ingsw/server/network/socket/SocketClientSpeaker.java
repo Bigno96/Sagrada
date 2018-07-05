@@ -499,6 +499,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
     }
 
+    @Override
+    public void successfulUsedTool(String username, ToolCard card) {
+
+    }
+
     /**
      * @param ranking sorted map of player username and their points through the game
      */

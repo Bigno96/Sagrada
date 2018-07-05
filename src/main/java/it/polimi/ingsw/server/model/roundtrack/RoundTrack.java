@@ -151,4 +151,12 @@ public class RoundTrack extends Observable implements Serializable {
     public List<ListDiceRound> getTrackList() {
         return this.trackList;
     }
+
+    /**
+     * Set changed and notify observers
+     */
+    public void setChangedAndNotify() {
+        setChanged();
+        notifyObservers();
+    }
 }

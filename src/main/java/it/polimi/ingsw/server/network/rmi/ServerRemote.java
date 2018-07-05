@@ -197,9 +197,10 @@ public interface ServerRemote extends Remote {
      * @throws EmptyException when trying to get dice from empty draft or bag
      * @throws SameDiceException when trying to put the same dice twice
      * @throws RoundNotFoundException when wrong round is requested
+     * @throws PlayerNotFoundException when player is not found in the game
      */
     Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) throws RemoteException, NotEmptyException, EmptyException,
-            ValueException, RoundNotFoundException, IDNotFoundException, SameDiceException;
+            ValueException, RoundNotFoundException, IDNotFoundException, SameDiceException, PlayerNotFoundException;
 
     /**
      * Used to get requested Dice using coordinates to localize it through passed Actor

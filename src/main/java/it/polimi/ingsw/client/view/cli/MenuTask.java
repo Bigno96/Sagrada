@@ -118,6 +118,7 @@ public class MenuTask implements Runnable {
                 else {
                     action.get(s).accept(cliSystem.getUserName());
                     cliSystem.acquireSemaphore();                           // acquire before re printing menu, waiting for Action to happen
+                    cliSystem.drainPermits();
                 }
 
                 if (!currentState.contains(state.PASSING))
@@ -289,6 +290,13 @@ public class MenuTask implements Runnable {
      */
     void setMoved() {
         currentState.add(state.MOVED);
+    }
+
+    /**
+     * Used to set used parameter
+     */
+    void setUsed() {
+        currentState.add(state.USED);
     }
 
     /**

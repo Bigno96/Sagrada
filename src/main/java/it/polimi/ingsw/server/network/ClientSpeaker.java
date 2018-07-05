@@ -104,6 +104,13 @@ public interface ClientSpeaker {
     void printNumberFavorPoint(int point);
 
     /**
+     * Used to tell a player that Player username has successfully used Tool Card card
+     * @param username of who used the tool
+     * @param card tool card used
+     */
+    void successfulUsedTool(String username, ToolCard card);
+
+    /**
      * Used when game ends to print final ranking
      * @param ranking sorted map of player username and their points through the game
      */

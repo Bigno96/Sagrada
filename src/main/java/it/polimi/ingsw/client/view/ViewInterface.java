@@ -106,4 +106,11 @@ public interface ViewInterface {
      * @param ranking sorted map of player username and their points through the game
      */
     void printRanking(SortedMap<Integer, String> ranking);
+
+    /**
+     * Used to show on screen that Player username has successfully used Tool Card card
+     * @param username of who used the tool
+     * @param card tool card used
+     */
+    void successfulUsedTool(String username, ToolCard card);
 }
