@@ -92,9 +92,13 @@ public class GuiSystem implements ViewInterface{
     public void showCardPlayer(String user, WindowCard card) {
 
         if(userName.equals(user)){
+
             myWindowCard = card;
+
         }else{
+
             windowCards.add(card);
+
         }
 
         ctrl.newCard();
@@ -107,7 +111,6 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printWindowCard(WindowCard window) {
 
-        out.println("printWindowCards");
         ctrl.updateCard(window);
 
     }
@@ -115,7 +118,6 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
 
-        out.println("printPrivareObj");
         ctrl.printPrivateObj(privObj);
 
     }
@@ -123,15 +125,13 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printListPublicObj(List<ObjectiveCard> publObj) {
 
-        out.println("printListPublObj");
-        ctrl.printListPublObj(publObj);
+      ctrl.printListPublObj(publObj);
 
     }
 
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
 
-        out.println("printListToolCard");
         ctrl.printListToolCard(toolCards);
 
     }
@@ -139,7 +139,6 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void showDraft(List<Dice> draft) {
 
-        out.println("draft");
         ctrl.printDraft(draft);
 
     }
@@ -147,7 +146,6 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void showRoundTrack(RoundTrack roundTrack) {
 
-        out.println("showRoundTrack");
         ctrl.updateRoundTrack(roundTrack);
 
     }
