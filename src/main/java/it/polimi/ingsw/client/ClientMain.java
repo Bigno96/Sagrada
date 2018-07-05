@@ -34,6 +34,7 @@ public class ClientMain extends Application {
         primaryStage.resizableProperty().setValue(Boolean.FALSE);                    //disable resizable
         this.primaryStage.setTitle("Quale modalità scegli?");
         initRootLayout();
+
     }
 
     private void initRootLayout() {

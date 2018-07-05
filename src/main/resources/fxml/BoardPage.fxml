@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
+<AnchorPane prefHeight="601.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.BoardController">
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.BoardPage">
-   <children>
-      <SplitPane dividerPositions="0.20100502512562815" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <SplitPane dividerPositions="0.5544871794871795" orientation="VERTICAL" prefHeight="314.0" prefWidth="600.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <ScrollPane prefHeight="169.0" prefWidth="200.0" />
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                    </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+    <Text layoutX="202.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Segli la tua vetrata">
+        <font>
+            <Font size="27.0" />
+        </font></Text>
+    <TextArea fx:id="textArea" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false" layoutX="10.0" layoutY="525.0" prefHeight="69.0" prefWidth="641.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+    <Button layoutY="64.0" mnemonicParsing="false" onAction="#win0" prefHeight="212.0" prefWidth="258.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="64.0">
+        <graphic>
+            <ImageView fx:id="img0" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
+        </graphic>
+    </Button>
+    <Button layoutX="331.0" layoutY="64.0" mnemonicParsing="false" onAction="#win1" prefHeight="212.0" prefWidth="258.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="64.0">
+        <graphic>
+            <ImageView fx:id="img1" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
+        </graphic>
+    </Button>
+    <Button layoutX="14.0" layoutY="301.0" mnemonicParsing="false" onAction="#win2" prefHeight="212.0" prefWidth="258.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="301.0">
+        <graphic>
+            <ImageView fx:id="img2" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
+        </graphic>
+    </Button>
+    <Button layoutX="341.0" layoutY="301.0" mnemonicParsing="false" onAction="#win3" prefHeight="212.0" prefWidth="258.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="301.0">
+        <graphic>
+            <ImageView fx:id="img3" fitHeight="203.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true" />
+        </graphic>
+    </Button>
+
 </AnchorPane>

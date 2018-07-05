@@ -276,4 +276,11 @@ public class MenuTask implements Runnable {
     void setMoved() {
         currentState.add(state.MOVED);
     }
+
+    /**
+     * Used to clear currentState
+     */
+    void clearCurrentState() {
+        currentState.clear();
+    }
 }

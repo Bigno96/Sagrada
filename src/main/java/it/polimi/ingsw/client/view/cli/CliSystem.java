@@ -294,6 +294,9 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
+
+        taskMenu.clearCurrentState();
+
         if (userName.equals(username)) {
             print(dictionary.getMessage(YOUR_TURN_KEYWORD));
             taskMenu.setPlaying(true);
@@ -430,7 +433,6 @@ public class CliSystem implements ViewInterface {
 
         col = getCol();
 
-        System.out.println("sempahore permits = " + semaphore.availablePermits());
         if (!quit)
             serverSpeaker.placementDice(userName, index, row, col);
         else {

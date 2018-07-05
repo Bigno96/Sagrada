@@ -148,7 +148,7 @@ public class WindowParser implements Parser {
         int id = Integer.parseInt(obj.get(ID).toString());
         int numFavPoint = Integer.parseInt(obj.get(FP).toString());
 
-        String name = obj.get(NAME).toString();
+        String name = obj.get(NAME).getAsString();
 
         JsonArray cellArr = (JsonArray) obj.get(CELL_LIST);            // json array to extract Cells from WindowInfo
         List<Cell> cells = new ArrayList<>();
@@ -156,7 +156,7 @@ public class WindowParser implements Parser {
         int row = 0;
         int col = 0;
         for (Object o : cellArr) {
-            if (col > gameSettings.getWindowCardMaxColumn()) {
+            if (col > gameSettings.getWindowCardMaxColumn()-1) {
                 col = 0;
                 row++;
             }

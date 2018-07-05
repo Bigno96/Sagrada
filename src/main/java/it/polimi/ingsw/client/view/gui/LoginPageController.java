@@ -5,6 +5,10 @@ import it.polimi.ingsw.client.network.rmi.RmiServerSpeaker;
 import it.polimi.ingsw.client.network.socket.SocketServerSpeaker;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
+import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
+import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,7 +16,7 @@ import javafx.scene.control.*;
 import java.util.HashMap;
 import java.util.List;
 
-public class LoginPageController implements ControlInterface{
+public class LoginPageController implements ControlInterface {
 
     private static final String SAME_USERNAME = "INSERT_NAME_AGAIN";
     private static final String WRONG_IP_KEY = "WRONG_IP";
@@ -48,8 +52,43 @@ public class LoginPageController implements ControlInterface{
         this.guiSystem = guiSystem;
     }
 
-    @Override
+
     public void setList(List<WindowCard> cards) {
+
+    }
+
+    @Override
+    public void newCard() {
+
+    }
+
+    @Override
+    public void printDraft(List<Dice> Draft) {
+
+    }
+
+    @Override
+    public void printPrivateObj(ObjectiveCard privObj) {
+
+    }
+
+    @Override
+    public void printListToolCard(List<ToolCard> toolCards) {
+
+    }
+
+    @Override
+    public void printListPublObj(List<ObjectiveCard> publObj) {
+
+    }
+
+    @Override
+    public void updateCard(WindowCard window) {
+
+    }
+
+    @Override
+    public void updateRoundTrack(RoundTrack roundTrack) {
 
     }
 
@@ -129,6 +168,8 @@ public class LoginPageController implements ControlInterface{
 
             guiSystem.setUsername(username);
             connParam.put(username, serverSpeaker);
+
+            guiSystem.setConnParam(connParam);
 
         guiSystem.waitingPage();
 
