@@ -115,7 +115,7 @@ public class LoginPageController implements ControlInterface {
      * LoginPage -> WaitingPage
      */
     public void submitAction() {
-        startConnection(guiSystem);
+        startConnection();
 
         guiSystem.setUsername(usernameText.getText());
         guiSystem.setServerSpeaker(serverSpeaker);
@@ -125,10 +125,8 @@ public class LoginPageController implements ControlInterface {
 
     /**
      * Choice of connection, constructor serverSpeaker
-     * @param guiSystem from GuiSystem
-     * @return HashMap = username + serverSpeaker
      */
-    private HashMap<String, ServerSpeaker> startConnection(GuiSystem guiSystem) {
+    private void startConnection() {
 
         String username = usernameText.getText();
         if (socket.isSelected()) {
@@ -146,7 +144,7 @@ public class LoginPageController implements ControlInterface {
                     textArea.setText(dictionary.getMessage(NO_SERVER));
                     ipText.setText("");
 
-                    return null;
+                    return;
                 }
 
                 if (!serverSpeaker.login(username)) {
@@ -154,7 +152,7 @@ public class LoginPageController implements ControlInterface {
                     usernameText.setText("");
                     textArea.setText(dictionary.getMessage(SAME_USERNAME));
 
-                    return null;
+                    return;
 
                 }
             } else {
@@ -163,7 +161,7 @@ public class LoginPageController implements ControlInterface {
 
                 ipText.setText("");
 
-                return null;
+                return;
             }
 
             guiSystem.setUsername(username);
@@ -172,8 +170,6 @@ public class LoginPageController implements ControlInterface {
             guiSystem.setConnParam(connParam);
 
         guiSystem.waitingPage();
-
-        return connParam;
 
     }
 
