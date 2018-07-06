@@ -54,10 +54,11 @@ public class SocketServerListener implements Runnable {
     private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
     private static final String SHOW_TOOL_CARD_KEYWORD = "SHOW_TOOL_CARD";
     private static final String SUCCESSFUL_PLACE_DICE_KEYWORD = "SUCCESSFUL_PLACE_DICE";
+    private static final String SHOW_FAVOR_POINT_KEYWORD = "SHOW_FAVOR_POINT";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
     private static final String CARD_ID_KEYWORD = "CARD_ID";
-    private static final String CARD_FAVOR_POINT_KEYWORD = "CARD_FAVOR_POINT";
+    private static final String FAVOR_POINT_KEYWORD = "FAVOR_POINT";
     private static final String CARD_CELL_LIST_KEYWORD = "CARD_CELL_LIST";
     private static final String CARD_KEYWORD = "CARD";
     private static final String LIST_CARD_KEYWORD = "LIST_CARD";
@@ -85,6 +86,19 @@ public class SocketServerListener implements Runnable {
     private static final String TOOL_NAME_KEYWORD = "TOOL_NAME";
     private static final String MAKE_TOOL_LIST_KEYWORD = "MAKE_TOOL_LIST";
     private static final String MAKE_TOOL_CARD_KEYWORD = "MAKE_TOOL_CARD";
+    private static final String ADD_TOOL_CARD_LIST_KEYWORD = "ADD_TOOL_CARD_LIST";
+    private static final String USED_TOOL_CARD_KEYWORD = "USED_TOOL_CARD";
+
+    private static final String SET_RET_KEYWORD = "SET_RET";
+
+    private static final String SET_ACTOR_KEYWORD = "SET_ACTOR";
+    private static final String END_SET_ACTOR_KEYWORD = "END_SET_ACTOR";
+    private static final String SET_PARAMETER_KEYWORD = "SET_PARAMETER";
+    private static final String END_SET_PARAMETER_KEYWORD = "END_SET_PARAMETER";
+
+    private static final String SET_DICE_KEYWORD = "SET_DICE";
+    private static final String SET_CELL_KEYWORD = "SET_CELL";
+    private static final String SET_COLOR_KEYWORD = "SET_COLOR";
 
     private static final String MAKE_ROUND_TRACK_KEYWORD = "MAKE_ROUND_TRACK";
     private static final String MAKE_LIST_ROUND_KEYWORD = "MAKE_LIST_ROUND";
@@ -92,7 +106,7 @@ public class SocketServerListener implements Runnable {
     private static final String ADD_LIST_ROUND_KEYWORD = "ADD_LIST_ROUND";
     private static final String ADD_DICE_ROUND_KEYWORD = "ADD_DICE_ROUND";
 
-    private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
+    private static final String USER_NAME_KEYWORD = "USER_NAME";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
 
     private static final String RANKING_KEYWORD = "RANKING";
@@ -136,7 +150,8 @@ public class SocketServerListener implements Runnable {
     private String objDescription;
     private int objPoint;
 
-    private List<ToolCard> toolCard;
+    private List<ToolCard> toolCardList;
+    private ToolCard toolCard;
     private int toolId;
     private String toolName;
 
@@ -168,7 +183,7 @@ public class SocketServerListener implements Runnable {
         this.cellList = new ArrayList<>();
         this.draft = new ArrayList<>();
         this.publicObj = new ArrayList<>();
-        this.toolCard = new ArrayList<>();
+        this.toolCardList = new ArrayList<>();
         this.ranking = new TreeMap<>();
 
         mapGameException();
@@ -185,6 +200,9 @@ public class SocketServerListener implements Runnable {
         gameExceptionMap.put(TooManyPlayersException.class.toString(), () -> dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
     }
 
+    /**
+     * Maps exception with their error code to be printed
+     */
     private void mapPlacementException() {
         placementExceptionMap.put(NotTurnException.class.toString(), () -> exceptionMessage);
         placementExceptionMap.put(WrongDiceSelectionException.class.toString(), () -> exceptionMessage);
@@ -195,6 +213,11 @@ public class SocketServerListener implements Runnable {
         placementExceptionMap.put(EmptyException.class.toString(), () -> exceptionMessage);
         placementExceptionMap.put(WrongPositionException.class.toString(), () -> exceptionMessage);
         placementExceptionMap.put(AlreadyDoneException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(PlayerNotFoundException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(NotEnoughFavorPointsException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(ValueException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(RoundNotFoundException.class.toString(), () -> exceptionMessage);
+        placementExceptionMap.put(SameDiceException.class.toString(), () -> exceptionMessage);
     }
 
     /**
@@ -270,9 +293,40 @@ public class SocketServerListener implements Runnable {
 
         Consumer<String> setToolId = id -> toolId = Integer.parseInt(id);
         Consumer<String> setToolName = name -> toolName = name;
-        Consumer<String> makeToolList = string -> toolCard.clear();
-        Consumer<String> makeToolCard = string -> toolCard.add(new ToolCard(toolId, toolName, null, null));
-        Consumer<String> showToolCard = string -> view.printListToolCard(toolCard);
+        Consumer<String> makeToolList = string -> toolCardList.clear();
+        Consumer<String> addToolCardList = string -> {
+            toolCard = new ToolCard(toolId, toolName, null, null);
+            toolCard.setFavorPoint(favorPoint);
+            toolCardList.add(toolCard);
+        };
+        Consumer<String> makeToolCard = string -> {
+            toolCard = new ToolCard(toolId, toolName, null, null);
+            toolCard.setFavorPoint(favorPoint);
+        };
+        Consumer<String> showToolCard = string -> view.printListToolCard(toolCardList);
+
+        Consumer<String> setReturn = ret -> {
+            speaker.setReturn(Boolean.parseBoolean(ret));
+            speaker.releaseSemaphore();
+        };
+
+        Consumer<String> setActor = speaker::setActor;
+        Consumer<String> endSetActor = string -> speaker.releaseSemaphore();
+        Consumer<String> setParameter = speaker::setParameter;
+        Consumer<String> endSetParameter = string -> speaker.releaseSemaphore();
+
+        Consumer<String> setDice = string -> {
+          speaker.setDice(dice);
+          speaker.releaseSemaphore();
+        };
+        Consumer<String> setCell = string -> {
+          speaker.setCell(cellList.get(0));
+          speaker.releaseSemaphore();
+        };
+        Consumer<String> setColor = color -> {
+            speaker.setColor(Colors.parseColor(color));
+            speaker.releaseSemaphore();
+        };
 
         Consumer<String> makeRoundTrack = string -> roundTrack = new RoundTrack(null);
         Consumer<String> makeListRound = string -> listDiceRound = new ListDiceRound();
@@ -285,19 +339,22 @@ public class SocketServerListener implements Runnable {
             }
         };
         Consumer<String> addListRound = string ->
-          listDiceRound.itr().forEachRemaining(d -> {
-              try {
-                  roundTrack.addDice(d, numRound);
-              } catch (SameDiceException | RoundNotFoundException e) {
-                  view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
-              }
-          });
+              listDiceRound.itr().forEachRemaining(d -> {
+                  try {
+                      roundTrack.addDice(d, numRound);
+                  } catch (SameDiceException | RoundNotFoundException e) {
+                      view.print(dictionary.getMessage(SOMETHING_WENT_WRONG_KEYWORD));
+                  }
+              });
         Consumer<String> showRoundTrack = string -> view.showRoundTrack(roundTrack);
 
         Consumer<String> placementDice = string -> view.successfulPlacementDice(username, cellList.get(0), dice);
 
-        Consumer<String> setPlacementUser = placementUser -> username = placementUser;
+        Consumer<String> setUser = user -> username = user;
         Consumer<String> setOtherUser = otherUsername -> otherUserName = otherUsername;
+
+        Consumer<String> showFavorPoint = point -> view.printFavorPoints(Integer.parseInt(point));
+        Consumer<String> usedTool = string -> view.successfulUsedTool(username, toolCard);
 
         Consumer<String> setRankingUser = user -> rankingUsername = user;
         Consumer<String> setRankingPoint = point -> rankingPoint = Integer.parseInt(point);
@@ -320,7 +377,7 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(OCCUPIED_CELL_KEYWORD), setCellOccupied);
         commandMap.put(protocol.getMessage(CARD_NAME_KEYWORD), setCardName);
         commandMap.put(protocol.getMessage(CARD_ID_KEYWORD), setCardId);
-        commandMap.put(protocol.getMessage(CARD_FAVOR_POINT_KEYWORD), setFavorPoint);
+        commandMap.put(protocol.getMessage(FAVOR_POINT_KEYWORD), setFavorPoint);
 
         commandMap.put(protocol.getMessage(CELL_VALUE_KEYWORD), setCellValue);
         commandMap.put(protocol.getMessage(CELL_COLOR_KEYWORD), setCellColor);
@@ -347,6 +404,7 @@ public class SocketServerListener implements Runnable {
         commandMap.put(protocol.getMessage(TOOL_ID_KEYWORD), setToolId);
         commandMap.put(protocol.getMessage(TOOL_NAME_KEYWORD), setToolName);
         commandMap.put(protocol.getMessage(MAKE_TOOL_LIST_KEYWORD), makeToolList);
+        commandMap.put(protocol.getMessage(ADD_TOOL_CARD_LIST_KEYWORD), addToolCardList);
         commandMap.put(protocol.getMessage(MAKE_TOOL_CARD_KEYWORD), makeToolCard);
         commandMap.put(protocol.getMessage(SHOW_TOOL_CARD_KEYWORD), showToolCard);
 
@@ -359,8 +417,22 @@ public class SocketServerListener implements Runnable {
 
         commandMap.put(protocol.getMessage(SUCCESSFUL_PLACE_DICE_KEYWORD), placementDice);
 
-        commandMap.put(protocol.getMessage(USER_PLACING_DICE_KEYWORD), setPlacementUser);
+        commandMap.put(protocol.getMessage(USER_NAME_KEYWORD), setUser);
         commandMap.put(protocol.getMessage(OTHER_USER_NAME_KEYWORD), setOtherUser);
+
+        commandMap.put(protocol.getMessage(SHOW_FAVOR_POINT_KEYWORD), showFavorPoint);
+        commandMap.put(protocol.getMessage(USED_TOOL_CARD_KEYWORD), usedTool);
+
+        commandMap.put(protocol.getMessage(SET_RET_KEYWORD), setReturn);
+
+        commandMap.put(protocol.getMessage(SET_ACTOR_KEYWORD), setActor);
+        commandMap.put(protocol.getMessage(END_SET_ACTOR_KEYWORD), endSetActor);
+        commandMap.put(protocol.getMessage(SET_PARAMETER_KEYWORD), setParameter);
+        commandMap.put(protocol.getMessage(END_SET_PARAMETER_KEYWORD), endSetParameter);
+
+        commandMap.put(protocol.getMessage(SET_DICE_KEYWORD), setDice);
+        commandMap.put(protocol.getMessage(SET_CELL_KEYWORD), setCell);
+        commandMap.put(protocol.getMessage(SET_COLOR_KEYWORD), setColor);
 
         commandMap.put(protocol.getMessage(RANKING_PLAYER_KEYWORD), setRankingUser);
         commandMap.put(protocol.getMessage(RANKING_POINT_KEYWORD), setRankingPoint);
