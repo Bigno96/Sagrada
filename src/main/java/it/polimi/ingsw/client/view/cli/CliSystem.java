@@ -30,6 +30,7 @@ public class CliSystem implements ViewInterface {
     private static final String WINDOW_CARD_CHOSEN_KEYWORD = "WINDOW_CARD_CHOSEN";
     private static final String PLAYER_CARD_CHOSEN_KEYWORD = "PLAYER_CARD_CHOSEN";
     private static final String FAVOR_POINT_KEYWORD = "FAVOR_POINT";
+    private static final String INCORRECT_MESSAGE_KEYWORD = "INCORRECT_MESSAGE";
 
     private static final String PRIVATE_OBJECTIVE_KEYWORD = "PRIVATE_OBJECTIVE_CHOSEN";
     private static final String PUBLIC_OBJECTIVE_KEYWORD = "PUBLIC_OBJECTIVE";
@@ -164,13 +165,14 @@ public class CliSystem implements ViewInterface {
      * drain all permits of semaphore
      */
     void drainPermits() {
-        semaphore.drainPermits();
+        System.out.println("drained = " + semaphore.drainPermits() + " permits");
     }
 
     /**
      * Used to release permits on semaphore
      */
     void releaseSemaphore() {
+        System.out.println("release semaphore");
         semaphore.release();
     }
 
@@ -179,6 +181,7 @@ public class CliSystem implements ViewInterface {
      */
     void acquireSemaphore() {
         try {
+            System.out.println("acquire semaphore");
             this.semaphore.acquire();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -194,11 +197,7 @@ public class CliSystem implements ViewInterface {
 
         cards.forEach(card -> {
             printWindowCard(card);
-            try {
-                semaphore.acquire();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            acquireSemaphore();
         });
 
         ChooseWindowCardTask task = new ChooseWindowCardTask(this, cards);
@@ -217,11 +216,7 @@ public class CliSystem implements ViewInterface {
             print("\n" + user + dictionary.getMessage(PLAYER_CARD_CHOSEN_KEYWORD));
 
         printWindowCard(card);
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        acquireSemaphore();
     }
 
     /**
@@ -255,7 +250,7 @@ public class CliSystem implements ViewInterface {
         }
         print("");
 
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -266,7 +261,7 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(PRIVATE_OBJECTIVE_KEYWORD));
         print(privateObj.getDescription());
 
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -277,7 +272,7 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(PUBLIC_OBJECTIVE_KEYWORD));
         publicObj.forEach(p -> print("- " + p.getDescription() + dictionary.getMessage(OBJECTIVE_POINT_KEYWORD) + p.getPoint()));
 
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     @Override
@@ -288,7 +283,7 @@ public class CliSystem implements ViewInterface {
             print("     " + NUMBER_FAVOR_POINTS + tool.getFavorPoint());
         });
 
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -308,10 +303,10 @@ public class CliSystem implements ViewInterface {
             taskMenu.setPlaying(false);
         }
 
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
 
         if (menuThread.getState().equals(Thread.State.NEW)) {
-            semaphore.drainPermits();
+            drainPermits();
             menuThread.start();
         }
     }
@@ -328,7 +323,7 @@ public class CliSystem implements ViewInterface {
                 out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
 
         out.print("\n");
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -347,7 +342,7 @@ public class CliSystem implements ViewInterface {
             out.print("\n");
         });
 
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     /**
@@ -377,13 +372,13 @@ public class CliSystem implements ViewInterface {
         synchronized (this) {
             print(errorMsg);
         }
-        semaphore.release();            // releasing for menuTask action.accept()
+        releaseSemaphore();            // releasing for menuTask action.accept()
     }
 
     @Override
     public void printFavorPoints(int point) {
         print(dictionary.getMessage(SHOW_FAVOR_POINT_LEFT_KEYWORD) + point);
-        semaphore.release();             // releasing for menuTask action.accept()
+        releaseSemaphore();             // releasing for menuTask action.accept()
     }
 
     /**
@@ -413,7 +408,7 @@ public class CliSystem implements ViewInterface {
             print(USER + username + OTHER_USED_TOOL + card.getId());
 
         taskMenu.setUsed();
-        semaphore.release();         // releasing for menuTask action.accept()
+        releaseSemaphore();         // releasing for menuTask action.accept()
     }
 
     /**
@@ -430,19 +425,11 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(SHOW_YOUR_WINDOW_CARD_TO_CHOOSE_KEYWORD));
         serverSpeaker.askWindowCard(userName, userName);
 
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        acquireSemaphore();
 
         serverSpeaker.askDraft(userName);
 
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        acquireSemaphore();
 
         index = getIndex();
 
@@ -450,11 +437,13 @@ public class CliSystem implements ViewInterface {
 
         col = getCol();
 
-        if (!quit)
+        if (!quit) {
+            drainPermits();
             serverSpeaker.placementDice(userName, index, row, col);
+        }
         else {
-            semaphore.drainPermits();
-            semaphore.release();            // releasing for menuTask action.accept()
+            drainPermits();
+            releaseSemaphore();            // releasing for menuTask action.accept()
         }
     }
 
@@ -477,7 +466,7 @@ public class CliSystem implements ViewInterface {
                     index--;
                 }
             } catch (NumberFormatException e) {
-                print(e.getMessage());
+                print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
                 index = -1;
             }
         }
@@ -501,7 +490,7 @@ public class CliSystem implements ViewInterface {
                 else
                     row = Integer.parseInt(line);
             } catch (NumberFormatException e) {
-                print(e.getMessage());
+                print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
                 row = -1;
             }
         }
@@ -525,7 +514,7 @@ public class CliSystem implements ViewInterface {
                 else
                     col = Integer.parseInt(line);
             } catch (NumberFormatException e) {
-                print(e.getMessage());
+                print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
                 col = -1;
             }
         }
@@ -547,24 +536,16 @@ public class CliSystem implements ViewInterface {
 
         serverSpeaker.askToolCards(userName);
 
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        acquireSemaphore();
 
         serverSpeaker.askFavorPoints(userName);
 
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        acquireSemaphore();
 
         doingTool();
 
-        semaphore.drainPermits();
-        semaphore.release();                // releasing for menuTask action.accept()
+        drainPermits();
+        releaseSemaphore();                // releasing for menuTask action.accept()
     }
 
     /**
@@ -669,7 +650,7 @@ public class CliSystem implements ViewInterface {
                     pick--;
                 }
             } catch (NumberFormatException e) {
-                print(e.getMessage());
+                print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
                 pick = -1;
             }
         }
@@ -695,11 +676,7 @@ public class CliSystem implements ViewInterface {
     private void showActor() {
         actor.forEach(act -> {
             actorMap.get(act).accept(userName);
-            try {
-                semaphore.acquire();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            acquireSemaphore();
         });
     }
 
@@ -709,11 +686,7 @@ public class CliSystem implements ViewInterface {
     private void getParameter() {
         parameter.forEach(param -> {
             parameterMap.get(param).accept(userName);
-            try {
-                semaphore.acquire();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            acquireSemaphore();
         });
     }
 
@@ -729,23 +702,23 @@ public class CliSystem implements ViewInterface {
             else if (actor.contains(ToolCard.Actor.WINDOW_CARD))
                 dices.add(getDiceFromWindow());
 
-            semaphore.release();
+            releaseSemaphore();
         };
         Consumer<String> cell = string -> {
             cells.add(getCellFromWindow());
-            semaphore.release();
+            releaseSemaphore();
         };
         Consumer<String> integer = string -> {
             diceValue = getDiceValue();
-            semaphore.release();
+            releaseSemaphore();
         };
         Consumer<String> color = string -> {
             diceColor = getColorOnTrack();
-            semaphore.release();
+            releaseSemaphore();
         };
         Consumer<String> bool = string -> {
             up = getBooleanDirection();
-            semaphore.release();
+            releaseSemaphore();
         };
 
         parameterMap.put(ToolCard.Parameter.DICE, dice);
@@ -813,7 +786,7 @@ public class CliSystem implements ViewInterface {
                         index--;
                     }
                 } catch (NumberFormatException e) {
-                    print(e.getMessage());
+                    print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
                     index = -1;
                 }
             }
@@ -839,14 +812,18 @@ public class CliSystem implements ViewInterface {
             print(dictionary.getMessage(DICE_VALUE_KEYWORD) + " - "
                     + dictionary.getMessage(QUIT_ENTRY_KEYWORD) + dictionary.getMessage(QUIT_KEYWORD));
 
-            String line = inKeyboard.nextLine();
-            if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD))) {
-                quit = true;
-                value = 0;
-            }
-            else
-                value = Integer.parseInt(line);
+            try {
+                String line = inKeyboard.nextLine();
+                if (line.equals(dictionary.getMessage(QUIT_ENTRY_KEYWORD))) {
+                    quit = true;
+                    value = 0;
+                } else
+                    value = Integer.parseInt(line);
 
+            } catch (NumberFormatException e) {
+                print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
+                value = -1;
+            }
         }
 
         return value;
@@ -922,7 +899,7 @@ public class CliSystem implements ViewInterface {
                     round--;
                 }
             } catch (NumberFormatException e) {
-                print(e.getMessage());
+                print(dictionary.getMessage(INCORRECT_MESSAGE_KEYWORD));
                 round = -1;
             }
         }

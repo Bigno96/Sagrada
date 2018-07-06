@@ -146,7 +146,6 @@ public class Game extends Observable {
 
             round.nextRound();
             p = round.nextPlayer();
-            board.getDraft().rollDraft();        // roll draft
         }
 
         currentPlayer = p;

@@ -99,6 +99,7 @@ public class ActionController {
             throw new WrongCellSelectionException();
 
         Dice d = game.getBoard().getDraft().getDraftList().get(index);
+
         WindowCard card = game.getCurrentPlayer().getWindowCard();
         dest = card.getWindow().getCell(row, col);
 
@@ -118,7 +119,7 @@ public class ActionController {
         }
 
         if (correct) {
-            game.getBoard().getDraft().rmDice(dice);
+            game.getBoard().getDraft().rmDice(d);
             card.setPlacement(dest);
         }
         else
