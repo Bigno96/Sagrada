@@ -117,6 +117,7 @@ public class MenuTask implements Runnable {
                 }
                 else {
                     action.get(s).accept(cliSystem.getUserName());
+
                     cliSystem.acquireSemaphore();                           // acquire before re printing menu, waiting for Action to happen
                     cliSystem.drainPermits();
                 }

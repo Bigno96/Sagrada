@@ -98,7 +98,8 @@ public class Lobby {
                 throw new TooManyPlayersException(dictionary.getMessage(TOO_MANY_PLAYERS_KEYWORD));
 
             else {
-                players.put(username, new Player(username));
+                Player p = new Player(username);
+                players.put(username, p);
                 speakers.put(username, speaker);
 
                 Timer disconnection = new Timer();
@@ -108,6 +109,10 @@ public class Lobby {
 
                 speaker.loginSuccess(dictionary.getMessage(WELCOME_USER_KEYWORD) + username);
                 speaker.tell(dictionary.getMessage(GAME_WILL_START_KEYWORD));
+
+                if (currentState.equals(gameState.STARTING)) {
+                    game.addPlayer(p);
+                }
 
                 speakers.forEach((user, speak) -> {
                     if (!user.equals(username))
