@@ -270,8 +270,8 @@ public class Lobby {
             out.println(e.getMessage());
         }
 
-        timer.scheduleAtFixedRate(timerTurn, 0, settings.getNotifyInterval());
         roundController.nextTurn();
+        timer.scheduleAtFixedRate(timerTurn, 0, settings.getNotifyInterval());
     }
 
     /**

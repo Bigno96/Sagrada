@@ -124,7 +124,7 @@ public class Draft extends Observable implements Serializable {
 
         Optional<Dice> ret = draftList.stream()
                 .filter(dice -> dice.getID() == d.getID())
-                .collect(Collectors.toList()).stream().findFirst();
+                .collect(Collectors.toList()).stream().findAny();
 
         if (ret.isPresent())
             return draftList.remove(ret.get());
