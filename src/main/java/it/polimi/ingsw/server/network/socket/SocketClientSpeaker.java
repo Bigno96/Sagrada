@@ -4,6 +4,7 @@ import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
+import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -48,10 +49,11 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String SHOW_PRIVATE_OBJ_KEYWORD = "SHOW_PRIVATE_OBJ";
     private static final String SHOW_TOOL_CARD_KEYWORD = "SHOW_TOOL_CARD";
     private static final String SUCCESSFUL_PLACE_DICE_KEYWORD = "SUCCESSFUL_PLACE_DICE";
+    private static final String SHOW_FAVOR_POINT_KEYWORD = "SHOW_FAVOR_POINT";
 
     private static final String CARD_NAME_KEYWORD = "CARD_NAME";
     private static final String CARD_ID_KEYWORD = "CARD_ID";
-    private static final String CARD_FAVOR_POINT_KEYWORD = "CARD_FAVOR_POINT";
+    private static final String FAVOR_POINT_KEYWORD = "FAVOR_POINT";
     private static final String CARD_CELL_LIST_KEYWORD = "CARD_CELL_LIST";
     private static final String CARD_KEYWORD = "CARD";
     private static final String LIST_CARD_KEYWORD = "LIST_CARD";
@@ -79,6 +81,28 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String TOOL_NAME_KEYWORD = "TOOL_NAME";
     private static final String MAKE_TOOL_LIST_KEYWORD = "MAKE_TOOL_LIST";
     private static final String MAKE_TOOL_CARD_KEYWORD = "MAKE_TOOL_CARD";
+    private static final String ADD_TOOL_CARD_LIST_KEYWORD = "ADD_TOOL_CARD_LIST";
+    private static final String USED_TOOL_CARD_KEYWORD = "USED_TOOL_CARD";
+
+    private static final String SET_RET_KEYWORD = "SET_RET";
+
+    private static final String SET_ACTOR_KEYWORD = "SET_ACTOR";
+    private static final String END_SET_ACTOR_KEYWORD = "END_SET_ACTOR";
+    private static final String WINDOW_CARD_ACTOR_KEYWORD = "WINDOW_CARD_ACTOR";
+    private static final String DRAFT_ACTOR_KEYWORD = "DRAFT_ACTOR";
+    private static final String ROUND_TRACK_ACTOR_KEYWORD = "ROUND_TRACK_ACTOR";
+
+    private static final String SET_DICE_KEYWORD = "SET_DICE";
+    private static final String SET_CELL_KEYWORD = "SET_CELL";
+    private static final String SET_COLOR_KEYWORD = "SET_COLOR";
+
+    private static final String SET_PARAMETER_KEYWORD = "SET_PARAMETER";
+    private static final String END_SET_PARAMETER_KEYWORD = "END_SET_PARAMETER";
+    private static final String DICE_PARAMETER_KEYWORD = "DICE_PARAMETER";
+    private static final String CELL_PARAMETER_KEYWORD = "CELL_PARAMETER";
+    private static final String BOOLEAN_PARAMETER_KEYWORD = "BOOLEAN_PARAMETER";
+    private static final String COLOR_PARAMETER_KEYWORD = "COLOR_PARAMETER";
+    private static final String INTEGER_PARAMETER_KEYWORD = "INTEGER_PARAMETER";
 
     private static final String MAKE_ROUND_TRACK_KEYWORD = "MAKE_ROUND_TRACK";
     private static final String MAKE_LIST_ROUND_KEYWORD = "MAKE_LIST_ROUND";
@@ -86,7 +110,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     private static final String ADD_LIST_ROUND_KEYWORD = "ADD_LIST_ROUND";
     private static final String ADD_DICE_ROUND_KEYWORD = "ADD_DICE_ROUND";
 
-    private static final String USER_PLACING_DICE_KEYWORD = "USER_PLACING_DICE";
+    private static final String USER_NAME_KEYWORD = "USER_NAME";
     private static final String OTHER_USER_NAME_KEYWORD = "OTHER_USER_NAME";
 
     private static final String RANKING_KEYWORD = "RANKING";
@@ -225,7 +249,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
         socketOut.println(protocol.getMessage(CARD_ID_KEYWORD));
         socketOut.println(card.getId());
 
-        socketOut.println(protocol.getMessage(CARD_FAVOR_POINT_KEYWORD));
+        socketOut.println(protocol.getMessage(FAVOR_POINT_KEYWORD));
         socketOut.println(card.getNumFavPoint());
 
         socketOut.println(protocol.getMessage(CARD_CELL_LIST_KEYWORD));
@@ -318,7 +342,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
-        socketOut.println(protocol.getMessage(USER_PLACING_DICE_KEYWORD));
+        socketOut.println(protocol.getMessage(USER_NAME_KEYWORD));
         socketOut.println(username);
 
         socketOut.println(protocol.getMessage(CARD_CELL_LIST_KEYWORD));     // used to reset list of cell used in socket server listener
@@ -465,6 +489,25 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
     }
 
     /**
+     * Deconstruct Tool Card for passing through socket
+     * @param tool to be deconstructed
+     * @param type ADD_TOOL_CARD_LIST_KEYWORD if one of the dice of a list, MAKE_TOOL_CARD_KEYWORD if it's a single dice
+     */
+    private void deconstructTool(ToolCard tool, String type) {
+        socketOut.println(protocol.getMessage(TOOL_ID_KEYWORD));
+        socketOut.println(tool.getId());
+
+        socketOut.println(protocol.getMessage(TOOL_NAME_KEYWORD));
+        socketOut.println(tool.getName());
+
+        socketOut.println(protocol.getMessage(FAVOR_POINT_KEYWORD));
+        socketOut.println(tool.getFavorPoint());
+
+        socketOut.println(protocol.getMessage(type));
+        socketOut.println(" ");
+    }
+
+    /**
      * @param toolCards toolCards.size() = 3
      */
     @Override
@@ -473,16 +516,7 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
             socketOut.println(protocol.getMessage(MAKE_TOOL_LIST_KEYWORD));
             socketOut.println(" ");
 
-            toolCards.forEach(tool -> {
-                socketOut.println(protocol.getMessage(TOOL_ID_KEYWORD));
-                socketOut.println(tool.getId());
-
-                socketOut.println(protocol.getMessage(TOOL_NAME_KEYWORD));
-                socketOut.println(tool.getName());
-
-                socketOut.println(protocol.getMessage(MAKE_TOOL_CARD_KEYWORD));
-                socketOut.println(" ");
-            });
+            toolCards.forEach(tool -> deconstructTool(tool, ADD_TOOL_CARD_LIST_KEYWORD));
 
             socketOut.println(protocol.getMessage(SHOW_TOOL_CARD_KEYWORD));
             socketOut.println(" ");
@@ -496,12 +530,25 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
      */
     @Override
     public void printNumberFavorPoint(int point) {
+        synchronized (this) {
+            socketOut.println(protocol.getMessage(SHOW_FAVOR_POINT_KEYWORD));
+            socketOut.println(point);
 
+            socketOut.flush();
+        }
     }
 
     @Override
     public void successfulUsedTool(String username, ToolCard card) {
+        synchronized (this) {
+            socketOut.println(protocol.getMessage(USER_NAME_KEYWORD));
+            socketOut.println(username);
 
+            deconstructTool(card, MAKE_TOOL_CARD_KEYWORD);
+
+            socketOut.println(protocol.getMessage(USED_TOOL_CARD_KEYWORD));
+            socketOut.println(" ");
+        }
     }
 
     /**
@@ -523,6 +570,123 @@ public class SocketClientSpeaker implements Runnable, ClientSpeaker {
 
             socketOut.println(protocol.getMessage(RANKING_KEYWORD));
             socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Used to set parameter return over the client to a passed Boolean
+     * @param ret to be set over the client
+     */
+    public void setReturn(Boolean ret) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(SET_RET_KEYWORD));
+            socketOut.println(ret.toString());
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Used to set Actor over the client
+     * @param actorList list of ToolCard.Actor to be set on client
+     */
+    public void setActor(List<ToolCard.Actor> actorList) {
+        synchronized (lock) {
+            actorList.forEach(actor -> {
+                socketOut.println(protocol.getMessage(SET_ACTOR_KEYWORD));
+
+                if (actor.equals(ToolCard.Actor.WINDOW_CARD))
+                    socketOut.println(protocol.getMessage(WINDOW_CARD_ACTOR_KEYWORD));
+
+                else if (actor.equals(ToolCard.Actor.DRAFT))
+                    socketOut.println(protocol.getMessage(DRAFT_ACTOR_KEYWORD));
+
+                else if (actor.equals(ToolCard.Actor.ROUND_TRACK))
+                    socketOut.println(protocol.getMessage(ROUND_TRACK_ACTOR_KEYWORD));
+            });
+
+            socketOut.println(protocol.getMessage(END_SET_ACTOR_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Used to set Parameter over the client
+     * @param parameterList list of ToolCard.Parameter to be set on client
+     */
+    public void setParameter(List<ToolCard.Parameter> parameterList) {
+        synchronized (lock) {
+            parameterList.forEach(parameter -> {
+                socketOut.println(protocol.getMessage(SET_PARAMETER_KEYWORD));
+
+                if (parameter.equals(ToolCard.Parameter.DICE))
+                    socketOut.println(protocol.getMessage(DICE_PARAMETER_KEYWORD));
+
+                else if (parameter.equals(ToolCard.Parameter.CELL))
+                    socketOut.println(protocol.getMessage(CELL_PARAMETER_KEYWORD));
+
+                else if (parameter.equals(ToolCard.Parameter.BOOLEAN))
+                    socketOut.println(protocol.getMessage(BOOLEAN_PARAMETER_KEYWORD));
+
+                else if (parameter.equals(ToolCard.Parameter.COLOR))
+                    socketOut.println(protocol.getMessage(COLOR_PARAMETER_KEYWORD));
+
+                else if (parameter.equals(ToolCard.Parameter.INTEGER))
+                    socketOut.println(protocol.getMessage(INTEGER_PARAMETER_KEYWORD));
+            });
+
+            socketOut.println(protocol.getMessage(END_SET_PARAMETER_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Used to set Dice used by tool card over the client
+     * @param dice Dice to be set on client
+     */
+    public void setDice(Dice dice) {
+        synchronized (lock) {
+            deconstructDice(dice, DICE_KEYWORD);
+
+            socketOut.println(protocol.getMessage(SET_DICE_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Used to set Cell used by tool card over the client
+     * @param cell Dice to be set on client
+     */
+    public void setCell(Cell cell) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(CARD_CELL_LIST_KEYWORD));
+            socketOut.println(" ");
+
+            deconstructCell(cell);
+
+            socketOut.println(protocol.getMessage(SET_CELL_KEYWORD));
+            socketOut.println(" ");
+
+            socketOut.flush();
+        }
+    }
+
+    /**
+     * Used to set Colors used by tool card over the client
+     * @param color Dice to be set on client
+     */
+    public void setColor(Colors color) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(SET_COLOR_KEYWORD));
+            socketOut.println(color.toString());
 
             socketOut.flush();
         }

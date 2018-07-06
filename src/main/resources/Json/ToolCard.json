@@ -1,7 +1,7 @@
 [
   {
     "ID": 1,
-    "NAME": "Pinza Sgrossatrice - Dopo aver scelto un dado, aumenta o diminuisci il valore del dado scelto di 1. Non puoi cambiare un 6 in 1 o un 1 in 6.",
+    "NAME": "Pinza Sgrossatrice - Dopo aver scelto un dado dalla riserva, aumenta o diminuisci il valore del dado scelto di 1. Non puoi cambiare un 6 in 1 o un 1 in 6.",
     "COLOR": "MAGENTA",
     "WINDOW_CARD": "null",
     "ROUND_TRACK": "null",
@@ -28,7 +28,7 @@
   },
   {
     "ID": 4,
-    "NAME": "Lathekin - Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento.",
+    "NAME": "Lathekin - Muovi esattamente due dadi della tua vetrata, rispettando tutte le restrizioni di piazzamento.",
     "COLOR": "YELLOW",
     "WINDOW_CARD": "true",
     "ROUND_TRACK": "null",
@@ -37,7 +37,7 @@
   },
   {
     "ID": 5,
-    "NAME": "Taglierina circolare - Dopo aver scelto un dado, scambia quel dado con un dado sul Tracciato dei Round.",
+    "NAME": "Taglierina circolare - Dopo aver scelto un dado dalla riserva, scambia quel dado con un dado sul Tracciato dei Round.",
     "COLOR": "GREEN",
     "WINDOW_CARD": "null",
     "ROUND_TRACK": "ROUND_TRACK",
@@ -46,7 +46,7 @@
   },
   {
     "ID": 6,
-    "NAME": "Pennello per Pasta Salda - Dopo aver scelto un dado, tira nuovamente quel dado. Se non puoi piazzarlo, riponilo nella Riserva.",
+    "NAME": "Pennello per Pasta Salda - Dopo aver scelto un dado dalla riserva, tira nuovamente quel dado. Se non puoi piazzarlo, riponilo nella Riserva.",
     "COLOR": "MAGENTA",
     "WINDOW_CARD": "true",
     "ROUND_TRACK": "null",
@@ -73,7 +73,7 @@
   },
   {
     "ID": 9,
-    "NAME": "Riga in Sughero - Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente a un altro dado. Devi rispettare tutte le restrizioni di piazzamento.",
+    "NAME": "Riga in Sughero - Dopo aver scelto un dado dalla riserva, piazzalo in una casella che non sia adiacente a un altro dado. Devi rispettare tutte le restrizioni di piazzamento.",
     "COLOR": "YELLOW",
     "WINDOW_CARD": "true",
     "ROUND_TRACK": "null",
@@ -82,7 +82,7 @@
   },
   {
     "ID": 10,
-    "NAME": "Tampone Diamantato - Dopo avere scelto un dado, giralo sulla faccia opposta. 6 diventa 1, 5 diventa 2, 4 diventa 3,  ecc.",
+    "NAME": "Tampone Diamantato - Dopo avere scelto un dado dalla riserva, giralo sulla faccia opposta. 6 diventa 1, 5 diventa 2, 4 diventa 3,  ecc.",
     "COLOR": "GREEN",
     "WINDOW_CARD": "null",
     "ROUND_TRACK": "null",
@@ -91,7 +91,7 @@
   },
   {
     "ID": 11,
-    "NAME": "Diluente per Pasta Salda - Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane uno dal Sacchetto. Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni di piazzamento.",
+    "NAME": "Diluente per Pasta Salda - Dopo aver scelto un dado dalla riserva, riponilo nel Sacchetto, poi pescane uno dal Sacchetto. Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni di piazzamento.",
     "COLOR": "MAGENTA",
     "WINDOW_CARD": "true",
     "ROUND_TRACK": "null",
@@ -100,7 +100,7 @@
   },
   {
     "ID": 12,
-    "NAME": "Taglierina Manuale - Muovi fino a due dadi dello stesso colore di un solo dado sul Tracciato dei Round. Devi rispettare tutte le restrizioni di piazzamento.",
+    "NAME": "Taglierina Manuale - Muovi fino a due dadi nella tua vetrata dello stesso colore di un solo dado sul Tracciato dei Round. Devi rispettare tutte le restrizioni di piazzamento.",
     "COLOR": "BLUE",
     "WINDOW_CARD": "true",
     "ROUND_TRACK": "ROUND_TRACK",
