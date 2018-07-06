@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
+import static java.lang.System.out;
+
 public class GuiSystem implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
