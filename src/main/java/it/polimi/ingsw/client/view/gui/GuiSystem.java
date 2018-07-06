@@ -161,10 +161,14 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
+        out.println("move dice c'mon");
+
     }
 
     @Override
     public void wrongPlacementDice(String errorMsg) {
+
+        ctrl.print("Mossa errata");
 
     }
 
@@ -301,6 +305,12 @@ public class GuiSystem implements ViewInterface{
     public void setWindowCard(WindowCard windowCard) {
 
         myWindowCard = windowCard;
+
+    }
+
+    public void moveDice(int index, int row, int col){
+
+        serverSpeaker.placementDice(userName, index, row, col);
 
     }
 

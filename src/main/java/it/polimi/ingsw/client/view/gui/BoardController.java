@@ -7,12 +7,10 @@ import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -84,11 +82,14 @@ public class BoardController implements ControlInterface {
     @FXML
     public TextArea textArea;
     @FXML
-    public Group groupDraft;
+    public GridPane draftGrid;
 
     String baseURL = "/img/WindowCard/";
     String exp = ".png";
     GuiSystem guiSystem;
+    int indexDiceDraft;
+    int column;
+    int row;
 
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
@@ -106,7 +107,26 @@ public class BoardController implements ControlInterface {
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         myWind.setImage(myWindowImage);
 
+        //getNodeByRowColumnIndex(4,5,myTabel);
+
     }
+/*
+    public void getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+
+           node.setOnMousePressed(diceOnMousePressedEventHandler);
+
+        }
+
+    }*/
+
 
     @Override
     public void setList(List<WindowCard> cards) {
@@ -121,51 +141,42 @@ public class BoardController implements ControlInterface {
     @Override
     public void printDraft(List<Dice> draft) {
 
-        out.println("draft");
         String diceURL = "/img/Dices/";
 
-        groupDraft.getChildren().clear();
-
         Platform.runLater(() -> {
+
+            draftGrid.getChildren().retainAll(draftGrid.getChildren().get(0));
 
             for (int i = 0; draft.size() > i; i++) {
 
                 Image imageDice = new Image(diceURL + draft.get(i).getColor() + "-" + draft.get(i).getValue() + exp);
                 Rectangle rectangle = new Rectangle(30, 30);
                 rectangle.setFill(new ImagePattern(imageDice));
-                if (i % 2 == 1) {
-                    rectangle.setX(30);
-                }
-                rectangle.setY(i / 2 * 30);
 
-                rectangle.setCursor(Cursor.HAND);
-                rectangle.setOnMousePressed(circleOnMousePressedEventHandler);
-                rectangle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+                row = i%3;
+                column = i/3;
 
-                groupDraft.getChildren().add(rectangle);
+                draftGrid.add(rectangle,column,row);
+
+                //rectangle.setOnMouseClicked(moveDice);
 
             }
 
         });
     }
 
-    EventHandler<MouseEvent> circleOnMousePressedEventHandler =
+
+    EventHandler<MouseEvent> moveDice =
             new EventHandler<MouseEvent>() {
 
                 @Override
                 public void handle(MouseEvent t) {
+
                     orgSceneX = t.getSceneX();
                     orgSceneY = t.getSceneY();
                     orgTranslateX = ((Rectangle)(t.getSource())).getTranslateX();
                     orgTranslateY = ((Rectangle)(t.getSource())).getTranslateY();
-                }
-            };
 
-    EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
                     double offsetX = t.getSceneX() - orgSceneX;
                     double offsetY = t.getSceneY() - orgSceneY;
                     double newTranslateX = orgTranslateX + offsetX;
@@ -173,8 +184,11 @@ public class BoardController implements ControlInterface {
 
                     ((Rectangle)(t.getSource())).setTranslateX(newTranslateX);
                     ((Rectangle)(t.getSource())).setTranslateY(newTranslateY);
+
                 }
+
             };
+
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
@@ -238,5 +252,19 @@ public class BoardController implements ControlInterface {
     public void updateRoundTrack(RoundTrack roundTrack) {
 
     }
+
+    public void diceOnMousePressedEventHandler(MouseEvent mouseEvent) {
+
+        guiSystem.moveDice(indexDiceDraft,GridPane.getColumnIndex((Pane) mouseEvent.getSource()),GridPane.getRowIndex((Pane) mouseEvent.getSource()));
+        out.println("moveDice" + indexDiceDraft + GridPane.getColumnIndex((Pane) mouseEvent.getSource()) + GridPane.getRowIndex((Pane) mouseEvent.getSource()) );
+
+    }
+
+    public void draftSelected(MouseEvent mouseEvent) {
+
+        indexDiceDraft = GridPane.getRowIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getColumnIndex((Pane)mouseEvent.getSource());
+
+    }
+
 
 }
