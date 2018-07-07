@@ -29,7 +29,6 @@ public class ActionController {
 
     private final Lobby lobby;
     private final Game game;
-    private Cell dest;
 
     private final ViewMessageParser dictionary;
     private final GameSettingsParser gameSettings;
@@ -101,7 +100,7 @@ public class ActionController {
         Dice d = game.getBoard().getDraft().getDraftList().get(index);
 
         WindowCard card = game.getCurrentPlayer().getWindowCard();
-        dest = card.getWindow().getCell(row, col);
+        Cell dest = card.getWindow().getCell(row, col);
 
         dest.setDice(d);
 
@@ -114,7 +113,7 @@ public class ActionController {
                 correct = card.checkPlaceCond();
 
         } catch (WrongPositionException | EmptyException | PositionException e) {
-            rollback();
+            rollback(dest, card);
             throw e;
         }
 
@@ -123,14 +122,16 @@ public class ActionController {
             card.setPlacement(dest);
         }
         else
-            rollback();
+            rollback(dest, card);
     }
 
     /**
      * Rolling back the incorrect move
      */
-    private void rollback() {
+    private void rollback(Cell dest, WindowCard card) {
         dest.freeCell();
+        lobby.getSpeakers().get(game.getCurrentPlayer().getId()).printWindowCard(card);
+        game.getBoard().getDraft().setChangedAndNotify();
     }
 
     /**

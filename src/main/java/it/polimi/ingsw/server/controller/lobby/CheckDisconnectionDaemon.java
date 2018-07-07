@@ -44,7 +44,6 @@ public class CheckDisconnectionDaemon extends TimerTask {
         else if (pinged && disconnected) {              // successful ping and player was disconnected
             disconnected = false;
             lobby.reconnectPlayer(username, speaker);
-            lobby.purgeRemoving(username);
         }
     }
 

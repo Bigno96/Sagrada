@@ -27,7 +27,7 @@
   "TOO_MANY_PLAYERS_MSG": "Troppi giocatori nella Lobby",
   "GAME_ALREADY_STARTED_MSG": "Gioco già iniziato",
 
-  "GAME_WILL_START": "Partita inizierà quando ci saranno abbastanza giocatori connessi",
+  "GAME_WILL_START": "La partita inizierà quando ci saranno abbastanza giocatori connessi",
   "TIMER_ON": "Timer partito: ",
   "SECONDS_COUNTDOWN": " secondi prima dell'inizio della partita",
   "GAME_STARTED": "La partita è iniziata",
@@ -62,6 +62,8 @@
   "ROUND_TRACK_MESSAGE": "- guarda il tracciato dei round",
   "FAVOR_POINT_ENTRY": "punti-favore",
   "FAVOR_POINT_MESSAGE": "- guarda quanti punti favore ti rimangono",
+  "CLOSE_ENTRY": "quit",
+  "CLOSE_MESSAGE": "- per abbandonare la partita",
   "INCORRECT_MESSAGE": "Input sbagliato!",
 
   "YOUR_TURN": "\nE' il tuo turno!",
@@ -116,6 +118,8 @@
   "NOT_IN_GAME_EXCEPTION": "Non sei dentro alla partita corrente",
 
   "SOMETHING_WENT_WRONG": "Ops, qualcosa è andato storto!",
-  "WIN_MSG": "Congratulazioni! Hai vinto!"
+  "WIN_MSG": "Congratulazioni! Hai vinto!",
 
+  "QUIT_GAME_MESSAGE": "Hai abbandonato la partita",
+  "OTHER_QUIT_GAME_MESSAGE": " ha abbandonato la partita"
 }

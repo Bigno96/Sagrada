@@ -10,14 +10,9 @@ import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.rmi.RemoteException;
-import java.util.EnumMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.IntStream;
 
 import static java.lang.System.*;
 
@@ -26,6 +21,8 @@ public class ServerRemoteImpl implements ServerRemote {
     private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
+    private static final String QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
+    private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
 
     private final Lobby lobby;
     private final CommunicationParser protocol;
@@ -288,5 +285,20 @@ public class ServerRemoteImpl implements ServerRemote {
     @Override
     public Colors getColorFromRoundTrack(String username, List<Integer> coordinates) {
         return lobby.getActionController().getColorFromRoundTrack(username, coordinates);
+    }
+
+    /**
+     * @param username user that wants to quit
+     */
+    @Override
+    public void quit(String username) {
+        lobby.getSpeakers().forEach((user, speaker) -> {
+            if (user.equals(username))
+                speaker.tell(dictionary.getMessage(QUIT_GAME_MESSAGE_KEYWORD));
+            else
+                speaker.tell(dictionary.getMessage(OTHER_QUIT_GAME_MESSAGE_KEYWORD));
+        });
+
+        lobby.removePlayer(username);
     }
 }

@@ -230,4 +230,10 @@ public interface ServerRemote extends Remote {
      * @return Color asked by user, null if any problem occurs
      */
     Colors getColorFromRoundTrack(String username, List<Integer> coordinates) throws RemoteException;
+
+    /**
+     * Used to quit the game
+     * @param username user that wants to quit
+     */
+    void quit(String username) throws RemoteException;
 }

@@ -165,14 +165,13 @@ public class CliSystem implements ViewInterface {
      * drain all permits of semaphore
      */
     void drainPermits() {
-        System.out.println("drained = " + semaphore.drainPermits() + " permits");
+        semaphore.drainPermits();
     }
 
     /**
      * Used to release permits on semaphore
      */
     void releaseSemaphore() {
-        System.out.println("release semaphore");
         semaphore.release();
     }
 
@@ -181,7 +180,6 @@ public class CliSystem implements ViewInterface {
      */
     void acquireSemaphore() {
         try {
-            System.out.println("acquire semaphore");
             this.semaphore.acquire();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -291,6 +289,10 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
+        if (taskMenu == null) {
+            taskMenu = new MenuTask(this);
+            menuThread = new Thread(taskMenu);
+        }
 
         taskMenu.clearCurrentState();
 
@@ -352,6 +354,9 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+        acquireSemaphore();                 // acquire for print window card release called after this
+        acquireSemaphore();                 // acquire for show draft release called after this
+
         if (username.equals(userName))
             print(YOU_PLACED_DICE + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
@@ -360,7 +365,7 @@ public class CliSystem implements ViewInterface {
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
 
         taskMenu.setMoved();
-        // releasing for menuTask action.accept() is made by print window card called after this
+        releaseSemaphore(); // releasing for menuTask action.accept()
     }
 
 
@@ -369,9 +374,13 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void wrongPlacementDice(String errorMsg) {
+        acquireSemaphore();                 // acquire for print window card release called after this
+        acquireSemaphore();                 // acquire for show draft release called after this
+
         synchronized (this) {
             print(errorMsg);
         }
+
         releaseSemaphore();            // releasing for menuTask action.accept()
     }
 

@@ -447,6 +447,19 @@ public class RmiServerSpeaker implements ServerSpeaker {
             return null;
         }
     }
+
+    /**
+     * @param username user that wants to quit
+     */
+    @Override
+    public void quit(String username) {
+        try {
+            server.quit(username);
+
+        } catch (RemoteException e) {
+            view.print(dictionary.getMessage(SERVER_NOT_RESPONDING_KEYWORD));
+        }
+    }
 }
 
 
