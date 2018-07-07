@@ -5,6 +5,7 @@ import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
@@ -35,6 +36,7 @@ public class GuiSystem implements ViewInterface{
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private WindowCard myWindowCard;
+    public List<Player> otherUsername;
     public List<WindowCard> windowCards;
     public RoundTrack roundTrack;
 
@@ -164,14 +166,14 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
-        ctrl.print("Successful");
+        ctrl.succefulPlacementDice(username, dest, moved);
 
     }
 
     @Override
     public void wrongPlacementDice(String errorMsg) {
 
-        ctrl.print("Wrong Placement Dice");
+        ctrl.print(errorMsg);
 
     }
 
@@ -185,10 +187,14 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
+
+
     }
 
     @Override
     public void successfulUsedTool(String username, ToolCard card) {
+
+
 
     }
 

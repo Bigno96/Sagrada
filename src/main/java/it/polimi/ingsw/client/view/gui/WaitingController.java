@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -70,6 +71,11 @@ public class WaitingController implements ControlInterface{
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
+
+    }
+
+    @Override
+    public void succefulPlacementDice(String username, Cell dest, Dice moved) {
 
     }
 
