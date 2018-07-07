@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.cli;
 import it.polimi.ingsw.client.network.ServerSpeaker;
 import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
@@ -102,6 +103,8 @@ public class CliSystem implements ViewInterface {
 
     private final ViewMessageParser dictionary;
 
+    private final GameSettingsParser settings;
+
     public CliSystem() {
         this.connection = new CliAskConnection();
         this.inKeyboard = new Scanner(System.in);
@@ -110,6 +113,7 @@ public class CliSystem implements ViewInterface {
         this.nullCheck = true;
         this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
 
         mapActor();
         mapParameter();
@@ -491,7 +495,7 @@ public class CliSystem implements ViewInterface {
     private int getRow() {
         int row = -1;
 
-        while (row < 0 && !quit) {
+        while ((row < 0 || row >= settings.getWindowCardMaxRow()) && !quit) {
             print(dictionary.getMessage(ASK_ROW_KEYWORD));
             try {
                 String line = inKeyboard.nextLine();
@@ -515,7 +519,7 @@ public class CliSystem implements ViewInterface {
     private int getCol() {
         int col = -1;
 
-        while (col < 0 && !quit) {
+        while ((col < 0 || col >= settings.getWindowCardMaxColumn()) && !quit) {
             print(dictionary.getMessage(ASK_COLUMN_KEYWORD));
             try {
                 String line = inKeyboard.nextLine();
