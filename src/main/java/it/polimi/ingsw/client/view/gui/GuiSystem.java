@@ -293,7 +293,7 @@ public class GuiSystem implements ViewInterface{
             root.setId("rootID");
             primaryStage.setScene(new Scene(root));
 
-            root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+            //root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
             primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl = loader.getController();

@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -67,8 +68,9 @@ public class BoardController implements ControlInterface {
     public GridPane draftGrid;
     @FXML
     public Button roundButton;
+    @FXML
+    public TextField favorPoint;
 
-;
     private String baseURL = "/img/WindowCard/";
     private String exp = ".png";
     private GuiSystem guiSystem;
@@ -87,6 +89,7 @@ public class BoardController implements ControlInterface {
 
         this.guiSystem = guiSystem;
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
+        favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
 
     }
