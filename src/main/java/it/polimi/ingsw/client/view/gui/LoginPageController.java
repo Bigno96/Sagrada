@@ -107,6 +107,11 @@ public class LoginPageController implements ControlInterface {
 
     }
 
+    @Override
+    public void isMyTurn(Boolean turnBoolean) {
+
+    }
+
     private boolean validIP(String ip) {
         if (ip.isEmpty())
             return false;

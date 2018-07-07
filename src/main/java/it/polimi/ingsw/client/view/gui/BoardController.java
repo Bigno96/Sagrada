@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
+import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
@@ -8,9 +11,6 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -23,6 +23,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
@@ -30,6 +32,15 @@ import java.util.stream.IntStream;
 import static java.lang.System.out;
 
 public class BoardController implements ControlInterface {
+
+    private static final String INSERT_NUMBER_KEYWORD = "INSERT_NUMBER";
+    private static final String INCORRECT_MESSAGE_KEYWORD = "INCORRECT_MESSAGE";
+    private static final String INSERT_ROUND_KEYWORD = "INSERT_ROUND";
+    private static final String DICE_VALUE_KEYWORD = "DICE_VALUE";
+    private static final String DICE_COLOR_KEYWORD = "DICE_COLOR";
+    private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
+    private static final String QUIT_KEYWORD = "QUIT";
+
 
     @FXML
     public ImageView myWind;
@@ -89,17 +100,35 @@ public class BoardController implements ControlInterface {
     private int indexDiceDraft;
     private int column;
     private int row;
+    private int diceValue;
+    private Colors diceColor;
     private int nDices = 0;
-    private int nullCheck;
+    private Boolean nullCheck;
     private int nCells = 0;
+    private Boolean up;
 
+    private List<Dice> dices;
+    private List<Cell> cells;
+    private Boolean quit = false;     //when i want to close a ToolCard quit = true
+    private Boolean myTurn = false;   //when is my turn myTurn = true;
+
+    public int resultBoolaen;
+    public int resultValue;
+    private List<Integer> coordinatesRoundTrack = new ArrayList<>();
+    private List<Integer> coordinatesWindow = new ArrayList<>();
 
     private EnumMap<ToolCard.Actor, Consumer<String>> actorMap;
     private EnumMap<ToolCard.Parameter, Consumer<String>> parameterMap;
 
     private List<ToolCard.Actor> actor;
     private List<ToolCard.Parameter> parameter;
-    private boolean diceValue;
+
+    private ViewMessageParser dictionary;
+
+    public BoardController() {
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+
+    }
 
     public void print(String s) {
 
@@ -111,9 +140,12 @@ public class BoardController implements ControlInterface {
     public void setGuiSystem(GuiSystem guiSystem) {
 
         this.guiSystem = guiSystem;
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
+
+
 
     }
 
@@ -342,10 +374,17 @@ public class BoardController implements ControlInterface {
 
     }
 
+    @Override
+    public void isMyTurn(Boolean turnBoolean) {
+
+        myTurn = turnBoolean;
+
+    }
+
     public void diceOnMousePressedEventHandler(MouseEvent mouseEvent) {
 
         guiSystem.moveDice(indexDiceDraft,GridPane.getColumnIndex((Pane) mouseEvent.getSource()),GridPane.getRowIndex((Pane) mouseEvent.getSource()));
-        out.println("moveDice" + indexDiceDraft + GridPane.getColumnIndex((Pane) mouseEvent.getSource()) + GridPane.getRowIndex((Pane) mouseEvent.getSource()) );
+        coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()), GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
 
     }
 
@@ -361,7 +400,7 @@ public class BoardController implements ControlInterface {
         Platform.runLater(() -> {
 
             RoundTrackWindow roundTrackWindow = new RoundTrackWindow();
-            roundTrackWindow.display(guiSystem.roundTrack, this);
+            roundTrackWindow.display(this, guiSystem.roundTrack, this);
 
         });
 
@@ -370,6 +409,7 @@ public class BoardController implements ControlInterface {
     public void endTurn(MouseEvent mouseEvent){
 
         guiSystem.endTurn();
+        myTurn = false;
 
     }
 
@@ -394,18 +434,21 @@ public class BoardController implements ControlInterface {
     private void useTool(int i){
 
         Boolean wrong = false;
-        //quit = false;
-        //dices = new ArrayList<>();
-        //cells = new ArrayList<>();
+        quit = false;
+        dices = new ArrayList<>();
+        cells = new ArrayList<>();
         diceValue = 0;
-        //diceColor = null;
-        //up = null;
+        diceColor = null;
+        up = null;
+
+        mapActor();
+        mapParameter();
 
         if(guiSystem.getServerSpeaker().checkPreCondition(i,guiSystem.getUserName())) {
 
             guiSystem.getServerSpeaker().askFavorPoints(guiSystem.getUserName());
 
-            while (wrong) { //!quit ||
+            while (!quit || wrong) {
 
                 Boolean validity = guiSystem.getServerSpeaker().checkPreCondition(i, guiSystem.getUserName());
 
@@ -413,10 +456,10 @@ public class BoardController implements ControlInterface {
                     wrong = true;
                 else {
                     actor = guiSystem.getServerSpeaker().getActor(i, guiSystem.getUserName());
-                    //showActor();
+                    showActor();
 
                     parameter = guiSystem.getServerSpeaker().getParameter(i, guiSystem.getUserName());
-                    //getParameter();
+                    getParameter();
 
                     if (checkNull())
                         wrong = checkAndUseTool(wrong, i);
@@ -466,12 +509,12 @@ public class BoardController implements ControlInterface {
         Boolean validity;
 
         if (!quit) {
-            validity = serverSpeaker.checkTool(pick, dices, cells, diceValue, diceColor);
+            validity = guiSystem.getServerSpeaker().checkTool(pick, dices, cells, diceValue, diceColor);
 
             if (!validity)
                 wrong = true;
             else {
-                success = serverSpeaker.useTool(pick, dices, up, cells, userName);
+                success = guiSystem.getServerSpeaker().useTool(pick, dices, up, cells, guiSystem.getUserName());
 
                 if (!success)
                     wrong = true;
@@ -481,10 +524,220 @@ public class BoardController implements ControlInterface {
         return wrong;
     }
 
-    private void getParameter() {
-        parameter.forEach(param -> {
-            parameterMap.get(param).accept(userName);
-            acquireSemaphore();
+    /**
+     * Used to map ActorMap that contains actions for each possible actor
+     */
+    private void mapActor() {
+        Consumer<String> windowCard = username -> guiSystem.getServerSpeaker().askWindowCard(guiSystem.getUserName(), guiSystem.getUserName());
+        Consumer<String> roundTrack = username -> guiSystem.getServerSpeaker().askRoundTrack(guiSystem.getUserName());
+        Consumer<String> draft = username -> guiSystem.getServerSpeaker().askDraft(guiSystem.getUserName());
+
+        actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
+        actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);
+        actorMap.put(ToolCard.Actor.DRAFT, draft);
+    }
+
+    /**
+     * Used to read which actor does the tool need and to print it consequently
+     */
+    private void showActor() {
+        actor.forEach(act -> {
+            actorMap.get(act).accept(guiSystem.getUserName());
         });
     }
+
+    /**
+     * Used to obtain from player the parameter needed for using tool card
+     */
+    private void getParameter() {
+        parameter.forEach(param -> {
+            parameterMap.get(param).accept(guiSystem.getUserName());
+        });
+    }
+
+    /**
+     * Used to map ParameterMap that contains actions for each possible parameter
+     */
+    private void mapParameter() {
+        Consumer<String> dice = string -> {
+            if (actor.contains(ToolCard.Actor.DRAFT))
+                dices.add(getDiceFromDraft());
+            else if (actor.contains(ToolCard.Actor.ROUND_TRACK))
+                dices.add(getDiceFromRoundTrack());
+            else if (actor.contains(ToolCard.Actor.WINDOW_CARD))
+                dices.add(getDiceFromWindow());
+
+        };
+        Consumer<String> cell = string -> {
+            cells.add(getCellFromWindow());
+        };
+        Consumer<String> integer = string -> {
+            diceValue = getDiceValue();
+        };
+        Consumer<String> color = string -> {
+            diceColor = getColorOnTrack();
+        };
+        Consumer<String> bool = string -> {
+            up = getBooleanDirection();
+        };
+
+        parameterMap.put(ToolCard.Parameter.DICE, dice);
+        parameterMap.put(ToolCard.Parameter.CELL, cell);
+        parameterMap.put(ToolCard.Parameter.INTEGER, integer);
+        parameterMap.put(ToolCard.Parameter.COLOR, color);
+        parameterMap.put(ToolCard.Parameter.BOOLEAN, bool);
+    }
+
+    /**
+     * Used to get if the player wants to add or remove 1 to the dice
+     * @return true if user wants to add 1 to the dice, false if user wants minus 1 to the dice
+     */
+    private Boolean getBooleanDirection() {
+        Boolean ret = null;
+        resultBoolaen = -1;
+
+        AskBooleanWindow askBooleanWindow = new AskBooleanWindow();
+        askBooleanWindow.display(this);
+
+        while (resultBoolaen < 0 && myTurn)
+
+            if (resultBoolaen == 0)
+                quit = true;
+
+            if (resultBoolaen == 2) {
+                ret = true;
+            }
+            if (resultBoolaen == 1) {
+                ret = false;
+            }
+
+            if(!myTurn) return null;
+
+        return ret;
+    }
+
+    /**
+     * Used to ask player what value he wants to set on the dice
+     * @return value for the dice wanted by user
+     */
+    private int getDiceValue() {
+        resultValue = -1;
+        quit = false;
+
+        AskValueWindow askValueWindow = new AskValueWindow();
+        askValueWindow.display(this);
+
+        while (resultValue < 0);
+
+            return resultValue;
+
+    }
+    /**
+     * Used to ask player what Colors he wants to get out from the round track
+     * @return Colors for the dice wanted by user
+     */
+    private Colors getColorOnTrack() {
+
+        coordinatesRoundTrack.clear();
+        quit = false;
+
+        Platform.runLater(() -> {
+
+            AlertBox alertBox = new AlertBox();
+            alertBox.display("Scegli il colore del dado","Scegli il colore tra i dadi del Tracciato dei Round");
+
+        });
+
+        while( myTurn || coordinatesRoundTrack.size() < 2);
+
+        return guiSystem.getServerSpeaker().getColorFromRoundTrack(guiSystem.getUserName(), coordinatesRoundTrack);
+
+    }
+
+
+
+    /**
+     * Used to ask player what cell he wants out of the window card for using it in the tool card
+     * @return cell that user requested from his window card
+     */
+    private Cell getCellFromWindow() {
+        coordinatesWindow.clear();
+
+        Platform.runLater(() -> {
+
+            AlertBox alertBox = new AlertBox();
+            alertBox.display("Scegli la cella","Scegli la posizione all'interno della tua vetrata");
+
+        });
+
+        while(myTurn && coordinatesWindow.size() < 2);
+
+        if(!myTurn) return null;
+
+        return guiSystem.getServerSpeaker().getCellFromWindow(guiSystem.getUserName(), coordinatesWindow);
+
+    }
+
+    /**
+     * Used to ask player what dice he wants out of the window card for using it in the tool card
+     * @return dice that user requested from his window card
+     */
+    private Dice getDiceFromWindow() {
+        coordinatesWindow.clear();
+
+        Platform.runLater(() -> {
+
+            AlertBox alertBox = new AlertBox();
+            alertBox.display("Scegli la cella", "Scegli il dado all'interno della tua vetrata");
+        });
+
+            while(coordinatesWindow.size() < 2);
+
+                return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.WINDOW_CARD, guiSystem.getUserName(), coordinatesWindow);
+
+    }
+
+    /**
+     * Used to ask player what dice he wants out of round track for using it in the tool card
+     * @return dice that user requested from round track
+     */
+    private Dice getDiceFromRoundTrack() {
+        coordinatesRoundTrack.clear();
+
+        Platform.runLater(() -> {
+
+            AlertBox alertBox = new AlertBox();
+            alertBox.display("Scegli il colore del dado", "Scegli il colore tra i dadi del Tracciato dei Round");
+
+        });
+
+        while (coordinatesRoundTrack.size() < 2) ;
+
+            return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.ROUND_TRACK, guiSystem.getUserName(), coordinatesRoundTrack);
+    }
+
+    /**
+     * Used to ask player what dice he wants out of draft for using it in the tool card
+     * @return dice that user requested from draft
+     */
+    private Dice getDiceFromDraft() {
+
+        indexDiceDraft = -1;
+
+        while (indexDiceDraft < 0);
+
+        List<Integer> coordinates = new ArrayList<>();
+        coordinates.add(indexDiceDraft);
+
+        return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.DRAFT, guiSystem.getUserName(), coordinates);
+
+    }
+
+    public void setCoordinatesRoundTrackDice(Integer columnIndex, Integer rowIndex) {
+
+        coordinatesRoundTrack.add(rowIndex);
+        coordinatesRoundTrack.add(columnIndex);
+
+    }
+
 }
