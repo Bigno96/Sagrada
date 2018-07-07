@@ -88,6 +88,7 @@ public class GuiSystem implements ViewInterface{
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl.setList(cards);
 
@@ -238,6 +239,7 @@ public class GuiSystem implements ViewInterface{
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             primaryStage.show();
         });
@@ -266,6 +268,7 @@ public class GuiSystem implements ViewInterface{
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
@@ -291,7 +294,7 @@ public class GuiSystem implements ViewInterface{
             primaryStage.setScene(new Scene(root));
 
             root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
-
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
@@ -349,6 +352,12 @@ public class GuiSystem implements ViewInterface{
     public void endTurn(){
 
         serverSpeaker.endTurn(userName);
+
+    }
+
+    private void closeProgram(){
+
+        primaryStage.close();
 
     }
 
