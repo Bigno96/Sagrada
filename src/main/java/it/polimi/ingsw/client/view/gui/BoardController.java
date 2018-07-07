@@ -8,6 +8,9 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -20,7 +23,12 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import static java.lang.System.out;
 
@@ -84,6 +92,17 @@ public class BoardController implements ControlInterface {
     private int indexDiceDraft;
     private int column;
     private int row;
+    private int nDices = 0;
+    private int nullCheck;
+    private int nCells = 0;
+
+
+    private EnumMap<ToolCard.Actor, Consumer<String>> actorMap;
+    private EnumMap<ToolCard.Parameter, Consumer<String>> parameterMap;
+
+    private List<ToolCard.Actor> actor;
+    private List<ToolCard.Parameter> parameter;
+    private boolean diceValue;
 
     public void print(String s) {
 
@@ -357,4 +376,118 @@ public class BoardController implements ControlInterface {
 
     }
 
+    public void clickTool0(MouseEvent mouseEvent) {
+
+        useTool(0);
+
+    }
+
+    public void clickTool1(MouseEvent mouseEvent) {
+
+        useTool(1);
+
+    }
+
+    public void clickTool2(MouseEvent mouseEvent) {
+
+        useTool(2);
+
+    }
+
+    private void useTool(int i){
+
+        Boolean wrong = false;
+        //quit = false;
+        //dices = new ArrayList<>();
+        //cells = new ArrayList<>();
+        diceValue = 0;
+        //diceColor = null;
+        //up = null;
+
+        if(guiSystem.getServerSpeaker().checkPreCondition(i,guiSystem.getUserName())) {
+
+            guiSystem.getServerSpeaker().askFavorPoints(guiSystem.getUserName());
+
+            while (wrong) { //!quit ||
+
+                Boolean validity = guiSystem.getServerSpeaker().checkPreCondition(i, guiSystem.getUserName());
+
+                if (!validity)
+                    wrong = true;
+                else {
+                    actor = guiSystem.getServerSpeaker().getActor(i, guiSystem.getUserName());
+                    //showActor();
+
+                    parameter = guiSystem.getServerSpeaker().getParameter(i, guiSystem.getUserName());
+                    //getParameter();
+
+                    if (checkNull())
+                        wrong = checkAndUseTool(wrong, i);
+                    else
+                        wrong = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if some parameter are null when they should not be null
+     * @return true if everything is okay, false else
+     */
+        private Boolean checkNull() {
+            nullCheck = true;
+
+        parameter.forEach(param -> {
+            if (param.equals(ToolCard.Parameter.DICE))
+                nDices++;
+            else if (param.equals(ToolCard.Parameter.CELL))
+                nCells++;
+            else if (param.equals(ToolCard.Parameter.BOOLEAN))
+                nullCheck = up != null && nullCheck;
+            else if (param.equals(ToolCard.Parameter.COLOR))
+                nullCheck = diceColor != null && nullCheck;
+            else if (param.equals(ToolCard.Parameter.INTEGER))
+                nullCheck = diceValue != 0 && nullCheck;
+        });
+
+        IntStream.range(0, nDices).forEach(integer ->
+                nullCheck = dices.get(integer) != null && nullCheck);
+
+        IntStream.range(0, nCells).forEach(integer ->
+                nullCheck = cells.get(integer) != null && nullCheck);
+
+        return nullCheck;
+    }
+
+    /**
+     * Check if tool is correct and try to applies it
+     * @param wrong to remain in the loop of the caller
+     * @return true if all correct, false else
+     */
+   private Boolean checkAndUseTool(Boolean wrong, int pick) {
+        Boolean success;
+        Boolean validity;
+
+        if (!quit) {
+            validity = serverSpeaker.checkTool(pick, dices, cells, diceValue, diceColor);
+
+            if (!validity)
+                wrong = true;
+            else {
+                success = serverSpeaker.useTool(pick, dices, up, cells, userName);
+
+                if (!success)
+                    wrong = true;
+            }
+        }
+
+        return wrong;
+    }
+
+    private void getParameter() {
+        parameter.forEach(param -> {
+            parameterMap.get(param).accept(userName);
+            acquireSemaphore();
+        });
+    }
 }

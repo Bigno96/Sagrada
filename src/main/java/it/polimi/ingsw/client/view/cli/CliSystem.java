@@ -681,7 +681,8 @@ public class CliSystem implements ViewInterface {
         actorMap.put(ToolCard.Actor.DRAFT, draft);
     }
 
-    /** Used to read which actor does the tool need and to print it consequently
+    /**
+     * Used to read which actor does the tool need and to print it consequently
      */
     private void showActor() {
         actor.forEach(act -> {
@@ -922,6 +923,7 @@ public class CliSystem implements ViewInterface {
      * @return dice that user requested from draft
      */
     private Dice getDiceFromDraft() {
+
         List<Integer> coordinates = new ArrayList<>();
 
         coordinates.add(getIndex());
@@ -930,6 +932,7 @@ public class CliSystem implements ViewInterface {
             return serverSpeaker.getDiceFromActor(ToolCard.Actor.DRAFT, userName, coordinates);
         else
             return null;
+
     }
 
 }
