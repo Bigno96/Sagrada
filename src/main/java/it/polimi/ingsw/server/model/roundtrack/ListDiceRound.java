@@ -114,4 +114,10 @@ public class ListDiceRound implements Serializable {
     public boolean contains(Dice d) {
         return listDice.contains(d);
     }
+
+    public List<Dice> getListOfDice(){
+
+        return listDice;
+
+    }
 }

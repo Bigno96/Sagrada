@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.BoardController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.BoardController">
 
-    <ImageView fx:id="wind0" fitHeight="150.0" fitWidth="200.0" layoutX="390.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="390.0" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="5.0" />
-    <ImageView fx:id="myWind" fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="390.0" AnchorPane.rightAnchor="389.0" />
-    <ImageView fx:id="wind1" fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="352.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="5.0" />
+    <ImageView fx:id="wind0" fitHeight="150.0" fitWidth="200.0" layoutX="390.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="5.0" />
+    <ImageView fx:id="myWind" fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="389.0" />
+    <ImageView fx:id="wind1" fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
     <ImageView fx:id="wind2" fitHeight="150.0" fitWidth="200.0" layoutX="799.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
     <ImageView fx:id="publ0" fitHeight="150.0" fitWidth="116.0" layoutX="110.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fx:id="publ1" fitHeight="150.0" fitWidth="116.0" layoutX="228.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true" />
@@ -21,24 +24,7 @@
     <ImageView fx:id="tool1" fitHeight="150.0" fitWidth="116.0" layoutX="608.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fx:id="tool2" fitHeight="150.0" fitWidth="116.0" layoutX="723.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fx:id="priv" fitHeight="150.0" fitWidth="116.0" layoutX="268.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
-    <GridPane fx:id="roundTrack" layoutX="287.0" layoutY="306.0" prefHeight="38.0" prefWidth="406.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-    </GridPane>
-    <GridPane fx:id="myTabel" layoutX="390.0" layoutY="361.0" prefHeight="131.0" prefWidth="172.0">
+    <GridPane fx:id="myTabel" layoutX="390.0" layoutY="361.0" prefHeight="131.0" prefWidth="172.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="438.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -73,7 +59,7 @@
         <Pane layoutX="10.0" layoutY="10.0" onMouseClicked="#diceOnMousePressedEventHandler" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
         <Pane layoutX="10.0" layoutY="10.0" onMouseClicked="#diceOnMousePressedEventHandler" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
     </GridPane>
-    <GridPane fx:id="tabel1" layoutX="24.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0">
+    <GridPane fx:id="tabel1" layoutX="24.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -88,7 +74,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
     </GridPane>
-    <GridPane fx:id="tabel0" layoutX="390.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0">
+    <GridPane fx:id="tabel0" layoutX="390.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0" AnchorPane.rightAnchor="438.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -103,7 +89,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
     </GridPane>
-    <GridPane fx:id="tabel2" layoutX="803.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0">
+    <GridPane fx:id="tabel2" layoutX="803.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="10.0" prefWidth="38.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="68.0" minWidth="0.0" prefWidth="35.0" />
@@ -118,7 +104,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
     </GridPane>
-   <TextArea fx:id="textArea" layoutX="765.0" layoutY="293.0" prefHeight="176.0" prefWidth="271.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <TextArea fx:id="textArea" layoutX="765.0" layoutY="293.0" prefHeight="176.0" prefWidth="271.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
     <Pane fx:id="paneDraft" layoutX="10.0" layoutY="292.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
         <GridPane fx:id="draftGrid" prefHeight="150.0" prefWidth="200.0">
             <columnConstraints>
@@ -142,4 +128,21 @@
             <Pane layoutX="10.0" layoutY="10.0" onMouseClicked="#draftSelected" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
         </GridPane>
     </Pane>
+   <GridPane layoutX="10.0" layoutY="180.0" prefHeight="269.0" prefWidth="1056.0">
+     <columnConstraints>
+       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+     </rowConstraints>
+   </GridPane>
+   <Button layoutX="680.0" layoutY="744.0" mnemonicParsing="false" text="Fine Turno" onMouseClicked="#endTurn"/>
+   <Text layoutX="683.0" layoutY="668.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Punti Favore" AnchorPane.bottomAnchor="128.93408203125" AnchorPane.rightAnchor="307.4072265625" />
+   <TextField layoutX="711.0" layoutY="694.0" prefHeight="26.0" prefWidth="26.0" />
+   <Button fx:id="roundButton" layoutX="864.0" layoutY="549.0" mnemonicParsing="false" text="Show RoundTrack" onMouseClicked="#showRoundTrack"/>
 </AnchorPane>

@@ -16,8 +16,6 @@ public interface ControlInterface {
 
     void setList(List<WindowCard> cards);
 
-    void newCard();
-
     void printDraft(List<Dice> Draft);
 
     void printPrivateObj(ObjectiveCard privObj);
@@ -26,8 +24,11 @@ public interface ControlInterface {
 
     void printListPublObj(List<ObjectiveCard> publObj);
 
-    void updateCard(WindowCard window);
+    void updateCard(List<WindowCard> windowCards, WindowCard window);
 
     void updateRoundTrack(RoundTrack roundTrack);
 
+    void favorPoints(int point);
+
+    void setDiceFromDraft(Integer columnIndex, Integer rowIndex);
 }

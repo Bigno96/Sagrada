@@ -57,10 +57,6 @@ public class LoginPageController implements ControlInterface {
 
     }
 
-    @Override
-    public void newCard() {
-
-    }
 
     @Override
     public void printDraft(List<Dice> Draft) {
@@ -83,12 +79,22 @@ public class LoginPageController implements ControlInterface {
     }
 
     @Override
-    public void updateCard(WindowCard window) {
+    public void updateCard(List<WindowCard> windowCards, WindowCard window) {
 
     }
 
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
+
+    }
+
+    @Override
+    public void favorPoints(int point) {
+
+    }
+
+    @Override
+    public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
 
     }
 

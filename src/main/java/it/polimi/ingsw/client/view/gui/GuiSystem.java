@@ -36,9 +36,10 @@ public class GuiSystem implements ViewInterface{
     private String userName;
     private WindowCard myWindowCard;
     public List<WindowCard> windowCards;
-    public List<ObjectiveCard> pulicCards;
+    public RoundTrack roundTrack;
 
     private ControlInterface ctrl;
+    private List<ObjectiveCard> publicCards;
 
     /**
      * Constructor of GuiSystem
@@ -50,6 +51,7 @@ public class GuiSystem implements ViewInterface{
         this.connParam = new HashMap<>();
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         windowCards = new ArrayList<WindowCard>();
+        publicCards = new ArrayList<ObjectiveCard>();
 
     }
 
@@ -107,7 +109,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printWindowCard(WindowCard window) {
 
-        ctrl.updateCard(window);
+        ctrl.updateCard(windowCards, window);
 
     }
 
@@ -121,8 +123,8 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printListPublicObj(List<ObjectiveCard> publObj) {
 
-        pulicCards = new ArrayList<ObjectiveCard>();
-        pulicCards = publObj;
+
+        publicCards = publObj;
         ctrl.printListPublObj(publObj);
 
     }
@@ -131,6 +133,7 @@ public class GuiSystem implements ViewInterface{
     public void printListToolCard(List<ToolCard> toolCards) {
 
         ctrl.printListToolCard(toolCards);
+        ctrl.printListPublObj(publicCards);
 
     }
 
@@ -144,7 +147,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void showRoundTrack(RoundTrack roundTrack) {
 
-        ctrl.updateRoundTrack(roundTrack);
+        this.roundTrack = roundTrack;
 
     }
 
@@ -161,19 +164,21 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
-        out.println("move dice c'mon");
+        ctrl.print("Successful");
 
     }
 
     @Override
     public void wrongPlacementDice(String errorMsg) {
 
-        ctrl.print("Mossa errata");
+        ctrl.print("Wrong Placement Dice");
 
     }
 
     @Override
     public void printFavorPoints(int point) {
+
+        ctrl.favorPoints(point);
 
     }
 
@@ -311,6 +316,18 @@ public class GuiSystem implements ViewInterface{
     public void moveDice(int index, int row, int col){
 
         serverSpeaker.placementDice(userName, index, row, col);
+
+    }
+
+    public void askRoundTrack() {
+
+        serverSpeaker.askRoundTrack(userName);
+
+    }
+
+    public void endTurn(){
+
+        serverSpeaker.endTurn(userName);
 
     }
 

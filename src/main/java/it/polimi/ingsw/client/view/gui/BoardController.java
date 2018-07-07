@@ -1,46 +1,28 @@
 package it.polimi.ingsw.client.view.gui;
 
-import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
-import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
-
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import static java.lang.System.out;
 
 public class BoardController implements ControlInterface {
-
-    @FXML
-    public GridPane roundTrack;
 
     @FXML
     public ImageView myWind;
@@ -83,16 +65,15 @@ public class BoardController implements ControlInterface {
     public TextArea textArea;
     @FXML
     public GridPane draftGrid;
+    @FXML
+    public Button roundButton;
 
-    String baseURL = "/img/WindowCard/";
-    String exp = ".png";
-    GuiSystem guiSystem;
-    int indexDiceDraft;
-    int column;
-    int row;
-
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
+    private String baseURL = "/img/WindowCard/";
+    private String exp = ".png";
+    private GuiSystem guiSystem;
+    private int indexDiceDraft;
+    private int column;
+    private int row;
 
     public void print(String s) {
 
@@ -134,11 +115,6 @@ public class BoardController implements ControlInterface {
     }
 
     @Override
-    public void newCard() {
-
-    }
-
-    @Override
     public void printDraft(List<Dice> draft) {
 
         String diceURL = "/img/Dices/";
@@ -158,37 +134,10 @@ public class BoardController implements ControlInterface {
 
                 draftGrid.add(rectangle,column,row);
 
-                //rectangle.setOnMouseClicked(moveDice);
-
             }
 
         });
     }
-
-
-    EventHandler<MouseEvent> moveDice =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-
-                    orgSceneX = t.getSceneX();
-                    orgSceneY = t.getSceneY();
-                    orgTranslateX = ((Rectangle)(t.getSource())).getTranslateX();
-                    orgTranslateY = ((Rectangle)(t.getSource())).getTranslateY();
-
-                    double offsetX = t.getSceneX() - orgSceneX;
-                    double offsetY = t.getSceneY() - orgSceneY;
-                    double newTranslateX = orgTranslateX + offsetX;
-                    double newTranslateY = orgTranslateY + offsetY;
-
-                    ((Rectangle)(t.getSource())).setTranslateX(newTranslateX);
-                    ((Rectangle)(t.getSource())).setTranslateY(newTranslateY);
-
-                }
-
-            };
-
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
@@ -244,12 +193,92 @@ public class BoardController implements ControlInterface {
     }
 
     @Override
-    public void updateCard(WindowCard window) {
+    public void updateCard(List<WindowCard> windowCards, WindowCard window) {
+
+        String diceURL = "/img/Dices/";
+
+        Platform.runLater(() -> {
+
+            if (window.getName().equals(guiSystem.getMyWindowCard().getName())) {
+
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+
+                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                        Rectangle rectangle = new Rectangle(30, 30);
+                        rectangle.setFill(new ImagePattern(imageDice));
+
+                        myTabel.add(rectangle,j,i);
+
+                    }
+
+                }
+
+
+            } else {
+                int k = 0;
+                while (window.getName().equals(windowCards.get(k).getName())) ;
+                if (k == 0) {
+
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 5; j++) {
+
+                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                            Rectangle rectangle = new Rectangle(30, 30);
+                            rectangle.setFill(new ImagePattern(imageDice));
+
+                            tabel1.add(rectangle, j, i);
+
+                        }
+
+                    }
+
+                } else if (k == 1) {
+
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 5; j++) {
+
+                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                            Rectangle rectangle = new Rectangle(30, 30);
+                            rectangle.setFill(new ImagePattern(imageDice));
+
+                            tabel1.add(rectangle, j, i);
+
+                        }
+
+                    }
+
+                } else if (k == 2) {
+
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 5; j++) {
+
+                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                            Rectangle rectangle = new Rectangle(30, 30);
+                            rectangle.setFill(new ImagePattern(imageDice));
+
+                            tabel2.add(rectangle, j, i);
+
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
+
+    }
+
+    @Override
+    public void favorPoints(int point) {
+
+    }
+
+    @Override
+    public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
 
     }
 
@@ -262,9 +291,27 @@ public class BoardController implements ControlInterface {
 
     public void draftSelected(MouseEvent mouseEvent) {
 
-        indexDiceDraft = GridPane.getRowIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getColumnIndex((Pane)mouseEvent.getSource());
+        indexDiceDraft = GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource());
 
     }
 
+
+    public void showRoundTrack(MouseEvent mouseEvent) {
+
+        guiSystem.askRoundTrack();
+        Platform.runLater(() -> {
+
+            RoundTrackWindow roundTrackWindow = new RoundTrackWindow();
+            roundTrackWindow.display(guiSystem.roundTrack, this);
+
+        });
+
+    }
+
+    public void endTurn(MouseEvent mouseEvent){
+
+        guiSystem.endTurn();
+
+    }
 
 }
