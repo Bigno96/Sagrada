@@ -15,6 +15,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BackgroundImage;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +28,8 @@ public class GuiSystem implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
     private static final String YOUR_TURN_KEY = "YOUR_TURN";
+    private static final String YOU_USED_TOOL = "Hai correttamente usato la carta strumento: ";
+    private static final String OTHER_USED_TOOL = " ha correttamente usato la carta strumento: ";
 
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
@@ -35,8 +38,11 @@ public class GuiSystem implements ViewInterface{
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private WindowCard myWindowCard;
+    public List<String> otherUsername;
     public List<WindowCard> windowCards;
+    public List<ToolCard> toolCards;
     public RoundTrack roundTrack;
+    private BackgroundImage backgroundImage;
 
     private ControlInterface ctrl;
     private List<ObjectiveCard> publicCards;
@@ -79,6 +85,7 @@ public class GuiSystem implements ViewInterface{
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl.setList(cards);
 
@@ -98,6 +105,7 @@ public class GuiSystem implements ViewInterface{
         if(!userName.equals(user)){
 
             windowCards.add(card);
+            otherUsername.add(user);
 
         }
 
@@ -132,6 +140,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
 
+        this.toolCards = toolCards;
         ctrl.printListToolCard(toolCards);
         ctrl.printListPublObj(publicCards);
 
@@ -164,14 +173,14 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
-        ctrl.print("Successful");
+        ctrl.succefulPlacementDice(username, dest, moved);
 
     }
 
     @Override
     public void wrongPlacementDice(String errorMsg) {
 
-        ctrl.print("Wrong Placement Dice");
+        ctrl.print(errorMsg);
 
     }
 
@@ -185,10 +194,18 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
+
+
     }
 
     @Override
     public void successfulUsedTool(String username, ToolCard card) {
+
+        if(username.equals(userName)){
+            ctrl.print(YOU_USED_TOOL+ card.getId());
+        }else{
+            ctrl.print("Il giocatore" + username + OTHER_USED_TOOL + card.getId());
+        }
 
     }
 
@@ -198,7 +215,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void isTurn(String username) {
 
-        ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
+        if(username.equals(userName)){
+            ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
+        }else{
+            ctrl.print("Sta giocando " + username);
+        }
 
     }
 
@@ -221,6 +242,7 @@ public class GuiSystem implements ViewInterface{
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             primaryStage.show();
         });
@@ -249,6 +271,7 @@ public class GuiSystem implements ViewInterface{
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
@@ -270,7 +293,11 @@ public class GuiSystem implements ViewInterface{
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
+            root.setId("rootID");
             primaryStage.setScene(new Scene(root));
+
+            //root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+            primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);
@@ -331,4 +358,15 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    private void closeProgram(){
+
+        primaryStage.close();
+
+    }
+
+    public List<String> getOtherUsername(){
+
+        return otherUsername;
+
+    }
 }

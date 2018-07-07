@@ -336,7 +336,8 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(SHOW_ROUND_TRACK_KEYWORD));
 
         roundTrack.getTrackList().forEach(listDiceRound -> {
-            out.print(ROUND + roundTrack.getTrackList().indexOf(listDiceRound) + ": ");
+            int t = roundTrack.getTrackList().indexOf(listDiceRound)+1;
+            out.print(ROUND + t + ": ");
 
             listDiceRound.itr().forEachRemaining(dice ->
                     out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));

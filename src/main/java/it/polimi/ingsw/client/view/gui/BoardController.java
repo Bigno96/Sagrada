@@ -4,11 +4,13 @@ import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+
 
 import java.util.List;
 
@@ -66,6 +70,14 @@ public class BoardController implements ControlInterface {
     public GridPane draftGrid;
     @FXML
     public Button roundButton;
+    @FXML
+    public TextField favorPoint;
+    @FXML
+    public Text user0;
+    @FXML
+    public Text user1;
+    @FXML
+    public Text user2;
 
     private String baseURL = "/img/WindowCard/";
     private String exp = ".png";
@@ -85,28 +97,10 @@ public class BoardController implements ControlInterface {
 
         this.guiSystem = guiSystem;
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
+        favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
 
-        //getNodeByRowColumnIndex(4,5,myTabel);
-
     }
-/*
-    public void getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
-
-        for (Node node : childrens) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-
-           node.setOnMousePressed(diceOnMousePressedEventHandler);
-
-        }
-
-    }*/
-
 
     @Override
     public void setList(List<WindowCard> cards) {
@@ -168,12 +162,21 @@ public class BoardController implements ControlInterface {
 
         String baseTool = "/img/ToolCard/";
 
+        String basePubl = "/img/Public Objective/";
+
         Image imageTool0 = new Image(baseTool + toolCards.get(0).getId() + exp);
         tool0.setImage(imageTool0);
         Image imageTool1 = new Image(baseTool + toolCards.get(1).getId() + exp);
         tool1.setImage(imageTool1);
         Image imageTool2 = new Image(baseTool + toolCards.get(2).getId() + exp);
         tool2.setImage(imageTool2);
+
+        Image imagePubl0 = new Image(basePubl + guiSystem.getPulicCards().get(0).getId() + exp);
+        publ0.setImage(imagePubl0);
+        Image imagePubl1 = new Image(basePubl + guiSystem.getPulicCards().get(1).getId() + exp);
+        publ1.setImage(imagePubl1);
+        Image imagePubl2 = new Image(basePubl + guiSystem.getPulicCards().get(2).getId() + exp);
+        publ2.setImage(imagePubl2);
 
     }
 
@@ -219,6 +222,7 @@ public class BoardController implements ControlInterface {
                 while (window.getName().equals(windowCards.get(k).getName())) ;
                 if (k == 0) {
 
+                    user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
 
@@ -226,7 +230,7 @@ public class BoardController implements ControlInterface {
                             Rectangle rectangle = new Rectangle(30, 30);
                             rectangle.setFill(new ImagePattern(imageDice));
 
-                            tabel1.add(rectangle, j, i);
+                            tabel0.add(rectangle, j, i);
 
                         }
 
@@ -234,6 +238,7 @@ public class BoardController implements ControlInterface {
 
                 } else if (k == 1) {
 
+                    user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
 
@@ -249,6 +254,7 @@ public class BoardController implements ControlInterface {
 
                 } else if (k == 2) {
 
+                    user1.setText(guiSystem.getOtherUsername().get(2));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
 
@@ -269,15 +275,55 @@ public class BoardController implements ControlInterface {
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
 
+
+
     }
 
     @Override
     public void favorPoints(int point) {
 
+        favorPoint.setText(Integer.toString(point));
+
     }
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
+
+
+
+
+    }
+
+    @Override
+    public void succefulPlacementDice(String username, Cell dest, Dice moved) {
+
+        String diceURL = "/img/Dices/";
+
+        Platform.runLater(() -> {
+
+            if (username.equals(guiSystem.getUserName())) {
+
+                        Image imageDice = new Image(diceURL + moved.getColor() + "-" + moved.getValue() + exp);
+                        Rectangle rectangle = new Rectangle(30, 30);
+                        rectangle.setFill(new ImagePattern(imageDice));
+
+                        myTabel.add(rectangle,dest.getCol(),dest.getRow());
+
+                } else {
+                int i = guiSystem.getOtherUsername().indexOf(username);
+                Image imageDice = new Image(diceURL + moved.getColor() + "-" + moved.getValue() + exp);
+                Rectangle rectangle = new Rectangle(30, 30);
+                rectangle.setFill(new ImagePattern(imageDice));
+                if (i == 0)
+                    tabel0.add(rectangle, dest.getCol(),dest.getRow());
+
+                if (i == 1)
+                    tabel1.add(rectangle, dest.getCol(),dest.getRow());
+
+                if (i == 2)
+                    tabel2.add(rectangle, dest.getCol(),dest.getRow());
+            }
+        });
 
     }
 
@@ -293,7 +339,6 @@ public class BoardController implements ControlInterface {
         indexDiceDraft = GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource());
 
     }
-
 
     public void showRoundTrack(MouseEvent mouseEvent) {
 
