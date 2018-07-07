@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.lobby;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.game.ActionController;
 import it.polimi.ingsw.server.controller.game.GameController;
@@ -11,12 +12,11 @@ import it.polimi.ingsw.server.controller.game.TimerTurnDaemon;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.network.ClientSpeaker;
-import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class Lobby {
     public enum gameState { WAITING, STARTING, STARTED }

@@ -7,14 +7,14 @@ import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.gamedataparser.PrivateObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
+import it.polimi.ingsw.parser.gamedataparser.WindowParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.windowcard.Cell;
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Player;
+import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
-import it.polimi.ingsw.parser.gamedataparser.WindowParser;
+import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
 import java.util.Iterator;

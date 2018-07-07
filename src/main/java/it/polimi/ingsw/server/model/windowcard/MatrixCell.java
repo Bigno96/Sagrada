@@ -4,9 +4,12 @@ import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class MatrixCell implements Serializable {
 

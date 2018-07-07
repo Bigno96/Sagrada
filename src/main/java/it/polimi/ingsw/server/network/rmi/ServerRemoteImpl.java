@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.network.rmi;
 import it.polimi.ingsw.client.network.rmi.ClientRemote;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
-import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
@@ -14,7 +14,7 @@ import it.polimi.ingsw.server.model.windowcard.Cell;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class ServerRemoteImpl implements ServerRemote {
 

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.servertest.modeltest.gametest;
 
 import it.polimi.ingsw.exception.*;
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
+import junit.framework.TestCase;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

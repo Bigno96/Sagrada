@@ -1,13 +1,16 @@
 package it.polimi.ingsw.server.model.windowcard;
 
-import java.io.Serializable;
-import java.util.*;
-
+import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.WrongPositionException;
-import it.polimi.ingsw.exception.EmptyException;
 
-import static java.lang.System.*;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
+import java.util.Optional;
+
+import static java.lang.System.out;
 
 public class WindowCard extends Observable implements Serializable {
 

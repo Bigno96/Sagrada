@@ -1,9 +1,9 @@
 package it.polimi.ingsw.servertest.modeltest.objectivecardtest;
 
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.objectivecard.card.PrivateObjective;
 import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
+import junit.framework.TestCase;
 
 import java.util.Random;
 

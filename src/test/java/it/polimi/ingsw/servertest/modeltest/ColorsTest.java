@@ -1,7 +1,7 @@
 package it.polimi.ingsw.servertest.modeltest;
 
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
+import junit.framework.TestCase;
 
 public class ColorsTest extends TestCase {
 

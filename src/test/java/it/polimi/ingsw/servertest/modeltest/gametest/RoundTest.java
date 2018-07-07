@@ -4,16 +4,17 @@ import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PlayerNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
-import it.polimi.ingsw.server.model.game.Game;
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.game.Board;
+import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.game.Round;
+import junit.framework.TestCase;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RoundTest extends TestCase {
 

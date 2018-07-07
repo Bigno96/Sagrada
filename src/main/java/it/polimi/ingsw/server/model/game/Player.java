@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;

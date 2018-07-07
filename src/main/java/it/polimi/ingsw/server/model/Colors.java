@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public enum Colors implements Serializable {

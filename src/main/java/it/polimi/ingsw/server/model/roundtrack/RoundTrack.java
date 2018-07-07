@@ -5,8 +5,8 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.RoundNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.server.model.Colors;
-import it.polimi.ingsw.server.model.dicebag.Draft;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import it.polimi.ingsw.server.model.dicebag.Draft;
 
 import java.io.Serializable;
 import java.util.ArrayList;

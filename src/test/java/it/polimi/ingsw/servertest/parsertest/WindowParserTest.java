@@ -4,9 +4,9 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.PositionException;
 import it.polimi.ingsw.exception.ValueException;
 import it.polimi.ingsw.parser.ParserManager;
-import junit.framework.TestCase;
-import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.parser.gamedataparser.WindowParser;
+import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

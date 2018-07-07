@@ -7,7 +7,7 @@ import it.polimi.ingsw.parser.Parser;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Parse Game Settings

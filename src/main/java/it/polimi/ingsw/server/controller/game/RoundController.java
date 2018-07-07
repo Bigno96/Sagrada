@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Player;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Checks which player has to play turn

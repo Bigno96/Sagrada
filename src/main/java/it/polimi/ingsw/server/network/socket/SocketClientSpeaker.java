@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.network.socket;
 
-import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.exception.GameAlreadyStartedException;
+import it.polimi.ingsw.exception.SamePlayerException;
+import it.polimi.ingsw.exception.TooManyPlayersException;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.model.Colors;
@@ -13,17 +16,17 @@ import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
 import it.polimi.ingsw.server.network.ClientSpeaker;
-import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Implementation of Socket version of client speaker
