@@ -170,12 +170,21 @@ public class BoardController implements ControlInterface {
 
         String baseTool = "/img/ToolCard/";
 
+        String basePubl = "/img/Public Objective/";
+
         Image imageTool0 = new Image(baseTool + toolCards.get(0).getId() + exp);
         tool0.setImage(imageTool0);
         Image imageTool1 = new Image(baseTool + toolCards.get(1).getId() + exp);
         tool1.setImage(imageTool1);
         Image imageTool2 = new Image(baseTool + toolCards.get(2).getId() + exp);
         tool2.setImage(imageTool2);
+
+        Image imagePubl0 = new Image(basePubl + guiSystem.getPulicCards().get(0).getId() + exp);
+        publ0.setImage(imagePubl0);
+        Image imagePubl1 = new Image(basePubl + guiSystem.getPulicCards().get(1).getId() + exp);
+        publ1.setImage(imagePubl1);
+        Image imagePubl2 = new Image(basePubl + guiSystem.getPulicCards().get(2).getId() + exp);
+        publ2.setImage(imagePubl2);
 
     }
 
