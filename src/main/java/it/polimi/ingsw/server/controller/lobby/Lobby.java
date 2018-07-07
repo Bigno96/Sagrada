@@ -45,7 +45,6 @@ public class Lobby {
     private HashMap<String, Player> players;
     private HashMap<String, ClientSpeaker> speakers;
     private HashMap<String, CheckDisconnectionDaemon> checkerDisconnection;
-    private HashMap<String, RemovePlayerDaemon> checkerRemoving;
 
     private Game game;
     private GameController gameController;
@@ -60,7 +59,6 @@ public class Lobby {
         this.players = new HashMap<>();
         this.speakers = new HashMap<>();
         this.checkerDisconnection = new HashMap<>();
-        this.checkerRemoving = new HashMap<>();
         this.game = new Game();
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
@@ -130,19 +128,17 @@ public class Lobby {
         synchronized (playersLock) {
 
             if (players.containsKey(username)) {
-                if (currentState.equals(gameState.WAITING)) {            // if gameState is WAITING, launch timer before removing
-                    Timer removing = new Timer();
-                    RemovePlayerDaemon daemon = new RemovePlayerDaemon(username);
-                    removing.schedule(daemon, settings.getRemovingTimer());
-                    checkerRemoving.put(username, daemon);
-
-                } else
-                    players.get(username).setDisconnected(true);        // else, just set Disconnected state on player
 
                 speakers.forEach((user, speak) -> {
                     if (!user.equals(username))
                         speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(DISCONNECTED_KEYWORD));
                 });
+
+                if (currentState.equals(gameState.STARTED)) {
+                    players.get(username).setDisconnected(true);        // just set Disconnected state on player
+
+                } else
+                    removePlayer(username);
             }
         }
     }
@@ -166,17 +162,6 @@ public class Lobby {
                 speakers.get(username).sendWindowCard(gameController.getWindowAlternatives().get(username));
             else
                 speakers.get(username).nextTurn(game.getCurrentPlayer().getId());
-    }
-
-    /**
-     * Stops REMOVING_PLAYER_TIMER of a player that re-enter a lobby in WAITING state.
-     * @param username reconnected.
-     */
-    void purgeRemoving(String username) {
-        synchronized (checkerLock) {
-            if (checkerRemoving.containsKey(username))
-                checkerRemoving.get(username).cancel();
-        }
     }
 
     /**
@@ -205,24 +190,6 @@ public class Lobby {
 
         speakers.forEach((user, speak) ->
             speak.tell(dictionary.getMessage(USER_KEYWORD) + username + dictionary.getMessage(REMOVED_KEYWORD)));
-    }
-
-    /**
-     * Run when a player disconnects while game is still in gameState.WAITING, after REMOVING_PLAYER_TIMER seconds.
-     * Removes his username from players in the lobby list.
-     */
-    public class RemovePlayerDaemon extends TimerTask {
-
-        private String username;
-
-        private RemovePlayerDaemon(String username) {
-            this.username = username;
-        }
-
-        @Override
-        public void run() {
-            removePlayer(username);
-        }
     }
 
     /**

@@ -289,6 +289,10 @@ public class CliSystem implements ViewInterface {
      */
     @Override
     public void isTurn (String username) {
+        if (taskMenu == null) {
+            taskMenu = new MenuTask(this);
+            menuThread = new Thread(taskMenu);
+        }
 
         taskMenu.clearCurrentState();
 

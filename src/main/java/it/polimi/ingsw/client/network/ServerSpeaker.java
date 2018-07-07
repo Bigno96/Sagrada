@@ -176,5 +176,11 @@ public interface ServerSpeaker {
      * @return Color asked by user, null if any problem occurs
      */
     Colors getColorFromRoundTrack(String username, List<Integer> coordinates);
+
+    /**
+     * Used to quit the game
+     * @param username user that wants to quit
+     */
+    void quit(String username);
 }
 

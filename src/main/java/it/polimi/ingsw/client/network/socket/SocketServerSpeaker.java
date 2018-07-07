@@ -88,6 +88,7 @@ public class SocketServerSpeaker implements ServerSpeaker {
     private static final String DICE_KEYWORD = "DICE";
 
     private static final String END_TURN_KEYWORD = "END_TURN";
+    private static final String QUIT_GAME_KEYWORD = "QUIT_GAME";
 
     private String ip;
     private Socket socket;
@@ -735,6 +736,19 @@ public class SocketServerSpeaker implements ServerSpeaker {
             acquireSemaphore();
 
             return color;
+        }
+    }
+
+    /**
+     * @param username user that wants to quit
+     */
+    @Override
+    public void quit(String username) {
+        synchronized (lock) {
+            socketOut.println(protocol.getMessage(QUIT_GAME_KEYWORD));
+            socketOut.println(username);
+
+            socketOut.flush();
         }
     }
 

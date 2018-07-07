@@ -56,6 +56,9 @@ public class MenuTask implements Runnable {
     private static final String FAVOR_POINT_ENTRY_KEYWORD = "FAVOR_POINT_ENTRY";
     private static final String FAVOR_POINT_MESSAGE_KEYWORD = "FAVOR_POINT_MESSAGE";
 
+    private static final String CLOSE_ENTRY_KEYWORD = "CLOSE_ENTRY";
+    private static final String CLOSE_MESSAGE_KEYWORD = "CLOSE_MESSAGE";
+
     private final HashMap<String, Consumer<String>> waitingAction;
     private final HashMap<String, Consumer<String>> playingAction;
     private HashMap<String, Consumer<String>> action;
@@ -170,6 +173,9 @@ public class MenuTask implements Runnable {
 
         cliSystem.print("'" + dictionary.getMessage(FAVOR_POINT_ENTRY_KEYWORD) + "' " +
                 dictionary.getMessage(FAVOR_POINT_MESSAGE_KEYWORD));
+
+        cliSystem.print("'" + dictionary.getMessage(CLOSE_ENTRY_KEYWORD) + "' " +
+                dictionary.getMessage(CLOSE_MESSAGE_KEYWORD));
     }
 
     /**
@@ -231,6 +237,9 @@ public class MenuTask implements Runnable {
         //see favor points
         Consumer<String> favor = serverSpeaker::askFavorPoints;
 
+        //Quit the game
+        Consumer<String> quit = serverSpeaker::quit;
+
         playingAction.put(dictionary.getMessage(PLACE_DICE_ENTRY_KEYWORD), move);
         playingAction.put(dictionary.getMessage(USE_TOOL_CARD_ENTRY_KEYWORD), use);
         playingAction.put(dictionary.getMessage(PASS_TURN_ENTRY_KEYWORD), pass);
@@ -242,6 +251,7 @@ public class MenuTask implements Runnable {
         playingAction.put(dictionary.getMessage(ROUND_TRACK_ENTRY_KEYWORD), roundTrack);
         playingAction.put(dictionary.getMessage(TOOL_CARD_ENTRY_KEYWORD), tool);
         playingAction.put(dictionary.getMessage(FAVOR_POINT_ENTRY_KEYWORD), favor);
+        playingAction.put(dictionary.getMessage(CLOSE_ENTRY_KEYWORD), quit);
     }
 
     /**
@@ -276,6 +286,9 @@ public class MenuTask implements Runnable {
         //see favor points
         Consumer<String> favor = serverSpeaker::askFavorPoints;
 
+        //Quit the game
+        Consumer<String> quit = serverSpeaker::quit;
+
         waitingAction.put(dictionary.getMessage(OWN_WINDOW_CARD_ENTRY_KEYWORD), window);
         waitingAction.put(dictionary.getMessage(ANOTHER_WINDOW_CARD_ENTRY_KEYWORD), other);
         waitingAction.put(dictionary.getMessage(DRAFT_ENTRY_KEYWORD), draft);
@@ -284,6 +297,7 @@ public class MenuTask implements Runnable {
         waitingAction.put(dictionary.getMessage(ROUND_TRACK_ENTRY_KEYWORD), roundTrack);
         waitingAction.put(dictionary.getMessage(TOOL_CARD_ENTRY_KEYWORD), tool);
         waitingAction.put(dictionary.getMessage(FAVOR_POINT_ENTRY_KEYWORD), favor);
+        waitingAction.put(dictionary.getMessage(CLOSE_ENTRY_KEYWORD), quit);
     }
 
     /**

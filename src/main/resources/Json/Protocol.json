@@ -124,5 +124,7 @@
   "RANKING": "ranking",
   "RANKING_ENTRY": "ranking_entry",
   "RANKING_PLAYER": "ranking_player",
-  "RANKING_POINT": "ranking_point"
+  "RANKING_POINT": "ranking_point",
+
+  "QUIT_GAME": "quit_game"
 }

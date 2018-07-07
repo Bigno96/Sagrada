@@ -84,6 +84,10 @@ public class SocketClientListener implements Runnable {
     private static final String CARD_CELL_LIST_KEYWORD = "CARD_CELL_LIST";
     private static final String OCCUPIED_CELL_KEYWORD = "OCCUPIED_CELL";
 
+    private static final String QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
+    private static final String QUIT_GAME_KEYWORD = "QUIT_GAME";
+    private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
+
     private final Socket socket;
     private final SocketClientSpeaker speaker;
     private final Lobby lobby;
@@ -216,6 +220,17 @@ public class SocketClientListener implements Runnable {
             }
         };
 
+        Consumer<String> quit = user -> {
+            lobby.getSpeakers().forEach((u, s) -> {
+                if (u.equals(user))
+                    s.tell(dictionary.getMessage(QUIT_GAME_MESSAGE_KEYWORD));
+                else
+                    s.tell(dictionary.getMessage(OTHER_QUIT_GAME_MESSAGE_KEYWORD));
+            });
+
+            lobby.removePlayer(user);
+        };
+
         commandMap.put(protocol.getMessage(PRINT_KEYWORD), print);
         commandMap.put(protocol.getMessage(CONNECT_KEYWORD), connect);
         commandMap.put(protocol.getMessage(LOGIN_KEYWORD), login);
@@ -262,6 +277,8 @@ public class SocketClientListener implements Runnable {
         commandMap.put(protocol.getMessage(CELL_KEYWORD), makeCell);
         commandMap.put(protocol.getMessage(CARD_CELL_LIST_KEYWORD), makeCellList);
         commandMap.put(protocol.getMessage(OCCUPIED_CELL_KEYWORD), setCellOccupied);
+
+        commandMap.put(protocol.getMessage(QUIT_GAME_KEYWORD), quit);
 
         mapToolCardCommand();
     }
