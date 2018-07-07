@@ -2,10 +2,10 @@ package it.polimi.ingsw.server.model.toolcard;
 
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.server.model.Colors;
-import it.polimi.ingsw.server.model.dicebag.Draft;
-import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
+import it.polimi.ingsw.server.model.dicebag.Draft;
+import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;

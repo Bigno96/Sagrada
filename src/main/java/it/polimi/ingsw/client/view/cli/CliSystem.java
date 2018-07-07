@@ -18,9 +18,9 @@ import java.util.concurrent.Semaphore;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 import static org.fusesource.jansi.Ansi.Color;
-import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.Color.BLACK;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class CliSystem implements ViewInterface {

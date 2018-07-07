@@ -11,12 +11,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.*;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 

@@ -22,7 +22,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Controls game aspects

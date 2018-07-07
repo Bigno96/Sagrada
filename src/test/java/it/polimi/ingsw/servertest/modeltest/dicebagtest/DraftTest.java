@@ -4,11 +4,11 @@ import it.polimi.ingsw.exception.EmptyException;
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.SameDiceException;
 import it.polimi.ingsw.exception.ValueException;
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.dicebag.DiceBag;
 import it.polimi.ingsw.server.model.dicebag.Draft;
+import junit.framework.TestCase;
 
 import java.util.Iterator;
 import java.util.Random;

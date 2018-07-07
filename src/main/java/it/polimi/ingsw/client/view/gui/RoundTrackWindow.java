@@ -2,21 +2,13 @@ package it.polimi.ingsw.client.view.gui;
 
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.nio.file.FileSystem;
 
 public class RoundTrackWindow {
 

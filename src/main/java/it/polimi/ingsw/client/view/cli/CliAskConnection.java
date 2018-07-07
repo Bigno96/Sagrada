@@ -10,7 +10,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static java.lang.System.*;
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 /**
  * Used by Cli System to ask and set connection parameter

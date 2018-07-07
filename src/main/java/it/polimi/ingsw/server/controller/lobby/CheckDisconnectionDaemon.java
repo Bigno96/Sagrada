@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.controller.lobby;
 
 import it.polimi.ingsw.parser.ParserManager;
-import it.polimi.ingsw.server.network.ClientSpeaker;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
+import it.polimi.ingsw.server.network.ClientSpeaker;
 
 import java.util.TimerTask;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Daemon run to check if player is disconnected. There is one to one association between player and his daemon.

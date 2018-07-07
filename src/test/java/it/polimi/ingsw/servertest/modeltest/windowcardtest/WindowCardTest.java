@@ -3,16 +3,19 @@ package it.polimi.ingsw.servertest.modeltest.windowcardtest;
 import it.polimi.ingsw.exception.*;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.MatrixCell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import junit.framework.TestCase;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WindowCardTest extends TestCase{

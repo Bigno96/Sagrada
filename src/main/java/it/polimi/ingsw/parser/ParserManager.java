@@ -12,6 +12,8 @@ import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 public class ParserManager {
 
     private static final String SYSTEM_DIR = System.getProperty("user.dir");
+
+
     private static final String WINDOW_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/WindowCard.json";
     private static final String PRIVATE_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/PrivateCard.json";
     private static final String PUBLIC_CARD_PATH = SYSTEM_DIR + "/src/main/resources/Json/PublicCard.json";

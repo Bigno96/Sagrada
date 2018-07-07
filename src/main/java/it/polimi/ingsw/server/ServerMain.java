@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.parser.ParserManager;
-import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
+import it.polimi.ingsw.server.controller.lobby.Lobby;
 import it.polimi.ingsw.server.network.rmi.ServerRemote;
 import it.polimi.ingsw.server.network.rmi.ServerRemoteImpl;
 import it.polimi.ingsw.server.network.socket.ServerSocketThreadLauncher;
@@ -17,7 +17,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 public class ServerMain {
 

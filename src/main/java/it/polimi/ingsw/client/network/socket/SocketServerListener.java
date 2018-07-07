@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.network.socket;
 
+import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.exception.*;
+import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.parser.messageparser.NetworkInfoParser;
-import it.polimi.ingsw.client.view.ViewInterface;
-import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;

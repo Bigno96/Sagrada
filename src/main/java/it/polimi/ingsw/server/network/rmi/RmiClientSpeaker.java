@@ -14,7 +14,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.SortedMap;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Implementation of Rmi version of client speaker

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.network.socket;
 
 import it.polimi.ingsw.exception.*;
-import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.ParserManager;
+import it.polimi.ingsw.parser.messageparser.CommunicationParser;
 import it.polimi.ingsw.parser.messageparser.GameSettingsParser;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.controller.lobby.Lobby;
@@ -17,7 +17,7 @@ import java.net.Socket;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static java.lang.System.*;
+import static java.lang.System.out;
 
 /**
  * Listen on socket messages from client

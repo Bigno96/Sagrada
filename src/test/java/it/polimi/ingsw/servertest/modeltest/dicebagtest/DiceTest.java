@@ -2,9 +2,9 @@ package it.polimi.ingsw.servertest.modeltest.dicebagtest;
 
 import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.exception.ValueException;
-import junit.framework.TestCase;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
+import junit.framework.TestCase;
 
 import java.util.Random;
 

@@ -4,13 +4,11 @@ import it.polimi.ingsw.exception.IDNotFoundException;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.gamedataparser.PublicObjectiveCardParser;
 import it.polimi.ingsw.parser.gamedataparser.ToolCardParser;
-import it.polimi.ingsw.server.model.Colors;
+import it.polimi.ingsw.server.model.game.Board;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
-import it.polimi.ingsw.server.model.toolcard.ToolEffectRealization;
 import junit.framework.TestCase;
-import it.polimi.ingsw.server.model.game.Board;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
