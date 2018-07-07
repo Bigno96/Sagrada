@@ -42,7 +42,7 @@ public class GuiSystem implements ViewInterface{
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private WindowCard myWindowCard;
-    public List<Player> otherUsername;
+    public List<String> otherUsername;
     public List<WindowCard> windowCards;
     public RoundTrack roundTrack;
     private BackgroundImage backgroundImage;
@@ -108,6 +108,7 @@ public class GuiSystem implements ViewInterface{
         if(!userName.equals(user)){
 
             windowCards.add(card);
+            otherUsername.add(user);
 
         }
 
@@ -361,4 +362,9 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    public List<String> getOtherUsername(){
+
+        return otherUsername;
+
+    }
 }

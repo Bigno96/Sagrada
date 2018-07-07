@@ -18,6 +18,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 import java.util.List;
 
@@ -70,6 +71,12 @@ public class BoardController implements ControlInterface {
     public Button roundButton;
     @FXML
     public TextField favorPoint;
+    @FXML
+    public Text user0;
+    @FXML
+    public Text user1;
+    @FXML
+    public Text user2;
 
     private String baseURL = "/img/WindowCard/";
     private String exp = ".png";
@@ -214,6 +221,7 @@ public class BoardController implements ControlInterface {
                 while (window.getName().equals(windowCards.get(k).getName())) ;
                 if (k == 0) {
 
+                    user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
 
@@ -229,6 +237,7 @@ public class BoardController implements ControlInterface {
 
                 } else if (k == 1) {
 
+                    user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
 
@@ -244,6 +253,7 @@ public class BoardController implements ControlInterface {
 
                 } else if (k == 2) {
 
+                    user1.setText(guiSystem.getOtherUsername().get(2));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
 
@@ -268,6 +278,8 @@ public class BoardController implements ControlInterface {
 
     @Override
     public void favorPoints(int point) {
+
+        favorPoint.setText(Integer.toString(point));
 
     }
 
