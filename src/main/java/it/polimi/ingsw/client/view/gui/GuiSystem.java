@@ -18,6 +18,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,6 +45,7 @@ public class GuiSystem implements ViewInterface{
     public List<Player> otherUsername;
     public List<WindowCard> windowCards;
     public RoundTrack roundTrack;
+    private BackgroundImage backgroundImage;
 
     private ControlInterface ctrl;
     private List<ObjectiveCard> publicCards;
@@ -281,7 +287,11 @@ public class GuiSystem implements ViewInterface{
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
+            root.setId("rootID");
             primaryStage.setScene(new Scene(root));
+
+            root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+
 
             ctrl = loader.getController();
             ctrl.setGuiSystem(this);

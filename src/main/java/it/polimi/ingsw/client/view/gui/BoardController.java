@@ -12,8 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
 import javafx.event.EventHandler;
@@ -69,6 +68,7 @@ public class BoardController implements ControlInterface {
     @FXML
     public Button roundButton;
 
+;
     private String baseURL = "/img/WindowCard/";
     private String exp = ".png";
     private GuiSystem guiSystem;
@@ -89,26 +89,7 @@ public class BoardController implements ControlInterface {
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         myWind.setImage(myWindowImage);
 
-        //getNodeByRowColumnIndex(4,5,myTabel);
-
     }
-/*
-    public void getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
-
-        for (Node node : childrens) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-
-           node.setOnMousePressed(diceOnMousePressedEventHandler);
-
-        }
-
-    }*/
-
 
     @Override
     public void setList(List<WindowCard> cards) {
