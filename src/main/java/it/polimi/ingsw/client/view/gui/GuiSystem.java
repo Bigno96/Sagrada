@@ -205,7 +205,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void isTurn(String username) {
 
-        ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
+        if(username.equals(userName)){
+            ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
+        }else{
+            ctrl.print("Sta giocando " + username);
+        }
 
     }
 
