@@ -34,6 +34,8 @@ public class GuiSystem implements ViewInterface{
 
     private static final String TITLE = "TITLE_GAME";
     private static final String YOUR_TURN_KEY = "YOUR_TURN";
+    private static final String YOU_USED_TOOL = "Hai correttamente usato la carta strumento: ";
+    private static final String OTHER_USED_TOOL = " ha correttamente usato la carta strumento: ";
 
     private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
@@ -44,6 +46,7 @@ public class GuiSystem implements ViewInterface{
     private WindowCard myWindowCard;
     public List<String> otherUsername;
     public List<WindowCard> windowCards;
+    public List<ToolCard> toolCards;
     public RoundTrack roundTrack;
     private BackgroundImage backgroundImage;
 
@@ -143,6 +146,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
 
+        this.toolCards = toolCards;
         ctrl.printListToolCard(toolCards);
         ctrl.printListPublObj(publicCards);
 
@@ -203,7 +207,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void successfulUsedTool(String username, ToolCard card) {
 
-
+        if(username.equals(userName)){
+            ctrl.print(YOU_USED_TOOL+ card.getId());
+        }else{
+            ctrl.print("Il giocatore" + username + OTHER_USED_TOOL + card.getId());
+        }
 
     }
 

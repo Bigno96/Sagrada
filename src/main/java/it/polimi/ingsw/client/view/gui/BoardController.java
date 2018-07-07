@@ -229,7 +229,7 @@ public class BoardController implements ControlInterface {
                             Rectangle rectangle = new Rectangle(30, 30);
                             rectangle.setFill(new ImagePattern(imageDice));
 
-                            tabel1.add(rectangle, j, i);
+                            tabel0.add(rectangle, j, i);
 
                         }
 
@@ -274,6 +274,8 @@ public class BoardController implements ControlInterface {
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
 
+
+
     }
 
     @Override
@@ -286,10 +288,41 @@ public class BoardController implements ControlInterface {
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
 
+
+
+
     }
 
     @Override
     public void succefulPlacementDice(String username, Cell dest, Dice moved) {
+
+        String diceURL = "/img/Dices/";
+
+        Platform.runLater(() -> {
+
+            if (username.equals(guiSystem.getUserName())) {
+
+                        Image imageDice = new Image(diceURL + moved.getColor() + "-" + moved.getValue() + exp);
+                        Rectangle rectangle = new Rectangle(30, 30);
+                        rectangle.setFill(new ImagePattern(imageDice));
+
+                        myTabel.add(rectangle,dest.getCol(),dest.getRow());
+
+                } else {
+                int i = guiSystem.getOtherUsername().indexOf(username);
+                Image imageDice = new Image(diceURL + moved.getColor() + "-" + moved.getValue() + exp);
+                Rectangle rectangle = new Rectangle(30, 30);
+                rectangle.setFill(new ImagePattern(imageDice));
+                if (i == 0)
+                    tabel0.add(rectangle, dest.getCol(),dest.getRow());
+
+                if (i == 1)
+                    tabel1.add(rectangle, dest.getCol(),dest.getRow());
+
+                if (i == 2)
+                    tabel2.add(rectangle, dest.getCol(),dest.getRow());
+            }
+        });
 
     }
 
@@ -305,7 +338,6 @@ public class BoardController implements ControlInterface {
         indexDiceDraft = GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource());
 
     }
-
 
     public void showRoundTrack(MouseEvent mouseEvent) {
 
