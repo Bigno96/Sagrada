@@ -135,16 +135,16 @@
      </rowConstraints>
       <children>
           <ImageView fx:id="publ0" fitHeight="269.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" />
-          <ImageView fx:id="publ1" fitHeight="150.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-          <ImageView fx:id="publ2" fitHeight="150.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-          <ImageView fx:id="tool0" fitHeight="150.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-          <ImageView fx:id="tool1" fitHeight="150.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-          <ImageView fx:id="tool2" fitHeight="150.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+          <ImageView fx:id="publ1" fitHeight="271.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+          <ImageView fx:id="publ2" fitHeight="271.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+          <ImageView fx:id="tool0" fitHeight="269.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+          <ImageView fx:id="tool1" fitHeight="270.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+          <ImageView fx:id="tool2" fitHeight="270.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
       </children>
    </GridPane>
-   <Button layoutX="680.0" layoutY="744.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine Turno" AnchorPane.bottomAnchor="5.0" />
+   <Button layoutX="708.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine Turno" AnchorPane.bottomAnchor="18.0" />
    <Text layoutX="682.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Punti Favore" AnchorPane.bottomAnchor="111.0" AnchorPane.rightAnchor="302.4072265625" />
-   <TextField layoutX="711.0" layoutY="694.0" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="60.0" />
+   <TextField layoutX="739.0" layoutY="659.0" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="57.0" />
     <ImageView fx:id="priv" fitHeight="150.0" fitWidth="116.0" layoutX="260.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true" />
-   <Button fx:id="roundButton" layoutX="241.0" layoutY="682.0" mnemonicParsing="false" onMouseClicked="#showRoundTrack" text="Show RoundTrack" AnchorPane.bottomAnchor="5.0" />
+   <Button fx:id="roundButton" layoutX="277.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#showRoundTrack" text="Show RoundTrack" AnchorPane.bottomAnchor="5.0" />
 </AnchorPane>
