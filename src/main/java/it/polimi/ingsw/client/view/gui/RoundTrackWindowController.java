@@ -38,6 +38,13 @@ public class RoundTrackWindowController {
                     Rectangle rectangle = new Rectangle(30, 30);
                     rectangle.setFill(new ImagePattern(imageDice));
 
+                    rectangle.setId(Integer.toString(index*10 + j));
+                    rectangle.setOnMouseClicked((MouseEvent)->{
+                        ctrl.setDiceFromDraft((Integer.parseInt(rectangle.getId()))/10, (Integer.parseInt(rectangle.getId()))%10);
+                        roundTrackWindow.closeWindow();
+
+                    });
+
                     gridPane.add(rectangle,index,j);
 
                 }
