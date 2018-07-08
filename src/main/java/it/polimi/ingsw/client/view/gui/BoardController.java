@@ -145,8 +145,6 @@ public class BoardController implements ControlInterface {
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
 
-
-
     }
 
     @Override
@@ -384,8 +382,8 @@ public class BoardController implements ControlInterface {
     public void diceOnMousePressedEventHandler(MouseEvent mouseEvent) {
 
         guiSystem.moveDice(indexDiceDraft,GridPane.getColumnIndex((Pane) mouseEvent.getSource()),GridPane.getRowIndex((Pane) mouseEvent.getSource()));
-        coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()), GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
-
+        coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()));
+        coordinatesWindow.add(GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
     }
 
     public void draftSelected(MouseEvent mouseEvent) {
