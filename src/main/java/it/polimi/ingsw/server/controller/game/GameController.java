@@ -261,7 +261,7 @@ public class GameController {
     public void setToolCard(List<Integer> used) {
         ToolCardParser cardParser = (ToolCardParser) ParserManager.getToolCardParser();
 
-        List<Integer> nRand = createNRandom(3, used, 13);
+        List<Integer> nRand = createNRandom(3, used, 11);
 
         List<ToolCard> tools = new ArrayList<>();
 
