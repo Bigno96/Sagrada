@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
-import static java.lang.System.out;
-
 public class BoardController implements ControlInterface {
 
     private static final String INSERT_NUMBER_KEYWORD = "INSERT_NUMBER";
@@ -40,7 +38,6 @@ public class BoardController implements ControlInterface {
     private static final String DICE_COLOR_KEYWORD = "DICE_COLOR";
     private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
     private static final String QUIT_KEYWORD = "QUIT";
-
 
     @FXML
     public ImageView myWind;
