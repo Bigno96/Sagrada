@@ -292,18 +292,27 @@ public class ToolCard extends Observable implements Serializable {
             EmptyException, SameDiceException, RoundNotFoundException {
         Boolean ret = false;
 
-        if (id == 1)
-            ret = strategy.changeValue(dices.get(0), up);
-        else if (id == 2)
-            ret = strategy.moveOneDice(dices.get(0), cells.get(0), "color", windowCard);
-        else if (id == 3)
-            ret = strategy.moveOneDice(dices.get(0), cells.get(0), "value", windowCard);
+        if (id == 1) {
+            ret = strategy.changeValue(draft.findDice(dices.get(0).getID()), up);
+        }
+        else if (id == 2) {
+            Dice d = windowCard.getWindow().getCell(dices.get(0)).getDice();
+            Cell c = windowCard.getWindow().getCell(cells.get(0).getRow(), cells.get(0).getCol());
+            ret = strategy.moveOneDice(d, c, "color", windowCard);
+        }
+        else if (id == 3) {
+            Dice d = windowCard.getWindow().getCell(dices.get(0)).getDice();
+            Cell c = windowCard.getWindow().getCell(cells.get(0).getRow(), cells.get(0).getCol());
+            ret = strategy.moveOneDice(d, c, "value", windowCard);
+        }
         else if (id == 4)
             ret = strategy.moveExTwoDice(dices, cells, windowCard);
         else if (id == 5)
             ret = strategy.moveFromDraftToRound(dices);
         else if (id == 6) {
-            dices.get(0).rollDice();
+            Dice d = draft.findDice(dices.get(0).getID());
+            d.rollDice();
+            draft.setChangedAndNotify();
             ret = true;
         }
         else if (id == 7) {
@@ -315,16 +324,26 @@ public class ToolCard extends Observable implements Serializable {
             player.setSecondTurn(false);
             ret = true;
         }
-        else if (id == 9)
-            ret = strategy.moveFromDraftToCard(dices.get(0), cells.get(0), windowCard);
-        else if (id==10) {
-            dices.get(0).changeValue(7 - dices.get(0).getValue());
+        else if (id == 9) {
+            Cell dest = windowCard.getWindow().getCell(cells.get(0).getRow(), cells.get(0).getCol());
+            ret = strategy.moveFromDraftToCard(dices.get(0), dest, windowCard);
+        }
+        else if (id == 10) {
+            Dice d = draft.findDice(dices.get(0).getID());
+            d.changeValue(7 - dices.get(0).getValue());
+            draft.setChangedAndNotify();
             ret = true;
         }
         else if (id == 11)
             ret = strategy.moveFromDraftToBagThanPlace(dices.get(0), cells.get(0), diceValue, windowCard);
-        else if (id == 12)
-            ret = strategy.moveUpToTwoDice(dices, cells, windowCard);
+        else if (id == 12) {
+            List<Cell> destinations = new ArrayList<>();
+            for (Cell c : cells) {
+                if (windowCard.getWindow().getCell(c.getRow(), c.getCol()) != null)
+                    destinations.add(windowCard.getWindow().getCell(c.getRow(), c.getCol()));
+            }
+            ret = strategy.moveUpToTwoDice(dices, destinations, windowCard);
+        }
 
         return ret;
     }

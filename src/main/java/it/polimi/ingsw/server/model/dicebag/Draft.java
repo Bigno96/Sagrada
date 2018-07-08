@@ -94,7 +94,7 @@ public class Draft extends Observable implements Serializable {
                 .filter(d -> d.getID() == id)
                 .collect(Collectors.toList()).stream().findFirst();
 
-        return ret.map(Dice::copyDice).orElse(null);
+        return ret.orElse(null);
     }
 
     /**
