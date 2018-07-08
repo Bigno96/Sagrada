@@ -14,7 +14,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BackgroundImage;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,6 +43,7 @@ public class GuiSystem implements ViewInterface{
     private ControlInterface ctrl;
     private List<ObjectiveCard> publicCards;
     public SortedMap<Integer, String> ranking;
+    private HashMap<String,ServerSpeaker> connParam;
 
     /**
      * Constructor of GuiSystem
@@ -56,7 +56,6 @@ public class GuiSystem implements ViewInterface{
         otherUsername = new ArrayList<String >();
         windowCards = new ArrayList<WindowCard>();
         publicCards = new ArrayList<ObjectiveCard>();
-
 
     }
 
@@ -317,8 +316,6 @@ public class GuiSystem implements ViewInterface{
 
             assert root != null;
             primaryStage.setScene(new Scene(root));
-
-            //root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
             primaryStage.setOnCloseRequest(e -> closeProgram());
 
             ctrl = loader.getController();
@@ -337,19 +334,22 @@ public class GuiSystem implements ViewInterface{
     }
 
     void setConnParam(HashMap<String, ServerSpeaker> connParam) {
+
+        this.connParam = connParam;
+
     }
 
-    public WindowCard getMyWindowCard() {
+    WindowCard getMyWindowCard() {
         return myWindowCard;
     }
 
-    public List<WindowCard> getWindowCards(){
+    List<WindowCard> getWindowCards(){
 
         return windowCards;
 
     }
 
-    public List<ObjectiveCard> getPulicCards(){
+    List<ObjectiveCard> getPulicCards(){
 
         return publicCards;
 
@@ -361,13 +361,13 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    public void moveDice(int index, int row, int col){
+    void moveDice(int index, int row, int col){
 
         serverSpeaker.placementDice(userName, index, row, col);
 
     }
 
-    public void askRoundTrack() {
+    void askRoundTrack() {
 
         serverSpeaker.askRoundTrack(userName);
 
@@ -386,7 +386,7 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    public List<String> getOtherUsername(){
+    List<String> getOtherUsername(){
 
         return otherUsername;
 
