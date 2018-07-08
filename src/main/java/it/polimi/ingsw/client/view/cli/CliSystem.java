@@ -677,6 +677,9 @@ public class CliSystem implements ViewInterface {
         Consumer<String> roundTrack = username -> serverSpeaker.askRoundTrack(username);
         Consumer<String> draft = username -> serverSpeaker.askDraft(username);
 
+        out.println(ToolCard.Actor.WINDOW_CARD);
+        out.println(windowCard);
+
         actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
         actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);
         actorMap.put(ToolCard.Actor.DRAFT, draft);

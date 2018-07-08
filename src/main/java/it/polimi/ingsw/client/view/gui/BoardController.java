@@ -143,6 +143,12 @@ public class BoardController implements ControlInterface {
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
+        this.actorMap = new EnumMap<>(ToolCard.Actor.class);
+        this.nullCheck = true;
+        this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
+
+        mapActor();
+        mapParameter();
 
     }
 
@@ -243,25 +249,18 @@ public class BoardController implements ControlInterface {
 
         String diceURL = "/img/Dices/";
 
-        out.println("updateCard");
-        out.println(windowCards.get(0).getName());
-        out.println(guiSystem.getMyWindowCard().getName());
-
         Platform.runLater(() -> {
 
             if (window.getName().equals(guiSystem.getMyWindowCard().getName())) {
 
-
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
                         if(window.getWindow().getCell(i, j).isOccupied()){
+                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
+                            Rectangle rectangle = new Rectangle(30, 30);
+                            rectangle.setFill(new ImagePattern(imageDice));
 
-                        out.println(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
-                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
-                        Rectangle rectangle = new Rectangle(30, 30);
-                        rectangle.setFill(new ImagePattern(imageDice));
-
-                        myTabel.add(rectangle,j,i);
+                            myTabel.add(rectangle,j,i);
                         }
 
                     }
@@ -274,12 +273,13 @@ public class BoardController implements ControlInterface {
                     user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
+                            if(window.getWindow().getCell(i, j).isOccupied()) {
+                                Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                                Rectangle rectangle = new Rectangle(30, 30);
+                                rectangle.setFill(new ImagePattern(imageDice));
 
-                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
-                            Rectangle rectangle = new Rectangle(30, 30);
-                            rectangle.setFill(new ImagePattern(imageDice));
-
-                            tabel0.add(rectangle, j, i);
+                                tabel0.add(rectangle, j, i);
+                            }
 
                         }
 
@@ -290,12 +290,13 @@ public class BoardController implements ControlInterface {
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
+                            if(window.getWindow().getCell(i, j).isOccupied()) {
+                                Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                                Rectangle rectangle = new Rectangle(30, 30);
+                                rectangle.setFill(new ImagePattern(imageDice));
 
-                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
-                            Rectangle rectangle = new Rectangle(30, 30);
-                            rectangle.setFill(new ImagePattern(imageDice));
-
-                            tabel1.add(rectangle, j, i);
+                                tabel1.add(rectangle, j, i);
+                            }
 
                         }
 
@@ -303,19 +304,21 @@ public class BoardController implements ControlInterface {
 
                 } else if (windowCards.size() > 2 &&windowCards.get(2).getName() == window.getName()) {
 
-                    user1.setText(guiSystem.getOtherUsername().get(2));
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 5; j++) {
-
-                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
-                            Rectangle rectangle = new Rectangle(30, 30);
-                            rectangle.setFill(new ImagePattern(imageDice));
-
-                            tabel2.add(rectangle, j, i);
+                user1.setText(guiSystem.getOtherUsername().get(2));
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        if (window.getWindow().getCell(i, j).isOccupied()) {
 
                         }
+                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                        Rectangle rectangle = new Rectangle(30, 30);
+                        rectangle.setFill(new ImagePattern(imageDice));
+
+                        tabel2.add(rectangle, j, i);
                     }
+
                 }
+            }
         });
 
     }
@@ -441,8 +444,7 @@ public class BoardController implements ControlInterface {
         diceColor = null;
         up = null;
 
-        mapActor();
-        mapParameter();
+
 
         if(guiSystem.getServerSpeaker().checkPreCondition(i,guiSystem.getUserName())) {
 
@@ -528,11 +530,10 @@ public class BoardController implements ControlInterface {
      * Used to map ActorMap that contains actions for each possible actor
      */
     private void mapActor() {
+
         Consumer<String> windowCard = username -> guiSystem.getServerSpeaker().askWindowCard(guiSystem.getUserName(), guiSystem.getUserName());
         Consumer<String> roundTrack = username -> guiSystem.getServerSpeaker().askRoundTrack(guiSystem.getUserName());
         Consumer<String> draft = username -> guiSystem.getServerSpeaker().askDraft(guiSystem.getUserName());
-
-        out.println(windowCard);
 
         actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
         actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);

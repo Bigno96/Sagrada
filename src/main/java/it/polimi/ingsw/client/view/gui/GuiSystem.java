@@ -30,18 +30,16 @@ public class GuiSystem implements ViewInterface{
     private static final String YOU_USED_TOOL = "Hai correttamente usato la carta strumento: ";
     private static final String OTHER_USED_TOOL = " ha correttamente usato la carta strumento: ";
 
-    private HashMap<String, ServerSpeaker> connParam;
     private Stage primaryStage;
     private ViewMessageParser dictionary;
 
     private ServerSpeaker serverSpeaker;        // handles communication Client -> Server
     private String userName;
     private WindowCard myWindowCard;
-    public List<String> otherUsername;
-    public List<WindowCard> windowCards;
+    private List<String> otherUsername;
+    private List<WindowCard> windowCards;
     public List<ToolCard> toolCards;
     public RoundTrack roundTrack;
-    private BackgroundImage backgroundImage;
 
     private ControlInterface ctrl;
     private List<ObjectiveCard> publicCards;
@@ -54,11 +52,11 @@ public class GuiSystem implements ViewInterface{
     public GuiSystem(Stage primaryStage){
 
         this.primaryStage = primaryStage;
-        this.connParam = new HashMap<>();
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         otherUsername = new ArrayList<String >();
         windowCards = new ArrayList<WindowCard>();
         publicCards = new ArrayList<ObjectiveCard>();
+
 
     }
 
@@ -199,7 +197,7 @@ public class GuiSystem implements ViewInterface{
 
         Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/RankingPage"));
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/RankingPage.fxml"));
             try {
                 root = loader.load();
             } catch (IOException e) {
@@ -339,7 +337,6 @@ public class GuiSystem implements ViewInterface{
     }
 
     void setConnParam(HashMap<String, ServerSpeaker> connParam) {
-        this.connParam = connParam;
     }
 
     public WindowCard getMyWindowCard() {
