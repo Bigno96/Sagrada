@@ -10,7 +10,8 @@ Progetto ingegneria del software 2017/2018
 ## Status
 
 Completed Model classes of pattern MVC </br>
+Controller supporting observer for notifying changes of model </br>
 Network module supporting socket and rmi </br>
-Network module supporting basic login, disconnection and game starting </br>
-Creating view and controller of pattern MVC </br>
+View module supporting both cli and gui </br>
+Supports vector format creation of window card </br>
 

@@ -27,6 +27,7 @@ public class GameSettingsParser implements Parser {
     private static final String MAX_ROW = "MAX_WINDOW_CARD_ROW";
     private static final String NOTIFY_INTERVAL = "NOTIFY_INTERVAL";
     private static final String ACTION_TIMER = "ACTION_TIMER";
+    private static final String NUMBER_WINDOW_CARD = "NUMBER_WINDOW_CARD";
 
     private GameSettingsParser(String path) {
         JsonParser parser = new JsonParser();
@@ -78,6 +79,10 @@ public class GameSettingsParser implements Parser {
 
     public int getActionTimer() {
         return Integer.parseInt(obj.get(ACTION_TIMER).getAsString());
+    }
+
+    public int getNumberWindowCard() {
+        return Integer.parseInt(obj.get(NUMBER_WINDOW_CARD).getAsString());
     }
 
 }

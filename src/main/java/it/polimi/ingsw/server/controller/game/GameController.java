@@ -150,7 +150,7 @@ public class GameController {
     public void getListWindowCard(List<Integer> used) {
         BiConsumer<String, Player> getWindows = (name, player) -> {
             try{
-                List<Integer> nRand = createNRandom(2, used,  13);
+                List<Integer> nRand = createNRandom(2, used,  gameSettings.getNumberWindowCard()+1);
                 List<WindowCard> cards = new ArrayList<>(windowParser.getWindow(nRand.get(0), nRand.get(1)));
                 windowAlternatives.put(name, cards);
                 used.addAll(nRand);
