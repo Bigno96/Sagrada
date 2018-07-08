@@ -16,11 +16,7 @@
 
 
     <ImageView fx:id="wind0" fitHeight="150.0" fitWidth="200.0" layoutX="390.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="5.0" />
-    <ImageView fx:id="myWind" fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="389.0">
-      <image>
-         <Image url="@../img/WindowCard/Aurorae%20Magnificus.png" />
-      </image></ImageView>
-    <ImageView fx:id="wind1" fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+    <ImageView fx:id="myWind" fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="389.0" />
     <ImageView fx:id="wind2" fitHeight="150.0" fitWidth="200.0" layoutX="799.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
     <GridPane fx:id="myTabel" layoutX="390.0" layoutY="361.0" prefHeight="131.0" prefWidth="170.0" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="389.0">
         <columnConstraints>
@@ -57,7 +53,7 @@
         <Pane layoutX="10.0" layoutY="10.0" onMouseClicked="#diceOnMousePressedEventHandler" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
         <Pane layoutX="10.0" layoutY="10.0" onMouseClicked="#diceOnMousePressedEventHandler" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
     </GridPane>
-    <GridPane fx:id="tabel1" layoutX="24.0" layoutY="5.0" prefHeight="131.0" prefWidth="172.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+    <GridPane fx:id="tabel1" layoutX="16.0" layoutY="15.0" prefHeight="138.0" prefWidth="172.0" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="15.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -144,6 +140,7 @@
         <ImageView fx:id="tool0" fitHeight="271.0" fitWidth="178.0" onMouseClicked="#clickTool0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
         <ImageView fx:id="tool1" fitHeight="271.0" fitWidth="178.0" onMouseClicked="#clickTool1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
         <ImageView fx:id="tool2" fitHeight="271.0" fitWidth="178.0" onMouseClicked="#clickTool2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+      <ImageView fx:id="myWind1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
     </GridPane>
    <Button layoutX="708.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine Turno" AnchorPane.bottomAnchor="18.0" />
    <Text layoutX="682.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Punti Favore" AnchorPane.bottomAnchor="111.0" AnchorPane.rightAnchor="302.4072265625" />
@@ -153,4 +150,9 @@
    <Text fx:id="user1" layoutX="77.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    <Text fx:id="user0" layoutX="578.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    <Text fx:id="user2" layoutX="991.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   <ImageView fx:id="wind01" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../img/WindowCard/Chromatic%20Splendor.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

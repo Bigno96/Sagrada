@@ -244,28 +244,32 @@ public class BoardController implements ControlInterface {
         String diceURL = "/img/Dices/";
 
         out.println("updateCard");
+        out.println(windowCards.get(0).getName());
+        out.println(guiSystem.getMyWindowCard().getName());
+
         Platform.runLater(() -> {
 
             if (window.getName().equals(guiSystem.getMyWindowCard().getName())) {
 
+
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
+                        if(window.getWindow().getCell(i, j).isOccupied()){
 
+                        out.println(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
                         Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
                         Rectangle rectangle = new Rectangle(30, 30);
                         rectangle.setFill(new ImagePattern(imageDice));
 
                         myTabel.add(rectangle,j,i);
+                        }
 
                     }
 
                 }
 
 
-            } else {
-                int k = 0;
-                while (window.getName().equals(windowCards.get(k).getName())) ;
-                if (k == 0) {
+            } else if (windowCards.get(0).getName() == window.getName()) {
 
                     user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
@@ -281,7 +285,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (k == 1) {
+                } else if (windowCards.size() > 1 && windowCards.get(1).getName() == window.getName()) {
 
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
@@ -297,7 +301,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (k == 2) {
+                } else if (windowCards.size() > 2 &&windowCards.get(2).getName() == window.getName()) {
 
                     user1.setText(guiSystem.getOtherUsername().get(2));
                     for (int i = 0; i < 4; i++) {
@@ -312,7 +316,6 @@ public class BoardController implements ControlInterface {
                         }
                     }
                 }
-            }
         });
 
     }

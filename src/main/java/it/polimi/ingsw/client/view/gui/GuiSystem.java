@@ -6,7 +6,6 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -353,9 +352,9 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    public List<PublicObjective> getPulicCards(){
+    public List<ObjectiveCard> getPulicCards(){
 
-        return getPulicCards();
+        return publicCards;
 
     }
 
