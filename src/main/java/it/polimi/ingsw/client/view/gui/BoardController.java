@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import static java.lang.System.getProperty;
 import static java.lang.System.out;
 
 public class BoardController implements ControlInterface {
@@ -105,7 +106,7 @@ public class BoardController implements ControlInterface {
 
     private int resultBoolean;
     private int resultValue;
-    private List<Integer> coordinatesRoundTrack = new ArrayList<>();
+    private List<Integer> coordinatesRoundTrack = new ArrayList<>();       // 0 round, 1 indexDice
     private List<Integer> coordinatesWindow = new ArrayList<>();           // 0 row, 1 col
 
     private EnumMap<ToolCard.Actor, Consumer<String>> actorMap;
@@ -114,14 +115,10 @@ public class BoardController implements ControlInterface {
     private List<ToolCard.Actor> actor;
     private List<ToolCard.Parameter> parameter;
     private boolean firstTurn;
+    private int pick = 4;
 
     public BoardController() {
-        this.actorMap = new EnumMap<>(ToolCard.Actor.class);
-        this.nullCheck = true;
-        this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
 
-        mapActor();
-        mapParameter();
     }
 
     void setResultBoolean(int resultBoolean) {
@@ -140,11 +137,19 @@ public class BoardController implements ControlInterface {
 
     @Override
     public void setGuiSystem(GuiSystem guiSystem) {
+
+        this.actorMap = new EnumMap<>(ToolCard.Actor.class);
+        this.nullCheck = true;
+        this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
+
         this.guiSystem = guiSystem;
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
         firstTurn = true;
+
+        mapActor();
+        mapParameter();
 
     }
 
@@ -351,43 +356,44 @@ public class BoardController implements ControlInterface {
     public void isMyTurn(Boolean turnBoolean) {
 
         myTurn = turnBoolean;
-if(firstTurn) {
-    Image myPrivCard = new Image("/img/Private Objective/" + guiSystem.privObj.getId() + exp);
-    priv.setImage(myPrivCard);
-    Image windowPlayer2 = new Image(baseURL + guiSystem.getWindowCards().get(0).getName() + exp);
-    wind0.setImage(windowPlayer2);
 
-    if (guiSystem.getWindowCards().size() > 1) {
+    if(firstTurn) {
+        Image myPrivCard = new Image("/img/Private Objective/" + guiSystem.privObj.getId() + exp);
+        priv.setImage(myPrivCard);
+        Image windowPlayer2 = new Image(baseURL + guiSystem.getWindowCards().get(0).getName() + exp);
+        wind0.setImage(windowPlayer2);
 
-        Image windowPlayer3 = new Image(baseURL + guiSystem.getWindowCards().get(1).getName() + exp);
-        wind1.setImage(windowPlayer3);
+        if (guiSystem.getWindowCards().size() > 1) {
 
-    }
+            Image windowPlayer3 = new Image(baseURL + guiSystem.getWindowCards().get(1).getName() + exp);
+            wind1.setImage(windowPlayer3);
 
-    if (guiSystem.getWindowCards().size() > 2) {
+        }
 
-        Image windowPlayer4 = new Image(baseURL + guiSystem.getWindowCards().get(2).getName() + exp);
-        wind2.setImage(windowPlayer4);
+        if (guiSystem.getWindowCards().size() > 2) {
 
-    }
+            Image windowPlayer4 = new Image(baseURL + guiSystem.getWindowCards().get(2).getName() + exp);
+            wind2.setImage(windowPlayer4);
 
-    String baseTool = "/img/ToolCard/";
+        }
 
-    String basePubl = "/img/Public Objective/";
+        String baseTool = "/img/ToolCard/";
 
-    Image imageTool0 = new Image(baseTool + guiSystem.getToolCards().get(0).getId() + exp);
-    tool0.setImage(imageTool0);
-    Image imageTool1 = new Image(baseTool + guiSystem.getToolCards().get(1).getId() + exp);
-    tool1.setImage(imageTool1);
-    Image imageTool2 = new Image(baseTool + guiSystem.getToolCards().get(2).getId() + exp);
-    tool2.setImage(imageTool2);
+        String basePubl = "/img/Public Objective/";
 
-    Image imagePubl0 = new Image(basePubl + guiSystem.getPublicCards().get(0).getId() + exp);
-    publ0.setImage(imagePubl0);
-    Image imagePubl1 = new Image(basePubl + guiSystem.getPublicCards().get(1).getId() + exp);
-    publ1.setImage(imagePubl1);
-    Image imagePubl2 = new Image(basePubl + guiSystem.getPublicCards().get(2).getId() + exp);
-    publ2.setImage(imagePubl2);
+        Image imageTool0 = new Image(baseTool + guiSystem.getToolCards().get(0).getId() + exp);
+        tool0.setImage(imageTool0);
+        Image imageTool1 = new Image(baseTool + guiSystem.getToolCards().get(1).getId() + exp);
+        tool1.setImage(imageTool1);
+        Image imageTool2 = new Image(baseTool + guiSystem.getToolCards().get(2).getId() + exp);
+        tool2.setImage(imageTool2);
+
+        Image imagePubl0 = new Image(basePubl + guiSystem.getPublicCards().get(0).getId() + exp);
+        publ0.setImage(imagePubl0);
+        Image imagePubl1 = new Image(basePubl + guiSystem.getPublicCards().get(1).getId() + exp);
+        publ1.setImage(imagePubl1);
+        Image imagePubl2 = new Image(basePubl + guiSystem.getPublicCards().get(2).getId() + exp);
+        publ2.setImage(imagePubl2);
 
 
     firstTurn = false;
@@ -430,56 +436,69 @@ if(firstTurn) {
 
     public void clickTool0(MouseEvent mouseEvent) {
 
-        out.println("tool0");
-        useTool(0);
+        pick = 0;
+        useTool();
 
     }
 
     public void clickTool1(MouseEvent mouseEvent) {
 
-        useTool(1);
+        pick = 1;
+        useTool();
 
     }
 
     public void clickTool2(MouseEvent mouseEvent) {
 
-        useTool(2);
+        pick = 2;
+        useTool();
 
     }
 
-    private void useTool(int i){
-
-        Boolean wrong = false;
+    private void useTool(){
         quit = false;
         dices = new ArrayList<>();
         cells = new ArrayList<>();
         diceValue = 0;
-        diceColor = null;
-        up = null;
+        diceColor = Colors.WHITE;
+        up = false;
 
+        guiSystem.getServerSpeaker().askToolCards(guiSystem.getUserName());
 
+        guiSystem.getServerSpeaker().askFavorPoints(guiSystem.getUserName());
 
-        if(guiSystem.getServerSpeaker().checkPreCondition(i,guiSystem.getUserName())) {
+        doingTool();
 
-            guiSystem.getServerSpeaker().askFavorPoints(guiSystem.getUserName());
+        //drainPermits();
 
-            while (!quit || wrong) {
+    }
 
-                Boolean validity = guiSystem.getServerSpeaker().checkPreCondition(i, guiSystem.getUserName());
+    /**
+     * Checking precondition, requesting parameter and calling checkAndUseTool
+     */
+    private void doingTool() {
+        Boolean wrong = false;
+
+        while (!quit || wrong) {
+
+            if (!quit) {
+                Boolean validity = guiSystem.getServerSpeaker().checkPreCondition(pick, guiSystem.getUserName());
 
                 if (!validity)
                     wrong = true;
                 else {
-                    actor = guiSystem.getServerSpeaker().getActor(i, guiSystem.getUserName());
+                    actor = guiSystem.getServerSpeaker().getActor(pick, guiSystem.getUserName());
                     showActor();
 
-                    parameter = guiSystem.getServerSpeaker().getParameter(i, guiSystem.getUserName());
+                    parameter = guiSystem.getServerSpeaker().getParameter(pick, guiSystem.getUserName());
                     getParameter();
 
-                    if (checkNull())
-                        wrong = checkAndUseTool(wrong, i);
-                    else
-                        wrong = true;
+                    if (!quit) {
+                        if (checkNull())
+                            wrong = !checkAndUseTool(wrong, pick);
+                        else
+                            wrong = true;
+                    }
                 }
             }
         }
@@ -492,26 +511,26 @@ if(firstTurn) {
         private Boolean checkNull() {
             nullCheck = true;
 
-        parameter.forEach(param -> {
-            if (param.equals(ToolCard.Parameter.DICE))
-                nDices++;
-            else if (param.equals(ToolCard.Parameter.CELL))
-                nCells++;
-            else if (param.equals(ToolCard.Parameter.BOOLEAN))
-                nullCheck = up != null && nullCheck;
-            else if (param.equals(ToolCard.Parameter.COLOR))
-                nullCheck = diceColor != null && nullCheck;
-            else if (param.equals(ToolCard.Parameter.INTEGER))
-                nullCheck = diceValue != 0 && nullCheck;
-        });
+            parameter.forEach(param -> {
+                if (param.equals(ToolCard.Parameter.DICE))
+                    nDices++;
+                else if (param.equals(ToolCard.Parameter.CELL))
+                    nCells++;
+                else if (param.equals(ToolCard.Parameter.BOOLEAN))
+                    nullCheck = up != null && nullCheck;
+                else if (param.equals(ToolCard.Parameter.COLOR))
+                    nullCheck = diceColor != null && nullCheck;
+                else if (param.equals(ToolCard.Parameter.INTEGER))
+                    nullCheck = diceValue != 0 && nullCheck;
+            });
 
-        IntStream.range(0, nDices).forEach(integer ->
-                nullCheck = dices.get(integer) != null && nullCheck);
+            IntStream.range(0, nDices).forEach(integer ->
+                    nullCheck = dices.get(integer) != null && nullCheck);
 
-        IntStream.range(0, nCells).forEach(integer ->
-                nullCheck = cells.get(integer) != null && nullCheck);
+            IntStream.range(0, nCells).forEach(integer ->
+                    nullCheck = cells.get(integer) != null && nullCheck);
 
-        return nullCheck;
+            return nullCheck;
     }
 
     /**
@@ -520,51 +539,56 @@ if(firstTurn) {
      * @return true if all correct, false else
      */
    private Boolean checkAndUseTool(Boolean wrong, int pick) {
-        Boolean success;
-        Boolean validity;
+       Boolean success;
+       Boolean validity;
 
-        if (!quit) {
-            validity = guiSystem.getServerSpeaker().checkTool(pick, dices, cells, diceValue, diceColor);
+       if (!quit) {
+           validity = guiSystem.getServerSpeaker().checkTool(pick, dices, cells, diceValue, diceColor);
 
-            if (!validity)
-                wrong = true;
-            else {
-                success = guiSystem.getServerSpeaker().useTool(pick, dices, up, cells, guiSystem.getUserName());
+           if (!validity)
+               wrong = true;
+           else {
+               success = guiSystem.getServerSpeaker().useTool(pick, dices, up, cells,guiSystem.getUserName());
 
-                if (!success)
-                    wrong = true;
-            }
-        }
+               if (!success)
+                   wrong = true;
+           }
+       }
 
-        return wrong;
+       return wrong;
     }
 
     /**
      * Used to map ActorMap that contains actions for each possible actor
      */
     private void mapActor() {
-
-        Consumer<String> windowCard = username -> guiSystem.getServerSpeaker().askWindowCard(guiSystem.getUserName(), guiSystem.getUserName());
-        Consumer<String> roundTrack = username -> guiSystem.getServerSpeaker().askRoundTrack(guiSystem.getUserName());
-        Consumer<String> draft = username -> guiSystem.getServerSpeaker().askDraft(guiSystem.getUserName());
+        Consumer<String> windowCard = username -> guiSystem.getServerSpeaker().askWindowCard(username, username);
+        Consumer<String> roundTrack = username -> guiSystem.getServerSpeaker().askRoundTrack(username);
+        Consumer<String> draft = username ->guiSystem.getServerSpeaker().askDraft(username);
+        Consumer<String> diceBag = username -> updateRoundTrack(guiSystem.getRoundTrack());
 
         actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
         actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);
         actorMap.put(ToolCard.Actor.DRAFT, draft);
+        actorMap.put(ToolCard.Actor.DICE_BAG, diceBag);
     }
 
     /**
      * Used to read which actor does the tool need and to print it consequently
      */
     private void showActor() {
-        actor.forEach(act -> actorMap.get(act).accept(guiSystem.getUserName()));
+        actor.forEach(act -> {
+            actorMap.get(act).accept(guiSystem.getUserName());
+        });
     }
 
     /**
      * Used to obtain from player the parameter needed for using tool card
      */
     private void getParameter() {
-        parameter.forEach(param -> parameterMap.get(param).accept(guiSystem.getUserName()));
+        parameter.forEach(param -> {
+            parameterMap.get(param).accept(guiSystem.getUserName());
+        });
     }
 
     /**
@@ -580,10 +604,18 @@ if(firstTurn) {
                 dices.add(getDiceFromWindow());
 
         };
-        Consumer<String> cell = string -> cells.add(getCellFromWindow());
-        Consumer<String> integer = string -> diceValue = getDiceValue();
-        Consumer<String> color = string -> diceColor = getColorOnTrack();
-        Consumer<String> bool = string -> up = getBooleanDirection();
+        Consumer<String> cell = string -> {
+            cells.add(getCellFromWindow());
+        };
+        Consumer<String> integer = string -> {
+            diceValue = getDiceValue();
+        };
+        Consumer<String> color = string -> {
+            diceColor = getColorOnTrack();
+        };
+        Consumer<String> bool = string -> {
+            up = getBooleanDirection();
+        };
 
         parameterMap.put(ToolCard.Parameter.DICE, dice);
         parameterMap.put(ToolCard.Parameter.CELL, cell);
@@ -603,7 +635,15 @@ if(firstTurn) {
         AskBooleanWindow askBooleanWindow = new AskBooleanWindow();
         askBooleanWindow.display(this);
 
-        while (resultBoolean <= 0 && myTurn)
+        synchronized (this){
+            while(resultBoolean <0) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
 
             if (resultBoolean == 0)
                 quit = true;
@@ -614,8 +654,6 @@ if(firstTurn) {
             if (resultBoolean == 1) {
                 ret = false;
             }
-
-            if(!myTurn) return false;
 
         return ret;
     }
@@ -633,9 +671,12 @@ if(firstTurn) {
 
         while (resultValue < 0);
 
+        if(resultValue == 0) quit = false;
+
         return resultValue;
 
     }
+
     /**
      * Used to ask player what Colors he wants to get out from the round track
      * @return Colors for the dice wanted by user
@@ -704,6 +745,20 @@ if(firstTurn) {
     }
 
     /**
+     * @return number of round wanted by the user
+     */
+    private int getRoundNumber() {
+        coordinatesRoundTrack.clear();
+
+        Platform.runLater(() ->
+                AlertBox.display("Scegli il colore del dado", "Scegli il colore tra i dadi del Tracciato dei Round"));
+
+        while (coordinatesRoundTrack.size() < 2) ;
+
+        return coordinatesRoundTrack.get(0);
+    }
+
+    /**
      * Used to ask player what dice he wants out of draft for using it in the tool card
      * @return dice that user requested from draft
      */
@@ -721,8 +776,7 @@ if(firstTurn) {
     }
 
     void setCoordinatesRoundTrackDice(Integer columnIndex, Integer rowIndex) {
-
-        out.println("rowIndex "+rowIndex +"colIndex" +columnIndex);
+        
         coordinatesRoundTrack.add(rowIndex);
         coordinatesRoundTrack.add(columnIndex);
 

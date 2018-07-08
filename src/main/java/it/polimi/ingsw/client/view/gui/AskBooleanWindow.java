@@ -52,6 +52,7 @@ class AskBooleanWindow {
     private void closeProgram(){
 
         boardController.setResultBoolean(0);
+        notifyAll();
         window.close();
 
     }
