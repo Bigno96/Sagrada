@@ -168,8 +168,14 @@ public class BoardController implements ControlInterface {
                 Rectangle rectangle = new Rectangle(30, 30);
                 rectangle.setFill(new ImagePattern(imageDice));
 
+
                 row = i%3;
                 column = i/3;
+
+                rectangle.setId(Integer.toString(i));
+                rectangle.setOnMouseClicked((MouseEvent)->{
+                    indexDiceDraft = Integer.parseInt(rectangle.getId());
+                });
 
                 draftGrid.add(rectangle,column,row);
 
@@ -178,6 +184,7 @@ public class BoardController implements ControlInterface {
         });
 
     }
+
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
@@ -375,15 +382,10 @@ if(firstTurn) {
         guiSystem.moveDice(indexDiceDraft,GridPane.getRowIndex((Pane) mouseEvent.getSource()),GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
         coordinatesWindow.clear();
         coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()));
-        out.println("rowWindow"+ GridPane.getRowIndex((Pane) mouseEvent.getSource()));
         coordinatesWindow.add(GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
-        out.println("colomnWindow"+ GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
     }
 
     public void draftSelected(MouseEvent mouseEvent) {
-
-        out.println("index Draft " + GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource()) );
-        out.println("col"+ GridPane.getColumnIndex((Pane)mouseEvent.getSource()) + "row" + GridPane.getRowIndex((Pane)mouseEvent.getSource()));
 
         indexDiceDraft = GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource());
 
