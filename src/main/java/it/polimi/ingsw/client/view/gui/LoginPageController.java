@@ -20,6 +20,8 @@ import javafx.scene.control.TextField;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.fusesource.jansi.AnsiConsole.out;
+
 public class LoginPageController implements ControlInterface {
 
     private static final String SAME_USERNAME = "INSERT_NAME_AGAIN";
@@ -140,7 +142,6 @@ public class LoginPageController implements ControlInterface {
         guiSystem.setUsername(usernameText.getText());
         guiSystem.setServerSpeaker(serverSpeaker);
 
-        guiSystem.waitingPage();
     }
 
     /**
@@ -156,8 +157,7 @@ public class LoginPageController implements ControlInterface {
             serverSpeaker = new RmiServerSpeaker(ipText.getText(), usernameText.getText(), guiSystem);
         }
 
-
-            if (validIP(ipText.getText())) {
+            if (validIP(ipText.getText()) && usernameText.getText().isEmpty()) {
 
                 if (!serverSpeaker.connect(username)) {
 
@@ -175,21 +175,24 @@ public class LoginPageController implements ControlInterface {
                     return;
 
                 }
-            } else {
 
-                textArea.setText(dictionary.getMessage(WRONG_IP_KEY));
+            }else{
+                    if(usernameText.getText().isEmpty()){
 
-                ipText.setText("");
+                        textArea.setText("Inserire un nome utente valido");
 
-                return;
+                    }else {
+                        textArea.setText(dictionary.getMessage(WRONG_IP_KEY));
+
+                        ipText.setText("");
+                    }
+                    return;
             }
 
             guiSystem.setUsername(username);
             connParam.put(username, serverSpeaker);
-
             guiSystem.setConnParam(connParam);
-
-        guiSystem.waitingPage();
+            guiSystem.waitingPage();
 
     }
 

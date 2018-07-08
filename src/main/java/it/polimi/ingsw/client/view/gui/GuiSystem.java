@@ -292,6 +292,12 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    private void closeProgram(){
+
+        primaryStage.close();
+
+    }
+
     public void setUsername(String userName){
         this.userName = userName;
     }
@@ -394,7 +400,7 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    private void closeProgram(){
+    public void forfait(){
 
         serverSpeaker.quit(userName);
         primaryStage.close();

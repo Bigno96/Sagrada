@@ -82,6 +82,8 @@ public class BoardController implements ControlInterface {
     public Text user1;
     @FXML
     public Text user2;
+    @FXML
+    public Button forfait;
 
     private String baseURL = "/img/WindowCard/";
     private String exp = ".png";
@@ -698,4 +700,9 @@ if(firstTurn) {
 
     }
 
+    public void forfaitMouse(MouseEvent mouseEvent) {
+
+        guiSystem.forfait();
+
+    }
 }

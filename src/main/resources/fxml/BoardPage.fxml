@@ -145,9 +145,10 @@
    <Text layoutX="682.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Punti Favore" AnchorPane.bottomAnchor="111.0" AnchorPane.rightAnchor="302.4072265625" />
    <TextField fx:id="favorPoint" accessibleHelp="false" accessibleText="false" editable="false" focusTraversable="false" layoutX="739.0" layoutY="659.0" prefHeight="26.0" prefWidth="26.0" AnchorPane.bottomAnchor="57.0" />
     <ImageView fx:id="priv" fitHeight="150.0" fitWidth="116.0" layoutX="260.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true" />
-   <Button fx:id="roundButton" layoutX="277.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#showRoundTrack" text="Show RoundTrack" AnchorPane.bottomAnchor="5.0" />
+   <Button fx:id="roundButton" layoutX="277.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#showRoundTrack" text=" Tracciato dei Round" AnchorPane.bottomAnchor="5.0" />
    <Text fx:id="user1" layoutX="77.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="1.0" AnchorPane.topAnchor="220.0" />
    <Text fx:id="user0" layoutX="578.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    <Text fx:id="user2" layoutX="991.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.topAnchor="220.0" />
-   <ImageView fx:id="wind01" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="15.0" />
+   <ImageView fx:id="wind1" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="15.0" />
+   <Button fx:id="forfait" layoutX="974.0" layoutY="499.0" mnemonicParsing="false"  onMouseClicked="#forfaitMouse" text="Resa" />
 </AnchorPane>
