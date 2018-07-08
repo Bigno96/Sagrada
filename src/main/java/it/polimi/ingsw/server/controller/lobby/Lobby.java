@@ -291,6 +291,9 @@ public class Lobby {
             if (timer != null)
                 timer.cancel();
         });
+
+        this.game = new Game();
+        currentState = gameState.WAITING;
     }
 
     /**

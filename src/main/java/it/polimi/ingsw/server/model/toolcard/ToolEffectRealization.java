@@ -99,6 +99,8 @@ public class ToolEffectRealization implements Serializable {
         else
             d.changeValue(d.getValue()-1);
 
+        draft.setChangedAndNotify();
+
         return true;
     }
 
@@ -112,12 +114,12 @@ public class ToolEffectRealization implements Serializable {
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
     public boolean moveOneDice(Dice d, Cell dest, String restrictionIgnored, WindowCard windowCard) throws NotEmptyException {
-        Cell c;
+        Cell from;
         boolean colorBool = restrictionIgnored.equals("color");
         boolean valueBool = restrictionIgnored.equals("value");
 
-        c = windowCard.getWindow().getCell(d);
-        c.freeCell();
+        from = windowCard.getWindow().getCell(d);
+        from.freeCell();
         dest.setDice(d);
 
         try {
@@ -141,7 +143,7 @@ public class ToolEffectRealization implements Serializable {
             else if (valueBool)
                 dest.setIgnoreValue(false);
 
-            c.setDice(d);
+            from.setDice(d);
             dest.freeCell();
 
             return false;
@@ -157,28 +159,31 @@ public class ToolEffectRealization implements Serializable {
      * @throws NotEmptyException when trying to set a dice on a cell already occupied
      */
     public boolean moveExTwoDice(List<Dice> dices, List<Cell> dest, WindowCard windowCard) throws NotEmptyException {
-        Cell c0 = windowCard.getWindow().getCell(dices.get(0));
-        Cell c1 = windowCard.getWindow().getCell(dices.get(1));
+        Cell from0 = windowCard.getWindow().getCell(dices.get(0));
+        Cell from1 = windowCard.getWindow().getCell(dices.get(1));
 
-        c0.freeCell();
-        dest.get(0).setDice(dices.get(0));
+        Cell dest0 = windowCard.getWindow().getCell(dest.get(0).getRow(), dest.get(0).getCol());
+        Cell dest1 = windowCard.getWindow().getCell(dest.get(1).getRow(), dest.get(1).getCol());
 
-        c1.freeCell();
-        dest.get(1).setDice(dices.get(1));
+        from0.freeCell();
+        dest0.setDice(dices.get(0));
+
+        from1.freeCell();
+        dest1.setDice(dices.get(1));
 
         try {
             windowCard.checkPlaceCond();
 
-            windowCard.setPlacement(dest.get(0));
-            windowCard.setPlacement(dest.get(1));
+            windowCard.setPlacement(dest0);
+            windowCard.setPlacement(dest1);
 
             return true;
 
         } catch (WrongPositionException | PositionException e) {
-            c1.setDice(dices.get(1));
-            dest.get(1).freeCell();
-            c0.setDice(dices.get(0));
-            dest.get(0).freeCell();
+            from1.setDice(dices.get(1));
+            dest1.freeCell();
+            from0.setDice(dices.get(0));
+            dest0.freeCell();
 
             return false;
         }
@@ -245,8 +250,10 @@ public class ToolEffectRealization implements Serializable {
      */
     public boolean moveFromDraftToRound(List<Dice> dices) throws IDNotFoundException, SameDiceException, EmptyException, RoundNotFoundException {
         int round = roundTrack.getRound(dices.get(1));
+
         draft.addDice(dices.get(1).copyDice());
         roundTrack.addDice(dices.get(0).copyDice(), round);
+
         draft.rmDice(dices.get(0));
         roundTrack.rmDice(dices.get(1), round);
 

@@ -562,6 +562,9 @@ public class SocketServerSpeaker implements ServerSpeaker {
     @Override
     public Boolean checkTool(int pick, List<Dice> dices, List<Cell> cells, int diceValue, Colors diceColor) {
         synchronized (lock) {
+            if (diceColor == null)
+                diceColor = Colors.WHITE;
+
             socketOut.println(protocol.getMessage(MAKE_DRAFT_KEYWORD));             // clear list of dice in the listener
             socketOut.println(" ");
 
@@ -600,6 +603,9 @@ public class SocketServerSpeaker implements ServerSpeaker {
     @Override
     public Boolean useTool(int pick, List<Dice> dices, Boolean up, List<Cell> cells, String username) {
         synchronized (lock) {
+            if (up == null)
+                up = false;
+
             socketOut.println(protocol.getMessage(MAKE_DRAFT_KEYWORD));             // clear list of dice in the listener
             socketOut.println(" ");
 

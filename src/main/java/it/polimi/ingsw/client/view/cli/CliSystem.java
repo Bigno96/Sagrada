@@ -542,8 +542,8 @@ public class CliSystem implements ViewInterface {
         dices = new ArrayList<>();
         cells = new ArrayList<>();
         diceValue = 0;
-        diceColor = null;
-        up = null;
+        diceColor = Colors.WHITE;
+        up = false;
 
         serverSpeaker.askToolCards(userName);
 
@@ -582,7 +582,7 @@ public class CliSystem implements ViewInterface {
 
                     if (!quit) {
                         if (checkNull())
-                            wrong = checkAndUseTool(wrong, pick);
+                            wrong = !checkAndUseTool(wrong, pick);
                         else
                             wrong = true;
                     }
