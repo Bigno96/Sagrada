@@ -162,6 +162,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void showDraft(List<Dice> draft) {
 
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ctrl.printDraft(draft);
 
     }
