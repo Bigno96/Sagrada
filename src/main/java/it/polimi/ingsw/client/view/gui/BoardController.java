@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import static java.lang.System.out;
+
 public class BoardController implements ControlInterface {
 
     @FXML
@@ -109,12 +111,12 @@ public class BoardController implements ControlInterface {
 
     private List<ToolCard.Actor> actor;
     private List<ToolCard.Parameter> parameter;
+    private boolean firstTurn;
 
     public BoardController() {
         this.actorMap = new EnumMap<>(ToolCard.Actor.class);
         this.nullCheck = true;
         this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
-
 
         mapActor();
         mapParameter();
@@ -140,6 +142,8 @@ public class BoardController implements ControlInterface {
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
+        firstTurn = true;
+
     }
 
     @Override
@@ -170,67 +174,24 @@ public class BoardController implements ControlInterface {
             }
 
         });
+
     }
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
-
-        Image myPrivCard = new Image("/img/Private Objective/" + privObj.getId() + exp);
-        priv.setImage(myPrivCard);
-
-        Image windowPlayer2 = new Image(baseURL + guiSystem.getWindowCards().get(0).getName() + exp);
-        wind0.setImage(windowPlayer2);
-
-        if(guiSystem.getWindowCards().size() > 1){
-
-            Image windowPlayer3 = new Image(baseURL + guiSystem.getWindowCards().get(1).getName() + exp);
-            wind1.setImage(windowPlayer3);
-
-        }
-
-        if(guiSystem.getWindowCards().size() > 2){
-
-            Image windowPlayer4 = new Image(baseURL + guiSystem.getWindowCards().get(2).getName() + exp);
-            wind2.setImage(windowPlayer4);
-
-        }
 
     }
 
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
 
-        String baseTool = "/img/ToolCard/";
 
-        String basePubl = "/img/Public Objective/";
-
-        Image imageTool0 = new Image(baseTool + toolCards.get(0).getId() + exp);
-        tool0.setImage(imageTool0);
-        Image imageTool1 = new Image(baseTool + toolCards.get(1).getId() + exp);
-        tool1.setImage(imageTool1);
-        Image imageTool2 = new Image(baseTool + toolCards.get(2).getId() + exp);
-        tool2.setImage(imageTool2);
-
-        Image imagePubl0 = new Image(basePubl + guiSystem.getPublicCards().get(0).getId() + exp);
-        publ0.setImage(imagePubl0);
-        Image imagePubl1 = new Image(basePubl + guiSystem.getPublicCards().get(1).getId() + exp);
-        publ1.setImage(imagePubl1);
-        Image imagePubl2 = new Image(basePubl + guiSystem.getPublicCards().get(2).getId() + exp);
-        publ2.setImage(imagePubl2);
 
     }
 
     @Override
     public void printListPublObj(List<ObjectiveCard> publObj) {
 
-        String basePubl = "/img/Public Objective/";
-
-        Image imagePubl0 = new Image(basePubl + publObj.get(0).getId() + exp);
-        publ0.setImage(imagePubl0);
-        Image imagePubl1 = new Image(basePubl + publObj.get(1).getId() + exp);
-        publ1.setImage(imagePubl1);
-        Image imagePubl2 = new Image(basePubl + publObj.get(2).getId() + exp);
-        publ2.setImage(imagePubl2);
 
     }
 
@@ -262,11 +223,13 @@ public class BoardController implements ControlInterface {
                     user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
+                            if(window.getWindow().getCell(i,j).isOccupied()) {
                                 Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
                                 Rectangle rectangle = new Rectangle(30, 30);
                                 rectangle.setFill(new ImagePattern(imageDice));
 
                                 tabel0.add(rectangle, j, i);
+                            }
 
                         }
 
@@ -277,11 +240,13 @@ public class BoardController implements ControlInterface {
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 5; j++) {
+                            if(window.getWindow().getCell(i,j).isOccupied()) {
                                 Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
                                 Rectangle rectangle = new Rectangle(30, 30);
                                 rectangle.setFill(new ImagePattern(imageDice));
 
                                 tabel1.add(rectangle, j, i);
+                            }
 
                         }
 
@@ -292,11 +257,13 @@ public class BoardController implements ControlInterface {
                 user1.setText(guiSystem.getOtherUsername().get(2));
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
-                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
-                        Rectangle rectangle = new Rectangle(30, 30);
-                        rectangle.setFill(new ImagePattern(imageDice));
+                        if(window.getWindow().getCell(i,j).isOccupied()) {
+                            Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                            Rectangle rectangle = new Rectangle(30, 30);
+                            rectangle.setFill(new ImagePattern(imageDice));
 
-                        tabel2.add(rectangle, j, i);
+                            tabel2.add(rectangle, j, i);
+                        }
                     }
 
                 }
@@ -357,6 +324,47 @@ public class BoardController implements ControlInterface {
     public void isMyTurn(Boolean turnBoolean) {
 
         myTurn = turnBoolean;
+if(firstTurn) {
+    Image myPrivCard = new Image("/img/Private Objective/" + guiSystem.privObj.getId() + exp);
+    priv.setImage(myPrivCard);
+    Image windowPlayer2 = new Image(baseURL + guiSystem.getWindowCards().get(0).getName() + exp);
+    wind0.setImage(windowPlayer2);
+
+    if (guiSystem.getWindowCards().size() > 1) {
+
+        Image windowPlayer3 = new Image(baseURL + guiSystem.getWindowCards().get(1).getName() + exp);
+        wind1.setImage(windowPlayer3);
+
+    }
+
+    if (guiSystem.getWindowCards().size() > 2) {
+
+        Image windowPlayer4 = new Image(baseURL + guiSystem.getWindowCards().get(2).getName() + exp);
+        wind2.setImage(windowPlayer4);
+
+    }
+
+    String baseTool = "/img/ToolCard/";
+
+    String basePubl = "/img/Public Objective/";
+
+    Image imageTool0 = new Image(baseTool + guiSystem.getToolCards().get(0).getId() + exp);
+    tool0.setImage(imageTool0);
+    Image imageTool1 = new Image(baseTool + guiSystem.getToolCards().get(1).getId() + exp);
+    tool1.setImage(imageTool1);
+    Image imageTool2 = new Image(baseTool + guiSystem.getToolCards().get(2).getId() + exp);
+    tool2.setImage(imageTool2);
+
+    Image imagePubl0 = new Image(basePubl + guiSystem.getPublicCards().get(0).getId() + exp);
+    publ0.setImage(imagePubl0);
+    Image imagePubl1 = new Image(basePubl + guiSystem.getPublicCards().get(1).getId() + exp);
+    publ1.setImage(imagePubl1);
+    Image imagePubl2 = new Image(basePubl + guiSystem.getPublicCards().get(2).getId() + exp);
+    publ2.setImage(imagePubl2);
+
+
+    firstTurn = false;
+}
 
     }
 
