@@ -252,7 +252,7 @@ public class ObjectiveCalculator implements Serializable {
             Cell c = itr.next();
             List<Cell> diagonal = winCard.getWindow().retDiagonal(c.getRow(), c.getCol());      // get cells around diagonally the given cell
             for (Cell cell : diagonal) {                                // for all of these cells
-                if (cell.getDice().getColor().equals(c.getDice().getColor())) {         // if a diagonal dice has the same color
+                if (cell.isOccupied() && cell.getDice().getColor().equals(c.getDice().getColor())) {         // if a diagonal dice has the same color
                     sum++;                                                      // add 1 point
                     break;                                                      // exit from diagonal cells
                 }
