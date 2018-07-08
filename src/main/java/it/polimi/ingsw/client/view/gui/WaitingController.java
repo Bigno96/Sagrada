@@ -79,6 +79,11 @@ public class WaitingController implements ControlInterface{
 
     }
 
+    @Override
+    public void isMyTurn(Boolean turnBoolean) {
+
+    }
+
     public void print(String s) {
 
         this.textArea.appendText("\n"+s);

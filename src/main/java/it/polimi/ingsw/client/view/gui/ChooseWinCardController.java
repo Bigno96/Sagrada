@@ -108,6 +108,11 @@ public class ChooseWinCardController implements ControlInterface {
 
     }
 
+    @Override
+    public void isMyTurn(Boolean turnBoolean) {
+
+    }
+
     public void win0(ActionEvent event) {
 
         guiSystem.setWindowCard(cards.get(0));

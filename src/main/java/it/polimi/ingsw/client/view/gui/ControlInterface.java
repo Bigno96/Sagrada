@@ -34,4 +34,6 @@ public interface ControlInterface {
     void setDiceFromDraft(Integer columnIndex, Integer rowIndex);
 
     void succefulPlacementDice(String username, Cell dest, Dice moved);
+
+    void isMyTurn(Boolean turnBoolean);
 }

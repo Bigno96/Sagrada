@@ -130,12 +130,12 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
-        <ImageView fx:id="publ0" fitHeight="269.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fx:id="publ1" fitHeight="271.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-        <ImageView fx:id="publ2" fitHeight="271.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-        <ImageView fx:id="tool0" fitHeight="269.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-        <ImageView fx:id="tool1" fitHeight="270.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-        <ImageView fx:id="tool2" fitHeight="270.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
+        <ImageView fx:id="publ0" fitHeight="271.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="publ1" fitHeight="271.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+        <ImageView fx:id="publ2" fitHeight="271.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+        <ImageView fx:id="tool0" fitHeight="271.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" onMouseClicked="#clickTool0" />
+        <ImageView fx:id="tool1" fitHeight="271.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" onMouseClicked="#clickTool1" />
+        <ImageView fx:id="tool2" fitHeight="271.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" onMouseClicked="#clickTool2" />
     </GridPane>
    <Button layoutX="708.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine Turno" AnchorPane.bottomAnchor="18.0" />
    <Text layoutX="682.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Punti Favore" AnchorPane.bottomAnchor="111.0" AnchorPane.rightAnchor="302.4072265625" />

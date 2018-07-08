@@ -56,6 +56,7 @@ public class GuiSystem implements ViewInterface{
         this.primaryStage = primaryStage;
         this.connParam = new HashMap<>();
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        otherUsername = new ArrayList<String >();
         windowCards = new ArrayList<WindowCard>();
         publicCards = new ArrayList<ObjectiveCard>();
 
@@ -217,8 +218,10 @@ public class GuiSystem implements ViewInterface{
 
         if(username.equals(userName)){
             ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
+            ctrl.isMyTurn(true);
         }else{
             ctrl.print("Sta giocando " + username);
+            ctrl.isMyTurn(false);
         }
 
     }
@@ -293,7 +296,6 @@ public class GuiSystem implements ViewInterface{
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
             assert root != null;
-            root.setId("rootID");
             primaryStage.setScene(new Scene(root));
 
             //root.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
@@ -360,6 +362,7 @@ public class GuiSystem implements ViewInterface{
 
     private void closeProgram(){
 
+        serverSpeaker.quit(userName);
         primaryStage.close();
 
     }
@@ -369,4 +372,5 @@ public class GuiSystem implements ViewInterface{
         return otherUsername;
 
     }
+
 }

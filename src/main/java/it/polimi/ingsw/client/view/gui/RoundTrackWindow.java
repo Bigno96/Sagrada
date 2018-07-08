@@ -13,8 +13,12 @@ import java.io.IOException;
 public class RoundTrackWindow {
 
     Stage window;
+    BoardController boardController;
 
-    public void display(RoundTrack roundTrack, ControlInterface ctrl) {
+    public void display(BoardController boardController, RoundTrack roundTrack, ControlInterface ctrl) {
+
+        this.boardController = boardController;
+
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Round Track");
@@ -98,7 +102,7 @@ public class RoundTrackWindow {
             window.setScene(new Scene(root));
 
             RoundTrackWindowController roundTrackWindowController = loader.getController();
-            roundTrackWindowController.setRoundTrack(roundTrack, ctrl, this);
+            roundTrackWindowController.setRoundTrack(boardController, roundTrack, ctrl, this);
 
             window.show();
         });

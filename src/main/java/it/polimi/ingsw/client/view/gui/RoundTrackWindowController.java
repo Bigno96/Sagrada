@@ -19,9 +19,11 @@ public class RoundTrackWindowController {
     private String exp = ".png";
     private ControlInterface ctrl;
     private RoundTrackWindow roundTrackWindow;
+    private BoardController boardController;
 
-    public void setRoundTrack(RoundTrack roundTrack, ControlInterface ctrl, RoundTrackWindow roundTrackWindow) {
+    public void setRoundTrack(BoardController boardController, RoundTrack roundTrack, ControlInterface ctrl, RoundTrackWindow roundTrackWindow) {
 
+        this.boardController = boardController;
         this.roundTrackWindow = roundTrackWindow;
         this.ctrl = ctrl;
 
@@ -50,6 +52,7 @@ public class RoundTrackWindowController {
     public void id(MouseEvent mouseEvent) {
 
         ctrl.setDiceFromDraft(GridPane.getColumnIndex((Pane)mouseEvent.getSource()), GridPane.getRowIndex((Pane)mouseEvent.getSource()));
+        boardController.setCoordinatesRoundTrackDice(GridPane.getColumnIndex((Pane)mouseEvent.getSource()), GridPane.getRowIndex((Pane)mouseEvent.getSource()));
         roundTrackWindow.closeWindow();
 
     }
