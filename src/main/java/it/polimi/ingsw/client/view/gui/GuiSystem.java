@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.out;
 
@@ -250,6 +251,11 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void isTurn(String username) {
 
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            out.println(e.getMessage());
+        }
         if(username.equals(userName)){
             ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
             ctrl.isMyTurn(true);
