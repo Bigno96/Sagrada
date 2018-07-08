@@ -6,7 +6,6 @@ import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
-import it.polimi.ingsw.server.model.objectivecard.card.PublicObjective;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
@@ -46,6 +45,7 @@ public class GuiSystem implements ViewInterface{
 
     private ControlInterface ctrl;
     private List<ObjectiveCard> publicCards;
+    public SortedMap<Integer, String> ranking;
 
     /**
      * Constructor of GuiSystem
@@ -195,6 +195,28 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void printRanking(SortedMap<Integer, String> ranking) {
 
+        this.ranking = ranking;
+
+        Platform.runLater(() -> {
+            Parent root = null;
+            FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/RankingPage"));
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setTitle(dictionary.getMessage(TITLE));
+
+            assert root != null;
+            primaryStage.setScene(new Scene(root));
+
+            ctrl = loader.getController();
+            ctrl.setGuiSystem(this);
+            primaryStage.setOnCloseRequest(e -> closeProgram());
+
+            primaryStage.show();
+        });
+
 
 
     }
@@ -330,9 +352,9 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    public List<PublicObjective> getPulicCards(){
+    public List<ObjectiveCard> getPulicCards(){
 
-        return getPulicCards();
+        return publicCards;
 
     }
 

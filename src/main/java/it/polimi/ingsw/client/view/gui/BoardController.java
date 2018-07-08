@@ -41,7 +41,6 @@ public class BoardController implements ControlInterface {
     private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
     private static final String QUIT_KEYWORD = "QUIT";
 
-
     @FXML
     public ImageView myWind;
     @FXML
@@ -145,8 +144,6 @@ public class BoardController implements ControlInterface {
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
 
-
-
     }
 
     @Override
@@ -246,28 +243,33 @@ public class BoardController implements ControlInterface {
 
         String diceURL = "/img/Dices/";
 
+        out.println("updateCard");
+        out.println(windowCards.get(0).getName());
+        out.println(guiSystem.getMyWindowCard().getName());
+
         Platform.runLater(() -> {
 
             if (window.getName().equals(guiSystem.getMyWindowCard().getName())) {
 
+
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
+                        if(window.getWindow().getCell(i, j).isOccupied()){
 
-                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                        out.println(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
+                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
                         Rectangle rectangle = new Rectangle(30, 30);
                         rectangle.setFill(new ImagePattern(imageDice));
 
                         myTabel.add(rectangle,j,i);
+                        }
 
                     }
 
                 }
 
 
-            } else {
-                int k = 0;
-                while (window.getName().equals(windowCards.get(k).getName())) ;
-                if (k == 0) {
+            } else if (windowCards.get(0).getName() == window.getName()) {
 
                     user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
@@ -283,7 +285,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (k == 1) {
+                } else if (windowCards.size() > 1 && windowCards.get(1).getName() == window.getName()) {
 
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
@@ -299,7 +301,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (k == 2) {
+                } else if (windowCards.size() > 2 &&windowCards.get(2).getName() == window.getName()) {
 
                     user1.setText(guiSystem.getOtherUsername().get(2));
                     for (int i = 0; i < 4; i++) {
@@ -314,7 +316,6 @@ public class BoardController implements ControlInterface {
                         }
                     }
                 }
-            }
         });
 
     }
@@ -335,7 +336,6 @@ public class BoardController implements ControlInterface {
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
-
 
 
 
@@ -383,9 +383,9 @@ public class BoardController implements ControlInterface {
 
     public void diceOnMousePressedEventHandler(MouseEvent mouseEvent) {
 
-        guiSystem.moveDice(indexDiceDraft,GridPane.getColumnIndex((Pane) mouseEvent.getSource()),GridPane.getRowIndex((Pane) mouseEvent.getSource()));
-        coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()), GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
-
+        guiSystem.moveDice(indexDiceDraft,GridPane.getRowIndex((Pane) mouseEvent.getSource()),GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
+        coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()));
+        coordinatesWindow.add(GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
     }
 
     public void draftSelected(MouseEvent mouseEvent) {
@@ -531,6 +531,8 @@ public class BoardController implements ControlInterface {
         Consumer<String> windowCard = username -> guiSystem.getServerSpeaker().askWindowCard(guiSystem.getUserName(), guiSystem.getUserName());
         Consumer<String> roundTrack = username -> guiSystem.getServerSpeaker().askRoundTrack(guiSystem.getUserName());
         Consumer<String> draft = username -> guiSystem.getServerSpeaker().askDraft(guiSystem.getUserName());
+
+        out.println(windowCard);
 
         actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
         actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);
