@@ -188,10 +188,12 @@ public class LobbyTest extends TestCase {
 
         lobby.startCountingRound();
 
+        assertSame(USERNAME1, lobby.getGame().getCurrentPlayer().getId());
+
         lobby.getGame().getBoard().getDraft().getDraftList().forEach(dice ->
             assertTrue(dice.getValue() > 0 && dice.getValue() < 7)
         );
-        assertSame(USERNAME1, lobby.getGame().getCurrentPlayer().getId());
+
     }
 
     /**
