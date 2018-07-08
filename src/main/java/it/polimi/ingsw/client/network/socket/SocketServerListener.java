@@ -457,8 +457,12 @@ public class SocketServerListener implements Runnable {
                 if (command.equals(protocol.getMessage(QUIT_KEYWORD)))
                     break;
 
-                else if (commandMap.containsKey(command))       // if it's a known command
-                    commandMap.get(command).accept((socketIn.readLine()));      // execute it
+                else if (commandMap.containsKey(command)) {   // if it's a known command
+                    String line = socketIn.readLine();
+                    while (line.equals("ping"))
+                        line = socketIn.readLine();
+                    commandMap.get(command).accept((line));      // execute it
+                }
             }
 
         } catch (IOException e) {

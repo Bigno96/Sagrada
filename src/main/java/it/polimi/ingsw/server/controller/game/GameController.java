@@ -273,7 +273,7 @@ public class GameController {
             }
         });
 
-        game.getBoard().setToolCard(tools.get(0), tools.get(1), tools.get(2));
         tools.forEach(toolCard -> toolCard.addObserver(new UseToolObserver(lobby)));
+        game.getBoard().setToolCard(tools.get(0), tools.get(1), tools.get(2));
     }
 }

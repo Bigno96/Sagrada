@@ -21,7 +21,7 @@ public class ServerRemoteImpl implements ServerRemote {
     private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
     private static final String QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
-    private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
+    private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "OTHER_QUIT_GAME_MESSAGE";
 
     private final Lobby lobby;
     private final CommunicationParser protocol;
@@ -294,7 +294,7 @@ public class ServerRemoteImpl implements ServerRemote {
             if (user.equals(username))
                 speaker.tell(dictionary.getMessage(QUIT_GAME_MESSAGE_KEYWORD));
             else
-                speaker.tell(dictionary.getMessage(OTHER_QUIT_GAME_MESSAGE_KEYWORD));
+                speaker.tell(dictionary.getMessage(user + OTHER_QUIT_GAME_MESSAGE_KEYWORD));
         });
 
         lobby.removePlayer(username);

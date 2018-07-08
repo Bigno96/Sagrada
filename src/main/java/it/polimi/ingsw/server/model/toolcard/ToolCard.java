@@ -202,7 +202,7 @@ public class ToolCard extends Observable implements Serializable {
         List<Parameter> list = new ArrayList<>();
         List<Integer> addOneDice = Arrays.asList(1, 2, 3, 6, 9, 10, 11);
         List<Integer> addTwoDice = Arrays.asList(4, 5, 12);
-        List<Integer> addOneCell = Arrays.asList(2, 3, 11);
+        List<Integer> addOneCell = Arrays.asList(2, 3, 9, 11);
         List<Integer> addTwoCell = Arrays.asList(4, 12);
 
         if (addOneDice.contains(id))
@@ -351,9 +351,9 @@ public class ToolCard extends Observable implements Serializable {
     /**
      * Set changed and notify observers
      */
-    public void setChangedAndNotify() {
+    public void setChangedAndNotify(String username) {
         setChanged();
-        notifyObservers(player);
+        notifyObservers(username);
     }
 
 }

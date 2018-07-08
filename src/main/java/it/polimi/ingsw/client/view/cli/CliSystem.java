@@ -414,9 +414,9 @@ public class CliSystem implements ViewInterface {
     @Override
     public void successfulUsedTool(String username, ToolCard card) {
         if (username.equals(userName))
-            print(YOU_USED_TOOL + card.getId());
+            print(YOU_USED_TOOL + card.getName());
         else
-            print(USER + username + OTHER_USED_TOOL + card.getId());
+            print(USER + username + OTHER_USED_TOOL + card.getName());
 
         taskMenu.setUsed();
         releaseSemaphore();         // releasing for menuTask action.accept()
@@ -563,30 +563,23 @@ public class CliSystem implements ViewInterface {
      * Checking precondition, requesting parameter and calling checkAndUseTool
      */
     private void doingTool() {
-        Boolean wrong = false;
+        int pick = pickTool();
 
-        while (!quit || wrong) {
-            int pick = pickTool();
+        if (!quit) {
+            quit = !serverSpeaker.checkPreCondition(pick, userName);
 
-            if (!quit) {
-                Boolean validity = serverSpeaker.checkPreCondition(pick, userName);
+            if (quit)
+                print("Non puoi utilizzare la carta strumento");
 
-                if (!validity)
-                    wrong = true;
-                else {
-                    actor = serverSpeaker.getActor(pick, userName);
-                    showActor();
+            else {
+                actor = serverSpeaker.getActor(pick, userName);
+                showActor();
 
-                    parameter = serverSpeaker.getParameter(pick, userName);
-                    getParameter();
+                parameter = serverSpeaker.getParameter(pick, userName);
+                getParameter();
 
-                    if (!quit) {
-                        if (checkNull())
-                            wrong = !checkAndUseTool(wrong, pick);
-                        else
-                            wrong = true;
-                    }
-                }
+                if (!quit && checkNull())
+                    checkAndUseTool(pick);
             }
         }
     }
@@ -622,27 +615,22 @@ public class CliSystem implements ViewInterface {
 
     /**
      * Check if tool is correct and try to applies it
-     * @param wrong to remain in the loop of the caller
-     * @return true if all correct, false else
      */
-    private Boolean checkAndUseTool(Boolean wrong, int pick) {
+    private void checkAndUseTool(int pick) {
         Boolean success;
-        Boolean validity;
 
         if (!quit) {
-            validity = serverSpeaker.checkTool(pick, dices, cells, diceValue, diceColor);
+            quit = !serverSpeaker.checkTool(pick, dices, cells, diceValue, diceColor);
 
-            if (!validity)
-                wrong = true;
+            if (quit)
+                print("Non puoi utilizzare la carta strumento");
+
             else {
                 success = serverSpeaker.useTool(pick, dices, up, cells, userName);
-
                 if (!success)
-                    wrong = true;
+                    print("Errore nell'utilizzare la carta strumento");
             }
         }
-
-        return wrong;
     }
 
     /**
@@ -713,12 +701,16 @@ public class CliSystem implements ViewInterface {
      */
     private void mapParameter() {
         Consumer<String> dice = string -> {
-            if (actor.contains(ToolCard.Actor.DRAFT))
+            if (actor.contains(ToolCard.Actor.DRAFT)) {
+                if (dices.isEmpty())
                 dices.add(getDiceFromDraft());
-            else if (actor.contains(ToolCard.Actor.ROUND_TRACK))
+            }
+            else if (actor.contains(ToolCard.Actor.ROUND_TRACK) && !parameter.contains(ToolCard.Parameter.COLOR)) {
                 dices.add(getDiceFromRoundTrack());
-            else if (actor.contains(ToolCard.Actor.WINDOW_CARD))
+            }
+            else if (actor.contains(ToolCard.Actor.WINDOW_CARD)) {
                 dices.add(getDiceFromWindow());
+            }
 
             releaseSemaphore();
         };

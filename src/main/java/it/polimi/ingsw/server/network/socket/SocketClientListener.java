@@ -85,7 +85,7 @@ public class SocketClientListener implements Runnable {
 
     private static final String QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
     private static final String QUIT_GAME_KEYWORD = "QUIT_GAME";
-    private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
+    private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "OTHER_QUIT_GAME_MESSAGE";
 
     private final Socket socket;
     private final SocketClientSpeaker speaker;
@@ -221,7 +221,7 @@ public class SocketClientListener implements Runnable {
                 if (u.equals(user))
                     s.tell(dictionary.getMessage(QUIT_GAME_MESSAGE_KEYWORD));
                 else
-                    s.tell(dictionary.getMessage(OTHER_QUIT_GAME_MESSAGE_KEYWORD));
+                    s.tell(dictionary.getMessage(user + OTHER_QUIT_GAME_MESSAGE_KEYWORD));
             });
 
             lobby.removePlayer(user);

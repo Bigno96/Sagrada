@@ -227,7 +227,7 @@ public class ActionController {
         if (card.useTool(dices, up, cells)) {
             Player p = game.findPlayer(username);
             p.setFavorPoint(p.getFavorPoint() - card.addFavorPoint());
-            card.setChangedAndNotify();
+            card.setChangedAndNotify(username);
             return true;
         }
 

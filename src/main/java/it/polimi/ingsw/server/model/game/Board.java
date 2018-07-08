@@ -102,14 +102,10 @@ public class Board extends Observable implements Serializable {
     }
 
     /**
-     * @return copy of list of tool card
+     * @return list of tool card
      */
     public List<ToolCard> getToolCard() {
-        List<ToolCard> ret = new ArrayList<>();
-
-        toolCard.forEach(card -> ret.add(card.copy()));
-
-        return ret;
+        return toolCard;
     }
 
     /**

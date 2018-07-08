@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.controller.observer;
 
 import it.polimi.ingsw.server.controller.lobby.Lobby;
-import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 
 import java.util.Observable;
@@ -22,9 +21,9 @@ public class UseToolObserver implements Observer {
     public void update(Observable o, Object arg) {
 
         ToolCard observed = (ToolCard) o;
-        Player user = (Player) arg;
+        String user = (String) arg;
 
         lobby.getSpeakers().values().forEach(speaker ->
-            speaker.successfulUsedTool(user.getId(), observed));
+            speaker.successfulUsedTool(user, observed));
     }
 }
