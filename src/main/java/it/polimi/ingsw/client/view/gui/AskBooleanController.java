@@ -10,6 +10,7 @@ public class AskBooleanController {
 
         askBooleanWindow.getBoardController().setResultBoolean(1);
         askBooleanWindow.closeWindow();
+        notifyAll();
 
     }
 
@@ -17,11 +18,11 @@ public class AskBooleanController {
 
         askBooleanWindow.getBoardController().setResultBoolean(2);
         askBooleanWindow.closeWindow();
+        notifyAll();
 
     }
 
     void setAskBooleanWindow(AskBooleanWindow askBooleanWindow) {
-
 
         this.askBooleanWindow = askBooleanWindow;
 

@@ -6,11 +6,14 @@ import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
 import it.polimi.ingsw.server.model.windowcard.Cell;
 import it.polimi.ingsw.server.model.windowcard.WindowCard;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.SortedMap;
+
+import static java.lang.System.out;
 
 public class RankingController implements ControlInterface {
 
@@ -42,33 +45,37 @@ public class RankingController implements ControlInterface {
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
         SortedMap<Integer, String> ranking = guiSystem.getRanking();
-
         int sizeRanking = ranking.size();
 
-        firstPlayer.setText(Integer.toString(ranking.lastKey()));
-        pointFirst.setText(ranking.get(ranking.lastKey()));
-        ranking.remove(ranking.lastKey(), ranking.lastKey());
+        Platform.runLater(() -> {
+            pointFirst.setText(Integer.toString(ranking.lastKey()));
+            firstPlayer.setText(ranking.get(ranking.lastKey()));
+            ranking.remove(ranking.lastKey(), ranking.get(ranking.lastKey()));
 
-        secondPlayer.setText(Integer.toString(ranking.lastKey()));
-        pointSecond.setText(ranking.get(ranking.lastKey()));
-        ranking.remove(ranking.lastKey(), ranking.lastKey());
+            if (sizeRanking == 2) {
+
+                pointSecond.setText(Integer.toString(ranking.lastKey()));
+                secondPlayer.setText(ranking.get(ranking.lastKey()));
+                ranking.remove(ranking.lastKey(), ranking.get(ranking.lastKey()));
+
+            }
+
+            if (sizeRanking == 3) {
+
+                pointThird.setText(Integer.toString(ranking.lastKey()));
+                thirdPlayer.setText(ranking.get(ranking.lastKey()));
+                ranking.remove(ranking.lastKey(), ranking.get(ranking.lastKey()));
+            }
 
 
-        if(sizeRanking == 2 ){
+            if (sizeRanking == 4) {
 
-            thirdPlayer.setText(Integer.toString(ranking.lastKey()));
-            pointThird.setText(ranking.get(ranking.lastKey()));
-            ranking.remove(ranking.lastKey(), ranking.lastKey());
+                pointFourth.setText(Integer.toString(ranking.lastKey()));
+                fourthPlayer.setText(ranking.get(ranking.lastKey()));
+                ranking.remove(ranking.lastKey(), ranking.get(ranking.lastKey()));
 
-        }
-
-        if(sizeRanking == 3){
-
-            fourthPlayer.setText(Integer.toString(ranking.lastKey()));
-            pointFourth.setText(ranking.get(ranking.lastKey()));
-            ranking.remove(ranking.lastKey(), ranking.lastKey());
-
-        }
+            }
+        });
 
     }
 
