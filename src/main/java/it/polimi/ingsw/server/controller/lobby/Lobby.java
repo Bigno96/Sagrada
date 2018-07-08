@@ -147,7 +147,7 @@ public class Lobby {
      * Reconnect player disconnected when gameState is STARTING or STARTED.
      * @param username reconnected.
      */
-    public void reconnectPlayer(String username, ClientSpeaker speaker) {
+    void reconnectPlayer(String username, ClientSpeaker speaker) {
         speakers.replace(username, speaker);
         players.get(username).setDisconnected(false);
         speakers.get(username).tell(dictionary.getMessage(WELCOME_BACK_KEYWORD) + username);

@@ -293,8 +293,6 @@ public class CliSystem implements ViewInterface {
             menuThread = new Thread(taskMenu);
         }
 
-        taskMenu.clearCurrentState();
-
         if (userName.equals(username)) {
             print(dictionary.getMessage(YOUR_TURN_KEYWORD));
             taskMenu.setPlaying(true);
@@ -304,12 +302,12 @@ public class CliSystem implements ViewInterface {
             taskMenu.setPlaying(false);
         }
 
-        releaseSemaphore();            // releasing for menuTask action.accept()
-
         if (menuThread.getState().equals(Thread.State.NEW)) {
             drainPermits();
             menuThread.start();
         }
+
+        releaseSemaphore();
     }
 
     /**

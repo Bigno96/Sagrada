@@ -20,7 +20,6 @@ public class ServerRemoteImpl implements ServerRemote {
 
     private static final String RMI_CONNECTION_KEYWORD = "CONNECTION_WITH_RMI";
     private static final String CONNECTION_SUCCESS_KEYWORD = "CONNECTION_SUCCESS";
-    private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
     private static final String QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
     private static final String OTHER_QUIT_GAME_MESSAGE_KEYWORD = "QUIT_GAME_MESSAGE";
 
@@ -121,7 +120,6 @@ public class ServerRemoteImpl implements ServerRemote {
      */
     @Override
     public void endTurn(String username) {
-        lobby.notifyAllPlayers(username + dictionary.getMessage(TURN_PASSED_KEYWORD));
         lobby.getRoundController().nextTurn();
     }
 
