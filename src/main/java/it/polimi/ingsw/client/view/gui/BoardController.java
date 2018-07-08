@@ -327,8 +327,6 @@ public class BoardController implements ControlInterface {
 
                         myTabel.add(rectangle,dest.getCol(),dest.getRow());
 
-
-
                 } else {
                 int i = guiSystem.getOtherUsername().indexOf(username);
                 Image imageDice = new Image(diceURL + moved.getColor() + "-" + moved.getValue() + exp);
@@ -432,6 +430,7 @@ if(firstTurn) {
 
     public void clickTool0(MouseEvent mouseEvent) {
 
+        out.println("tool0");
         useTool(0);
 
     }

@@ -64,6 +64,7 @@ public class GuiSystem implements ViewInterface{
      * @return SortedMap<Integer, String> ranking
      */
     public SortedMap<Integer, String> getRanking() {
+        out.println(ranking.size());
         return ranking;
     }
 
