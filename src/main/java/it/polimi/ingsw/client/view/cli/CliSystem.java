@@ -241,11 +241,10 @@ public class CliSystem implements ViewInterface {
             for (int j = 0; j < window.getWindow().getMaxCol(); j++) {
                 c = window.getWindow().getCell(i, j);
 
-                if (c.isOccupied()) {
-                    out.print(ansi().eraseScreen().bg(Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
-                }
+                if (c.isOccupied())
+                    out.print(ansi().bg(Color.valueOf(c.getDice().getColor().toString())).fg(BLACK).a(c.getDice().getValue()).reset() + "\t");
                 else
-                    out.print(ansi().eraseScreen().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
+                    out.print(ansi().fg(Color.valueOf(c.getColor().toString())).a(c.getValue()).reset() + "\t");
 
             }
             print("");
@@ -298,8 +297,6 @@ public class CliSystem implements ViewInterface {
             menuThread = new Thread(taskMenu);
         }
 
-        taskMenu.clearCurrentState();
-
         if (userName.equals(username)) {
             print(dictionary.getMessage(YOUR_TURN_KEYWORD));
             taskMenu.setPlaying(true);
@@ -309,12 +306,12 @@ public class CliSystem implements ViewInterface {
             taskMenu.setPlaying(false);
         }
 
-        releaseSemaphore();            // releasing for menuTask action.accept()
-
         if (menuThread.getState().equals(Thread.State.NEW)) {
             drainPermits();
             menuThread.start();
         }
+
+        releaseSemaphore();
     }
 
     /**
@@ -326,7 +323,7 @@ public class CliSystem implements ViewInterface {
         print(dictionary.getMessage(SHOW_DRAFT_KEYWORD));
 
         draft.forEach(dice ->
-                out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
+                out.print(ansi().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
 
         out.print("\n");
         releaseSemaphore();            // releasing for menuTask action.accept()
@@ -344,7 +341,7 @@ public class CliSystem implements ViewInterface {
             out.print(ROUND + t + ": ");
 
             listDiceRound.itr().forEachRemaining(dice ->
-                    out.print(ansi().eraseScreen().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
+                    out.print(ansi().bg(Ansi.Color.valueOf(dice.getColor().toString())).fg(BLACK).a(dice.getValue()).reset() + "  "));
 
             out.print("\n");
         });
@@ -363,10 +360,10 @@ public class CliSystem implements ViewInterface {
         acquireSemaphore();                 // acquire for show draft release called after this
 
         if (username.equals(userName))
-            print(YOU_PLACED_DICE + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
+            print(YOU_PLACED_DICE + ansi().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
         else
-            print(USER + username + OTHER_PLACED_DICE + ansi().eraseScreen().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
+            print(USER + username + OTHER_PLACED_DICE + ansi().bg(Ansi.Color.valueOf(moved.getColor().toString())).fg(BLACK).a(moved.getValue()).reset()
                     + IN_CELL + "(" + dest.getRow() + "," + dest.getCol() + ") ");
 
         taskMenu.setMoved();

@@ -66,7 +66,6 @@ public class SocketClientListener implements Runnable {
     private static final String GET_CELL_FROM_WINDOW_KEYWORD = "GET_CELL_FROM_WINDOW";
     private static final String GET_COLOR_FROM_ROUND_TRACK_KEYWORD = "GET_COLOR_FROM_ROUND_TRACK";
 
-    private static final String TURN_PASSED_KEYWORD = "TURN_PASSED";
     private static final String END_TURN_KEYWORD = "END_TURN";
 
     private static final String DICE_ID_KEYWORD = "DICE_ID";
@@ -169,10 +168,7 @@ public class SocketClientListener implements Runnable {
         Consumer<String> getCellFromWindow = string -> speaker.setCell(lobby.getActionController().getCellFromWindow(username, coordinates));
         Consumer<String> getColorFromRoundTrack = string -> speaker.setColor(lobby.getActionController().getColorFromRoundTrack(username, coordinates));
 
-        Consumer<String> endTurn = me -> {
-            lobby.notifyAllPlayers(me + dictionary.getMessage(TURN_PASSED_KEYWORD));
-            lobby.getRoundController().nextTurn();
-        };
+        Consumer<String> endTurn = me -> lobby.getRoundController().nextTurn();
 
         Consumer<String> setDiceId = id -> diceId = Integer.parseInt(id);
         Consumer<String> setDiceValue = value -> diceValue = Integer.parseInt(value);

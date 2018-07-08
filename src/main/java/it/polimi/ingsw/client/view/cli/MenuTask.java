@@ -68,7 +68,7 @@ public class MenuTask implements Runnable {
     private ServerSpeaker serverSpeaker;
     private ViewMessageParser dictionary;
 
-    public enum state { PLAYING, PASSING, MOVED, USED, EXIT }
+    public enum state { PLAYING, SET_PLAYING, PASSING, MOVED, USED, EXIT }
     private List<state> currentState;
 
     MenuTask(CliSystem cliSystem) {
@@ -92,15 +92,16 @@ public class MenuTask implements Runnable {
      * @param playing to be set
      */
     void setPlaying(Boolean playing) {
+        currentState.clear();
+
         if (playing) {
             currentState.add(state.PLAYING);
             action = playingAction;
         }
-        else {
-            currentState.remove(state.PLAYING);
+        else
             action = waitingAction;
-        }
 
+        currentState.add(state.SET_PLAYING);
         printMenu();
     }
 
@@ -125,7 +126,10 @@ public class MenuTask implements Runnable {
                     cliSystem.drainPermits();
                 }
 
-                if (!currentState.contains(state.PASSING))
+                if (currentState.contains(state.SET_PLAYING))
+                    currentState.remove(state.SET_PLAYING);
+
+                else if (!currentState.contains(state.PASSING))
                     printMenu();
             }
         }
@@ -183,18 +187,18 @@ public class MenuTask implements Runnable {
      */
     private void mapPlayingAction() {
         Consumer<String> move = string -> {       // place a dice
-            if (!currentState.contains(state.MOVED)) {
+            if (!currentState.contains(state.MOVED))
                 cliSystem.moveDice();
-            } else {
+            else {
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
                 cliSystem.releaseSemaphore();            // releasing for menuTask action.accept()
             }
         };
 
         Consumer<String> use = string -> {         // use a tool card
-            if (!currentState.contains(state.USED)) {
+            if (!currentState.contains(state.USED))
                 cliSystem.useToolCard();
-            } else {
+            else {
                 cliSystem.print(dictionary.getMessage(ALREADY_DONE_KEYWORD));
                 cliSystem.releaseSemaphore();            // releasing for menuTask action.accept()
             }
@@ -202,8 +206,6 @@ public class MenuTask implements Runnable {
 
         Consumer<String> pass = string -> {       // end turn
             currentState.add(state.PASSING);
-            currentState.remove(state.MOVED);
-            currentState.remove(state.USED);
 
             cliSystem.print(dictionary.getMessage(PASSED_KEYWORD));
             serverSpeaker.endTurn(cliSystem.getUserName());
@@ -312,12 +314,5 @@ public class MenuTask implements Runnable {
      */
     void setUsed() {
         currentState.add(state.USED);
-    }
-
-    /**
-     * Used to clear currentState
-     */
-    void clearCurrentState() {
-        currentState.clear();
     }
 }
