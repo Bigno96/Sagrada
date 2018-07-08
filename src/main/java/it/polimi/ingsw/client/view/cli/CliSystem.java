@@ -568,21 +568,25 @@ public class CliSystem implements ViewInterface {
         while (!quit || wrong) {
             int pick = pickTool();
 
-            Boolean validity = serverSpeaker.checkPreCondition(pick, userName);
+            if (!quit) {
+                Boolean validity = serverSpeaker.checkPreCondition(pick, userName);
 
-            if (!validity)
-                wrong = true;
-            else {
-                actor = serverSpeaker.getActor(pick, userName);
-                showActor();
-
-                parameter = serverSpeaker.getParameter(pick, userName);
-                getParameter();
-
-                if (checkNull())
-                    wrong = checkAndUseTool(wrong, pick);
-                else
+                if (!validity)
                     wrong = true;
+                else {
+                    actor = serverSpeaker.getActor(pick, userName);
+                    showActor();
+
+                    parameter = serverSpeaker.getParameter(pick, userName);
+                    getParameter();
+
+                    if (!quit) {
+                        if (checkNull())
+                            wrong = checkAndUseTool(wrong, pick);
+                        else
+                            wrong = true;
+                    }
+                }
             }
         }
     }
@@ -676,13 +680,12 @@ public class CliSystem implements ViewInterface {
         Consumer<String> windowCard = username -> serverSpeaker.askWindowCard(username, username);
         Consumer<String> roundTrack = username -> serverSpeaker.askRoundTrack(username);
         Consumer<String> draft = username -> serverSpeaker.askDraft(username);
-
-        out.println(ToolCard.Actor.WINDOW_CARD);
-        out.println(windowCard);
+        Consumer<String> diceBag = username -> releaseSemaphore();
 
         actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
         actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);
         actorMap.put(ToolCard.Actor.DRAFT, draft);
+        actorMap.put(ToolCard.Actor.DICE_BAG, diceBag);
     }
 
     /**

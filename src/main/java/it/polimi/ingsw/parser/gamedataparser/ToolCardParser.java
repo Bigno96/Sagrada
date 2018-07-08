@@ -30,6 +30,8 @@ public class ToolCardParser implements Parser {
     private static final String DRAFT = "DRAFT";
     private static final String DICE_BAG = "DICE_BAG";
 
+    private static final String NULL = "null";
+
     private final String infoPath;
 
     private ToolCardParser(String infoPath) {
@@ -55,6 +57,7 @@ public class ToolCardParser implements Parser {
 
         String name = null;
         Colors color = null;
+
         RoundTrack roundTrack = null;
         Draft draft = null;
         DiceBag diceBag = null;
@@ -69,6 +72,7 @@ public class ToolCardParser implements Parser {
             if (Integer.parseInt(obj.get(ID).toString()) == id) {
                 name = obj.get(NAME).getAsString();
                 color = Colors.parseColor(obj.get(COLOR).getAsString());
+
                 roundTrack = readRoundTrack(obj, game);
                 draft = readDraft(obj, game);
                 diceBag = readDiceBag(obj, game);
@@ -91,7 +95,7 @@ public class ToolCardParser implements Parser {
      * @return true if it uses, false else
      */
     private Boolean readWindowCard(JsonObject obj) {
-        return obj.get(WINDOW_CARD).getAsString() != null;
+        return !obj.get(WINDOW_CARD).getAsString().equals(NULL);
     }
 
     /**
@@ -101,7 +105,7 @@ public class ToolCardParser implements Parser {
      * @return current game Round Track
      */
     private RoundTrack readRoundTrack(JsonObject obj, Game game) {
-        if (obj.get(ROUND_TRACK).getAsString() != null)
+        if (!obj.get(ROUND_TRACK).getAsString().equals(NULL))
             return game.getBoard().getRoundTrack();
         return null;
     }
@@ -113,7 +117,7 @@ public class ToolCardParser implements Parser {
      * @return current game Draft
      */
     private Draft readDraft(JsonObject obj, Game game) {
-        if (obj.get(DRAFT).getAsString() != null)
+        if (!obj.get(DRAFT).getAsString().equals(NULL))
             return game.getBoard().getDraft();
         return null;
     }
@@ -125,7 +129,7 @@ public class ToolCardParser implements Parser {
      * @return current game Dice Bag
      */
     private DiceBag readDiceBag(JsonObject obj, Game game) {
-        if (obj.get(DICE_BAG).getAsString() != null)
+        if (!obj.get(DICE_BAG).getAsString().equals(NULL))
             return game.getBoard().getDiceBag();
         return null;
     }
