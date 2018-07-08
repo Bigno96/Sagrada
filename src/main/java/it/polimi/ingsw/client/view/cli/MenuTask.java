@@ -68,7 +68,7 @@ public class MenuTask implements Runnable {
     private ServerSpeaker serverSpeaker;
     private ViewMessageParser dictionary;
 
-    public enum state { PLAYING, SET_PLAYING, PASSING, MOVED, USED, EXIT }
+    public enum state { PLAYING, PASSING, MOVED, USED, EXIT }
     private List<state> currentState;
 
     MenuTask(CliSystem cliSystem) {
@@ -101,7 +101,6 @@ public class MenuTask implements Runnable {
         else
             action = waitingAction;
 
-        currentState.add(state.SET_PLAYING);
         printMenu();
     }
 
@@ -126,10 +125,7 @@ public class MenuTask implements Runnable {
                     cliSystem.drainPermits();
                 }
 
-                if (currentState.contains(state.SET_PLAYING))
-                    currentState.remove(state.SET_PLAYING);
-
-                else if (!currentState.contains(state.PASSING))
+                if (!currentState.contains(state.PASSING))
                     printMenu();
             }
         }

@@ -55,6 +55,8 @@ public class Lobby {
     private final GameSettingsParser settings;
     private final ViewMessageParser dictionary;
 
+    private List<Timer> timerList;
+
     public Lobby() {
         this.players = new HashMap<>();
         this.speakers = new HashMap<>();
@@ -63,12 +65,14 @@ public class Lobby {
         this.protocol = (CommunicationParser) ParserManager.getCommunicationParser();
         this.settings = (GameSettingsParser) ParserManager.getGameSettingsParser();
         this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.timerList = new ArrayList<>();
     }
 
     public void startLobby() {
         currentState = gameState.WAITING;
 
         Timer starting = new Timer();
+        timerList.add(starting);
         starting.scheduleAtFixedRate(new CheckStartGameDaemon(players, this), 0, settings.getDaemonFrequency());
     }
 
@@ -101,6 +105,7 @@ public class Lobby {
                 speakers.put(username, speaker);
 
                 Timer disconnection = new Timer();
+                timerList.add(disconnection);
                 CheckDisconnectionDaemon daemon = new CheckDisconnectionDaemon(speaker, this, username);
                 disconnection.scheduleAtFixedRate(daemon, 0, settings.getDaemonFrequency());
                 checkerDisconnection.put(username, daemon);
@@ -209,6 +214,7 @@ public class Lobby {
         currentState = gameState.STARTING;
 
         Timer start = new Timer();
+        timerList.add(start);
         start.scheduleAtFixedRate(new StartGame(this), 0, settings.getGameNotifyInterval());
     }
 
@@ -223,6 +229,7 @@ public class Lobby {
         gameController.startGame();
 
         Timer ending = new Timer();
+        timerList.add(ending);
         ending.scheduleAtFixedRate(new CheckEndGameDaemon(game, this), 0, settings.getDaemonFrequency());
     }
 
@@ -231,6 +238,7 @@ public class Lobby {
      */
     public void startCountingRound() {
         Timer timer = new Timer();
+        timerList.add(timer);
         TimerTurnDaemon timerTurn = new TimerTurnDaemon(this);
         roundController = new RoundController(this, game, timerTurn);
 
@@ -278,6 +286,11 @@ public class Lobby {
         });
 
         speakers.values().forEach(speaker -> speaker.printRanking(ranking));
+
+        timerList.forEach(timer -> {
+            if (timer != null)
+                timer.cancel();
+        });
     }
 
     /**
