@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+import static java.lang.System.out;
+
 public class BoardController implements ControlInterface {
 
     private static final String INSERT_NUMBER_KEYWORD = "INSERT_NUMBER";
@@ -241,6 +243,7 @@ public class BoardController implements ControlInterface {
 
         String diceURL = "/img/Dices/";
 
+        out.println("updateCard");
         Platform.runLater(() -> {
 
             if (window.getName().equals(guiSystem.getMyWindowCard().getName())) {
@@ -248,7 +251,7 @@ public class BoardController implements ControlInterface {
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
 
-                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getColor() + "-" + window.getWindow().getCell(i, j).getValue() + exp);
+                        Image imageDice = new Image(diceURL + window.getWindow().getCell(i, j).getDice().getColor() + "-" + window.getWindow().getCell(i, j).getDice().getValue() + exp);
                         Rectangle rectangle = new Rectangle(30, 30);
                         rectangle.setFill(new ImagePattern(imageDice));
 
@@ -330,7 +333,6 @@ public class BoardController implements ControlInterface {
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
-
 
 
 
@@ -526,6 +528,8 @@ public class BoardController implements ControlInterface {
         Consumer<String> windowCard = username -> guiSystem.getServerSpeaker().askWindowCard(guiSystem.getUserName(), guiSystem.getUserName());
         Consumer<String> roundTrack = username -> guiSystem.getServerSpeaker().askRoundTrack(guiSystem.getUserName());
         Consumer<String> draft = username -> guiSystem.getServerSpeaker().askDraft(guiSystem.getUserName());
+
+        out.println(windowCard);
 
         actorMap.put(ToolCard.Actor.WINDOW_CARD, windowCard);
         actorMap.put(ToolCard.Actor.ROUND_TRACK, roundTrack);

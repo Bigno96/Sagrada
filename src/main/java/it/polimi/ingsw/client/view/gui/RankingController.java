@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class RankingController implements ControlInterface {
 
