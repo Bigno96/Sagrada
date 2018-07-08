@@ -21,7 +21,7 @@ public class RoundTrackWindowController {
     private RoundTrackWindow roundTrackWindow;
     private BoardController boardController;
 
-    public void setRoundTrack(BoardController boardController, RoundTrack roundTrack, ControlInterface ctrl, RoundTrackWindow roundTrackWindow) {
+    void setRoundTrack(BoardController boardController, RoundTrack roundTrack, ControlInterface ctrl, RoundTrackWindow roundTrackWindow) {
 
         this.boardController = boardController;
         this.roundTrackWindow = roundTrackWindow;
@@ -43,7 +43,6 @@ public class RoundTrackWindowController {
                 }
 
             });
-
 
         });
 

@@ -157,7 +157,7 @@ public class LoginPageController implements ControlInterface {
             serverSpeaker = new RmiServerSpeaker(ipText.getText(), usernameText.getText(), guiSystem);
         }
 
-            if (validIP(ipText.getText()) && usernameText.getText().isEmpty()) {
+            if (validIP(ipText.getText())) {
 
                 if (!serverSpeaker.connect(username)) {
 

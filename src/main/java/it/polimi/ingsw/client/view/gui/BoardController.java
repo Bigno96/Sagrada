@@ -220,7 +220,7 @@ public class BoardController implements ControlInterface {
                 }
 
 
-            } else if (windowCards.get(0).getName().equals(window.getName())) {
+            } else if (windowCards.get(0).getName() == window.getName()) {
 
                     user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
@@ -230,14 +230,14 @@ public class BoardController implements ControlInterface {
                                 Rectangle rectangle = new Rectangle(30, 30);
                                 rectangle.setFill(new ImagePattern(imageDice));
 
-                                tabel0.add(rectangle, j, i);
+                                tabel0.add(rectangle,j,i);
                             }
 
                         }
 
                     }
 
-                } else if (windowCards.size() > 1 && windowCards.get(1).getName().equals(window.getName())) {
+                } else if (windowCards.size() > 1 && windowCards.get(1).getName()== (window.getName())) {
 
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
@@ -254,7 +254,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (windowCards.size() > 2 &&windowCards.get(2).getName().equals(window.getName())) {
+                } else if (windowCards.size() > 2 &&windowCards.get(2).getName()== (window.getName())) {
 
                 user1.setText(guiSystem.getOtherUsername().get(2));
                 for (int i = 0; i < 4; i++) {
@@ -373,11 +373,17 @@ if(firstTurn) {
     public void diceOnMousePressedEventHandler(MouseEvent mouseEvent) {
 
         guiSystem.moveDice(indexDiceDraft,GridPane.getRowIndex((Pane) mouseEvent.getSource()),GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
+        coordinatesWindow.clear();
         coordinatesWindow.add(GridPane.getRowIndex((Pane) mouseEvent.getSource()));
+        out.println("rowWindow"+ GridPane.getRowIndex((Pane) mouseEvent.getSource()));
         coordinatesWindow.add(GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
+        out.println("colomnWindow"+ GridPane.getColumnIndex((Pane) mouseEvent.getSource()));
     }
 
     public void draftSelected(MouseEvent mouseEvent) {
+
+        out.println("index Draft " + GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource()) );
+        out.println("col"+ GridPane.getColumnIndex((Pane)mouseEvent.getSource()) + "row" + GridPane.getRowIndex((Pane)mouseEvent.getSource()));
 
         indexDiceDraft = GridPane.getColumnIndex((Pane)mouseEvent.getSource()) * 3 + GridPane.getRowIndex((Pane)mouseEvent.getSource());
 
@@ -695,6 +701,7 @@ if(firstTurn) {
 
     void setCoordinatesRoundTrackDice(Integer columnIndex, Integer rowIndex) {
 
+        out.println("rowIndex "+rowIndex +"colIndex" +columnIndex);
         coordinatesRoundTrack.add(rowIndex);
         coordinatesRoundTrack.add(columnIndex);
 
@@ -705,4 +712,5 @@ if(firstTurn) {
         guiSystem.forfait();
 
     }
+
 }

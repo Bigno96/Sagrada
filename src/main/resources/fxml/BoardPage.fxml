@@ -139,7 +139,6 @@
         <ImageView fx:id="tool0" fitHeight="271.0" fitWidth="178.0" onMouseClicked="#clickTool0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
         <ImageView fx:id="tool1" fitHeight="271.0" fitWidth="178.0" onMouseClicked="#clickTool1" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
         <ImageView fx:id="tool2" fitHeight="271.0" fitWidth="178.0" onMouseClicked="#clickTool2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" />
-      <ImageView fx:id="myWind1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
     </GridPane>
    <Button layoutX="708.0" layoutY="698.0" mnemonicParsing="false" onMouseClicked="#endTurn" text="Fine Turno" AnchorPane.bottomAnchor="18.0" />
    <Text layoutX="682.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Punti Favore" AnchorPane.bottomAnchor="111.0" AnchorPane.rightAnchor="302.4072265625" />
@@ -150,5 +149,5 @@
    <Text fx:id="user0" layoutX="578.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    <Text fx:id="user2" layoutX="991.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.topAnchor="220.0" />
    <ImageView fx:id="wind1" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="15.0" />
-   <Button fx:id="forfait" layoutX="974.0" layoutY="499.0" mnemonicParsing="false"  onMouseClicked="#forfaitMouse" text="Resa" />
+   <Button fx:id="forfait" layoutX="974.0" layoutY="499.0" mnemonicParsing="false" onMouseClicked="#forfaitMouse" text="Resa" />
 </AnchorPane>

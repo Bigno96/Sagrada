@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.ViewInterface;
 import it.polimi.ingsw.parser.ParserManager;
 import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.dicebag.Dice;
-import it.polimi.ingsw.server.model.game.Player;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
 import it.polimi.ingsw.server.model.roundtrack.RoundTrack;
 import it.polimi.ingsw.server.model.toolcard.ToolCard;
@@ -29,7 +28,7 @@ public class GuiSystem implements ViewInterface{
     private static final String YOUR_TURN_KEY = "YOUR_TURN";
     private static final String YOU_USED_TOOL = "Hai correttamente usato la carta strumento: ";
     private static final String OTHER_USED_TOOL = " ha correttamente usato la carta strumento: ";
-    public ObjectiveCard privObj;
+    ObjectiveCard privObj;
     private Stage primaryStage;
     private ViewMessageParser dictionary;
 
@@ -400,7 +399,7 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    public void forfait(){
+    void forfait(){
 
         serverSpeaker.quit(userName);
         primaryStage.close();
