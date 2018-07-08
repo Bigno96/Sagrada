@@ -64,53 +64,53 @@ public class ChooseWinCardController implements ControlInterface {
     }
 
     @Override
-    public void printDraft(List<Dice> Draft) {
-
+    public void printDraft(List<Dice> draft) {
+        // not used
     }
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
-
+        // not used
     }
 
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
-
+        // not used
     }
 
     @Override
     public void printListPublObj(List<ObjectiveCard> publObj) {
-
+        // not used
     }
 
     @Override
     public void updateCard(List<WindowCard> windowCards, WindowCard window) {
-
+        // not used
     }
 
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
-
+        // not used
     }
 
     @Override
     public void favorPoints(int point) {
-
+        // not used
     }
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
-
+        // not used
     }
 
     @Override
-    public void succefulPlacementDice(String username, Cell dest, Dice moved) {
-
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+        // not used
     }
 
     @Override
     public void isMyTurn(Boolean turnBoolean) {
-
+        // not used
     }
 
     public void win0(ActionEvent event) {

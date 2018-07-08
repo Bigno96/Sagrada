@@ -9,13 +9,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AskValueWindow {
+import static java.lang.System.out;
 
-    private int result;
+class AskValueWindow {
+
+    private static final String ASK_VALUE_FXML = "fxml/AskValue.fxml";
+
     private Stage window;
     private BoardController boardController;
 
-    public void display(BoardController boardController) {
+    void display(BoardController boardController) {
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -26,11 +29,11 @@ public class AskValueWindow {
 
         Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/AskValue.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(ASK_VALUE_FXML));
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
 
             assert root != null;
@@ -48,12 +51,12 @@ public class AskValueWindow {
 
     private void closeProgram(){
 
-        boardController.resultValue = 0;
+        boardController.setResultValue(0);
         window.close();
 
     }
 
-    public void closeWindow(){
+    void closeWindow(){
 
         window.close();
 

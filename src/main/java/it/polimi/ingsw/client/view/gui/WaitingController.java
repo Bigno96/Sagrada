@@ -35,7 +35,7 @@ public class WaitingController implements ControlInterface{
     }
 
     @Override
-    public void printDraft(List<Dice> Draft) {
+    public void printDraft(List<Dice> draft) {
 
     }
 
@@ -75,7 +75,7 @@ public class WaitingController implements ControlInterface{
     }
 
     @Override
-    public void succefulPlacementDice(String username, Cell dest, Dice moved) {
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
     }
 

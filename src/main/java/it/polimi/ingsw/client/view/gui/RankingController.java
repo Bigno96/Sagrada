@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
 import java.util.List;
+import java.util.SortedMap;
 
 public class RankingController implements ControlInterface {
 
@@ -30,41 +31,42 @@ public class RankingController implements ControlInterface {
     @FXML
     public Text pointFourth;
 
-    GuiSystem guiSystem;
+    private GuiSystem guiSystem;
 
     @Override
     public void print(String message) {
-
+        // not needed
     }
 
     @Override
     public void setGuiSystem(GuiSystem guiSystem) {
         this.guiSystem = guiSystem;
+        SortedMap<Integer, String> ranking = guiSystem.getRanking();
 
-        int sizeRanking = guiSystem.ranking.size();
+        int sizeRanking = ranking.size();
 
-        firstPlayer.setText(Integer.toString(guiSystem.ranking.lastKey()));
-        pointFirst.setText(guiSystem.ranking.get(guiSystem.ranking.lastKey()));
-        guiSystem.ranking.remove(guiSystem.ranking.lastKey(), guiSystem.ranking.lastKey());
+        firstPlayer.setText(Integer.toString(ranking.lastKey()));
+        pointFirst.setText(ranking.get(ranking.lastKey()));
+        ranking.remove(ranking.lastKey(), ranking.lastKey());
 
-        secondPlayer.setText(Integer.toString(guiSystem.ranking.lastKey()));
-        pointSecond.setText(guiSystem.ranking.get(guiSystem.ranking.lastKey()));
-        guiSystem.ranking.remove(guiSystem.ranking.lastKey(), guiSystem.ranking.lastKey());
+        secondPlayer.setText(Integer.toString(ranking.lastKey()));
+        pointSecond.setText(ranking.get(ranking.lastKey()));
+        ranking.remove(ranking.lastKey(), ranking.lastKey());
 
 
         if(sizeRanking == 2 ){
 
-            thirdPlayer.setText(Integer.toString(guiSystem.ranking.lastKey()));
-            pointThird.setText(guiSystem.ranking.get(guiSystem.ranking.lastKey()));
-            guiSystem.ranking.remove(guiSystem.ranking.lastKey(), guiSystem.ranking.lastKey());
+            thirdPlayer.setText(Integer.toString(ranking.lastKey()));
+            pointThird.setText(ranking.get(ranking.lastKey()));
+            ranking.remove(ranking.lastKey(), ranking.lastKey());
 
         }
 
         if(sizeRanking == 3){
 
-            fourthPlayer.setText(Integer.toString(guiSystem.ranking.lastKey()));
-            pointFourth.setText(guiSystem.ranking.get(guiSystem.ranking.lastKey()));
-            guiSystem.ranking.remove(guiSystem.ranking.lastKey(), guiSystem.ranking.lastKey());
+            fourthPlayer.setText(Integer.toString(ranking.lastKey()));
+            pointFourth.setText(ranking.get(ranking.lastKey()));
+            ranking.remove(ranking.lastKey(), ranking.lastKey());
 
         }
 
@@ -72,56 +74,56 @@ public class RankingController implements ControlInterface {
 
     @Override
     public void setList(List<WindowCard> cards) {
-
+        // not needed
     }
 
     @Override
-    public void printDraft(List<Dice> Draft) {
-
+    public void printDraft(List<Dice> draft) {
+        // not needed
     }
 
     @Override
     public void printPrivateObj(ObjectiveCard privObj) {
-
+        // not needed
     }
 
     @Override
     public void printListToolCard(List<ToolCard> toolCards) {
-
+        // not needed
     }
 
     @Override
     public void printListPublObj(List<ObjectiveCard> publObj) {
-
+        // not needed
     }
 
     @Override
     public void updateCard(List<WindowCard> windowCards, WindowCard window) {
-
+        // not needed
     }
 
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
-
+        // not needed
     }
 
     @Override
     public void favorPoints(int point) {
-
+        // not needed
     }
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
-
+        // not needed
     }
 
     @Override
-    public void succefulPlacementDice(String username, Cell dest, Dice moved) {
-
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
+        // not needed
     }
 
     @Override
     public void isMyTurn(Boolean turnBoolean) {
-
+        // not needed
     }
 }

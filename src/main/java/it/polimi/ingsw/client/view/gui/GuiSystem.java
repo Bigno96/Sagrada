@@ -17,10 +17,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedMap;
+import java.util.*;
+
+import static java.lang.System.out;
 
 public class GuiSystem implements ViewInterface{
 
@@ -37,26 +36,41 @@ public class GuiSystem implements ViewInterface{
     private WindowCard myWindowCard;
     private List<String> otherUsername;
     private List<WindowCard> windowCards;
-    public List<ToolCard> toolCards;
-    public RoundTrack roundTrack;
+    private List<ToolCard> toolCards;
+    private RoundTrack roundTrack;
 
     private ControlInterface ctrl;
     private List<ObjectiveCard> publicCards;
-    public SortedMap<Integer, String> ranking;
-    private HashMap<String,ServerSpeaker> connParam;
+
+    private SortedMap<Integer, String> ranking;
+    private Map<String, ServerSpeaker> connParam;
 
     /**
      * Constructor of GuiSystem
      * @param primaryStage from ClientMain
      */
     public GuiSystem(Stage primaryStage){
-
+        this.connParam = new HashMap<>();
         this.primaryStage = primaryStage;
         dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
-        otherUsername = new ArrayList<String >();
-        windowCards = new ArrayList<WindowCard>();
-        publicCards = new ArrayList<ObjectiveCard>();
+        otherUsername = new ArrayList<>();
+        windowCards = new ArrayList<>();
+        publicCards = new ArrayList<>();
 
+    }
+
+    /**
+     * @return SortedMap<Integer, String> ranking
+     */
+    public SortedMap<Integer, String> getRanking() {
+        return ranking;
+    }
+
+    /**
+     * @return RoundTrack round track
+     */
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
     }
 
     /**
@@ -74,7 +88,7 @@ public class GuiSystem implements ViewInterface{
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
@@ -171,7 +185,7 @@ public class GuiSystem implements ViewInterface{
     @Override
     public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
-        ctrl.succefulPlacementDice(username, dest, moved);
+        ctrl.successfulPlacementDice(username, dest, moved);
 
     }
 
@@ -200,7 +214,7 @@ public class GuiSystem implements ViewInterface{
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
@@ -255,7 +269,7 @@ public class GuiSystem implements ViewInterface{
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
@@ -287,7 +301,7 @@ public class GuiSystem implements ViewInterface{
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
@@ -310,7 +324,7 @@ public class GuiSystem implements ViewInterface{
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
             primaryStage.setTitle(dictionary.getMessage(TITLE));
 
@@ -333,12 +347,6 @@ public class GuiSystem implements ViewInterface{
         return serverSpeaker;
     }
 
-    void setConnParam(HashMap<String, ServerSpeaker> connParam) {
-
-        this.connParam = connParam;
-
-    }
-
     WindowCard getMyWindowCard() {
         return myWindowCard;
     }
@@ -349,7 +357,7 @@ public class GuiSystem implements ViewInterface{
 
     }
 
-    List<ObjectiveCard> getPulicCards(){
+    List<ObjectiveCard> getPublicCards(){
 
         return publicCards;
 
@@ -392,4 +400,7 @@ public class GuiSystem implements ViewInterface{
 
     }
 
+    void setConnParam(Map<String,ServerSpeaker> connParam) {
+        this.connParam = connParam;
+    }
 }

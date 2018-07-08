@@ -1,15 +1,18 @@
 package it.polimi.ingsw.client.view.gui;
 
-import javafx.application.Platform;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 
-public class AlertBox {
+class AlertBox {
 
-    public static void display(String title, String message){
+    AlertBox() {
+        // just creates the instance
+    }
+
+    static void display(String title, String message){
 
         Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);

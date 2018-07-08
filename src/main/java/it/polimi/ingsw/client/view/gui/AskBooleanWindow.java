@@ -9,13 +9,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AskBooleanWindow {
+import static java.lang.System.out;
 
-    private int result;
+class AskBooleanWindow {
+
+    private static final String ASK_BOOLEAN_PATH = "fxml/AskBooleanWindow.fxml";
+
     private Stage window;
     private BoardController boardController;
 
-    public void display(BoardController boardController) {
+    void display(BoardController boardController) {
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -26,11 +29,11 @@ public class AskBooleanWindow {
 
         Platform.runLater(() -> {
             Parent root = null;
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/AskBooleanWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(ASK_BOOLEAN_PATH));
             try {
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                out.println(e.getMessage());
             }
 
             assert root != null;
@@ -48,7 +51,7 @@ public class AskBooleanWindow {
 
     private void closeProgram(){
 
-        boardController.resultBoolaen = 0;
+        boardController.setResultBoolean(0);
         window.close();
 
     }

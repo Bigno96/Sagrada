@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view.gui;
 
-import it.polimi.ingsw.parser.ParserManager;
-import it.polimi.ingsw.parser.messageparser.ViewMessageParser;
 import it.polimi.ingsw.server.model.Colors;
 import it.polimi.ingsw.server.model.dicebag.Dice;
 import it.polimi.ingsw.server.model.objectivecard.card.ObjectiveCard;
@@ -30,14 +28,6 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 public class BoardController implements ControlInterface {
-
-    private static final String INSERT_NUMBER_KEYWORD = "INSERT_NUMBER";
-    private static final String INCORRECT_MESSAGE_KEYWORD = "INCORRECT_MESSAGE";
-    private static final String INSERT_ROUND_KEYWORD = "INSERT_ROUND";
-    private static final String DICE_VALUE_KEYWORD = "DICE_VALUE";
-    private static final String DICE_COLOR_KEYWORD = "DICE_COLOR";
-    private static final String QUIT_ENTRY_KEYWORD = "QUIT_ENTRY";
-    private static final String QUIT_KEYWORD = "QUIT";
 
     @FXML
     public ImageView myWind;
@@ -106,11 +96,11 @@ public class BoardController implements ControlInterface {
 
     private List<Dice> dices;
     private List<Cell> cells;
-    private Boolean quit = false;     //when i want to close a ToolCard quit = true
-    private Boolean myTurn = false;   //when is my turn myTurn = true;
+    private Boolean quit = false;
+    private Boolean myTurn = false;
 
-    public int resultBoolaen;
-    public int resultValue;
+    private int resultBoolean;
+    private int resultValue;
     private List<Integer> coordinatesRoundTrack = new ArrayList<>();
     private List<Integer> coordinatesWindow = new ArrayList<>();
 
@@ -120,11 +110,22 @@ public class BoardController implements ControlInterface {
     private List<ToolCard.Actor> actor;
     private List<ToolCard.Parameter> parameter;
 
-    private ViewMessageParser dictionary;
-
     public BoardController() {
-        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.actorMap = new EnumMap<>(ToolCard.Actor.class);
+        this.nullCheck = true;
+        this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
 
+
+        mapActor();
+        mapParameter();
+    }
+
+    void setResultBoolean(int resultBoolean) {
+        this.resultBoolean = resultBoolean;
+    }
+
+    void setResultValue(int resultValue) {
+        this.resultValue = resultValue;
     }
 
     public void print(String s) {
@@ -135,24 +136,15 @@ public class BoardController implements ControlInterface {
 
     @Override
     public void setGuiSystem(GuiSystem guiSystem) {
-
         this.guiSystem = guiSystem;
-        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         Image myWindowImage = new Image(baseURL + guiSystem.getMyWindowCard().getName() + exp);
         favorPoint.setText(Integer.toString(guiSystem.getMyWindowCard().getNumFavPoint()));
         myWind.setImage(myWindowImage);
-        this.actorMap = new EnumMap<>(ToolCard.Actor.class);
-        this.nullCheck = true;
-        this.parameterMap = new EnumMap<>(ToolCard.Parameter.class);
-
-        mapActor();
-        mapParameter();
-
     }
 
     @Override
     public void setList(List<WindowCard> cards) {
-
+        // not used
     }
 
     @Override
@@ -219,11 +211,11 @@ public class BoardController implements ControlInterface {
         Image imageTool2 = new Image(baseTool + toolCards.get(2).getId() + exp);
         tool2.setImage(imageTool2);
 
-        Image imagePubl0 = new Image(basePubl + guiSystem.getPulicCards().get(0).getId() + exp);
+        Image imagePubl0 = new Image(basePubl + guiSystem.getPublicCards().get(0).getId() + exp);
         publ0.setImage(imagePubl0);
-        Image imagePubl1 = new Image(basePubl + guiSystem.getPulicCards().get(1).getId() + exp);
+        Image imagePubl1 = new Image(basePubl + guiSystem.getPublicCards().get(1).getId() + exp);
         publ1.setImage(imagePubl1);
-        Image imagePubl2 = new Image(basePubl + guiSystem.getPulicCards().get(2).getId() + exp);
+        Image imagePubl2 = new Image(basePubl + guiSystem.getPublicCards().get(2).getId() + exp);
         publ2.setImage(imagePubl2);
 
     }
@@ -265,7 +257,7 @@ public class BoardController implements ControlInterface {
                 }
 
 
-            } else if (windowCards.get(0).getName() == window.getName()) {
+            } else if (windowCards.get(0).getName().equals(window.getName())) {
 
                     user0.setText(guiSystem.getOtherUsername().get(0));
                     for (int i = 0; i < 4; i++) {
@@ -280,7 +272,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (windowCards.size() > 1 && windowCards.get(1).getName() == window.getName()) {
+                } else if (windowCards.size() > 1 && windowCards.get(1).getName().equals(window.getName())) {
 
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
@@ -295,7 +287,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (windowCards.size() > 2 &&windowCards.get(2).getName() == window.getName()) {
+                } else if (windowCards.size() > 2 &&windowCards.get(2).getName().equals(window.getName())) {
 
                 user1.setText(guiSystem.getOtherUsername().get(2));
                 for (int i = 0; i < 4; i++) {
@@ -315,27 +307,21 @@ public class BoardController implements ControlInterface {
 
     @Override
     public void updateRoundTrack(RoundTrack roundTrack) {
-
-
-
+        // not used
     }
 
     @Override
     public void favorPoints(int point) {
-
         favorPoint.setText(Integer.toString(point));
-
     }
 
     @Override
     public void setDiceFromDraft(Integer columnIndex, Integer rowIndex) {
-
-
-
+        // not used
     }
 
     @Override
-    public void succefulPlacementDice(String username, Cell dest, Dice moved) {
+    public void successfulPlacementDice(String username, Cell dest, Dice moved) {
 
         String diceURL = "/img/Dices/";
 
@@ -393,7 +379,7 @@ public class BoardController implements ControlInterface {
         Platform.runLater(() -> {
 
             RoundTrackWindow roundTrackWindow = new RoundTrackWindow();
-            roundTrackWindow.display(this, guiSystem.roundTrack, this);
+            roundTrackWindow.display(this, guiSystem.getRoundTrack(), this);
 
         });
 
@@ -534,18 +520,14 @@ public class BoardController implements ControlInterface {
      * Used to read which actor does the tool need and to print it consequently
      */
     private void showActor() {
-        actor.forEach(act -> {
-            actorMap.get(act).accept(guiSystem.getUserName());
-        });
+        actor.forEach(act -> actorMap.get(act).accept(guiSystem.getUserName()));
     }
 
     /**
      * Used to obtain from player the parameter needed for using tool card
      */
     private void getParameter() {
-        parameter.forEach(param -> {
-            parameterMap.get(param).accept(guiSystem.getUserName());
-        });
+        parameter.forEach(param -> parameterMap.get(param).accept(guiSystem.getUserName()));
     }
 
     /**
@@ -561,18 +543,10 @@ public class BoardController implements ControlInterface {
                 dices.add(getDiceFromWindow());
 
         };
-        Consumer<String> cell = string -> {
-            cells.add(getCellFromWindow());
-        };
-        Consumer<String> integer = string -> {
-            diceValue = getDiceValue();
-        };
-        Consumer<String> color = string -> {
-            diceColor = getColorOnTrack();
-        };
-        Consumer<String> bool = string -> {
-            up = getBooleanDirection();
-        };
+        Consumer<String> cell = string -> cells.add(getCellFromWindow());
+        Consumer<String> integer = string -> diceValue = getDiceValue();
+        Consumer<String> color = string -> diceColor = getColorOnTrack();
+        Consumer<String> bool = string -> up = getBooleanDirection();
 
         parameterMap.put(ToolCard.Parameter.DICE, dice);
         parameterMap.put(ToolCard.Parameter.CELL, cell);
@@ -587,24 +561,24 @@ public class BoardController implements ControlInterface {
      */
     private Boolean getBooleanDirection() {
         Boolean ret = null;
-        resultBoolaen = -1;
+        resultBoolean = -1;
 
         AskBooleanWindow askBooleanWindow = new AskBooleanWindow();
         askBooleanWindow.display(this);
 
-        while (resultBoolaen < 0 && myTurn)
+        while (resultBoolean <= 0 && myTurn)
 
-            if (resultBoolaen == 0)
+            if (resultBoolean == 0)
                 quit = true;
 
-            if (resultBoolaen == 2) {
+            if (resultBoolean == 2) {
                 ret = true;
             }
-            if (resultBoolaen == 1) {
+            if (resultBoolean == 1) {
                 ret = false;
             }
 
-            if(!myTurn) return null;
+            if(!myTurn) return false;
 
         return ret;
     }
@@ -622,7 +596,7 @@ public class BoardController implements ControlInterface {
 
         while (resultValue < 0);
 
-            return resultValue;
+        return resultValue;
 
     }
     /**
@@ -634,12 +608,8 @@ public class BoardController implements ControlInterface {
         coordinatesRoundTrack.clear();
         quit = false;
 
-        Platform.runLater(() -> {
-
-            AlertBox alertBox = new AlertBox();
-            alertBox.display("Scegli il colore del dado","Scegli il colore tra i dadi del Tracciato dei Round");
-
-        });
+        Platform.runLater(() ->
+            AlertBox.display("Scegli il colore del dado","Scegli il colore tra i dadi del Tracciato dei Round"));
 
         while( myTurn || coordinatesRoundTrack.size() < 2);
 
@@ -656,12 +626,7 @@ public class BoardController implements ControlInterface {
     private Cell getCellFromWindow() {
         coordinatesWindow.clear();
 
-        Platform.runLater(() -> {
-
-            AlertBox alertBox = new AlertBox();
-            alertBox.display("Scegli la cella","Scegli la posizione all'interno della tua vetrata");
-
-        });
+        Platform.runLater(() -> AlertBox.display("Scegli la cella","Scegli la posizione all'interno della tua vetrata"));
 
         while(myTurn && coordinatesWindow.size() < 2);
 
@@ -678,15 +643,11 @@ public class BoardController implements ControlInterface {
     private Dice getDiceFromWindow() {
         coordinatesWindow.clear();
 
-        Platform.runLater(() -> {
-
-            AlertBox alertBox = new AlertBox();
-            alertBox.display("Scegli la cella", "Scegli il dado all'interno della tua vetrata");
-        });
+        Platform.runLater(() -> AlertBox.display("Scegli la cella", "Scegli il dado all'interno della tua vetrata"));
 
             while(coordinatesWindow.size() < 2);
 
-                return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.WINDOW_CARD, guiSystem.getUserName(), coordinatesWindow);
+            return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.WINDOW_CARD, guiSystem.getUserName(), coordinatesWindow);
 
     }
 
@@ -697,16 +658,12 @@ public class BoardController implements ControlInterface {
     private Dice getDiceFromRoundTrack() {
         coordinatesRoundTrack.clear();
 
-        Platform.runLater(() -> {
-
-            AlertBox alertBox = new AlertBox();
-            alertBox.display("Scegli il colore del dado", "Scegli il colore tra i dadi del Tracciato dei Round");
-
-        });
+        Platform.runLater(() ->
+            AlertBox.display("Scegli il colore del dado", "Scegli il colore tra i dadi del Tracciato dei Round"));
 
         while (coordinatesRoundTrack.size() < 2) ;
 
-            return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.ROUND_TRACK, guiSystem.getUserName(), coordinatesRoundTrack);
+        return guiSystem.getServerSpeaker().getDiceFromActor(ToolCard.Actor.ROUND_TRACK, guiSystem.getUserName(), coordinatesRoundTrack);
     }
 
     /**
@@ -726,7 +683,7 @@ public class BoardController implements ControlInterface {
 
     }
 
-    public void setCoordinatesRoundTrackDice(Integer columnIndex, Integer rowIndex) {
+    void setCoordinatesRoundTrackDice(Integer columnIndex, Integer rowIndex) {
 
         coordinatesRoundTrack.add(rowIndex);
         coordinatesRoundTrack.add(columnIndex);

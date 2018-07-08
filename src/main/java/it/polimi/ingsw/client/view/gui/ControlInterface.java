@@ -17,7 +17,7 @@ public interface ControlInterface {
 
     void setList(List<WindowCard> cards);
 
-    void printDraft(List<Dice> Draft);
+    void printDraft(List<Dice> draft);
 
     void printPrivateObj(ObjectiveCard privObj);
 
@@ -33,7 +33,7 @@ public interface ControlInterface {
 
     void setDiceFromDraft(Integer columnIndex, Integer rowIndex);
 
-    void succefulPlacementDice(String username, Cell dest, Dice moved);
+    void successfulPlacementDice(String username, Cell dest, Dice moved);
 
     void isMyTurn(Boolean turnBoolean);
 }
