@@ -106,7 +106,7 @@ public class BoardController implements ControlInterface {
     private int resultBoolean;
     private int resultValue;
     private List<Integer> coordinatesRoundTrack = new ArrayList<>();
-    private List<Integer> coordinatesWindow = new ArrayList<>();
+    private List<Integer> coordinatesWindow = new ArrayList<>();           // 0 row, 1 col
 
     private EnumMap<ToolCard.Actor, Consumer<String>> actorMap;
     private EnumMap<ToolCard.Parameter, Consumer<String>> parameterMap;
@@ -220,6 +220,14 @@ public class BoardController implements ControlInterface {
                             Rectangle rectangle = new Rectangle(30, 30);
                             rectangle.setFill(new ImagePattern(imageDice));
 
+                            rectangle.setId(Integer.toString(i*10 + j));
+                            rectangle.setOnMouseClicked((MouseEvent)->{
+                                coordinatesWindow.clear();
+                                coordinatesWindow.add(Integer.parseInt((rectangle.getId()))/10);
+                                coordinatesWindow.add(Integer.parseInt((rectangle.getId()))%10);
+
+                            });
+
                             myTabel.add(rectangle, j, i);
                         }
                     }
@@ -244,7 +252,7 @@ public class BoardController implements ControlInterface {
 
                     }
 
-                } else if (windowCards.size() > 1 && windowCards.get(1).getName()== (window.getName())) {
+                } else if (windowCards.size() > 1 &&windowCards.get(1).getName()== (window.getName())) {
 
                     user1.setText(guiSystem.getOtherUsername().get(1));
                     for (int i = 0; i < 4; i++) {
@@ -309,13 +317,25 @@ public class BoardController implements ControlInterface {
                         Rectangle rectangle = new Rectangle(30, 30);
                         rectangle.setFill(new ImagePattern(imageDice));
 
+                        rectangle.setId(Integer.toString(dest.getCol()+(dest.getRow()*10)));
+                        rectangle.setOnMouseClicked((MouseEvent)->{
+                            coordinatesWindow.clear();
+                            coordinatesWindow.add(Integer.parseInt((rectangle.getId()))/10);
+                            coordinatesWindow.add(Integer.parseInt((rectangle.getId()))%10);
+
+                        });
+
                         myTabel.add(rectangle,dest.getCol(),dest.getRow());
+
+
 
                 } else {
                 int i = guiSystem.getOtherUsername().indexOf(username);
                 Image imageDice = new Image(diceURL + moved.getColor() + "-" + moved.getValue() + exp);
                 Rectangle rectangle = new Rectangle(30, 30);
                 rectangle.setFill(new ImagePattern(imageDice));
+
+
                 if (i == 0)
                     tabel0.add(rectangle, dest.getCol(),dest.getRow());
 
