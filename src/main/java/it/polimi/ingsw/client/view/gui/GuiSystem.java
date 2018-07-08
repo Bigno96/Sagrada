@@ -54,7 +54,7 @@ public class GuiSystem implements ViewInterface{
     public GuiSystem(Stage primaryStage){
         this.connParam = new HashMap<>();
         this.primaryStage = primaryStage;
-        dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
+        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
         otherUsername = new ArrayList<>();
         windowCards = new ArrayList<>();
         publicCards = new ArrayList<>();
@@ -255,6 +255,7 @@ public class GuiSystem implements ViewInterface{
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             out.println(e.getMessage());
+            Thread.currentThread().interrupt();
         }
         if(username.equals(userName)){
             ctrl.print(dictionary.getMessage(YOUR_TURN_KEY) + username);
@@ -268,8 +269,6 @@ public class GuiSystem implements ViewInterface{
 
     @Override
     public void startGraphic() {
-        this.dictionary = (ViewMessageParser) ParserManager.getViewMessageParser();
-
         Platform.runLater(() -> {
             Parent root = null;
             FXMLLoader loader  = new FXMLLoader(getClass().getClassLoader().getResource("fxml/LoginPage.fxml"));

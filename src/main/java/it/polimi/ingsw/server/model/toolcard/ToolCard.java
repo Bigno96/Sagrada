@@ -30,7 +30,7 @@ public class ToolCard extends Observable implements Serializable {
 
     //used to realize useTool()
     private final ToolEffectRealization strategy;
-    private static Boolean boolWindowCard;
+    private Boolean boolWindowCard;
     private WindowCard windowCard;
     private RoundTrack roundTrack;
     private Draft draft;
@@ -76,7 +76,9 @@ public class ToolCard extends Observable implements Serializable {
      * @return copy of tool card
      */
     public ToolCard copy() {
-        return new ToolCard(this.id, this.name, this.color, this.strategy);
+        ToolCard ret = new ToolCard(this.id, this.name, this.color, this.strategy);
+        ret.setActor(this.boolWindowCard, this.roundTrack, this.draft, this.diceBag);
+        return ret;
     }
 
     /**
@@ -161,6 +163,7 @@ public class ToolCard extends Observable implements Serializable {
      */
     public List<Actor> getActor() {
         List<Actor> ret = new ArrayList<>();
+
         if (boolWindowCard)
             ret.add(Actor.WINDOW_CARD);
 

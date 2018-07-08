@@ -48,7 +48,7 @@
     "ID": 6,
     "NAME": "Pennello per Pasta Salda - Dopo aver scelto un dado dalla riserva, tira nuovamente quel dado. Se non puoi piazzarlo, riponilo nella Riserva.",
     "COLOR": "MAGENTA",
-    "WINDOW_CARD": "true",
+    "WINDOW_CARD": "null",
     "ROUND_TRACK": "null",
     "DRAFT": "DRAFT",
     "DICE_BAG": "null"
